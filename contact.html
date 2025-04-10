@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact Us - Staple Games</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --primary-color: #3f51b5;
+      --secondary-color: #ff9800;
+      --accent-color: #e91e63;
+      --text-color: #212121;
+      --light-text: #f5f5f5;
+      --bg-color: #f5f5f5;
+      --card-bg: #ffffff;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Roboto', 'Segoe UI', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+    
+    header {
+      background-color: var(--primary-color);
+      color: var(--light-text);
+      padding: 1.5rem 0;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .logo {
+      max-width: 80px;
+      margin-bottom: 0.5rem;
+    }
+    
+    h1 {
+      font-size: 2rem;
+      margin: 0.5rem 0;
+      color: var(--light-text);
+    }
+    
+    p {
+      margin-bottom: 1rem;
+    }
+    
+    a {
+      color: var(--primary-color);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    
+    a:hover {
+      color: var(--secondary-color);
+      text-decoration: underline;
+    }
+    
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 0 20px;
+    }
+    
+    .form-container {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      margin-top: 2rem;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--primary-color);
+      font-weight: 500;
+    }
+    
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      background-color: #fff;
+      border-radius: 6px;
+      color: var(--text-color);
+      font-family: 'Roboto', 'Segoe UI', sans-serif;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+    
+    textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+    
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(63, 81, 181, 0.2);
+    }
+    
+    button {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    button:hover {
+      background-color: #303f9f;
+      transform: translateY(-2px);
+    }
+    
+    .back-link {
+      display: block;
+      margin: 2rem auto;
+      text-align: center;
+    }
+    
+    #status-message {
+      padding: 15px;
+      margin-top: 20px;
+      border-radius: 6px;
+      display: none;
+    }
+    
+    .success {
+      background-color: #e8f5e9;
+      border: 1px solid #4caf50;
+      color: #2e7d32;
+    }
+    
+    .error {
+      background-color: #ffebee;
+      border: 1px solid #f44336;
+      color: #c62828;
+    }
+    
+    footer {
+      background-color: var(--primary-color);
+      color: var(--light-text);
+      text-align: center;
+      padding: 1.5rem 0;
+      margin-top: 3rem;
+    }
+    
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin: 1rem 0;
+    }
+    
+    .footer-links a {
+      color: var(--light-text);
+      text-decoration: none;
+    }
+    
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <img src="https://play-lh.googleusercontent.com/f-gjTiPiPqTYKmG-bvm7k4GLiReSC5PIV2opzVNncbCO4AyCZXB-cBlXAXUg27yfuaY=s64" alt="Staple Games logo" class="logo">
+      <h1>Contact Us</h1>
+      <p style="color: var(--light-text);">Have a question or feedback? We'd love to hear from you!</p>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="form-container">
+      <form id="contactForm" method="GET" action="https://www.bdz11.com/contact">
+        <div class="form-group">
+          <label for="email">Your Email Address</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" required></textarea>
+        </div>
+        
+        <div style="text-align: center;">
+          <button type="submit">Send Message</button>
+        </div>
+      </form>
+      
+      <div id="status-message"></div>
+    </div>
+    
+    <a href="index.html" class="back-link">← Back to Homepage</a>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>© 2023 Staple Games. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="terms.html">Terms & Conditions</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Add console log for debugging
+    console.log("Contact form page loaded");
+    
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Get form values
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
+      
+      console.log("Form submitted with:", email, message);
+      
+      // Build the URL with query parameters
+      const baseUrl = 'https://www.bdz11.com/contact';
+      const url = `${baseUrl}?email=${encodeURIComponent(email)}&message=${encodeURIComponent(message)}&source=staplegames-website`;
+      
+      // Send GET request
+      fetch(url)
+        .then(response => {
+          console.log("Response status:", response.status);
+          if (response.ok) {
+            return response.text();
+          }
+          throw new Error('Network response was not ok');
+        })
+        .then(data => {
+          // Show success message
+          const statusMsg = document.getElementById('status-message');
+          statusMsg.className = 'success';
+          statusMsg.innerHTML = 'Thank you for your message! We\'ll respond as soon as possible.';
+          statusMsg.style.display = 'block';
+          
+          // Clear the form
+          document.getElementById('contactForm').reset();
+          
+          console.log('Server response:', data);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          
+          // Show error message
+          const statusMsg = document.getElementById('status-message');
+          statusMsg.className = 'error';
+          statusMsg.innerHTML = 'There was a problem sending your message. Please try again later.';
+          statusMsg.style.display = 'block';
+          
+          // Fallback to mailto if server request fails
+          const mailtoLink = `mailto:support@staplegames.com?subject=Contact from Staple Games Website&body=${encodeURIComponent('From: ' + email + '\n\n' + message)}`;
+          window.location.href = mailtoLink;
+        });
+    });
+  </script>
+</body>
+</html> 

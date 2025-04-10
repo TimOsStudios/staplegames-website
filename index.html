@@ -2,9 +2,433 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Hello World</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staple Games - Classic Board & Puzzle Games</title>
+  <style>
+    :root {
+      --primary-color: #3f51b5;
+      --secondary-color: #ff9800;
+      --accent-color: #e91e63;
+      --text-color: #212121;
+      --light-text: #f5f5f5;
+      --bg-color: #f5f5f5;
+      --card-bg: #ffffff;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Roboto', 'Segoe UI', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+    
+    header {
+      background-color: var(--primary-color);
+      color: var(--light-text);
+      padding: 1.5rem 0;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .logo {
+      max-width: 120px;
+      margin-bottom: 0.5rem;
+    }
+    
+    h1 {
+      font-size: 2.2rem;
+      margin: 0.5rem 0;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .hero {
+      text-align: center;
+      padding: 3rem 1rem;
+      background-color: var(--primary-color);
+      color: var(--light-text);
+      margin-bottom: 2rem;
+    }
+    
+    .hero p {
+      max-width: 600px;
+      margin: 1rem auto;
+      font-size: 1.2rem;
+    }
+    
+    .app-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      margin: 2rem 0;
+    }
+    
+    .app-card {
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+    
+    .app-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .app-image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+    
+    .app-info {
+      padding: 1rem;
+    }
+    
+    .app-name {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+      color: var(--primary-color);
+    }
+    
+    .app-description {
+      margin-bottom: 1rem;
+      color: #555;
+    }
+    
+    .app-link {
+      display: inline-block;
+      background-color: var(--primary-color);
+      color: white;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+    
+    .app-link:hover {
+      background-color: #303f9f;
+    }
+    
+    .section {
+      margin: 3rem 0;
+    }
+    
+    h2 {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: var(--primary-color);
+      position: relative;
+      padding-bottom: 10px;
+    }
+    
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 3px;
+      background-color: var(--secondary-color);
+    }
+    
+    .cta {
+      text-align: center;
+      background-color: var(--secondary-color);
+      padding: 3rem 1rem;
+      margin: 2rem 0;
+      border-radius: 8px;
+    }
+    
+    .cta h3 {
+      color: var(--light-text);
+      margin-bottom: 1rem;
+      font-size: 1.8rem;
+    }
+    
+    footer {
+      background-color: var(--primary-color);
+      color: var(--light-text);
+      text-align: center;
+      padding: 2rem 0;
+      margin-top: 3rem;
+    }
+    
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin: 1rem 0;
+    }
+    
+    .footer-links a {
+      color: var(--light-text);
+      text-decoration: none;
+    }
+    
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+    
+    @media (max-width: 768px) {
+      .app-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      }
+      
+      h1 {
+        font-size: 1.8rem;
+      }
+      
+      .hero p {
+        font-size: 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>Hello, World!</h1>
+  <header>
+    <div class="container">
+      <img src="https://play-lh.googleusercontent.com/f-gjTiPiPqTYKmG-bvm7k4GLiReSC5PIV2opzVNncbCO4AyCZXB-cBlXAXUg27yfuaY=s64" alt="Staple Games Logo" class="logo">
+      <h1>Staple Games</h1>
+      <p>Classic Board & Puzzle Games for Everyone</p>
+    </div>
+  </header>
+  
+  <main class="container">
+    <section class="hero">
+      <h2>Play Your Favorite Classic Games</h2>
+      <p>Enjoy beautifully designed classic board and puzzle games, perfect for players of all ages. Available on Google Play.</p>
+    </section>
+    
+    <section class="section" id="games">
+      <h2>Our Games</h2>
+      <div class="app-grid">
+        <!-- Match Collector -->
+        <div class="app-card">
+          <img src="https://play-lh.googleusercontent.com/1q2FfbRm-Y0YP-Ofu1oMeU30xKI5V11PbmtOoFRmJG77LQH-yDPtumpy6jKSTBR1dg=w416-h235" alt="Match Collector" class="app-image">
+          <div class="app-info">
+            <h3 class="app-name">Match Collector</h3>
+            <p class="app-description">A colorful and addictive match-3 puzzle game. Connect same-colored blocks and clear the board.</p>
+            <a href="https://play.google.com/store/apps/details?id=com.staplegames.matchcollector" class="app-link">Get it on Google Play</a>
+          </div>
+        </div>
+        
+        <!-- Word Gems -->
+        <div class="app-card">
+          <img src="https://play-lh.googleusercontent.com/yj9SrLjEuCQPMaSD_BifuUgIKbopnSVA-zTKbzNSph94v1lk50-lkQO1H4zqOs3tg7IB=w416-h235" alt="Word Gems" class="app-image">
+          <div class="app-info">
+            <h3 class="app-name">Word Gems™</h3>
+            <p class="app-description">Test your vocabulary skills in this engaging word puzzle game with beautiful gem visuals.</p>
+            <a href="https://play.google.com/store/apps/details?id=com.staplegames.wordgems" class="app-link">Get it on Google Play</a>
+          </div>
+        </div>
+        
+        <!-- Solitaire -->
+        <div class="app-card">
+          <img src="https://play-lh.googleusercontent.com/JiXG0ho9B1QP65UcDpg5F3E58xTBSJqqoWom-V55YmGkHQ4uzwxOVA15j34qcdGJmg=w416-h235" alt="Solitaire" class="app-image">
+          <div class="app-info">
+            <h3 class="app-name">Solitaire</h3>
+            <p class="app-description">The classic card game with beautiful designs and smooth gameplay. Perfect for relaxation.</p>
+            <a href="https://play.google.com/store/apps/details?id=com.staplegames.freecellSolitaireGP" class="app-link">Get it on Google Play</a>
+          </div>
+        </div>
+        
+        <!-- SUDOKU -->
+        <div class="app-card">
+          <img src="https://play-lh.googleusercontent.com/tNsGzxlFcwJcUtacepZGqGf-BAcYI1dlvt72cuCqR4q_qnAvcwCqy1CqDZPc-xDuOw=w416-h235" alt="SUDOKU" class="app-image">
+          <div class="app-info">
+            <h3 class="app-name">SUDOKU</h3>
+            <p class="app-description">Classic number puzzle game with multiple difficulty levels for all skill levels.</p>
+            <a href="https://play.google.com/store/apps/details?id=com.staplegames.sudokuClassicGP" class="app-link">Get it on Google Play</a>
+          </div>
+        </div>
+        
+        <!-- Block Puzzle -->
+        <div class="app-card">
+          <img src="https://play-lh.googleusercontent.com/h7xiYD8VaB7HXGHEFbdQ-w-uekssJLgVwJa3QPHZ3dtHxVj14b8Lq9E4Zzni-fiwIszB=w416-h235" alt="Block Puzzle" class="app-image">
+          <div class="app-info">
+            <h3 class="app-name">Block Puzzle - Classic Style</h3>
+            <p class="app-description">Arrange blocks to complete lines and clear the board in this addictive puzzle game.</p>
+            <a href="https://play.google.com/store/apps/details?id=com.staplegames.blocksClassicSGGP" class="app-link">Get it on Google Play</a>
+          </div>
+        </div>
+        
+        <!-- Sagadoku -->
+        <div class="app-card">
+          <img src="https://play-lh.googleusercontent.com/h2-ZmyTX_OTaLaAt4ErmxFIpDuP2gI3EwgzT9bnodkEPQBV0xS_Saen-Fjs1B3Jfwyau=w416-h235" alt="Sagadoku" class="app-image">
+          <div class="app-info">
+            <h3 class="app-name">Sagadoku</h3>
+            <p class="app-description">A fresh take on Sudoku with unique gameplay mechanics and beautiful visuals.</p>
+            <a href="https://play.google.com/store/apps/details?id=com.staplegames.sagadoku" class="app-link">Get it on Google Play</a>
+          </div>
+        </div>
+        
+        <!-- Backgammon -->
+        <div class="app-card">
+          <img src="https://play-lh.googleusercontent.com/2hiRolGenAlVEJFcThOBTR2dJAYVCkVI7CqRQpDeZ0ru1GGU8ObZCFE9IC2TIc0HbXk=w416-h235" alt="Backgammon" class="app-image">
+          <div class="app-info">
+            <h3 class="app-name">Backgammon</h3>
+            <p class="app-description">The classic board game with smooth controls and beautiful design for endless fun.</p>
+            <a href="https://play.google.com/store/apps/details?id=com.staplegames.backgammon" class="app-link">Get it on Google Play</a>
+          </div>
+        </div>
+        
+        <!-- Block Match -->
+        <div class="app-card">
+          <img src="https://play-lh.googleusercontent.com/QpXmYK0V1L5Mc8KFeFyZwPUiBB-5tUNiMHtz262IalpkU60nYHYIM0LXW8XByl1lxCU=w416-h235" alt="Block Match" class="app-image">
+          <div class="app-info">
+            <h3 class="app-name">Block Match</h3>
+            <p class="app-description">Match colorful blocks in this engaging puzzle game. Perfect for quick play sessions.</p>
+            <a href="https://play.google.com/store/apps/details?id=com.staplegames.blockmatch" class="app-link">Get it on Google Play</a>
+          </div>
+        </div>
+        
+        <!-- Block Puzzle - Wood Style -->
+        <div class="app-card">
+          <img src="https://play-lh.googleusercontent.com/GYb4mMj-3y09OYMIeZ5t-6f7W1xpzl6ct6zcKJxI9L0n6LR6UvqTl5I2dZhqrHmPIQ=w416-h235" alt="Block Puzzle Wood" class="app-image">
+          <div class="app-info">
+            <h3 class="app-name">Block Puzzle - Wood Style</h3>
+            <p class="app-description">A beautiful wooden-themed block puzzle game with relaxing gameplay.</p>
+            <a href="https://play.google.com/store/apps/details?id=com.staplegames.blocksWood" class="app-link">Get it on Google Play</a>
+          </div>
+        </div>
+        
+        <!-- Dice -->
+        <div class="app-card">
+          <img src="https://play-lh.googleusercontent.com/Zx0xvlfF6T9AdV0PgAm8tsfWKFQoSRGZWwxTHDN8o5CSnwj6eFTBU0hgKfUqTL1_KnY=w416-h235" alt="Dice" class="app-image">
+          <div class="app-info">
+            <h3 class="app-name">Dice</h3>
+            <p class="app-description">Roll virtual dice with realistic physics. Perfect for board games or decision making.</p>
+            <a href="https://play.google.com/store/apps/details?id=com.staplegames.dice" class="app-link">Get it on Google Play</a>
+          </div>
+        </div>
+        
+        <!-- Dominoes -->
+        <div class="app-card">
+          <img src="https://play-lh.googleusercontent.com/t1H6-0I9-m_KhcWAjc_OvNhdCPzKnZLKM9CAZ0SazLzYYCjbS8GfGIvI1JGnCGdM2Q=w416-h235" alt="Dominoes" class="app-image">
+          <div class="app-info">
+            <h3 class="app-name">Dominoes</h3>
+            <p class="app-description">Play the classic tile-based game with multiple variations and game modes.</p>
+            <a href="https://play.google.com/store/apps/details?id=com.staplegames.dominoes" class="app-link">Get it on Google Play</a>
+          </div>
+        </div>
+        
+        <!-- Ludo -->
+        <div class="app-card">
+          <img src="https://play-lh.googleusercontent.com/cQbA3NsBvu1VuQY1tKyVx3JxHZOBBfvXwQ_KBykjTziAh_c2KyPZNz_WYqvXN0VcCW4=w416-h235" alt="Ludo" class="app-image">
+          <div class="app-info">
+            <h3 class="app-name">Ludo</h3>
+            <p class="app-description">The classic board game of strategy, luck, and competition for up to four players.</p>
+            <a href="https://play.google.com/store/apps/details?id=com.staplegames.ludo" class="app-link">Get it on Google Play</a>
+          </div>
+        </div>
+        
+        <!-- Mahjong Collector -->
+        <div class="app-card">
+          <img src="https://play-lh.googleusercontent.com/a-R1t-w0t58GYg1PBE2oi4WZzlrrs06jls_vY6Mw_CZfbH0K1YXgXrAcpKfUz4o6BA=w416-h235" alt="Mahjong Collector" class="app-image">
+          <div class="app-info">
+            <h3 class="app-name">Mahjong Collector</h3>
+            <p class="app-description">Match pairs of identical tiles in this classic Chinese puzzle game with beautiful designs.</p>
+            <a href="https://play.google.com/store/apps/details?id=com.staplegames.mahjongcollector" class="app-link">Get it on Google Play</a>
+          </div>
+        </div>
+        
+        <!-- Sort Collector -->
+        <div class="app-card">
+          <img src="https://play-lh.googleusercontent.com/J0tZQ0V7Jdnr3ZuIOWZ1-aNO5ezYJftHbiO6G85nEsKRl3-oWfX1YhqxlJBs-8Zt3A=w416-h235" alt="Sort Collector" class="app-image">
+          <div class="app-info">
+            <h3 class="app-name">Sort Collector</h3>
+            <p class="app-description">Sort and organize colorful items in this relaxing and satisfying puzzle game.</p>
+            <a href="https://play.google.com/store/apps/details?id=com.staplegames.sortcollector" class="app-link">Get it on Google Play</a>
+          </div>
+        </div>
+        
+        <!-- Spades -->
+        <div class="app-card">
+          <img src="https://play-lh.googleusercontent.com/1P4lGRFwD9eTLdUXxbbw9DFrxfmXlxTGNzOc3z4i2JccGgq9n8OsyWlWI5vmhmOMHg=w416-h235" alt="Spades" class="app-image">
+          <div class="app-info">
+            <h3 class="app-name">Spades</h3>
+            <p class="app-description">The classic trick-taking card game for two to four players with beautiful card designs.</p>
+            <a href="https://play.google.com/store/apps/details?id=com.staplegames.spades" class="app-link">Get it on Google Play</a>
+          </div>
+        </div>
+        
+        <!-- Tile Collector -->
+        <div class="app-card">
+          <img src="https://play-lh.googleusercontent.com/ZtPDdQPGXfTnAZz22HBkYYnWdKmgkQgNQUxN_S-Kv_7azyFk8aHTcmnOcWqvOu-oyA=w416-h235" alt="Tile Collector" class="app-image">
+          <div class="app-info">
+            <h3 class="app-name">Tile Collector</h3>
+            <p class="app-description">Match and collect tiles in this addictive puzzle game with beautiful visuals.</p>
+            <a href="https://play.google.com/store/apps/details?id=com.staplegames.tilecollector" class="app-link">Get it on Google Play</a>
+          </div>
+        </div>
+        
+        <!-- Word Horizons -->
+        <div class="app-card">
+          <img src="https://play-lh.googleusercontent.com/sRDXmCbj3PeRhYGWKRpjtgQfwKwpVRYShbG1WPaV6UEF9-mqSPtv4_igAMaE2Yqi6ho=w416-h235" alt="Word Horizons" class="app-image">
+          <div class="app-info">
+            <h3 class="app-name">Word Horizons</h3>
+            <p class="app-description">Explore your vocabulary in this innovative word puzzle game with beautiful landscapes.</p>
+            <a href="https://play.google.com/store/apps/details?id=com.staplegames.wordhorizons" class="app-link">Get it on Google Play</a>
+          </div>
+        </div>
+        
+        <!-- Word Search -->
+        <div class="app-card">
+          <img src="https://play-lh.googleusercontent.com/F65QeFjLvhMO7wjD8gCvr_4bUQnQYXTqMAaAdNDfiu4uM1Ifl5mFDYQ-2nPJeVpQQzU=w416-h235" alt="Word Search" class="app-image">
+          <div class="app-info">
+            <h3 class="app-name">Word Search</h3>
+            <p class="app-description">Find hidden words in all directions in this classic word search puzzle with multiple themes.</p>
+            <a href="https://play.google.com/store/apps/details?id=com.staplegames.wordsearch" class="app-link">Get it on Google Play</a>
+          </div>
+        </div>
+        
+        <!-- Yatzy -->
+        <div class="app-card">
+          <img src="https://play-lh.googleusercontent.com/vX3reSQr7NhTcMXKdNOVOJMFN0Zv96fe7QUYhjV0B3As36qefxw9qcg1ECiBYNxKsmQ=w416-h235" alt="Yatzy" class="app-image">
+          <div class="app-info">
+            <h3 class="app-name">Yatzy</h3>
+            <p class="app-description">Roll dice and score points in this classic dice game similar to Yahtzee with multiple variations.</p>
+            <a href="https://play.google.com/store/apps/details?id=com.staplegames.yatzy" class="app-link">Get it on Google Play</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="cta">
+      <h3>Discover More Games</h3>
+      <p>Check out our full collection on Google Play</p>
+      <a href="https://play.google.com/store/apps/developer?id=Staple+Games" class="app-link" style="margin-top: 1rem;">Visit Staple Games</a>
+    </section>
+  </main>
+  
+  <footer>
+    <div class="container">
+      <p>© 2023 Staple Games. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="terms.html">Terms & Conditions</a>
+        <a href="contact.html">Contact Us</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Add event listener for page load
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log("Staple Games website loaded");
+    });
+  </script>
 </body>
-</html>
+</html> 
