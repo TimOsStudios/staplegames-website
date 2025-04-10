@@ -359,171 +359,234 @@
     
     // Custom dropdown with app icons
     document.addEventListener('DOMContentLoaded', function() {
-      // Log to confirm execution of event listener
-      console.log("DOM fully loaded, initializing custom dropdown");
+      // Initialize the custom dropdown
+      initCustomDropdown();
       
-      const appSelect = document.getElementById('app');
-      if (!appSelect) {
-        console.error("App select element not found!");
-        return;
-      }
-      
-      console.log("Found app select element:", appSelect);
-      const options = appSelect.querySelectorAll('option');
-      console.log("Number of options found:", options.length);
-      
-      // Create the custom dropdown
-      const customSelect = document.createElement('div');
-      customSelect.className = 'custom-select';
-      
-      const selectSelected = document.createElement('div');
-      selectSelected.className = 'select-selected';
-      selectSelected.textContent = options[0].text;
-      
-      const selectItems = document.createElement('div');
-      selectItems.className = 'select-items select-hide';
-      
-      // Create the app options with icons
-      for (let i = 1; i < options.length; i++) {
-        const optDiv = document.createElement('div');
-        optDiv.className = 'app-option';
+      // Form submit handler
+      document.getElementById('contactForm').addEventListener('submit', function(e) {
+        e.preventDefault();
         
-        const appIcon = document.createElement('img');
-        appIcon.src = options[i].getAttribute('data-icon');
-        appIcon.className = 'app-icon';
-        appIcon.alt = options[i].text + ' icon';
+        // Get form values
+        const email = document.getElementById('email').value;
+        const app = document.getElementById('app').value;
+        const platform = document.querySelector('input[name="platform"]:checked').value;
+        const message = document.getElementById('message').value;
         
-        const appName = document.createTextNode(options[i].text);
+        console.log("Form submitted with:", email, app, platform, message);
         
-        optDiv.appendChild(appIcon);
-        optDiv.appendChild(appName);
+        // Format the message with app and platform info
+        const formattedMessage = `App: ${app}\nPlatform: ${platform}\n\n${message}`;
         
-        // Add event listener to update selected option
-        optDiv.addEventListener('click', function() {
-          console.log("Option clicked:", options[i].text);
-          // Update the hidden select value
-          appSelect.value = options[i].value;
-          
-          // Update the visible selection
-          selectSelected.innerHTML = '';
-          
-          const selectedIcon = document.createElement('img');
-          selectedIcon.src = options[i].getAttribute('data-icon');
-          selectedIcon.className = 'app-icon';
-          selectedIcon.alt = options[i].text + ' icon';
-          
-          selectSelected.appendChild(selectedIcon);
-          selectSelected.appendChild(document.createTextNode(options[i].text));
-          
-          // Update all items to remove "same-as-selected" class
-          const items = selectItems.getElementsByTagName('div');
-          for (let j = 0; j < items.length; j++) {
-            items[j].classList.remove('same-as-selected');
-          }
-          
-          // Add "same-as-selected" class to the clicked item
-          this.classList.add('same-as-selected');
-          
-          // Toggle the dropdown
-          selectItems.classList.add('select-hide');
-          selectSelected.classList.remove('select-arrow-active');
-          
-          // Trigger change event on the original select
-          const event = new Event('change');
-          appSelect.dispatchEvent(event);
+        // Build the URL with query parameters
+        const baseUrl = 'https://www.bdz11.com/contact';
+        const url = `${baseUrl}?email=${encodeURIComponent(email)}&app=${encodeURIComponent(app)}&platform=${encodeURIComponent(platform)}&message=${encodeURIComponent(formattedMessage)}&source=staplegames-website`;
+        
+        // Send GET request
+        fetch(url)
+          .then(response => {
+            console.log("Response status:", response.status);
+            if (response.ok) {
+              return response.text();
+            }
+            throw new Error('Network response was not ok');
+          })
+          .then(data => {
+            // Show success message
+            const statusMsg = document.getElementById('status-message');
+            statusMsg.className = 'success';
+            statusMsg.innerHTML = 'Thank you for your message! We\'ll respond as soon as possible.';
+            statusMsg.style.display = 'block';
+            
+            // Clear the form
+            document.getElementById('contactForm').reset();
+            
+            // Reset custom select to default
+            resetCustomDropdown();
+            
+            console.log('Server response:', data);
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            
+            // Show error message
+            const statusMsg = document.getElementById('status-message');
+            statusMsg.className = 'error';
+            statusMsg.innerHTML = 'There was a problem sending your message. Please try again later.';
+            statusMsg.style.display = 'block';
+            
+            // Fallback to mailto if server request fails
+            const mailtoLink = `mailto:support@staplegames.com?subject=Contact about ${app} on ${platform}&body=${encodeURIComponent('From: ' + email + '\n\nApp: ' + app + '\nPlatform: ' + platform + '\n\n' + message)}`;
+            window.location.href = mailtoLink;
+          });
+      });
+    });
+
+    // Function to initialize the custom dropdown
+    function initCustomDropdown() {
+      console.log("Initializing custom dropdown");
+      const selectContainer = document.querySelector('.custom-select');
+      const originalSelect = document.getElementById('app');
+      
+      // Create custom dropdown
+      const customDropdown = document.createElement('div');
+      customDropdown.className = 'custom-dropdown';
+      customDropdown.style.position = 'relative';
+      customDropdown.style.width = '100%';
+      
+      // Create selected display
+      const selected = document.createElement('div');
+      selected.className = 'dropdown-selected';
+      selected.textContent = 'Choose a game...';
+      selected.style.padding = '12px';
+      selected.style.border = '1px solid #ddd';
+      selected.style.borderRadius = '6px';
+      selected.style.cursor = 'pointer';
+      selected.style.display = 'flex';
+      selected.style.alignItems = 'center';
+      selected.style.justifyContent = 'space-between';
+      
+      // Create arrow
+      const arrow = document.createElement('span');
+      arrow.innerHTML = '▼';
+      arrow.style.marginLeft = '10px';
+      arrow.style.fontSize = '12px';
+      arrow.style.color = 'var(--primary-color)';
+      selected.appendChild(arrow);
+      
+      // Create options container
+      const options = document.createElement('div');
+      options.className = 'dropdown-options';
+      options.style.display = 'none';
+      options.style.position = 'absolute';
+      options.style.top = '100%';
+      options.style.left = '0';
+      options.style.right = '0';
+      options.style.zIndex = '999';
+      options.style.maxHeight = '300px';
+      options.style.overflowY = 'auto';
+      options.style.backgroundColor = '#fff';
+      options.style.border = '1px solid #ddd';
+      options.style.borderRadius = '0 0 6px 6px';
+      options.style.boxShadow = '0 3px 10px rgba(0,0,0,0.1)';
+      
+      // Add options from original select
+      Array.from(originalSelect.options).forEach((option, index) => {
+        if (index === 0) return; // Skip the placeholder
+        
+        const optionElement = document.createElement('div');
+        optionElement.className = 'dropdown-option';
+        optionElement.style.padding = '10px 12px';
+        optionElement.style.cursor = 'pointer';
+        optionElement.style.display = 'flex';
+        optionElement.style.alignItems = 'center';
+        optionElement.style.transition = 'background-color 0.2s';
+        
+        // Add icon if available
+        const iconUrl = option.getAttribute('data-icon');
+        if (iconUrl) {
+          const icon = document.createElement('img');
+          icon.src = iconUrl;
+          icon.alt = option.text + ' icon';
+          icon.style.width = '32px';
+          icon.style.height = '32px';
+          icon.style.marginRight = '10px';
+          icon.style.borderRadius = '4px';
+          icon.style.objectFit = 'cover';
+          optionElement.appendChild(icon);
+        }
+        
+        // Add option text
+        optionElement.appendChild(document.createTextNode(option.text));
+        
+        // Hover effect
+        optionElement.addEventListener('mouseover', () => {
+          optionElement.style.backgroundColor = 'rgba(63, 81, 181, 0.1)';
         });
         
-        selectItems.appendChild(optDiv);
-      }
-      
-      // Build and insert the custom dropdown structure
-      customSelect.appendChild(selectSelected);
-      customSelect.appendChild(selectItems);
-      
-      // Replace the original select with the custom one
-      const selectWrapper = appSelect.parentNode;
-      selectWrapper.innerHTML = '';
-      selectWrapper.appendChild(appSelect);
-      selectWrapper.appendChild(customSelect);
-      appSelect.style.display = 'none';
-      
-      console.log("Custom dropdown initialized");
+        optionElement.addEventListener('mouseout', () => {
+          optionElement.style.backgroundColor = '';
+        });
+        
+        // Click event
+        optionElement.addEventListener('click', () => {
+          originalSelect.value = option.value;
+          
+          // Update selected display
+          selected.innerHTML = '';
+          
+          // Add icon if available
+          if (iconUrl) {
+            const selectedIcon = document.createElement('img');
+            selectedIcon.src = iconUrl;
+            selectedIcon.alt = option.text + ' icon';
+            selectedIcon.style.width = '32px';
+            selectedIcon.style.height = '32px';
+            selectedIcon.style.marginRight = '10px';
+            selectedIcon.style.borderRadius = '4px';
+            selectedIcon.style.objectFit = 'cover';
+            selected.appendChild(selectedIcon);
+          }
+          
+          // Add option text and arrow
+          selected.appendChild(document.createTextNode(option.text));
+          selected.appendChild(arrow);
+          
+          // Close dropdown
+          options.style.display = 'none';
+          
+          // Trigger change event
+          const event = new Event('change');
+          originalSelect.dispatchEvent(event);
+        });
+        
+        options.appendChild(optionElement);
+      });
       
       // Toggle dropdown on click
-      selectSelected.addEventListener('click', function(e) {
+      selected.addEventListener('click', () => {
+        const isVisible = options.style.display === 'block';
+        options.style.display = isVisible ? 'none' : 'block';
+        arrow.innerHTML = isVisible ? '▼' : '▲';
+      });
+      
+      // Close dropdown when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!customDropdown.contains(e.target)) {
+          options.style.display = 'none';
+          arrow.innerHTML = '▼';
+        }
+      });
+      
+      // Prevent event propagation
+      customDropdown.addEventListener('click', (e) => {
         e.stopPropagation();
-        this.classList.toggle('select-arrow-active');
-        selectItems.classList.toggle('select-hide');
-        console.log("Dropdown toggled");
       });
       
-      // Close dropdown when clicking elsewhere
-      document.addEventListener('click', function() {
-        selectSelected.classList.remove('select-arrow-active');
-        selectItems.classList.add('select-hide');
-      });
-    });
+      // Add elements to the DOM
+      customDropdown.appendChild(selected);
+      customDropdown.appendChild(options);
+      
+      // Replace the original select with our custom dropdown
+      selectContainer.innerHTML = '';
+      selectContainer.appendChild(originalSelect);
+      selectContainer.appendChild(customDropdown);
+      
+      // Hide the original select
+      originalSelect.style.display = 'none';
+      
+      console.log("Custom dropdown initialized successfully");
+    }
     
-    // Form submit handler
-    document.getElementById('contactForm').addEventListener('submit', function(e) {
-      e.preventDefault();
+    // Function to reset the custom dropdown
+    function resetCustomDropdown() {
+      const originalSelect = document.getElementById('app');
+      originalSelect.selectedIndex = 0;
       
-      // Get form values
-      const email = document.getElementById('email').value;
-      const app = document.getElementById('app').value;
-      const platform = document.querySelector('input[name="platform"]:checked').value;
-      const message = document.getElementById('message').value;
-      
-      console.log("Form submitted with:", email, app, platform, message);
-      
-      // Format the message with app and platform info
-      const formattedMessage = `App: ${app}\nPlatform: ${platform}\n\n${message}`;
-      
-      // Build the URL with query parameters
-      const baseUrl = 'https://www.bdz11.com/contact';
-      const url = `${baseUrl}?email=${encodeURIComponent(email)}&app=${encodeURIComponent(app)}&platform=${encodeURIComponent(platform)}&message=${encodeURIComponent(formattedMessage)}&source=staplegames-website`;
-      
-      // Send GET request
-      fetch(url)
-        .then(response => {
-          console.log("Response status:", response.status);
-          if (response.ok) {
-            return response.text();
-          }
-          throw new Error('Network response was not ok');
-        })
-        .then(data => {
-          // Show success message
-          const statusMsg = document.getElementById('status-message');
-          statusMsg.className = 'success';
-          statusMsg.innerHTML = 'Thank you for your message! We\'ll respond as soon as possible.';
-          statusMsg.style.display = 'block';
-          
-          // Clear the form
-          document.getElementById('contactForm').reset();
-          
-          // Reset custom select to default
-          const customSelect = document.querySelector('.select-selected');
-          if (customSelect) {
-            customSelect.innerHTML = document.getElementById('app').options[0].text;
-          }
-          
-          console.log('Server response:', data);
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          
-          // Show error message
-          const statusMsg = document.getElementById('status-message');
-          statusMsg.className = 'error';
-          statusMsg.innerHTML = 'There was a problem sending your message. Please try again later.';
-          statusMsg.style.display = 'block';
-          
-          // Fallback to mailto if server request fails
-          const mailtoLink = `mailto:support@staplegames.com?subject=Contact about ${app} on ${platform}&body=${encodeURIComponent('From: ' + email + '\n\nApp: ' + app + '\nPlatform: ' + platform + '\n\n' + message)}`;
-          window.location.href = mailtoLink;
-        });
-    });
+      const selected = document.querySelector('.dropdown-selected');
+      if (selected) {
+        selected.innerHTML = 'Choose a game... <span>▼</span>';
+      }
+    }
   </script>
 </body>
 </html> 
