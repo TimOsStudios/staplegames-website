@@ -107,11 +107,13 @@
     }
     
     .app-link {
+      flex: 1;
+      text-align: center;
       display: inline-block;
       background-color: var(--primary-color);
       color: white;
       text-decoration: none;
-      padding: 0.5rem 1rem;
+      padding: 0.5rem 0.5rem;
       border-radius: 4px;
       font-weight: bold;
       transition: background-color 0.3s;
@@ -195,6 +197,19 @@
         font-size: 1rem;
       }
     }
+    
+    .app-links {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .ios-link {
+      background-color: var(--accent-color);
+    }
+    
+    .ios-link:hover {
+      background-color: #c2185b;
+    }
   </style>
 </head>
 <body>
@@ -209,7 +224,7 @@
   <main class="container">
     <section class="hero">
       <h2>Play Your Favorite Classic Games</h2>
-      <p>Enjoy beautifully designed classic board and puzzle games, perfect for players of all ages. Available on Google Play.</p>
+      <p>Enjoy beautifully designed classic board and puzzle games, perfect for players of all ages. Available on Google Play and the App Store.</p>
     </section>
     
     <section class="section" id="games">
@@ -221,7 +236,10 @@
           <div class="app-info">
             <h3 class="app-name">Match Collector</h3>
             <p class="app-description">A colorful and addictive match-3 puzzle game. Connect same-colored blocks and clear the board.</p>
-            <a href="https://play.google.com/store/apps/details?id=com.staplegames.matchcollector" class="app-link">Get it on Google Play</a>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.matchcollector" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/match-collector/id1234567890" class="app-link ios-link">App Store</a>
+            </div>
           </div>
         </div>
         
@@ -231,7 +249,10 @@
           <div class="app-info">
             <h3 class="app-name">Word Gems™</h3>
             <p class="app-description">Test your vocabulary skills in this engaging word puzzle game with beautiful gem visuals.</p>
-            <a href="https://play.google.com/store/apps/details?id=com.staplegames.wordgems" class="app-link">Get it on Google Play</a>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.wordgems" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/word-gems/id1234567890" class="app-link ios-link">App Store</a>
+            </div>
           </div>
         </div>
         
@@ -241,7 +262,10 @@
           <div class="app-info">
             <h3 class="app-name">Solitaire</h3>
             <p class="app-description">The classic card game with beautiful designs and smooth gameplay. Perfect for relaxation.</p>
-            <a href="https://play.google.com/store/apps/details?id=com.staplegames.freecellSolitaireGP" class="app-link">Get it on Google Play</a>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.freecellSolitaireGP" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/solitaire/id1234567890" class="app-link ios-link">App Store</a>
+            </div>
           </div>
         </div>
         
@@ -251,7 +275,10 @@
           <div class="app-info">
             <h3 class="app-name">SUDOKU</h3>
             <p class="app-description">Classic number puzzle game with multiple difficulty levels for all skill levels.</p>
-            <a href="https://play.google.com/store/apps/details?id=com.staplegames.sudokuClassicGP" class="app-link">Get it on Google Play</a>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.sudokuClassicGP" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/sudoku/id1234567890" class="app-link ios-link">App Store</a>
+            </div>
           </div>
         </div>
         
@@ -261,7 +288,10 @@
           <div class="app-info">
             <h3 class="app-name">Block Puzzle - Classic Style</h3>
             <p class="app-description">Arrange blocks to complete lines and clear the board in this addictive puzzle game.</p>
-            <a href="https://play.google.com/store/apps/details?id=com.staplegames.blocksClassicSGGP" class="app-link">Get it on Google Play</a>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.blocksClassicSGGP" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/block-puzzle-classic/id1234567890" class="app-link ios-link">App Store</a>
+            </div>
           </div>
         </div>
         
@@ -271,7 +301,10 @@
           <div class="app-info">
             <h3 class="app-name">Sagadoku</h3>
             <p class="app-description">A fresh take on Sudoku with unique gameplay mechanics and beautiful visuals.</p>
-            <a href="https://play.google.com/store/apps/details?id=com.staplegames.sagadoku" class="app-link">Get it on Google Play</a>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.sagadoku" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/sagadoku/id1234567890" class="app-link ios-link">App Store</a>
+            </div>
           </div>
         </div>
         
@@ -281,7 +314,10 @@
           <div class="app-info">
             <h3 class="app-name">Backgammon</h3>
             <p class="app-description">The classic board game with smooth controls and beautiful design for endless fun.</p>
-            <a href="https://play.google.com/store/apps/details?id=com.staplegames.backgammon" class="app-link">Get it on Google Play</a>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.backgammon" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/backgammon/id1234567890" class="app-link ios-link">App Store</a>
+            </div>
           </div>
         </div>
         
@@ -291,7 +327,10 @@
           <div class="app-info">
             <h3 class="app-name">Block Match</h3>
             <p class="app-description">Match colorful blocks in this engaging puzzle game. Perfect for quick play sessions.</p>
-            <a href="https://play.google.com/store/apps/details?id=com.staplegames.blockmatch" class="app-link">Get it on Google Play</a>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.blockmatch" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/block-match/id1234567890" class="app-link ios-link">App Store</a>
+            </div>
           </div>
         </div>
         
@@ -301,7 +340,10 @@
           <div class="app-info">
             <h3 class="app-name">Block Puzzle - Wood Style</h3>
             <p class="app-description">A beautiful wooden-themed block puzzle game with relaxing gameplay.</p>
-            <a href="https://play.google.com/store/apps/details?id=com.staplegames.blocksWood" class="app-link">Get it on Google Play</a>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.blocksWood" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/block-puzzle-wood/id1234567890" class="app-link ios-link">App Store</a>
+            </div>
           </div>
         </div>
         
@@ -311,7 +353,10 @@
           <div class="app-info">
             <h3 class="app-name">Dice</h3>
             <p class="app-description">Roll virtual dice with realistic physics. Perfect for board games or decision making.</p>
-            <a href="https://play.google.com/store/apps/details?id=com.staplegames.dice" class="app-link">Get it on Google Play</a>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.dice" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/dice/id1234567890" class="app-link ios-link">App Store</a>
+            </div>
           </div>
         </div>
         
@@ -321,7 +366,10 @@
           <div class="app-info">
             <h3 class="app-name">Dominoes</h3>
             <p class="app-description">Play the classic tile-based game with multiple variations and game modes.</p>
-            <a href="https://play.google.com/store/apps/details?id=com.staplegames.dominoes" class="app-link">Get it on Google Play</a>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.dominoes" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/dominoes/id1234567890" class="app-link ios-link">App Store</a>
+            </div>
           </div>
         </div>
         
@@ -331,7 +379,10 @@
           <div class="app-info">
             <h3 class="app-name">Ludo</h3>
             <p class="app-description">The classic board game of strategy, luck, and competition for up to four players.</p>
-            <a href="https://play.google.com/store/apps/details?id=com.staplegames.ludo" class="app-link">Get it on Google Play</a>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.ludo" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/ludo/id1234567890" class="app-link ios-link">App Store</a>
+            </div>
           </div>
         </div>
         
@@ -341,7 +392,10 @@
           <div class="app-info">
             <h3 class="app-name">Mahjong Collector</h3>
             <p class="app-description">Match pairs of identical tiles in this classic Chinese puzzle game with beautiful designs.</p>
-            <a href="https://play.google.com/store/apps/details?id=com.staplegames.mahjongcollector" class="app-link">Get it on Google Play</a>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.mahjongcollector" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/mahjong-collector/id1234567890" class="app-link ios-link">App Store</a>
+            </div>
           </div>
         </div>
         
@@ -351,7 +405,10 @@
           <div class="app-info">
             <h3 class="app-name">Sort Collector</h3>
             <p class="app-description">Sort and organize colorful items in this relaxing and satisfying puzzle game.</p>
-            <a href="https://play.google.com/store/apps/details?id=com.staplegames.sortcollector" class="app-link">Get it on Google Play</a>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.sortcollector" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/sort-collector/id1234567890" class="app-link ios-link">App Store</a>
+            </div>
           </div>
         </div>
         
@@ -361,7 +418,10 @@
           <div class="app-info">
             <h3 class="app-name">Spades</h3>
             <p class="app-description">The classic trick-taking card game for two to four players with beautiful card designs.</p>
-            <a href="https://play.google.com/store/apps/details?id=com.staplegames.spades" class="app-link">Get it on Google Play</a>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.spades" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/spades/id1234567890" class="app-link ios-link">App Store</a>
+            </div>
           </div>
         </div>
         
@@ -371,7 +431,10 @@
           <div class="app-info">
             <h3 class="app-name">Tile Collector</h3>
             <p class="app-description">Match and collect tiles in this addictive puzzle game with beautiful visuals.</p>
-            <a href="https://play.google.com/store/apps/details?id=com.staplegames.tilecollector" class="app-link">Get it on Google Play</a>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.tilecollector" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/tile-collector/id1234567890" class="app-link ios-link">App Store</a>
+            </div>
           </div>
         </div>
         
@@ -381,7 +444,10 @@
           <div class="app-info">
             <h3 class="app-name">Word Horizons</h3>
             <p class="app-description">Explore your vocabulary in this innovative word puzzle game with beautiful landscapes.</p>
-            <a href="https://play.google.com/store/apps/details?id=com.staplegames.wordhorizons" class="app-link">Get it on Google Play</a>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.wordhorizons" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/word-horizons/id1234567890" class="app-link ios-link">App Store</a>
+            </div>
           </div>
         </div>
         
@@ -391,7 +457,10 @@
           <div class="app-info">
             <h3 class="app-name">Word Search</h3>
             <p class="app-description">Find hidden words in all directions in this classic word search puzzle with multiple themes.</p>
-            <a href="https://play.google.com/store/apps/details?id=com.staplegames.wordsearch" class="app-link">Get it on Google Play</a>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.wordsearch" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/word-search/id1234567890" class="app-link ios-link">App Store</a>
+            </div>
           </div>
         </div>
         
@@ -401,7 +470,10 @@
           <div class="app-info">
             <h3 class="app-name">Yatzy</h3>
             <p class="app-description">Roll dice and score points in this classic dice game similar to Yahtzee with multiple variations.</p>
-            <a href="https://play.google.com/store/apps/details?id=com.staplegames.yatzy" class="app-link">Get it on Google Play</a>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.yatzy" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/yatzy/id1234567890" class="app-link ios-link">App Store</a>
+            </div>
           </div>
         </div>
       </div>
@@ -409,8 +481,11 @@
     
     <section class="cta">
       <h3>Discover More Games</h3>
-      <p>Check out our full collection on Google Play</p>
-      <a href="https://play.google.com/store/apps/developer?id=Staple+Games" class="app-link" style="margin-top: 1rem;">Visit Staple Games</a>
+      <p>Check out our full collection on Google Play and the App Store</p>
+      <div class="app-links" style="max-width: 400px; margin: 1rem auto;">
+        <a href="https://play.google.com/store/apps/developer?id=Staple+Games" class="app-link" style="margin-top: 1rem;">Google Play</a>
+        <a href="https://apps.apple.com/developer/staple-games/id1234567890" class="app-link ios-link" style="margin-top: 1rem;">App Store</a>
+      </div>
     </section>
   </main>
   
