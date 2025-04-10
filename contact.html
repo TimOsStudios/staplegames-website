@@ -87,7 +87,7 @@
       font-weight: 500;
     }
     
-    input, textarea {
+    input, textarea, select {
       width: 100%;
       padding: 12px;
       border: 1px solid #ddd;
@@ -104,7 +104,7 @@
       resize: vertical;
     }
     
-    input:focus, textarea:focus {
+    input:focus, textarea:focus, select:focus {
       outline: none;
       border-color: var(--primary-color);
       box-shadow: 0 0 0 2px rgba(63, 81, 181, 0.2);
@@ -175,6 +175,99 @@
     .footer-links a:hover {
       text-decoration: underline;
     }
+    
+    /* Custom dropdown styles */
+    .custom-select {
+      position: relative;
+      width: 100%;
+    }
+    
+    .select-selected {
+      background-color: white;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .select-selected:after {
+      content: '';
+      width: 0;
+      height: 0;
+      border-left: .5em solid transparent;
+      border-right: .5em solid transparent;
+      border-top: .5em solid var(--primary-color);
+      margin-left: 10px;
+      flex-shrink: 0;
+    }
+    
+    .select-selected.select-arrow-active:after {
+      border-top: none;
+      border-bottom: .5em solid var(--primary-color);
+    }
+    
+    .select-items {
+      position: absolute;
+      background-color: white;
+      top: 100%;
+      left: 0;
+      right: 0;
+      z-index: 99;
+      border: 1px solid #ddd;
+      border-radius: 0 0 6px 6px;
+      max-height: 300px;
+      overflow-y: auto;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      display: none;
+    }
+    
+    .app-option {
+      display: flex;
+      align-items: center;
+      padding: 10px 12px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    
+    .app-option:hover {
+      background-color: rgba(63, 81, 181, 0.1);
+    }
+    
+    .app-icon {
+      width: 32px;
+      height: 32px;
+      margin-right: 10px;
+      border-radius: 4px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    
+    .select-hide {
+      display: none;
+    }
+    
+    .same-as-selected {
+      background-color: rgba(63, 81, 181, 0.1);
+    }
+    
+    .platform-radio {
+      display: flex;
+      gap: 20px;
+    }
+    
+    .platform-option {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+    
+    .platform-option input {
+      width: auto;
+      margin-right: 8px;
+    }
   </style>
 </head>
 <body>
@@ -182,7 +275,7 @@
     <div class="container">
       <img src="https://play-lh.googleusercontent.com/f-gjTiPiPqTYKmG-bvm7k4GLiReSC5PIV2opzVNncbCO4AyCZXB-cBlXAXUg27yfuaY=s64" alt="Staple Games logo" class="logo">
       <h1>Contact Us</h1>
-      <p style="color: var(--light-text);">Have a question or feedback? We'd love to hear from you!</p>
+      <p style="color: var(--light-text);">Have a question or feedback about our games on Google Play or the App Store? We'd love to hear from you!</p>
     </div>
   </header>
 
@@ -192,6 +285,46 @@
         <div class="form-group">
           <label for="email">Your Email Address</label>
           <input type="email" id="email" name="email" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="app">Select App</label>
+          <div class="custom-select">
+            <select id="app" name="app" required>
+              <option value="" disabled selected>Choose a game...</option>
+              <option value="Match Collector" data-icon="https://play-lh.googleusercontent.com/1q2FfbRm-Y0YP-Ofu1oMeU30xKI5V11PbmtOoFRmJG77LQH-yDPtumpy6jKSTBR1dg=s64">Match Collector</option>
+              <option value="Word Gems" data-icon="https://play-lh.googleusercontent.com/yj9SrLjEuCQPMaSD_BifuUgIKbopnSVA-zTKbzNSph94v1lk50-lkQO1H4zqOs3tg7IB=s64">Word Gems™</option>
+              <option value="Solitaire" data-icon="https://play-lh.googleusercontent.com/JiXG0ho9B1QP65UcDpg5F3E58xTBSJqqoWom-V55YmGkHQ4uzwxOVA15j34qcdGJmg=s64">Solitaire</option>
+              <option value="SUDOKU" data-icon="https://play-lh.googleusercontent.com/tNsGzxlFcwJcUtacepZGqGf-BAcYI1dlvt72cuCqR4q_qnAvcwCqy1CqDZPc-xDuOw=s64">SUDOKU</option>
+              <option value="Block Puzzle - Classic Style" data-icon="https://play-lh.googleusercontent.com/h7xiYD8VaB7HXGHEFbdQ-w-uekssJLgVwJa3QPHZ3dtHxVj14b8Lq9E4Zzni-fiwIszB=s64">Block Puzzle - Classic Style</option>
+              <option value="Sagadoku" data-icon="https://play-lh.googleusercontent.com/h2-ZmyTX_OTaLaAt4ErmxFIpDuP2gI3EwgzT9bnodkEPQBV0xS_Saen-Fjs1B3Jfwyau=s64">Sagadoku</option>
+              <option value="Backgammon" data-icon="https://play-lh.googleusercontent.com/2hiRolGenAlVEJFcThOBTR2dJAYVCkVI7CqRQpDeZ0ru1GGU8ObZCFE9IC2TIc0HbXk=s64">Backgammon</option>
+              <option value="Block Match" data-icon="https://play-lh.googleusercontent.com/QpXmYK0V1L5Mc8KFeFyZwPUiBB-5tUNiMHtz262IalpkU60nYHYIM0LXW8XByl1lxCU=s64">Block Match</option>
+              <option value="Block Puzzle - Wood Style" data-icon="https://play-lh.googleusercontent.com/GYb4mMj-3y09OYMIeZ5t-6f7W1xpzl6ct6zcKJxI9L0n6LR6UvqTl5I2dZhqrHmPIQ=s64">Block Puzzle - Wood Style</option>
+              <option value="Dice" data-icon="https://play-lh.googleusercontent.com/Zx0xvlfF6T9AdV0PgAm8tsfWKFQoSRGZWwxTHDN8o5CSnwj6eFTBU0hgKfUqTL1_KnY=s64">Dice</option>
+              <option value="Dominoes" data-icon="https://play-lh.googleusercontent.com/t1H6-0I9-m_KhcWAjc_OvNhdCPzKnZLKM9CAZ0SazLzYYCjbS8GfGIvI1JGnCGdM2Q=s64">Dominoes</option>
+              <option value="Ludo" data-icon="https://play-lh.googleusercontent.com/cQbA3NsBvu1VuQY1tKyVx3JxHZOBBfvXwQ_KBykjTziAh_c2KyPZNz_WYqvXN0VcCW4=s64">Ludo</option>
+              <option value="Mahjong Collector" data-icon="https://play-lh.googleusercontent.com/a-R1t-w0t58GYg1PBE2oi4WZzlrrs06jls_vY6Mw_CZfbH0K1YXgXrAcpKfUz4o6BA=s64">Mahjong Collector</option>
+              <option value="Sort Collector" data-icon="https://play-lh.googleusercontent.com/J0tZQ0V7Jdnr3ZuIOWZ1-aNO5ezYJftHbiO6G85nEsKRl3-oWfX1YhqxlJBs-8Zt3A=s64">Sort Collector</option>
+              <option value="Spades" data-icon="https://play-lh.googleusercontent.com/1P4lGRFwD9eTLdUXxbbw9DFrxfmXlxTGNzOc3z4i2JccGgq9n8OsyWlWI5vmhmOMHg=s64">Spades</option>
+              <option value="Tile Collector" data-icon="https://play-lh.googleusercontent.com/ZtPDdQPGXfTnAZz22HBkYYnWdKmgkQgNQUxN_S-Kv_7azyFk8aHTcmnOcWqvOu-oyA=s64">Tile Collector</option>
+              <option value="Word Horizons" data-icon="https://play-lh.googleusercontent.com/sRDXmCbj3PeRhYGWKRpjtgQfwKwpVRYShbG1WPaV6UEF9-mqSPtv4_igAMaE2Yqi6ho=s64">Word Horizons</option>
+              <option value="Word Search" data-icon="https://play-lh.googleusercontent.com/F65QeFjLvhMO7wjD8gCvr_4bUQnQYXTqMAaAdNDfiu4uM1Ifl5mFDYQ-2nPJeVpQQzU=s64">Word Search</option>
+              <option value="Yatzy" data-icon="https://play-lh.googleusercontent.com/vX3reSQr7NhTcMXKdNOVOJMFN0Zv96fe7QUYhjV0B3As36qefxw9qcg1ECiBYNxKsmQ=s64">Yatzy</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label>Platform</label>
+          <div class="platform-radio">
+            <label class="platform-option">
+              <input type="radio" name="platform" value="Android" required> Android
+            </label>
+            <label class="platform-option">
+              <input type="radio" name="platform" value="iOS" required> iOS
+            </label>
+          </div>
         </div>
         
         <div class="form-group">
@@ -224,18 +357,131 @@
     // Add console log for debugging
     console.log("Contact form page loaded");
     
+    // Custom dropdown with app icons
+    document.addEventListener('DOMContentLoaded', function() {
+      // Log to confirm execution of event listener
+      console.log("DOM fully loaded, initializing custom dropdown");
+      
+      const appSelect = document.getElementById('app');
+      if (!appSelect) {
+        console.error("App select element not found!");
+        return;
+      }
+      
+      console.log("Found app select element:", appSelect);
+      const options = appSelect.querySelectorAll('option');
+      console.log("Number of options found:", options.length);
+      
+      // Create the custom dropdown
+      const customSelect = document.createElement('div');
+      customSelect.className = 'custom-select';
+      
+      const selectSelected = document.createElement('div');
+      selectSelected.className = 'select-selected';
+      selectSelected.textContent = options[0].text;
+      
+      const selectItems = document.createElement('div');
+      selectItems.className = 'select-items select-hide';
+      
+      // Create the app options with icons
+      for (let i = 1; i < options.length; i++) {
+        const optDiv = document.createElement('div');
+        optDiv.className = 'app-option';
+        
+        const appIcon = document.createElement('img');
+        appIcon.src = options[i].getAttribute('data-icon');
+        appIcon.className = 'app-icon';
+        appIcon.alt = options[i].text + ' icon';
+        
+        const appName = document.createTextNode(options[i].text);
+        
+        optDiv.appendChild(appIcon);
+        optDiv.appendChild(appName);
+        
+        // Add event listener to update selected option
+        optDiv.addEventListener('click', function() {
+          console.log("Option clicked:", options[i].text);
+          // Update the hidden select value
+          appSelect.value = options[i].value;
+          
+          // Update the visible selection
+          selectSelected.innerHTML = '';
+          
+          const selectedIcon = document.createElement('img');
+          selectedIcon.src = options[i].getAttribute('data-icon');
+          selectedIcon.className = 'app-icon';
+          selectedIcon.alt = options[i].text + ' icon';
+          
+          selectSelected.appendChild(selectedIcon);
+          selectSelected.appendChild(document.createTextNode(options[i].text));
+          
+          // Update all items to remove "same-as-selected" class
+          const items = selectItems.getElementsByTagName('div');
+          for (let j = 0; j < items.length; j++) {
+            items[j].classList.remove('same-as-selected');
+          }
+          
+          // Add "same-as-selected" class to the clicked item
+          this.classList.add('same-as-selected');
+          
+          // Toggle the dropdown
+          selectItems.classList.add('select-hide');
+          selectSelected.classList.remove('select-arrow-active');
+          
+          // Trigger change event on the original select
+          const event = new Event('change');
+          appSelect.dispatchEvent(event);
+        });
+        
+        selectItems.appendChild(optDiv);
+      }
+      
+      // Build and insert the custom dropdown structure
+      customSelect.appendChild(selectSelected);
+      customSelect.appendChild(selectItems);
+      
+      // Replace the original select with the custom one
+      const selectWrapper = appSelect.parentNode;
+      selectWrapper.innerHTML = '';
+      selectWrapper.appendChild(appSelect);
+      selectWrapper.appendChild(customSelect);
+      appSelect.style.display = 'none';
+      
+      console.log("Custom dropdown initialized");
+      
+      // Toggle dropdown on click
+      selectSelected.addEventListener('click', function(e) {
+        e.stopPropagation();
+        this.classList.toggle('select-arrow-active');
+        selectItems.classList.toggle('select-hide');
+        console.log("Dropdown toggled");
+      });
+      
+      // Close dropdown when clicking elsewhere
+      document.addEventListener('click', function() {
+        selectSelected.classList.remove('select-arrow-active');
+        selectItems.classList.add('select-hide');
+      });
+    });
+    
+    // Form submit handler
     document.getElementById('contactForm').addEventListener('submit', function(e) {
       e.preventDefault();
       
       // Get form values
       const email = document.getElementById('email').value;
+      const app = document.getElementById('app').value;
+      const platform = document.querySelector('input[name="platform"]:checked').value;
       const message = document.getElementById('message').value;
       
-      console.log("Form submitted with:", email, message);
+      console.log("Form submitted with:", email, app, platform, message);
+      
+      // Format the message with app and platform info
+      const formattedMessage = `App: ${app}\nPlatform: ${platform}\n\n${message}`;
       
       // Build the URL with query parameters
       const baseUrl = 'https://www.bdz11.com/contact';
-      const url = `${baseUrl}?email=${encodeURIComponent(email)}&message=${encodeURIComponent(message)}&source=staplegames-website`;
+      const url = `${baseUrl}?email=${encodeURIComponent(email)}&app=${encodeURIComponent(app)}&platform=${encodeURIComponent(platform)}&message=${encodeURIComponent(formattedMessage)}&source=staplegames-website`;
       
       // Send GET request
       fetch(url)
@@ -256,6 +502,12 @@
           // Clear the form
           document.getElementById('contactForm').reset();
           
+          // Reset custom select to default
+          const customSelect = document.querySelector('.select-selected');
+          if (customSelect) {
+            customSelect.innerHTML = document.getElementById('app').options[0].text;
+          }
+          
           console.log('Server response:', data);
         })
         .catch(error => {
@@ -268,7 +520,7 @@
           statusMsg.style.display = 'block';
           
           // Fallback to mailto if server request fails
-          const mailtoLink = `mailto:support@staplegames.com?subject=Contact from Staple Games Website&body=${encodeURIComponent('From: ' + email + '\n\n' + message)}`;
+          const mailtoLink = `mailto:support@staplegames.com?subject=Contact about ${app} on ${platform}&body=${encodeURIComponent('From: ' + email + '\n\nApp: ' + app + '\nPlatform: ' + platform + '\n\n' + message)}`;
           window.location.href = mailtoLink;
         });
     });
