@@ -4,9 +4,14 @@
   <meta charset="UTF-8">
   <title>Contact Us - Staple Games</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary-color: #3f51b5;
+      --primary-dark: #303f9f;
+      --primary-light: #7986cb;
       --secondary-color: #ff9800;
       --accent-color: #e91e63;
       --text-color: #212121;
@@ -22,44 +27,162 @@
     }
     
     body {
-      font-family: 'Roboto', 'Segoe UI', sans-serif;
+      font-family: 'Open Sans', 'Segoe UI', sans-serif;
       background-color: var(--bg-color);
       color: var(--text-color);
       line-height: 1.6;
     }
     
+    h1, h2, h3, .nav-link {
+      font-family: 'Montserrat', 'Segoe UI', sans-serif;
+    }
+    
     header {
-      background-color: var(--primary-color);
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
       color: var(--light-text);
-      padding: 1.5rem 0;
+      padding: 2.5rem 0;
       text-align: center;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* Animated background elements */
+    header::before, header::after {
+      content: '';
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      z-index: 0;
+    }
+    
+    header::before {
+      top: -100px;
+      right: -100px;
+      animation: float 15s ease-in-out infinite;
+    }
+    
+    header::after {
+      bottom: -150px;
+      left: -50px;
+      width: 250px;
+      height: 250px;
+      animation: float 18s ease-in-out infinite reverse;
+    }
+    
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(5deg); }
+      100% { transform: translateY(0) rotate(0deg); }
     }
     
     .logo {
       max-width: 80px;
       margin-bottom: 0.5rem;
+      border-radius: 16px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+      position: relative;
+      z-index: 1;
     }
     
     h1 {
-      font-size: 2rem;
+      font-size: 2.2rem;
       margin: 0.5rem 0;
       color: var(--light-text);
+      position: relative;
+      z-index: 1;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+
+    header p {
+      position: relative;
+      z-index: 1;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
     }
     
-    p {
-      margin-bottom: 1rem;
+    /* Navigation styles */
+    .nav-container {
+      position: sticky;
+      top: 0;
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      z-index: 1000;
     }
     
-    a {
-      color: var(--primary-color);
+    .nav-container .container {
+      max-width: 1200px;
+    }
+    
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+    }
+    
+    .nav-logo {
+      display: flex;
+      align-items: center;
       text-decoration: none;
-      transition: color 0.3s;
+      color: var(--primary-color);
+      white-space: nowrap;
     }
     
-    a:hover {
-      color: var(--secondary-color);
-      text-decoration: underline;
+    .nav-logo img {
+      height: 40px;
+      margin-right: 10px;
+      border-radius: 8px;
+    }
+    
+    .nav-logo h2 {
+      font-size: 1.4rem;
+      margin: 0;
+      padding: 0;
+      white-space: nowrap;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    
+    .nav-link {
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: 500;
+      position: relative;
+      padding: 0.5rem 0;
+    }
+    
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--primary-color);
+      transition: width 0.3s ease;
+    }
+    
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    
+    .nav-link.active::after {
+      width: 100%;
+    }
+    
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--primary-color);
+      cursor: pointer;
     }
     
     .container {
@@ -68,12 +191,21 @@
       padding: 0 20px;
     }
     
+    /* Navigation container with wider width */
+    .nav-container .container {
+      max-width: 1200px;
+    }
+
+    /* Form container with original width */
     .form-container {
       background: var(--card-bg);
       border-radius: 12px;
       padding: 2rem;
       box-shadow: 0 3px 10px rgba(0,0,0,0.1);
       margin-top: 2rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
     }
     
     .form-group {
@@ -94,7 +226,7 @@
       background-color: #fff;
       border-radius: 6px;
       color: var(--text-color);
-      font-family: 'Roboto', 'Segoe UI', sans-serif;
+      font-family: 'Open Sans', 'Segoe UI', sans-serif;
       font-size: 1rem;
       box-sizing: border-box;
     }
@@ -268,6 +400,43 @@
       width: auto;
       margin-right: 8px;
     }
+    
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: white;
+        flex-direction: column;
+        padding: 1rem 0;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        text-align: center;
+        gap: 0;
+      }
+      
+      .nav-links.active {
+        display: flex;
+      }
+      
+      .nav-link {
+        padding: 1rem 0;
+        display: block;
+      }
+      
+      .mobile-menu-btn {
+        display: block;
+      }
+      
+      header {
+        padding: 1.5rem 0;
+      }
+      
+      h1 {
+        font-size: 1.8rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -283,8 +452,6 @@
           <li><a href="index.html" class="nav-link">Home</a></li>
           <li><a href="index.html#games" class="nav-link">Games</a></li>
           <li><a href="contact.html" class="nav-link active">Contact</a></li>
-          <li><a href="terms.html" class="nav-link">Terms</a></li>
-          <li><a href="privacy.html" class="nav-link">Privacy</a></li>
         </ul>
       </nav>
     </div>
@@ -294,7 +461,7 @@
     <div class="container">
       <img src="https://cdn.bdz5.com/staplegames/matchcollector_icon.png" alt="Staple Games logo" class="logo">
       <h1>Contact Us</h1>
-      <p style="color: var(--light-text);">Have a question or feedback about our games on Google Play or the App Store? We'd love to hear from you!</p>
+      <p>Have a question or feedback about our games on Google Play or the App Store? We'd love to hear from you!</p>
     </div>
   </header>
 
@@ -380,9 +547,24 @@
     // Add console log for debugging
     console.log("Contact form page loaded");
     
-    // Custom dropdown with app icons
+    // Mobile menu toggle functionality
     document.addEventListener('DOMContentLoaded', function() {
-      // Initialize the custom dropdown
+      const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+      const navLinks = document.querySelector('.nav-links');
+      
+      mobileMenuBtn.addEventListener('click', function() {
+        navLinks.classList.toggle('active');
+      });
+      
+      // Close menu when clicking a link
+      const navLinksItems = document.querySelectorAll('.nav-link');
+      navLinksItems.forEach(link => {
+        link.addEventListener('click', function() {
+          navLinks.classList.remove('active');
+        });
+      });
+      
+      // Custom dropdown with app icons
       initCustomDropdown();
       
       // Form submit handler
