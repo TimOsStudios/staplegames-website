@@ -2,173 +2,444 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Terms and Conditions</title>
+  <title>Terms and Conditions - Staple Games</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    body {
+    :root {
+      --primary-color: #3f51b5;
+      --primary-dark: #303f9f;
+      --primary-light: #7986cb;
+      --secondary-color: #ff9800;
+      --accent-color: #e91e63;
+      --text-color: #212121;
+      --light-text: #f5f5f5;
+      --bg-color: #f5f5f5;
+      --card-bg: #ffffff;
+    }
+    
+    * {
       margin: 0;
-      padding: 2rem;
-      font-family: 'Segoe UI', sans-serif;
-      background: radial-gradient(circle at top, #0a1d33 0%, #041423 100%);
-      color: #e0e6ed;
-      line-height: 1.7;
-      position: relative;
-      overflow-x: hidden;
+      padding: 0;
+      box-sizing: border-box;
     }
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-image: 
-        radial-gradient(1px 1px at 25px 5px, #91cfff 50%, transparent 100%),
-        radial-gradient(1px 1px at 50px 25px, #91cfff 50%, transparent 100%),
-        radial-gradient(1px 1px at 125px 20px, #91cfff 50%, transparent 100%),
-        radial-gradient(1.5px 1.5px at 50px 75px, #91cfff 50%, transparent 100%),
-        radial-gradient(2px 2px at 175px 125px, #91cfff 50%, transparent 100%),
-        radial-gradient(2px 2px at 20px 135px, #91cfff 50%, transparent 100%),
-        radial-gradient(1px 1px at 200px 50px, #91cfff 50%, transparent 100%),
-        radial-gradient(1px 1px at 65px 175px, #91cfff 50%, transparent 100%);
-      background-repeat: repeat;
-      background-size: 250px 250px;
-      opacity: 0.4;
-      z-index: 0;
-      pointer-events: none;
+    
+    body {
+      font-family: 'Open Sans', 'Segoe UI', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
     }
+    
+    h1, h2, h3, .nav-link {
+      font-family: 'Montserrat', 'Segoe UI', sans-serif;
+    }
+    
     header {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 2rem;
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+      color: var(--light-text);
+      padding: 2.5rem 0;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* Animated background elements */
+    header::before, header::after {
+      content: '';
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      z-index: 0;
+    }
+    
+    header::before {
+      top: -100px;
+      right: -100px;
+      animation: float 15s ease-in-out infinite;
+    }
+    
+    header::after {
+      bottom: -150px;
+      left: -50px;
+      width: 250px;
+      height: 250px;
+      animation: float 18s ease-in-out infinite reverse;
+    }
+    
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(5deg); }
+      100% { transform: translateY(0) rotate(0deg); }
+    }
+    
+    .logo {
+      max-width: 80px;
+      margin-bottom: 0.5rem;
+      border-radius: 16px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
       position: relative;
       z-index: 1;
     }
-    header img {
-      height: 60px;
-    }
+    
     h1 {
-      color: #ffdf78;
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
+      font-size: 2.2rem;
+      margin: 0.5rem 0;
+      color: var(--light-text);
+      position: relative;
+      z-index: 1;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
     }
+    
+    /* Navigation styles */
+    .nav-container {
+      position: sticky;
+      top: 0;
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+    
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+    }
+    
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: var(--primary-color);
+    }
+    
+    .nav-logo img {
+      height: 40px;
+      margin-right: 10px;
+      border-radius: 8px;
+    }
+    
+    .nav-logo h2 {
+      font-size: 1.4rem;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    
+    .nav-link {
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: 500;
+      position: relative;
+      padding: 0.5rem 0;
+    }
+    
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--primary-color);
+      transition: width 0.3s ease;
+    }
+    
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    
+    .nav-link.active::after {
+      width: 100%;
+    }
+    
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--primary-color);
+      cursor: pointer;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .terms-content {
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      padding: 2rem;
+      margin: 2rem 0;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+    
     h2 {
-      color: #ffd966;
+      color: var(--primary-color);
       margin-top: 2rem;
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
     }
+    
     p {
       margin-bottom: 1rem;
     }
+    
     strong {
-      color: #ffe27a;
+      color: var(--primary-dark);
+      font-weight: 600;
     }
+    
     a {
-      color: #91cfff;
+      color: var(--primary-color);
+      text-decoration: none;
+      transition: color 0.3s;
     }
-    .container {
-      max-width: 800px;
-      margin: auto;
+    
+    a:hover {
+      color: var(--secondary-color);
+    }
+    
+    footer {
+      background-color: var(--primary-color);
+      color: var(--light-text);
+      text-align: center;
+      padding: 2rem 0;
+      margin-top: 3rem;
+    }
+    
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin: 1rem 0;
+    }
+    
+    .footer-links a {
+      color: var(--light-text);
+      text-decoration: none;
+    }
+    
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+    
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: white;
+        flex-direction: column;
+        padding: 1rem 0;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        text-align: center;
+        gap: 0;
+      }
+      
+      .nav-links.active {
+        display: flex;
+      }
+      
+      .nav-link {
+        padding: 1rem 0;
+        display: block;
+      }
+      
+      .mobile-menu-btn {
+        display: block;
+      }
+      
+      header {
+        padding: 1.5rem 0;
+      }
+      
+      h1 {
+        font-size: 1.8rem;
+      }
+      
+      .terms-content {
+        padding: 1.5rem;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div style="text-align: left; margin-bottom: 1rem;">
-      <a href="index.html" style="color: #91cfff; text-decoration: none;">← Back to Home</a>
-    </div>
-    <header>
-      <img src="https://cdn.bdz5.com/staplegames/matchcollector_icon.png" alt="Staple Games logo">
+  <header>
+    <div class="container">
+      <img src="https://cdn.bdz5.com/staplegames/matchcollector_icon.png" alt="Staple Games logo" class="logo">
       <h1>Terms and Conditions</h1>
-    </header>
-  <p><strong>Last updated: April 10, 2025</strong></p>
+    </div>
+  </header>
+  
+  <div class="nav-container">
+    <div class="container">
+      <nav class="navbar">
+        <a href="index.html" class="nav-logo">
+          <img src="https://cdn.bdz5.com/staplegames/matchcollector_icon.png" alt="Staple Games">
+          <h2>Staple Games</h2>
+        </a>
+        <button class="mobile-menu-btn">☰</button>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="index.html#games" class="nav-link">Games</a></li>
+          <li><a href="contact.html" class="nav-link">Contact</a></li>
+          <li><a href="terms.html" class="nav-link active">Terms</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
 
-  <p>Please read these Terms and Conditions ("Terms", "Terms and Conditions") carefully before using any mobile application (the "Service") operated by Tim O's Studios, LLC ("us", "we", or "our").</p>
+  <div class="container">
+    <div class="terms-content">
+      <p><strong>Last updated: April 10, 2025</strong></p>
 
-  <p>Your access to and use of the Service is conditioned upon your acceptance of and compliance with these Terms. These Terms apply to all visitors, users and others who wish to access or use the Service.</p>
+      <p>Please read these Terms and Conditions ("Terms", "Terms and Conditions") carefully before using any mobile application (the "Service") operated by Staple Games, LLC ("us", "we", or "our").</p>
 
-  <p>By accessing or using the Service you agree to be bound by these Terms. If you disagree with any part of the terms then you do not have permission to access the Service.</p>
+      <p>Your access to and use of the Service is conditioned upon your acceptance of and compliance with these Terms. These Terms apply to all visitors, users and others who wish to access or use the Service.</p>
 
-  <h2>Availability, Errors and Inaccuracies</h2>
-  <p>We are constantly updating product and service offerings on the Service. We may experience delays in updating information on the Service and in our advertising on other web sites. The information found on the Service may contain errors or inaccuracies and may not be complete or current. Products or services may be mispriced, described inaccurately, or unavailable on the Service and we cannot guarantee the accuracy or completeness of any information found on the Service.</p>
+      <p>By accessing or using the Service you agree to be bound by these Terms. If you disagree with any part of the terms then you do not have permission to access the Service.</p>
 
-  <p>We therefore reserve the right to change or update information and to correct errors, inaccuracies, or omissions at any time without prior notice.</p>
+      <h2>Availability, Errors and Inaccuracies</h2>
+      <p>We are constantly updating product and service offerings on the Service. We may experience delays in updating information on the Service and in our advertising on other web sites. The information found on the Service may contain errors or inaccuracies and may not be complete or current. Products or services may be mispriced, described inaccurately, or unavailable on the Service and we cannot guarantee the accuracy or completeness of any information found on the Service.</p>
 
-  <h2>Contests, Sweepstakes and Promotions</h2>
-  <p>Any contests, sweepstakes or other promotions (collectively, "Promotions") made available through the Service may be governed by rules that are separate from these Terms & Conditions. If you participate in any Promotions, please review the applicable rules as well as our Privacy Policy. If the rules for a Promotion conflict with these Terms and Conditions, the Promotion rules will apply.</p>
+      <p>We therefore reserve the right to change or update information and to correct errors, inaccuracies, or omissions at any time without prior notice.</p>
 
-  <h2>Subscriptions</h2>
-  <p>Some parts of the Service are billed on a subscription basis ("Subscription(s)"). You will be billed in advance on a recurring and periodic basis ("Billing Cycle"). Billing cycles are set either on a weekly, monthly or annual basis, depending on the type of subscription plan you select when purchasing a Subscription.</p>
+      <h2>Contests, Sweepstakes and Promotions</h2>
+      <p>Any contests, sweepstakes or other promotions (collectively, "Promotions") made available through the Service may be governed by rules that are separate from these Terms & Conditions. If you participate in any Promotions, please review the applicable rules as well as our Privacy Policy. If the rules for a Promotion conflict with these Terms and Conditions, the Promotion rules will apply.</p>
 
-  <p>At the end of each Billing Cycle, your Subscription will automatically renew under the exact same conditions unless you cancel it or Tim O's Studios, LLC cancels it. For iOS Apps, you may cancel your Subscription renewal through the online account associated with your Apple ID. For Google Play Apps, you may cancel your Subscription renewal online through your Google Play Account.</p>
+      <h2>Subscriptions</h2>
+      <p>Some parts of the Service are billed on a subscription basis ("Subscription(s)"). You will be billed in advance on a recurring and periodic basis ("Billing Cycle"). Billing cycles are set either on a weekly, monthly or annual basis, depending on the type of subscription plan you select when purchasing a Subscription.</p>
 
-  <h2>Free Trial</h2>
-  <p>Tim O's Studios, LLC may, at its sole discretion, offer a Subscription with a free trial for a limited period of time ("Free Trial").</p>
+      <p>At the end of each Billing Cycle, your Subscription will automatically renew under the exact same conditions unless you cancel it or Staple Games, LLC cancels it. For iOS Apps, you may cancel your Subscription renewal through the online account associated with your Apple ID. For Google Play Apps, you may cancel your Subscription renewal online through your Google Play Account.</p>
 
-  <p>You may be required to enter your billing information in order to sign up for the Free Trial.</p>
+      <h2>Free Trial</h2>
+      <p>Staple Games, LLC may, at its sole discretion, offer a Subscription with a free trial for a limited period of time ("Free Trial").</p>
 
-  <p>If you do enter your billing information when signing up for the Free Trial, you will not be charged until the Free Trial is over. On the last day of the Free Trial period, unless you cancelled your Subscription, you will be automatically charged the applicable Subscription fees for the type of Subscription you have selected.</p>
+      <p>You may be required to enter your billing information in order to sign up for the Free Trial.</p>
 
-  <p>At any time and without notice, Tim O's Studios, LLC reserves the right to (i) modify the terms and conditions of the Free Trial offer, or (ii) cancel such Free Trial offer.</p>
+      <p>If you do enter your billing information when signing up for the Free Trial, you will not be charged until the Free Trial is over. On the last day of the Free Trial period, unless you cancelled your Subscription, you will be automatically charged the applicable Subscription fees for the type of Subscription you have selected.</p>
 
-  <h2>Fee Changes</h2>
-  <p>Tim O's Studios, LLC, in its sole discretion and at any time, may modify the Subscription fees for the Subscriptions. Any Subscription fee change will become effective at the end of the then-current Billing Cycle.</p>
+      <p>At any time and without notice, Staple Games, LLC reserves the right to (i) modify the terms and conditions of the Free Trial offer, or (ii) cancel such Free Trial offer.</p>
 
-  <p>Tim O's Studios, LLC will provide you with a reasonable prior notice of any change in Subscription fees to give you an opportunity to terminate your Subscription before such change becomes effective.</p>
+      <h2>Fee Changes</h2>
+      <p>Staple Games, LLC, in its sole discretion and at any time, may modify the Subscription fees for the Subscriptions. Any Subscription fee change will become effective at the end of the then-current Billing Cycle.</p>
 
-  <p>Your continued use of the Service after the Subscription fee change comes into effect constitutes your agreement to pay the modified Subscription fee amount.</p>
+      <p>Staple Games, LLC will provide you with a reasonable prior notice of any change in Subscription fees to give you an opportunity to terminate your Subscription before such change becomes effective.</p>
 
-  <h2>Refunds</h2>
-  <p>Except when required by law, paid Subscription fees are non-refundable.</p>
+      <p>Your continued use of the Service after the Subscription fee change comes into effect constitutes your agreement to pay the modified Subscription fee amount.</p>
 
-  <h2>Intellectual Property</h2>
-  <p>The Service and its original content, features and functionality are and will remain the exclusive property of Tim O's Studios, LLC and its licensors. The Service is protected by copyright, trademark, and other laws of both the United States and foreign countries. Our trademarks and trade dress may not be used in connection with any product or service without the prior written consent of Tim O's Studios, LLC.</p>
+      <h2>Refunds</h2>
+      <p>Except when required by law, paid Subscription fees are non-refundable.</p>
 
-  <h2>Links To Other Web Sites</h2>
-  <p>Our Service may contain links to third party web sites or services that are not owned or controlled by Tim O's Studios, LLC.</p>
+      <h2>Intellectual Property</h2>
+      <p>The Service and its original content, features and functionality are and will remain the exclusive property of Staple Games, LLC and its licensors. The Service is protected by copyright, trademark, and other laws of both the United States and foreign countries. Our trademarks and trade dress may not be used in connection with any product or service without the prior written consent of Staple Games, LLC.</p>
 
-  <p>Tim O's Studios, LLC has no control over, and assumes no responsibility for the content, privacy policies, or practices of any third party web sites or services. We do not warrant the offerings of any of these entities/individuals or their websites.</p>
+      <h2>Links To Other Web Sites</h2>
+      <p>Our Service may contain links to third party web sites or services that are not owned or controlled by Staple Games, LLC.</p>
 
-  <p>You acknowledge and agree that Tim O's Studios, LLC shall not be responsible or liable, directly or indirectly, for any damage or loss caused or alleged to be caused by or in connection with use of or reliance on any such content, goods or services available on or through any such third party web sites or services.</p>
+      <p>Staple Games, LLC has no control over, and assumes no responsibility for the content, privacy policies, or practices of any third party web sites or services. We do not warrant the offerings of any of these entities/individuals or their websites.</p>
 
-  <p>We strongly advise you to read the terms and conditions and privacy policies of any third party web sites or services that you visit.</p>
+      <p>You acknowledge and agree that Staple Games, LLC shall not be responsible or liable, directly or indirectly, for any damage or loss caused or alleged to be caused by or in connection with use of or reliance on any such content, goods or services available on or through any such third party web sites or services.</p>
 
-  <h2>Eligibility</h2>
-  <p>You may use the Service only if you are 13 years or older, capable of forming a binding contract, and are not barred from using the Service under applicable law.</p>
+      <p>We strongly advise you to read the terms and conditions and privacy policies of any third party web sites or services that you visit.</p>
 
-  <h2>Termination</h2>
-  <p>We may terminate or suspend your account and bar access to the Service immediately, without prior notice or liability, under our sole discretion, for any reason whatsoever and without limitation, including but not limited to a breach of the Terms.</p>
+      <h2>Eligibility</h2>
+      <p>You may use the Service only if you are 13 years or older, capable of forming a binding contract, and are not barred from using the Service under applicable law.</p>
 
-  <p>If you wish to terminate your account, you may simply discontinue using the Service.</p>
+      <h2>Termination</h2>
+      <p>We may terminate or suspend your account and bar access to the Service immediately, without prior notice or liability, under our sole discretion, for any reason whatsoever and without limitation, including but not limited to a breach of the Terms.</p>
 
-  <p>All provisions of the Terms which by their nature should survive termination shall survive termination, including, without limitation, ownership provisions, warranty disclaimers, indemnity and limitations of liability.</p>
+      <p>If you wish to terminate your account, you may simply discontinue using the Service.</p>
 
-  <h2>Indemnification</h2>
-  <p>You agree to defend, indemnify and hold harmless Tim O's Studios, LLC and its licensee and licensors, and their employees, contractors, agents, officers and directors, from and against any and all claims, damages, obligations, losses, liabilities, costs or debt, and expenses (including but not limited to attorney's fees), resulting from or arising out of a) your use and access of the Service, by you or any person using your account and password, or b) a breach of these Terms.</p>
+      <p>All provisions of the Terms which by their nature should survive termination shall survive termination, including, without limitation, ownership provisions, warranty disclaimers, indemnity and limitations of liability.</p>
 
-  <h2>Limitation Of Liability</h2>
-  <p>In no event shall Tim O's Studios, LLC, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from (i) your access to or use of or inability to access or use the Service; (ii) any conduct or content of any third party on the Service; (iii) any content obtained from the Service; and (iv) unauthorized access, use or alteration of your transmissions or content, whether based on warranty, contract, tort (including negligence) or any other legal theory, whether or not we have been informed of the possibility of such damage, and even if a remedy set forth herein is found to have failed of its essential purpose.</p>
+      <h2>Indemnification</h2>
+      <p>You agree to defend, indemnify and hold harmless Staple Games, LLC and its licensee and licensors, and their employees, contractors, agents, officers and directors, from and against any and all claims, damages, obligations, losses, liabilities, costs or debt, and expenses (including but not limited to attorney's fees), resulting from or arising out of a) your use and access of the Service, by you or any person using your account and password, or b) a breach of these Terms.</p>
 
-  <h2>Disclaimer</h2>
-  <p>Your use of the Service is at your sole risk. The Service is provided on an "AS IS" and "AS AVAILABLE" basis. The Service is provided without warranties of any kind, whether express or implied, including, but not limited to, implied warranties of merchantability, fitness for a particular purpose, non-infringement or course of performance.</p>
+      <h2>Limitation Of Liability</h2>
+      <p>In no event shall Staple Games, LLC, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from (i) your access to or use of or inability to access or use the Service; (ii) any conduct or content of any third party on the Service; (iii) any content obtained from the Service; and (iv) unauthorized access, use or alteration of your transmissions or content, whether based on warranty, contract, tort (including negligence) or any other legal theory, whether or not we have been informed of the possibility of such damage, and even if a remedy set forth herein is found to have failed of its essential purpose.</p>
 
-  <p>Tim O's Studios, LLC its subsidiaries, affiliates, and its licensors do not warrant that a) the Service will function uninterrupted, secure or available at any particular time or location; b) any errors or defects will be corrected; c) the Service is free of viruses or other harmful components; or d) the results of using the Service will meet your requirements.</p>
+      <h2>Disclaimer</h2>
+      <p>Your use of the Service is at your sole risk. The Service is provided on an "AS IS" and "AS AVAILABLE" basis. The Service is provided without warranties of any kind, whether express or implied, including, but not limited to, implied warranties of merchantability, fitness for a particular purpose, non-infringement or course of performance.</p>
 
-  <h2>Exclusions</h2>
-  <p>Some jurisdictions do not allow the exclusion of certain warranties or the exclusion or limitation of liability for consequential or incidental damages, so the limitations above may not apply to you.</p>
+      <p>Staple Games, LLC its subsidiaries, affiliates, and its licensors do not warrant that a) the Service will function uninterrupted, secure or available at any particular time or location; b) any errors or defects will be corrected; c) the Service is free of viruses or other harmful components; or d) the results of using the Service will meet your requirements.</p>
 
-  <h2>Governing Law</h2>
-  <p>These Terms shall be governed and construed in accordance with the laws of Texas, United States, without regard to its conflict of law provisions.</p>
+      <h2>Exclusions</h2>
+      <p>Some jurisdictions do not allow the exclusion of certain warranties or the exclusion or limitation of liability for consequential or incidental damages, so the limitations above may not apply to you.</p>
 
-  <p>Our failure to enforce any right or provision of these Terms will not be considered a waiver of those rights. If any provision of these Terms is held to be invalid or unenforceable by a court, the remaining provisions of these Terms will remain in effect. These Terms constitute the entire agreement between us regarding our Service, and supersede and replace any prior agreements we might have had between us regarding the Service.</p>
+      <h2>Governing Law</h2>
+      <p>These Terms shall be governed and construed in accordance with the laws of Texas, United States, without regard to its conflict of law provisions.</p>
 
-  <h2>Changes</h2>
-  <p>We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material we will provide at least 30 days notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion.</p>
+      <p>Our failure to enforce any right or provision of these Terms will not be considered a waiver of those rights. If any provision of these Terms is held to be invalid or unenforceable by a court, the remaining provisions of these Terms will remain in effect. These Terms constitute the entire agreement between us regarding our Service, and supersede and replace any prior agreements we might have had between us regarding the Service.</p>
 
-  <p>By continuing to access or use our Service after any revisions become effective, you agree to be bound by the revised terms. If you do not agree to the new terms, you are no longer authorized to use the Service.</p>
+      <h2>Changes</h2>
+      <p>We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material we will provide at least 30 days notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion.</p>
 
-  <h2>Contact Us</h2>
-  <p>If you have any questions about these Terms, please contact us.</p>
-</div>
+      <p>By continuing to access or use our Service after any revisions become effective, you agree to be bound by the revised terms. If you do not agree to the new terms, you are no longer authorized to use the Service.</p>
+
+      <h2>Contact Us</h2>
+      <p>If you have any questions about these Terms, please contact us.</p>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>© 2023 Staple Games. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="contact.html">Contact Us</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+      const navLinks = document.querySelector('.nav-links');
+      
+      mobileMenuBtn.addEventListener('click', function() {
+        navLinks.classList.toggle('active');
+      });
+      
+      // Close menu when clicking a link
+      const navLinksItems = document.querySelectorAll('.nav-link');
+      navLinksItems.forEach(link => {
+        link.addEventListener('click', function() {
+          navLinks.classList.remove('active');
+        });
+      });
+      
+      // Smooth scroll to sections
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            e.preventDefault();
+            window.scrollTo({
+              top: target.offsetTop - 80,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>
