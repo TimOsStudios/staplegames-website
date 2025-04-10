@@ -79,16 +79,36 @@
       overflow: hidden;
       box-shadow: 0 3px 10px rgba(0,0,0,0.1);
       transition: transform 0.3s ease;
+      position: relative;
     }
     
     .app-card:hover {
       transform: translateY(-5px);
     }
     
-    .app-image {
+    .app-image-container {
       width: 100%;
       height: 180px;
+      overflow: hidden;
+      position: relative;
+      background-color: #f0f0f0;
+      display: block;
+    }
+    
+    .app-image {
+      width: 100%;
+      height: 100%;
       object-fit: cover;
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 1;
+      transition: opacity 0.3s ease;
+    }
+    
+    .app-image.loading {
+      opacity: 0;
     }
     
     .app-info {
@@ -232,7 +252,9 @@
       <div class="app-grid">
         <!-- Match Collector -->
         <div class="app-card">
-          <img src="https://play-lh.googleusercontent.com/1q2FfbRm-Y0YP-Ofu1oMeU30xKI5V11PbmtOoFRmJG77LQH-yDPtumpy6jKSTBR1dg=w416-h235" alt="Match Collector" class="app-image">
+          <div class="app-image-container">
+            <img src="https://play-lh.googleusercontent.com/1q2FfbRm-Y0YP-Ofu1oMeU30xKI5V11PbmtOoFRmJG77LQH-yDPtumpy6jKSTBR1dg=w416-h235" alt="Match Collector" class="app-image loading" loading="eager" data-app-id="1">
+          </div>
           <div class="app-info">
             <h3 class="app-name">Match Collector</h3>
             <p class="app-description">A colorful and addictive match-3 puzzle game. Connect same-colored blocks and clear the board.</p>
@@ -245,7 +267,9 @@
         
         <!-- Word Gems -->
         <div class="app-card">
-          <img src="https://play-lh.googleusercontent.com/yj9SrLjEuCQPMaSD_BifuUgIKbopnSVA-zTKbzNSph94v1lk50-lkQO1H4zqOs3tg7IB=w416-h235" alt="Word Gems" class="app-image">
+          <div class="app-image-container">
+            <img src="https://play-lh.googleusercontent.com/yj9SrLjEuCQPMaSD_BifuUgIKbopnSVA-zTKbzNSph94v1lk50-lkQO1H4zqOs3tg7IB=w416-h235" alt="Word Gems" class="app-image loading" loading="eager" data-app-id="2">
+          </div>
           <div class="app-info">
             <h3 class="app-name">Word Gems™</h3>
             <p class="app-description">Test your vocabulary skills in this engaging word puzzle game with beautiful gem visuals.</p>
@@ -258,7 +282,9 @@
         
         <!-- Solitaire -->
         <div class="app-card">
-          <img src="https://play-lh.googleusercontent.com/JiXG0ho9B1QP65UcDpg5F3E58xTBSJqqoWom-V55YmGkHQ4uzwxOVA15j34qcdGJmg=w416-h235" alt="Solitaire" class="app-image">
+          <div class="app-image-container">
+            <img src="https://play-lh.googleusercontent.com/JiXG0ho9B1QP65UcDpg5F3E58xTBSJqqoWom-V55YmGkHQ4uzwxOVA15j34qcdGJmg=w416-h235" alt="Solitaire" class="app-image loading" loading="eager" data-app-id="3">
+          </div>
           <div class="app-info">
             <h3 class="app-name">Solitaire</h3>
             <p class="app-description">The classic card game with beautiful designs and smooth gameplay. Perfect for relaxation.</p>
@@ -271,7 +297,9 @@
         
         <!-- SUDOKU -->
         <div class="app-card">
-          <img src="https://play-lh.googleusercontent.com/tNsGzxlFcwJcUtacepZGqGf-BAcYI1dlvt72cuCqR4q_qnAvcwCqy1CqDZPc-xDuOw=w416-h235" alt="SUDOKU" class="app-image">
+          <div class="app-image-container">
+            <img src="https://play-lh.googleusercontent.com/tNsGzxlFcwJcUtacepZGqGf-BAcYI1dlvt72cuCqR4q_qnAvcwCqy1CqDZPc-xDuOw=w416-h235" alt="SUDOKU" class="app-image loading" loading="eager" data-app-id="4">
+          </div>
           <div class="app-info">
             <h3 class="app-name">SUDOKU</h3>
             <p class="app-description">Classic number puzzle game with multiple difficulty levels for all skill levels.</p>
@@ -284,7 +312,9 @@
         
         <!-- Block Puzzle -->
         <div class="app-card">
-          <img src="https://play-lh.googleusercontent.com/h7xiYD8VaB7HXGHEFbdQ-w-uekssJLgVwJa3QPHZ3dtHxVj14b8Lq9E4Zzni-fiwIszB=w416-h235" alt="Block Puzzle" class="app-image">
+          <div class="app-image-container">
+            <img src="https://play-lh.googleusercontent.com/h7xiYD8VaB7HXGHEFbdQ-w-uekssJLgVwJa3QPHZ3dtHxVj14b8Lq9E4Zzni-fiwIszB=w416-h235" alt="Block Puzzle" class="app-image loading" loading="eager" data-app-id="5">
+          </div>
           <div class="app-info">
             <h3 class="app-name">Block Puzzle - Classic Style</h3>
             <p class="app-description">Arrange blocks to complete lines and clear the board in this addictive puzzle game.</p>
@@ -297,7 +327,9 @@
         
         <!-- Sagadoku -->
         <div class="app-card">
-          <img src="https://play-lh.googleusercontent.com/h2-ZmyTX_OTaLaAt4ErmxFIpDuP2gI3EwgzT9bnodkEPQBV0xS_Saen-Fjs1B3Jfwyau=w416-h235" alt="Sagadoku" class="app-image">
+          <div class="app-image-container">
+            <img src="https://play-lh.googleusercontent.com/h2-ZmyTX_OTaLaAt4ErmxFIpDuP2gI3EwgzT9bnodkEPQBV0xS_Saen-Fjs1B3Jfwyau=w416-h235" alt="Sagadoku" class="app-image loading" loading="eager" data-app-id="6">
+          </div>
           <div class="app-info">
             <h3 class="app-name">Sagadoku</h3>
             <p class="app-description">A fresh take on Sudoku with unique gameplay mechanics and beautiful visuals.</p>
@@ -310,7 +342,9 @@
         
         <!-- Backgammon -->
         <div class="app-card">
-          <img src="https://play-lh.googleusercontent.com/2hiRolGenAlVEJFcThOBTR2dJAYVCkVI7CqRQpDeZ0ru1GGU8ObZCFE9IC2TIc0HbXk=w416-h235" alt="Backgammon" class="app-image">
+          <div class="app-image-container">
+            <img src="https://play-lh.googleusercontent.com/2hiRolGenAlVEJFcThOBTR2dJAYVCkVI7CqRQpDeZ0ru1GGU8ObZCFE9IC2TIc0HbXk=w416-h235" alt="Backgammon" class="app-image loading" loading="eager" data-app-id="7">
+          </div>
           <div class="app-info">
             <h3 class="app-name">Backgammon</h3>
             <p class="app-description">The classic board game with smooth controls and beautiful design for endless fun.</p>
@@ -323,7 +357,9 @@
         
         <!-- Block Match -->
         <div class="app-card">
-          <img src="https://play-lh.googleusercontent.com/QpXmYK0V1L5Mc8KFeFyZwPUiBB-5tUNiMHtz262IalpkU60nYHYIM0LXW8XByl1lxCU=w416-h235" alt="Block Match" class="app-image">
+          <div class="app-image-container">
+            <img src="https://play-lh.googleusercontent.com/QpXmYK0V1L5Mc8KFeFyZwPUiBB-5tUNiMHtz262IalpkU60nYHYIM0LXW8XByl1lxCU=w416-h235" alt="Block Match" class="app-image loading" loading="eager" data-app-id="8">
+          </div>
           <div class="app-info">
             <h3 class="app-name">Block Match</h3>
             <p class="app-description">Match colorful blocks in this engaging puzzle game. Perfect for quick play sessions.</p>
@@ -336,7 +372,9 @@
         
         <!-- Block Puzzle - Wood Style -->
         <div class="app-card">
-          <img src="https://play-lh.googleusercontent.com/GYb4mMj-3y09OYMIeZ5t-6f7W1xpzl6ct6zcKJxI9L0n6LR6UvqTl5I2dZhqrHmPIQ=w416-h235" alt="Block Puzzle Wood" class="app-image">
+          <div class="app-image-container">
+            <img src="https://play-lh.googleusercontent.com/GYb4mMj-3y09OYMIeZ5t-6f7W1xpzl6ct6zcKJxI9L0n6LR6UvqTl5I2dZhqrHmPIQ=w416-h235" alt="Block Puzzle Wood" class="app-image loading" loading="eager" data-app-id="9">
+          </div>
           <div class="app-info">
             <h3 class="app-name">Block Puzzle - Wood Style</h3>
             <p class="app-description">A beautiful wooden-themed block puzzle game with relaxing gameplay.</p>
@@ -349,7 +387,9 @@
         
         <!-- Dice -->
         <div class="app-card">
-          <img src="https://play-lh.googleusercontent.com/Zx0xvlfF6T9AdV0PgAm8tsfWKFQoSRGZWwxTHDN8o5CSnwj6eFTBU0hgKfUqTL1_KnY=w416-h235" alt="Dice" class="app-image">
+          <div class="app-image-container">
+            <img src="https://play-lh.googleusercontent.com/Zx0xvlfF6T9AdV0PgAm8tsfWKFQoSRGZWwxTHDN8o5CSnwj6eFTBU0hgKfUqTL1_KnY=w416-h235" alt="Dice" class="app-image loading" loading="eager" data-app-id="10">
+          </div>
           <div class="app-info">
             <h3 class="app-name">Dice</h3>
             <p class="app-description">Roll virtual dice with realistic physics. Perfect for board games or decision making.</p>
@@ -362,7 +402,9 @@
         
         <!-- Dominoes -->
         <div class="app-card">
-          <img src="https://play-lh.googleusercontent.com/t1H6-0I9-m_KhcWAjc_OvNhdCPzKnZLKM9CAZ0SazLzYYCjbS8GfGIvI1JGnCGdM2Q=w416-h235" alt="Dominoes" class="app-image">
+          <div class="app-image-container">
+            <img src="https://play-lh.googleusercontent.com/t1H6-0I9-m_KhcWAjc_OvNhdCPzKnZLKM9CAZ0SazLzYYCjbS8GfGIvI1JGnCGdM2Q=w416-h235" alt="Dominoes" class="app-image loading" loading="eager" data-app-id="11">
+          </div>
           <div class="app-info">
             <h3 class="app-name">Dominoes</h3>
             <p class="app-description">Play the classic tile-based game with multiple variations and game modes.</p>
@@ -375,7 +417,9 @@
         
         <!-- Ludo -->
         <div class="app-card">
-          <img src="https://play-lh.googleusercontent.com/cQbA3NsBvu1VuQY1tKyVx3JxHZOBBfvXwQ_KBykjTziAh_c2KyPZNz_WYqvXN0VcCW4=w416-h235" alt="Ludo" class="app-image">
+          <div class="app-image-container">
+            <img src="https://play-lh.googleusercontent.com/cQbA3NsBvu1VuQY1tKyVx3JxHZOBBfvXwQ_KBykjTziAh_c2KyPZNz_WYqvXN0VcCW4=w416-h235" alt="Ludo" class="app-image loading" loading="eager" data-app-id="12">
+          </div>
           <div class="app-info">
             <h3 class="app-name">Ludo</h3>
             <p class="app-description">The classic board game of strategy, luck, and competition for up to four players.</p>
@@ -388,7 +432,9 @@
         
         <!-- Mahjong Collector -->
         <div class="app-card">
-          <img src="https://play-lh.googleusercontent.com/a-R1t-w0t58GYg1PBE2oi4WZzlrrs06jls_vY6Mw_CZfbH0K1YXgXrAcpKfUz4o6BA=w416-h235" alt="Mahjong Collector" class="app-image">
+          <div class="app-image-container">
+            <img src="https://play-lh.googleusercontent.com/a-R1t-w0t58GYg1PBE2oi4WZzlrrs06jls_vY6Mw_CZfbH0K1YXgXrAcpKfUz4o6BA=w416-h235" alt="Mahjong Collector" class="app-image loading" loading="eager" data-app-id="13">
+          </div>
           <div class="app-info">
             <h3 class="app-name">Mahjong Collector</h3>
             <p class="app-description">Match pairs of identical tiles in this classic Chinese puzzle game with beautiful designs.</p>
@@ -401,7 +447,9 @@
         
         <!-- Sort Collector -->
         <div class="app-card">
-          <img src="https://play-lh.googleusercontent.com/J0tZQ0V7Jdnr3ZuIOWZ1-aNO5ezYJftHbiO6G85nEsKRl3-oWfX1YhqxlJBs-8Zt3A=w416-h235" alt="Sort Collector" class="app-image">
+          <div class="app-image-container">
+            <img src="https://play-lh.googleusercontent.com/J0tZQ0V7Jdnr3ZuIOWZ1-aNO5ezYJftHbiO6G85nEsKRl3-oWfX1YhqxlJBs-8Zt3A=w416-h235" alt="Sort Collector" class="app-image loading" loading="eager" data-app-id="14">
+          </div>
           <div class="app-info">
             <h3 class="app-name">Sort Collector</h3>
             <p class="app-description">Sort and organize colorful items in this relaxing and satisfying puzzle game.</p>
@@ -414,7 +462,9 @@
         
         <!-- Spades -->
         <div class="app-card">
-          <img src="https://play-lh.googleusercontent.com/1P4lGRFwD9eTLdUXxbbw9DFrxfmXlxTGNzOc3z4i2JccGgq9n8OsyWlWI5vmhmOMHg=w416-h235" alt="Spades" class="app-image">
+          <div class="app-image-container">
+            <img src="https://play-lh.googleusercontent.com/1P4lGRFwD9eTLdUXxbbw9DFrxfmXlxTGNzOc3z4i2JccGgq9n8OsyWlWI5vmhmOMHg=w416-h235" alt="Spades" class="app-image loading" loading="eager" data-app-id="15">
+          </div>
           <div class="app-info">
             <h3 class="app-name">Spades</h3>
             <p class="app-description">The classic trick-taking card game for two to four players with beautiful card designs.</p>
@@ -427,7 +477,9 @@
         
         <!-- Tile Collector -->
         <div class="app-card">
-          <img src="https://play-lh.googleusercontent.com/ZtPDdQPGXfTnAZz22HBkYYnWdKmgkQgNQUxN_S-Kv_7azyFk8aHTcmnOcWqvOu-oyA=w416-h235" alt="Tile Collector" class="app-image">
+          <div class="app-image-container">
+            <img src="https://play-lh.googleusercontent.com/ZtPDdQPGXfTnAZz22HBkYYnWdKmgkQgNQUxN_S-Kv_7azyFk8aHTcmnOcWqvOu-oyA=w416-h235" alt="Tile Collector" class="app-image loading" loading="eager" data-app-id="16">
+          </div>
           <div class="app-info">
             <h3 class="app-name">Tile Collector</h3>
             <p class="app-description">Match and collect tiles in this addictive puzzle game with beautiful visuals.</p>
@@ -440,7 +492,9 @@
         
         <!-- Word Horizons -->
         <div class="app-card">
-          <img src="https://play-lh.googleusercontent.com/sRDXmCbj3PeRhYGWKRpjtgQfwKwpVRYShbG1WPaV6UEF9-mqSPtv4_igAMaE2Yqi6ho=w416-h235" alt="Word Horizons" class="app-image">
+          <div class="app-image-container">
+            <img src="https://play-lh.googleusercontent.com/sRDXmCbj3PeRhYGWKRpjtgQfwKwpVRYShbG1WPaV6UEF9-mqSPtv4_igAMaE2Yqi6ho=w416-h235" alt="Word Horizons" class="app-image loading" loading="eager" data-app-id="17">
+          </div>
           <div class="app-info">
             <h3 class="app-name">Word Horizons</h3>
             <p class="app-description">Explore your vocabulary in this innovative word puzzle game with beautiful landscapes.</p>
@@ -453,7 +507,9 @@
         
         <!-- Word Search -->
         <div class="app-card">
-          <img src="https://play-lh.googleusercontent.com/F65QeFjLvhMO7wjD8gCvr_4bUQnQYXTqMAaAdNDfiu4uM1Ifl5mFDYQ-2nPJeVpQQzU=w416-h235" alt="Word Search" class="app-image">
+          <div class="app-image-container">
+            <img src="https://play-lh.googleusercontent.com/F65QeFjLvhMO7wjD8gCvr_4bUQnQYXTqMAaAdNDfiu4uM1Ifl5mFDYQ-2nPJeVpQQzU=w416-h235" alt="Word Search" class="app-image loading" loading="eager" data-app-id="18">
+          </div>
           <div class="app-info">
             <h3 class="app-name">Word Search</h3>
             <p class="app-description">Find hidden words in all directions in this classic word search puzzle with multiple themes.</p>
@@ -466,7 +522,9 @@
         
         <!-- Yatzy -->
         <div class="app-card">
-          <img src="https://play-lh.googleusercontent.com/vX3reSQr7NhTcMXKdNOVOJMFN0Zv96fe7QUYhjV0B3As36qefxw9qcg1ECiBYNxKsmQ=w416-h235" alt="Yatzy" class="app-image">
+          <div class="app-image-container">
+            <img src="https://play-lh.googleusercontent.com/vX3reSQr7NhTcMXKdNOVOJMFN0Zv96fe7QUYhjV0B3As36qefxw9qcg1ECiBYNxKsmQ=w416-h235" alt="Yatzy" class="app-image loading" loading="eager" data-app-id="19">
+          </div>
           <div class="app-info">
             <h3 class="app-name">Yatzy</h3>
             <p class="app-description">Roll dice and score points in this classic dice game similar to Yahtzee with multiple variations.</p>
@@ -503,6 +561,116 @@
     // Add event listener for page load
     document.addEventListener('DOMContentLoaded', function() {
       console.log("Staple Games website loaded");
+      
+      // Fix for Chrome/Safari image loading issues
+      const forceImageRedraw = () => {
+        console.log("Forcing image redraw");
+        const appImages = document.querySelectorAll('.app-image');
+        
+        // Force redraw by slightly modifying the DOM
+        appImages.forEach((img, index) => {
+          const parent = img.parentElement;
+          
+          // Force a reflow/repaint by getting offsetHeight
+          const height = img.offsetHeight;
+          console.log(`Image ${index+1} height: ${height}px`);
+          
+          // Set explicit dimensions if needed
+          if (height === 0 && img.complete) {
+            console.log(`Fixing image ${index+1}`);
+            img.style.width = '100%';
+            img.style.height = '100%';
+            parent.style.display = 'block';
+            // Force a reflow
+            parent.offsetHeight;
+          }
+          
+          // Remove loading class once image is loaded
+          if (img.complete) {
+            img.classList.remove('loading');
+          }
+        });
+      };
+      
+      // Debug image loading
+      console.log("Checking all app images...");
+      const appImages = document.querySelectorAll('.app-image');
+      console.log(`Found ${appImages.length} app images`);
+      
+      // Preload all images
+      const imageUrls = [
+        "https://play-lh.googleusercontent.com/1q2FfbRm-Y0YP-Ofu1oMeU30xKI5V11PbmtOoFRmJG77LQH-yDPtumpy6jKSTBR1dg=w416-h235",
+        "https://play-lh.googleusercontent.com/yj9SrLjEuCQPMaSD_BifuUgIKbopnSVA-zTKbzNSph94v1lk50-lkQO1H4zqOs3tg7IB=w416-h235",
+        "https://play-lh.googleusercontent.com/JiXG0ho9B1QP65UcDpg5F3E58xTBSJqqoWom-V55YmGkHQ4uzwxOVA15j34qcdGJmg=w416-h235",
+        "https://play-lh.googleusercontent.com/tNsGzxlFcwJcUtacepZGqGf-BAcYI1dlvt72cuCqR4q_qnAvcwCqy1CqDZPc-xDuOw=w416-h235",
+        "https://play-lh.googleusercontent.com/h7xiYD8VaB7HXGHEFbdQ-w-uekssJLgVwJa3QPHZ3dtHxVj14b8Lq9E4Zzni-fiwIszB=w416-h235",
+        "https://play-lh.googleusercontent.com/h2-ZmyTX_OTaLaAt4ErmxFIpDuP2gI3EwgzT9bnodkEPQBV0xS_Saen-Fjs1B3Jfwyau=w416-h235",
+        "https://play-lh.googleusercontent.com/2hiRolGenAlVEJFcThOBTR2dJAYVCkVI7CqRQpDeZ0ru1GGU8ObZCFE9IC2TIc0HbXk=w416-h235",
+        "https://play-lh.googleusercontent.com/QpXmYK0V1L5Mc8KFeFyZwPUiBB-5tUNiMHtz262IalpkU60nYHYIM0LXW8XByl1lxCU=w416-h235",
+        "https://play-lh.googleusercontent.com/GYb4mMj-3y09OYMIeZ5t-6f7W1xpzl6ct6zcKJxI9L0n6LR6UvqTl5I2dZhqrHmPIQ=w416-h235",
+        "https://play-lh.googleusercontent.com/Zx0xvlfF6T9AdV0PgAm8tsfWKFQoSRGZWwxTHDN8o5CSnwj6eFTBU0hgKfUqTL1_KnY=w416-h235",
+        "https://play-lh.googleusercontent.com/t1H6-0I9-m_KhcWAjc_OvNhdCPzKnZLKM9CAZ0SazLzYYCjbS8GfGIvI1JGnCGdM2Q=w416-h235",
+        "https://play-lh.googleusercontent.com/cQbA3NsBvu1VuQY1tKyVx3JxHZOBBfvXwQ_KBykjTziAh_c2KyPZNz_WYqvXN0VcCW4=w416-h235",
+        "https://play-lh.googleusercontent.com/a-R1t-w0t58GYg1PBE2oi4WZzlrrs06jls_vY6Mw_CZfbH0K1YXgXrAcpKfUz4o6BA=w416-h235",
+        "https://play-lh.googleusercontent.com/J0tZQ0V7Jdnr3ZuIOWZ1-aNO5ezYJftHbiO6G85nEsKRl3-oWfX1YhqxlJBs-8Zt3A=w416-h235",
+        "https://play-lh.googleusercontent.com/1P4lGRFwD9eTLdUXxbbw9DFrxfmXlxTGNzOc3z4i2JccGgq9n8OsyWlWI5vmhmOMHg=w416-h235",
+        "https://play-lh.googleusercontent.com/ZtPDdQPGXfTnAZz22HBkYYnWdKmgkQgNQUxN_S-Kv_7azyFk8aHTcmnOcWqvOu-oyA=w416-h235",
+        "https://play-lh.googleusercontent.com/sRDXmCbj3PeRhYGWKRpjtgQfwKwpVRYShbG1WPaV6UEF9-mqSPtv4_igAMaE2Yqi6ho=w416-h235",
+        "https://play-lh.googleusercontent.com/F65QeFjLvhMO7wjD8gCvr_4bUQnQYXTqMAaAdNDfiu4uM1Ifl5mFDYQ-2nPJeVpQQzU=w416-h235",
+        "https://play-lh.googleusercontent.com/vX3reSQr7NhTcMXKdNOVOJMFN0Zv96fe7QUYhjV0B3As36qefxw9qcg1ECiBYNxKsmQ=w416-h235"
+      ];
+      
+      let loadedCount = 0;
+      imageUrls.forEach((url, index) => {
+        const img = new Image();
+        img.onload = function() {
+          loadedCount++;
+          console.log(`Preloaded image ${index+1}: ${url}`);
+          
+          // Find the corresponding visible image and remove loading class
+          const visibleImg = document.querySelector(`.app-image[data-app-id="${index+1}"]`);
+          if (visibleImg) {
+            visibleImg.classList.remove('loading');
+          }
+          
+          if (loadedCount === imageUrls.length) {
+            console.log("All images preloaded");
+            // Force redraw after all images are loaded
+            forceImageRedraw();
+          }
+        };
+        img.onerror = function() {
+          console.error(`Failed to preload image ${index+1}: ${url}`);
+          loadedCount++;
+        };
+        img.src = url;
+      });
+      
+      // Monitor visible image loading
+      appImages.forEach((img, index) => {
+        console.log(`Image ${index+1}: ${img.src}`);
+        
+        // Check if already complete
+        if (img.complete) {
+          console.log(`Image ${index+1} already loaded: ${img.complete}, size: ${img.naturalWidth}x${img.naturalHeight}`);
+          img.classList.remove('loading');
+        } else {
+          // Add load and error event handlers
+          img.addEventListener('load', function() {
+            console.log(`Image ${index+1} loaded successfully: ${img.naturalWidth}x${img.naturalHeight}`);
+            img.classList.remove('loading');
+          });
+          
+          img.addEventListener('error', function() {
+            console.error(`Image ${index+1} failed to load: ${img.src}`);
+          });
+        }
+      });
+      
+      // Run a final check after a short delay
+      setTimeout(forceImageRedraw, 500);
+      // And another check after a longer delay
+      setTimeout(forceImageRedraw, 2000);
     });
   </script>
 </body>
