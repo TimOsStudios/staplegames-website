@@ -88,7 +88,8 @@
     
     .app-image-container {
       width: 100%;
-      height: 180px;
+      height: 0;
+      padding-bottom: 100%; /* Square aspect ratio */
       overflow: hidden;
       position: relative;
       background-color: #f0f0f0;
@@ -98,7 +99,7 @@
     .app-image {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain; /* Changed from cover to contain to show full square images */
       display: block;
       position: absolute;
       top: 0;
@@ -358,7 +359,7 @@
         <!-- Block Match -->
         <div class="app-card">
           <div class="app-image-container">
-            <img src="https://cdn.bdz5.com/staplegames/block-match_icon.png" alt="Block Match" class="app-image loading" loading="eager" data-app-id="8">
+            <img src="https://cdn.bdz5.com/staplegames/blockmatch_icon.png" alt="Block Match" class="app-image loading" loading="eager" data-app-id="8">
           </div>
           <div class="app-info">
             <h3 class="app-name">Block Match</h3>
@@ -373,7 +374,7 @@
         <!-- Block Puzzle - Wood Style -->
         <div class="app-card">
           <div class="app-image-container">
-            <img src="https://cdn.bdz5.com/staplegames/blocsWood_icon.png" alt="Block Puzzle Wood" class="app-image loading" loading="eager" data-app-id="9">
+            <img src="https://cdn.bdz5.com/staplegames/blocksWood_icon.png" alt="Block Puzzle Wood" class="app-image loading" loading="eager" data-app-id="9">
           </div>
           <div class="app-info">
             <h3 class="app-name">Block Puzzle - Wood Style</h3>
@@ -607,7 +608,7 @@
         "https://cdn.bdz5.com/staplegames/sagadoku_icon.png",
         "https://cdn.bdz5.com/staplegames/backgammon_icon.png",
         "https://cdn.bdz5.com/staplegames/blockmatch_icon.png",
-        "https://cdn.bdz5.com/staplegames/blocsWood_icon.png",
+        "https://cdn.bdz5.com/staplegames/blocksWood_icon.png",
         "https://cdn.bdz5.com/staplegames/dice_icon.png",
         "https://cdn.bdz5.com/staplegames/dominoes_icon.png",
         "https://cdn.bdz5.com/staplegames/ludo_icon.png",
