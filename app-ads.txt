@@ -42,7 +42,10 @@ video.unrulymedia.com, 322585001, RESELLER
 xandr.com, 13799, RESELLER
 xandr.com, 14082, RESELLER
 zmaticoo.com, 5135655, RESELLER
-
+adyoulike.com, 2d578cf695c89ec2ba707280319d2020, RESELLER
+indexexchange.com, 211341, RESELLER, 50b1c356f2c5c8fc
+lijit.com, 516975, RESELLER, fafdf38b16bf6b2b
+openx.com, 559798512, RESELLER, 6a698e2ec38604c6
 
 unity3d.com, 1834274, DIRECT, 96cabb5fbdde37a7
 unity.com, 1834274, DIRECT, 96cabb5fbdde37a7
