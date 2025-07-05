@@ -1141,8 +1141,8 @@
           };
         }
         
-        // App Store pattern with app name
-        const appStoreMatch = url.match(/apps\.apple\.com\/.*\/app\/([^\/]+)\/id(\d+)/);
+        // App Store pattern with app name (with or without country code)
+        const appStoreMatch = url.match(/apps\.apple\.com\/(?:[^\/]+\/)?app\/([^\/]+)\/id(\d+)/);
         if (appStoreMatch) {
           console.log('Matched App Store URL with name');
           return {
@@ -1154,7 +1154,7 @@
         }
         
         // App Store pattern without app name (like Dyno)
-        const appStoreShortMatch = url.match(/apps\.apple\.com\/.*\/app\/id(\d+)/);
+        const appStoreShortMatch = url.match(/apps\.apple\.com\/(?:[^\/]+\/)?app\/id(\d+)/);
         if (appStoreShortMatch) {
           console.log('Matched App Store URL without name');
           return {
