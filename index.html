@@ -1247,10 +1247,10 @@
             await sendAttribution(appInfo, e);
             
             // Small delay to ensure request is sent
-            setTimeout(() => {
-              console.log(`Redirecting to: ${url}`);
-              window.location.href = url;
-            }, 100);
+            // setTimeout(() => {
+            //   console.log(`Redirecting to: ${url}`);
+            //   window.location.href = url;
+            // }, 100);
           } else if (appInfo && appInfo.isDeveloperPage) {
             console.log(`Developer page link clicked: ${url}`);
             // For developer pages, just track the click without detailed app info
