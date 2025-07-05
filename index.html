@@ -1201,7 +1201,19 @@
         if (appInfo.appName) {
           attributionUrl += `&af_ad=${encodeURIComponent(appInfo.appName)}`;
         }
-    
+        
+        // LOG THE FULL ATTRIBUTION URL
+        console.log('=== APPSFLYER ATTRIBUTION URL ===');
+        console.log('Full URL:', attributionUrl);
+        console.log('Parsed components:', {
+          endpoint: APPSFLYER_CONFIG.attributionEndpoint,
+          appId: appId,
+          campaign: 'website_organic',
+          clickId: clickId,
+          appName: appInfo.appName || 'N/A',
+          store: appInfo.store
+        });
+        console.log('================================');
         
         try {
           // Send attribution request using fetch (non-blocking)
