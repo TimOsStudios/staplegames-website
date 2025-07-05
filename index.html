@@ -1274,32 +1274,6 @@
       console.log('AppsFlyer attribution tracking initialized');
     });
 
-    // Run this in the Safari console to debug
-    function debugExtractAppInfo(url) {
-      console.log(`\n=== Debugging URL: ${url} ===`);
-      
-      // Test Google Play pattern
-      const googlePlayMatch = url.match(/play\.google\.com\/store\/apps\/details\?id=([^&]+)/);
-      console.log('Google Play regex result:', googlePlayMatch);
-      
-      // Test App Store pattern  
-      const appStoreMatch = url.match(/apps\.apple\.com\/.*\/app\/([^\/]+)\/id(\d+)/);
-      console.log('App Store regex result:', appStoreMatch);
-      
-      // Check for developer pages
-      console.log('Is Google developer page?', url.includes('play.google.com/store/apps/developer'));
-      console.log('Is Apple developer page?', url.includes('apps.apple.com') && url.includes('developer'));
-      
-      // Try the actual function
-      const result = extractAppInfo(url);
-      console.log('Final result:', result);
-      return result;
-    }
-
-    // Test with some actual URLs
-    debugExtractAppInfo('https://play.google.com/store/apps/details?id=com.staplegames.solitaireGP');
-    debugExtractAppInfo('https://apps.apple.com/app/solitaire/id1454538656');
-    debugExtractAppInfo('https://apps.apple.com/app/id6636553804');
   </script>
 </body>
 </html> 
