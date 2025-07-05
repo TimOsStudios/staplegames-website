@@ -1227,6 +1227,22 @@
           const url = this.href;
           const appInfo = extractAppInfo(url);
           
+          // Get the app name from the closest app card
+          const appCard = this.closest('.app-card');
+          const appName = appCard ? appCard.querySelector('.app-name').textContent : 'Unknown App';
+          const linkType = this.classList.contains('ios-link') ? 'App Store' : 'Google Play';
+          
+          // Send Google Analytics event for outbound link
+          if (typeof gtag !== 'undefined') {
+            gtag('event', 'click', {
+              event_category: 'outbound',
+              event_label: `${appName} - ${linkType}`,
+              transport_type: 'beacon',
+              value: 1
+            });
+            console.log(`GA event sent: ${appName} - ${linkType}`);
+          }
+          
           if (appInfo && !appInfo.isDeveloperPage) {
             console.log(`App store link clicked: ${url}`);
             
@@ -1262,6 +1278,25 @@
       });
       
       console.log('AppsFlyer attribution tracking initialized');
+      
+      // Add tracking for CTA section links (developer pages)
+      const ctaLinks = document.querySelectorAll('.cta .app-link');
+      ctaLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          const linkText = this.textContent.trim();
+          
+          // Send Google Analytics event for CTA links
+          if (typeof gtag !== 'undefined') {
+            gtag('event', 'click', {
+              event_category: 'cta',
+              event_label: `Developer Page - ${linkText}`,
+              transport_type: 'beacon',
+              value: 1
+            });
+            console.log(`GA CTA event sent: Developer Page - ${linkText}`);
+          }
+        });
+      });
     });
 
   </script>
