@@ -1107,13 +1107,117 @@
       
       // Configuration for AppsFlyer
       const APPSFLYER_CONFIG = {
-        devKey: 'YOUR_APPSFLYER_DEV_KEY', // Replace with your actual AppsFlyer dev key
         appId: {
-          android: 'com.staplegames', // Your Android app ID prefix
-          ios: 'id1454538415' // Your iOS developer ID
+          android: 'com.staplegames.matchcollector', // default
+          ios: 'id6462309005' // default
         },
-        attributionEndpoint: 'https://app.appsflyer.com/'
+        attributionEndpoint: 'https://app.appsflyer.com/',
+        impressionEndpoint: 'https://impression.appsflyer.com/'
       };
+      
+      // Function to detect user's operating system
+      function detectOS() {
+        const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+        const platform = navigator.platform;
+        
+        console.log('User Agent:', userAgent);
+        console.log('Platform:', platform);
+        
+        // iOS detection
+        if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+          return 'ios';
+        }
+        
+        // iOS detection for iPad on iOS 13+
+        if (platform === 'MacIntel' && navigator.maxTouchPoints > 1) {
+          return 'ios';
+        }
+        
+        // Android detection
+        if (/android/i.test(userAgent)) {
+          return 'android';
+        }
+        
+        // Windows Phone detection
+        if (/windows phone/i.test(userAgent)) {
+          return 'windows_phone';
+        }
+        
+        // Desktop detection
+        if (/Mac|Win|Linux/i.test(platform)) {
+          return 'desktop';
+        }
+        
+        return 'unknown';
+      }
+      
+      // Function to send impression event when page loads
+      async function sendImpressionEvent() {
+        console.log('Sending AppsFlyer impression event');
+        
+        // Detect user's OS
+        const detectedOS = detectOS();
+        console.log('Detected OS:', detectedOS);
+        
+        // Determine which app ID to use based on OS
+        let appIdToUse;
+        let platformName;
+        
+        if (detectedOS === 'ios') {
+          appIdToUse = APPSFLYER_CONFIG.appId.ios;
+          platformName = 'iOS';
+        } else if (detectedOS === 'android') {
+          appIdToUse = APPSFLYER_CONFIG.appId.android;
+          platformName = 'Android';
+        } else {
+          // Default to Android for desktop/unknown
+          appIdToUse = APPSFLYER_CONFIG.appId.android;
+          platformName = `Other (${detectedOS})`;
+        }
+        
+        console.log(`Using ${platformName} app ID: ${appIdToUse}`);
+        
+        // Generate a unique impression ID
+        const impressionId = `web_imp_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        
+        // Build impression URL
+        let impressionUrl = `${APPSFLYER_CONFIG.impressionEndpoint}` +
+          `${encodeURIComponent(appIdToUse)}?` +
+          `c=${encodeURIComponent('website_organic')}` +
+          `&pid=${encodeURIComponent('sg_web')}` +
+          `&impression_id=${encodeURIComponent(impressionId)}` +
+          `&af_siteid=${encodeURIComponent('staplegames-website')}` +
+          `&af_sub1=${encodeURIComponent(detectedOS)}`;
+        
+        // LOG THE FULL IMPRESSION URL
+        console.log('=== APPSFLYER IMPRESSION URL ===');
+        console.log('Full URL:', impressionUrl);
+        console.log('Parsed components:', {
+          endpoint: APPSFLYER_CONFIG.impressionEndpoint,
+          appId: appIdToUse,
+          campaign: 'website_organic',
+          pid: 'sg_web',
+          impressionId: impressionId,
+          platform: detectedOS,
+          platformName: platformName
+        });
+        console.log('================================');
+        
+        try {
+          // Send impression request using fetch (non-blocking)
+          const response = await fetch(impressionUrl, {
+            method: 'GET',
+            mode: 'no-cors' // Avoid CORS issues
+          });
+          console.log(`Impression event sent successfully for ${platformName}`);
+        } catch (error) {
+          console.error('Error sending impression event:', error);
+          // Don't let impression tracking errors affect page functionality
+        }
+      }
+      
+      // Send impression event when page loads
+      sendImpressionEvent();
       
       // Function to extract app ID from store URL
       function extractAppInfo(url) {
