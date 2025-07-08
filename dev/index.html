@@ -1597,6 +1597,9 @@
         });
       }, 150);
       
+      // Initialize analytics tracking after all content is loaded
+      setTimeout(initializeAnalyticsTracking, 200);
+      
       // Existing code continues below
       console.log("Staple Games website loaded");
       const forceImageRedraw = () => {
@@ -1717,17 +1720,18 @@
       setTimeout(forceImageRedraw, 2000);
       
       // AppsFlyer Attribution Tracking
-      console.log("Initializing AppsFlyer attribution tracking");
-      
-      // Configuration for AppsFlyer
-      const APPSFLYER_CONFIG = {
-        devKey: 'YOUR_APPSFLYER_DEV_KEY', // Replace with your actual AppsFlyer dev key
-        appId: {
-          android: 'com.staplegames', // Your Android app ID prefix
-          ios: 'id1454538415' // Your iOS developer ID
-        },
-        attributionEndpoint: 'https://app.appsflyer.com/'
-      };
+      function initializeAnalyticsTracking() {
+        console.log("Initializing AppsFlyer attribution tracking");
+        
+        // Configuration for AppsFlyer
+        const APPSFLYER_CONFIG = {
+          devKey: 'YOUR_APPSFLYER_DEV_KEY', // Replace with your actual AppsFlyer dev key
+          appId: {
+            android: 'com.staplegames', // Your Android app ID prefix
+            ios: 'id1454538415' // Your iOS developer ID
+          },
+          attributionEndpoint: 'https://app.appsflyer.com/'
+        };
       
       // Function to extract app ID from store URL
       function extractAppInfo(url) {
@@ -1933,6 +1937,7 @@
           }
         });
       });
+      } // End of initializeAnalyticsTracking function
     });
 
   </script>
