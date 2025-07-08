@@ -1598,7 +1598,7 @@
       }, 150);
       
       // Initialize analytics tracking after all content is loaded
-      setTimeout(initializeAnalyticsTracking, 200);
+      setTimeout(initializeAnalyticsTracking, 300);
       
       // Existing code continues below
       console.log("Staple Games website loaded");
@@ -1941,8 +1941,10 @@
       }
       
       // Add click handlers to all app store links (updated for new design)
-      const appStoreLinks = document.querySelectorAll('.game-link, .store-button, .app-link');
-      console.log(`Found ${appStoreLinks.length} app store links`);
+      // Use a slight delay to ensure all dynamic content is loaded
+      setTimeout(() => {
+        const appStoreLinks = document.querySelectorAll('.game-link, .store-button, .app-link');
+        console.log(`Found ${appStoreLinks.length} app store links`);
       
       appStoreLinks.forEach((link, index) => {
         link.addEventListener('click', async function(e) {
@@ -2041,6 +2043,8 @@
             }
           });
         });
+        
+        }, 50); // End of setTimeout for click handlers
         } // End of initializeAnalyticsTracking function
       });
 
