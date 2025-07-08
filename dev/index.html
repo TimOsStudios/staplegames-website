@@ -1609,14 +1609,16 @@
         // Then add it properly to all game cards
         document.querySelectorAll('.game-card').forEach((card, index) => {
           card.classList.add('animate-on-scroll');
-          card.style.transitionDelay = `${index * 0.05}s`;
+          // Reduced delay with maximum cap at 0.3s
+          const delay = Math.min(index * 0.02, 0.3);
+          card.style.transitionDelay = `${delay}s`;
           // Immediately observe for animation
           if (observer) {
             observer.observe(card);
             // Check if already in view and trigger animation
             const rect = card.getBoundingClientRect();
             if (rect.top < window.innerHeight && rect.bottom > 0) {
-              setTimeout(() => card.classList.add('visible'), 50 + (index * 50));
+              setTimeout(() => card.classList.add('visible'), 20 + (index * 20));
             }
           }
         });
