@@ -2021,9 +2021,28 @@
         });
       });
       
-      console.log('AppsFlyer attribution tracking initialized');
-      } // End of initializeAnalyticsTracking function
-    });
+              console.log('AppsFlyer attribution tracking initialized');
+        
+        // Add tracking for CTA section links (developer pages)
+        const ctaLinks = document.querySelectorAll('.cta .app-link');
+        ctaLinks.forEach(link => {
+          link.addEventListener('click', function(e) {
+            const linkText = this.textContent.trim();
+            
+            // Send Google Analytics event for CTA links
+            if (typeof gtag !== 'undefined') {
+              gtag('event', 'click', {
+                event_category: 'cta',
+                event_label: `Developer Page - ${linkText}`,
+                transport_type: 'beacon',
+                value: 1
+              });
+              console.log(`GA CTA event sent: Developer Page - ${linkText}`);
+            }
+          });
+        });
+        } // End of initializeAnalyticsTracking function
+      });
 
   </script>
 </body>
