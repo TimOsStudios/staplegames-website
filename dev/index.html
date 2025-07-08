@@ -497,11 +497,6 @@
         gap: 16px;
       }
       
-      .featured-games-grid {
-        grid-template-columns: 1fr;
-        gap: 24px;
-      }
-      
       .featured-game {
         padding: 24px;
       }
@@ -590,9 +585,44 @@
     }
     
     @media (max-width: 768px) {
+      .featured-games-grid {
+        display: flex;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        gap: 16px;
+        padding: 0 20px;
+        margin: 48px -20px 0;
+      }
+      
+      .featured-games-grid::-webkit-scrollbar {
+        height: 8px;
+      }
+      
+      .featured-games-grid::-webkit-scrollbar-track {
+        background: var(--bg-secondary);
+        border-radius: 4px;
+      }
+      
+      .featured-games-grid::-webkit-scrollbar-thumb {
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 4px;
+      }
+      
       .featured-game {
+        flex: 0 0 300px;
+        scroll-snap-align: start;
         grid-template-columns: 1fr;
         gap: 40px;
+      }
+      
+      .featured-game:first-child {
+        margin-left: 20px;
+      }
+      
+      .featured-game:last-child {
+        margin-right: 20px;
       }
       
       .campaign-content {
