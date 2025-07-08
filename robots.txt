@@ -1,0 +1,9 @@
+# Robots.txt for staplegames.com
+# Prevent crawling of development pages
+
+User-agent: *
+Disallow: /dev/
+Disallow: /dev/*
+
+# Allow crawling of main site
+Allow: /

@@ -1,0 +1,22 @@
+# Prevent directory listing
+Options -Indexes
+
+# Add headers to prevent caching and indexing
+<IfModule mod_headers.c>
+    Header set X-Robots-Tag "noindex, nofollow, noarchive, nosnippet"
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires 0
+</IfModule>
+
+# Optional: Add IP restriction (uncomment and modify as needed)
+# <RequireAll>
+#     Require ip 192.168.1.100
+#     Require ip 10.0.0.0/8
+# </RequireAll>
+
+# Optional: Add HTTP Basic Authentication (uncomment to enable)
+# AuthType Basic
+# AuthName "Development Area - Authorized Personnel Only"
+# AuthUserFile /path/to/.htpasswd
+# Require valid-user 

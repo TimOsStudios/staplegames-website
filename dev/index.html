@@ -1,0 +1,1940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- DEVELOPMENT VERSION - NOT FOR PUBLIC ACCESS -->
+  <!-- Prevent search engine indexing -->
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <meta name="googlebot" content="noindex, nofollow">
+  
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KBFQ2R1TS4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KBFQ2R1TS4');
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[DEV] Staple Games - Classic Board & Puzzle Games</title>
+  <link rel="icon" href="https://cdn.bdz5.com/staplegames/matchcollector_icon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #007AFF; /* Apple blue */
+      --accent-red: #FF3B30; /* Apple red */
+      --accent-purple: #5856D6; /* Purple from logo */
+      --text-primary: #1D1D1F;
+      --text-secondary: #86868B;
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #F5F5F7;
+      --border-color: #E5E5E7;
+      --shadow-light: 0 2px 8px rgba(0,0,0,0.08);
+      --shadow-medium: 0 4px 16px rgba(0,0,0,0.12);
+      --border-radius: 16px;
+      --border-radius-large: 24px;
+      --max-width: 1200px;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    /* Typography */
+    h1 {
+      font-size: 48px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+    
+    h2 {
+      font-size: 32px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+    
+    h3 {
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    
+    p {
+      font-size: 17px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+    }
+    
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* Header Navigation */
+    .nav-header {
+      position: fixed;
+      top: 40px; /* Account for dev banner */
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0);
+      backdrop-filter: blur(0px);
+      -webkit-backdrop-filter: blur(0px);
+      border-bottom: 1px solid transparent;
+      z-index: 1000;
+      transition: all 0.4s ease;
+    }
+    
+    .nav-header.scrolled {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-color);
+      box-shadow: var(--shadow-light);
+    }
+    
+    .nav-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 52px;
+    }
+    
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-primary);
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+    }
+    
+    .nav-logo.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .nav-logo img {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+    }
+    
+    .nav-logo span {
+      font-size: 17px;
+      font-weight: 600;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    
+    .nav-link {
+      color: var(--text-primary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+    
+    .nav-link:hover {
+      color: var(--accent-purple);
+    }
+    
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent-purple);
+      transition: width 0.3s ease;
+    }
+    
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    
+    /* Hero Section */
+    .hero {
+      padding: 120px 0 80px;
+      text-align: center;
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .hero-container {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 40px;
+      align-items: center;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .hero-content {
+      text-align: center;
+    }
+    
+    .app-icon-strip {
+      display: flex;
+      flex-direction: row;
+      gap: 15px;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    
+    .icon-column {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      animation: float 8s ease-in-out infinite;
+    }
+    
+    .icon-column:nth-child(1) { 
+      animation-delay: 0s; 
+      justify-content: center;
+    }
+    .icon-column:nth-child(2) { animation-delay: 0.3s; }
+    .icon-column:nth-child(3) { animation-delay: 0.6s; }
+    
+    .mini-app-icon-link {
+      text-decoration: none;
+      display: inline-block;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0) translateX(0); }
+      25% { transform: translateY(-5px) translateX(-3px); }
+      50% { transform: translateY(0) translateX(0); }
+      75% { transform: translateY(-3px) translateX(3px); }
+    }
+    
+    .mini-app-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 14px;
+      box-shadow: var(--shadow-light);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      cursor: pointer;
+      display: block;
+    }
+    
+    .mini-app-icon:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(88, 86, 214, 0.2);
+    }
+    
+    .hero-logo {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 24px;
+      border-radius: var(--border-radius-large);
+      box-shadow: var(--shadow-medium);
+    }
+    
+    .hero h1 {
+      margin-bottom: 8px;
+    }
+    
+    .hero-tagline {
+      font-size: 24px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+    }
+    
+    .hero-subtitle {
+      font-size: 19px;
+      color: var(--text-secondary);
+      margin: 0 0 40px;
+    }
+    
+    .store-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    
+    .store-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 24px;
+      background: var(--text-primary);
+      color: white;
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: 500;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+    
+    .store-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(88, 86, 214, 0.3);
+      background: var(--accent-purple);
+      border-color: var(--accent-purple);
+    }
+    
+    .store-button svg {
+      width: 20px;
+      height: 20px;
+    }
+    
+    /* Games Section */
+    .games-section {
+      padding: 80px 0;
+    }
+    
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+      position: relative;
+    }
+    
+    .section-title {
+      font-size: 40px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: var(--accent-purple);
+      border-radius: 2px;
+    }
+    
+    .section-subtitle {
+      font-size: 19px;
+      color: var(--text-secondary);
+    }
+    
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    
+    .game-card {
+      background: var(--bg-primary);
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-light);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .game-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-medium);
+    }
+    
+    .game-card-content {
+      padding: 20px;
+    }
+    
+    .game-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    
+    .game-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 14px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .game-info h3 {
+      margin-bottom: 4px;
+    }
+    
+    .game-category {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+    
+    .game-description {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    
+    .game-links {
+      display: flex;
+      gap: 12px;
+    }
+    
+    .game-link {
+      flex: 1;
+      padding: 10px;
+      text-align: center;
+      background: var(--bg-secondary);
+      color: var(--primary-color);
+      text-decoration: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+    }
+    
+    .game-link:hover {
+      background: var(--accent-purple);
+      color: white;
+      border-color: var(--accent-purple);
+    }
+    
+    /* Mobile Menu */
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      padding: 8px;
+      cursor: pointer;
+    }
+    
+    .mobile-menu-btn span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text-primary);
+      margin: 4px 0;
+      transition: all 0.3s ease;
+      border-radius: 1px;
+    }
+    
+    /* Responsive */
+    @media (max-width: 792px) {
+      .app-icon-strip {
+        display: none;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 36px;
+      }
+      
+      .hero {
+        padding: 100px 0 60px;
+      }
+      
+      .hero-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      
+      .hero-tagline {
+        font-size: 20px;
+      }
+      
+      .hero-subtitle {
+        font-size: 17px;
+      }
+      
+      .app-icon-strip {
+        gap: 10px;
+      }
+      
+      .icon-column {
+        gap: 10px;
+      }
+      
+      .mini-app-icon {
+        width: 48px;
+        height: 48px;
+      }
+      
+      .nav-links {
+        display: none;
+      }
+      
+      .mobile-menu-btn {
+        display: block;
+      }
+      
+      .games-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      
+      .featured-games-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+      
+      .featured-game {
+        padding: 24px;
+      }
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.6s ease-out forwards;
+    }
+    
+    /* Featured Games Section */
+    .featured-section {
+      padding: 80px 0;
+      background: var(--bg-secondary);
+    }
+    
+    .featured-games-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+      margin-top: 48px;
+    }
+    
+    .featured-game {
+      background: white;
+      border-radius: var(--border-radius-large);
+      padding: 40px;
+      box-shadow: var(--shadow-light);
+      transition: all 0.3s ease;
+      border: 1px solid var(--border-color);
+    }
+    
+    .featured-game:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-medium);
+      border-color: rgba(88, 86, 214, 0.2);
+    }
+    
+    .featured-game-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    
+    .featured-game-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 18px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .featured-content h3 {
+      font-size: 28px;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+    
+    .featured-content p {
+      font-size: 17px;
+      margin-bottom: 24px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+    }
+    
+    /* Animation on scroll */
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease-out;
+    }
+    
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    @media (max-width: 768px) {
+      .featured-game {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      
+      .campaign-content {
+        padding: 24px;
+      }
+      
+      .campaign-title {
+        font-size: 22px;
+      }
+      
+      .campaign-highlight {
+        font-size: 18px;
+      }
+    }
+    
+    /* Campaign Section */
+    .campaign-section {
+      background: linear-gradient(135deg, #f8f8fb 0%, #ffffff 100%);
+      padding: 60px 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .campaign-content {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 40px;
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-light);
+      border: 1px solid rgba(88, 86, 214, 0.1);
+    }
+    
+    .campaign-emoji {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+    
+    .campaign-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+    }
+    
+    .campaign-title em {
+      font-style: italic;
+      color: var(--accent-purple);
+    }
+    
+    .campaign-text {
+      font-size: 17px;
+      line-height: 1.6;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+    }
+    
+    .campaign-highlight {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--accent-purple);
+      margin: 24px 0;
+    }
+    
+    .campaign-link {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
+    
+    .campaign-link:hover {
+      color: var(--accent-purple);
+      text-decoration: underline;
+    }
+    
+    .campaign-download {
+      font-size: 16px;
+      color: var(--text-secondary);
+      margin-top: 24px;
+    }
+    
+    .campaign-hashtag {
+      color: var(--accent-purple);
+      font-weight: 600;
+    }
+  </style>
+  
+  <!-- Custom style to override specific elements -->
+  <style>
+    /* Hide old header elements */
+    header:not(.nav-header) {
+      display: none !important;
+    }
+    
+    .nav-container {
+      display: none !important;
+    }
+    
+    /* Mobile menu styles */
+    @media (max-width: 768px) {
+      .nav-links {
+        position: fixed;
+        top: 92px; /* Account for nav + dev banner */
+        left: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        padding: 20px;
+        transform: translateY(-100%);
+        opacity: 0;
+        transition: all 0.3s ease;
+        box-shadow: var(--shadow-medium);
+      }
+      
+      .nav-links.active {
+        display: flex;
+        transform: translateY(0);
+        opacity: 1;
+      }
+      
+      .nav-link {
+        padding: 16px 0;
+        font-size: 17px;
+        border-bottom: 1px solid var(--border-color);
+      }
+      
+      .nav-link:last-child {
+        border-bottom: none;
+      }
+      
+      /* Hamburger animation */
+      .mobile-menu-btn.active span:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+      }
+      
+      .mobile-menu-btn.active span:nth-child(2) {
+        opacity: 0;
+      }
+      
+      .mobile-menu-btn.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -5px);
+      }
+    }
+    
+    footer {
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      border-top: 1px solid var(--border-color);
+    }
+    
+    .footer-links a {
+      color: var(--text-secondary);
+      transition: color 0.2s ease;
+    }
+    
+    .footer-links a:hover {
+      color: var(--primary-color);
+    }
+  </style>
+</head>
+<body>
+  <script>
+    // Simple password protection for dev page
+    (function() {
+      const DEV_PASSWORD = 'stapledev2024'; // Change this to your preferred password
+      const STORAGE_KEY = 'staplegames_dev_auth';
+      const SESSION_DURATION = 24 * 60 * 60 * 1000; // 24 hours
+      
+      // Check if user has valid session
+      const checkAuth = () => {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored) {
+          const { timestamp } = JSON.parse(stored);
+          if (Date.now() - timestamp < SESSION_DURATION) {
+            return true;
+          }
+        }
+        return false;
+      };
+      
+      // If not authenticated, prompt for password
+      if (!checkAuth()) {
+        const password = prompt('This is a development page. Please enter the password to continue:');
+        
+        if (password !== DEV_PASSWORD) {
+          alert('Incorrect password. Access denied.');
+          // Redirect to main site
+          window.location.href = '/';
+        } else {
+          // Store authentication
+          localStorage.setItem(STORAGE_KEY, JSON.stringify({
+            timestamp: Date.now()
+          }));
+        }
+      }
+    })();
+  </script>
+  
+  <!-- Development banner -->
+  <div style="background-color: #ff9800; color: #000; padding: 10px; text-align: center; font-weight: bold; position: fixed; top: 0; left: 0; right: 0; z-index: 9999;">
+    ⚠️ DEVELOPMENT VERSION - Changes here are for testing only ⚠️
+  </div>
+  <div style="height: 40px;"></div>
+  
+  <!-- New Header Navigation -->
+  <header class="nav-header">
+    <div class="container">
+      <nav class="nav-content">
+        <a href="#" class="nav-logo" id="scrollLogo">
+          <img src="https://cdn.bdz5.com/staplegames/matchcollector_icon.png" alt="Staple Games">
+          <span>Staple Games</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="#" class="nav-link">Home</a></li>
+          <li><a href="#games" class="nav-link">Games</a></li>
+          <li><a href="contact.html" class="nav-link">Support</a></li>
+        </ul>
+        <button class="mobile-menu-btn">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </nav>
+    </div>
+  </header>
+  
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-container">
+      <div class="hero-content">
+        <!-- Main Logo -->
+        <img src="https://cdn.bdz5.com/staplegames/matchcollector_icon.png" alt="Staple Games" class="hero-logo">
+        
+        <!-- App Name -->
+        <h1>Staple Games</h1>
+        
+        <!-- Tagline -->
+        <p class="hero-tagline">Simple. Clean. Fun.</p>
+        
+        <!-- Subtitle -->
+        <p class="hero-subtitle">Rediscover the classics you love — and fall for our originals</p>
+        
+        <!-- Store Download Buttons -->
+        <div class="store-buttons">
+          <a href="https://apps.apple.com/us/developer/staple-games/id1454538415" class="store-button">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+            </svg>
+            App Store
+          </a>
+          <a href="https://play.google.com/store/apps/developer?id=Staple+Games" class="store-button">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M3 20.5v-17c0-.59.34-1.11.84-1.35l9.58 9.54-9.58 9.53c-.5-.25-.84-.76-.84-1.36v-.36zm10.9-7.08L5.36 4.88c.25-.09.52-.13.79-.1.29.02.58.11.84.27l9.96 5.62-3.05 2.75zm3.05 2.74l3.05-2.74c.8.44 1.35 1.28 1.35 2.26 0 .78-.36 1.48-.92 1.94l-3.48-1.46zm0 0L7.37 19.81c-.26.16-.55.24-.84.27-.27.02-.54-.02-.79-.11l8.55-8.55 2.66 2.74z"/>
+            </svg>
+            Google Play
+          </a>
+        </div>
+      </div>
+      
+      <!-- App Icon Strip -->
+      <div class="app-icon-strip">
+        <!-- Column 1 (left) - 1 icon vertically centered -->
+        <div class="icon-column">
+          <a href="#tilecollector" class="mini-app-icon-link">
+            <img src="https://cdn.bdz5.com/staplegames/tilecollector_icon.png" alt="Tile Collector" class="mini-app-icon">
+          </a>
+        </div>
+        <!-- Column 2 (middle) - 3 icons -->
+        <div class="icon-column">
+          <a href="#sudoku" class="mini-app-icon-link">
+            <img src="https://cdn.bdz5.com/staplegames/sudokuSG_icon.png" alt="Sudoku" class="mini-app-icon">
+          </a>
+          <a href="#blockpuzzle" class="mini-app-icon-link">
+            <img src="https://cdn.bdz5.com/staplegames/blocksClassicSG_icon.png" alt="Block Puzzle" class="mini-app-icon">
+          </a>
+          <a href="#spades" class="mini-app-icon-link">
+            <img src="https://cdn.bdz5.com/staplegames/spades_icon.png" alt="Spades" class="mini-app-icon">
+          </a>
+        </div>
+        <!-- Column 3 (right) - 5 icons -->
+        <div class="icon-column">
+          <a href="#wordgems" class="mini-app-icon-link">
+            <img src="https://cdn.bdz5.com/staplegames/wordgems_icon.png" alt="Word Gems" class="mini-app-icon">
+          </a>
+          <a href="#backgammon" class="mini-app-icon-link">
+            <img src="https://cdn.bdz5.com/staplegames/backgammon_icon.png" alt="Backgammon" class="mini-app-icon">
+          </a>
+          <a href="#dice" class="mini-app-icon-link">
+            <img src="https://cdn.bdz5.com/staplegames/dice_icon.png" alt="Dice" class="mini-app-icon">
+          </a>
+          <a href="#spider" class="mini-app-icon-link">
+            <img src="https://cdn.bdz5.com/staplegames/spiderSolitaire_icon.png" alt="Spider Solitaire" class="mini-app-icon">
+          </a>
+          <a href="#mahjong" class="mini-app-icon-link">
+            <img src="https://cdn.bdz5.com/staplegames/mahjongcollector_icon.png" alt="Mahjong" class="mini-app-icon">
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Campaign Section -->
+  <section class="campaign-section">
+    <div class="container">
+      <div class="campaign-content animate-on-scroll">
+        <div class="campaign-emoji">🚗 🎮 💛</div>
+        <h2 class="campaign-title">Join Us on the Road to $4 Million with Ryan Trahan</h2>
+        <p class="campaign-text">
+          We're proud to support Ryan and Haley on their <em>50 States in 50 Days</em> road trip to raise funds for <strong>St. Jude Children's Research Hospital</strong> — a cause we deeply care about.
+        </p>
+        <p class="campaign-highlight">
+          This week, we're donating $1 for every game download.
+        </p>
+        <p class="campaign-text">
+          Play a game. Fuel a mission. Help families in need.
+        </p>
+        <p class="campaign-text">
+          Want to donate directly? Visit:<br>
+          👉 <a href="https://50-states-in-50-days.experience.stjude.org/" class="campaign-link" target="_blank">stjude.org/50states</a>
+        </p>
+        <p class="campaign-download">
+          <strong>Download to donate on iOS and Android</strong><br>
+          <span class="campaign-hashtag">#GamingForGood</span>
+        </p>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Featured Games Section -->
+  <section class="featured-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Featured Games</h2>
+        <p class="section-subtitle">Our most loved games with millions of happy players</p>
+      </div>
+      
+      <div class="featured-games-grid" id="featuredGamesContainer">
+        <!-- Featured games will be populated dynamically from the main games list -->
+      </div>
+    </div>
+  </section>
+  
+  <main class="container">
+    
+    <!-- Games Section -->
+    <section class="games-section" id="games">
+      <div class="section-header">
+        <h2 class="section-title">Our Games</h2>
+        <p class="section-subtitle">Classic favorites and modern originals, crafted with care</p>
+      </div>
+      <div class="games-grid">
+        
+        <!-- Match Collector -->
+        <div class="game-card" id="matchcollector">
+          <div class="game-card-content">
+            <div class="game-header">
+              <img src="https://cdn.bdz5.com/staplegames/matchcollector_icon.png" alt="Match Collector" class="game-icon">
+              <div class="game-info">
+                <h3>Match Collector</h3>
+                <p class="game-category">Puzzle</p>
+              </div>
+            </div>
+            <p class="game-description">A colorful and addictive match-3 puzzle game. Connect icons and clear the board.</p>
+            <div class="game-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.matchcollector" class="game-link">Google Play</a>
+              <a href="https://apps.apple.com/app/match-collector/id6462309005" class="game-link">App Store</a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Tile Collector -->
+        <div class="game-card" id="tilecollector">
+          <div class="game-card-content">
+            <div class="game-header">
+              <img src="https://cdn.bdz5.com/staplegames/tilecollector_icon.png" alt="Tile Collector" class="game-icon">
+              <div class="game-info">
+                <h3>Tile Collector</h3>
+                <p class="game-category">Puzzle</p>
+              </div>
+            </div>
+            <p class="game-description">Match and collect tiles in this addictive puzzle game with beautiful visuals.</p>
+            <div class="game-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.tilecollector" class="game-link">Google Play</a>
+              <a href="https://apps.apple.com/app/tile-collector/id6449299885" class="game-link">App Store</a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Block Puzzle -->
+        <div class="app-card" id="blockpuzzle">
+          <div class="app-image-container">
+            <img src="https://cdn.bdz5.com/staplegames/blocksClassicSG_icon.png" alt="Block Puzzle" class="app-image loading" loading="eager" data-app-id="5">
+          </div>
+          <div class="app-info">
+            <h3 class="app-name">Block Puzzle - Classic Style</h3>
+            <p class="app-description">Arrange blocks to complete lines and clear the board in this addictive puzzle game.</p>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.blocksClassicSGGP" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/block-puzzle-classic/id1572892132" class="app-link ios-link">App Store</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dice -->
+        <div class="app-card" id="dice">
+          <div class="app-image-container">
+            <img src="https://cdn.bdz5.com/staplegames/dice_icon.png" alt="Dice" class="app-image loading" loading="eager" data-app-id="10">
+          </div>
+          <div class="app-info">
+            <h3 class="app-name">Dice Merge</h3>
+            <p class="app-description">The perfect puzzle combination of a block and merge game.</p>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.dice" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/dice/id1663958329" class="app-link ios-link">App Store</a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Spades -->
+        <div class="app-card" id="spades">
+          <div class="app-image-container">
+            <img src="https://cdn.bdz5.com/staplegames/spades_icon.png" alt="Spades" class="app-image loading" loading="eager" data-app-id="15">
+          </div>
+          <div class="app-info">
+            <h3 class="app-name">Spades</h3>
+            <p class="app-description">The classic trick-taking card game for fun and domination.</p>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.spades" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/spades/id6447909127" class="app-link ios-link">App Store</a>
+            </div>
+          </div>
+        </div>
+
+        
+        <!-- Blocks Sudoku SG -->
+        <div class="app-card">
+          <div class="app-image-container">
+            <img src="https://cdn.bdz5.com/staplegames/blocksSudokuSG_icon.png" alt="Blocks Sudoku SG" class="app-image loading" loading="eager" data-app-id="20">
+          </div>
+          <div class="app-info">
+            <h3 class="app-name">Block Puzzle - Sudoku Style</h3>
+            <p class="app-description">Arrange blocks to complete lines and clear the board in this addictive puzzle game.</p>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.blocksSudokuSGGP" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/blocks-sudoku-sg/id1566174072" class="app-link ios-link">App Store</a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Dyno -->
+        <div class="app-card">
+          <div class="app-image-container">
+            <img src="https://cdn.bdz5.com/staplegames/dyno_icon.png" alt="Dyno" class="app-image loading" loading="eager" data-app-id="23">
+          </div>
+          <div class="app-info">
+            <h3 class="app-name">Dyno</h3>
+            <p class="app-description">A fun and challenging game where you need to climb to the peak of the mountain... underwater... in space.</p>
+            <div class="app-links">
+              <a href="https://apps.apple.com/app/id6636553804" class="app-link ios-link">App Store</a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Sudoku -->
+        <div class="app-card" id="sudoku">
+          <div class="app-image-container">
+            <img src="https://cdn.bdz5.com/staplegames/sudokuSG_icon.png" alt="Sudoku" class="app-image loading" loading="eager" data-app-id="4">
+          </div>
+          <div class="app-info">
+            <h3 class="app-name">Sudoku</h3>
+            <p class="app-description">Classic number puzzle game with multiple difficulty levels for all skill levels.</p>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.sudokuClassicGP" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/sudoku/id1561193287" class="app-link ios-link">App Store</a>
+            </div>
+          </div>
+        </div>
+
+
+        
+        <!-- Spider Solitaire -->
+        <div class="app-card" id="spider">
+          <div class="app-image-container">
+            <img src="https://cdn.bdz5.com/staplegames/spiderSolitaire_icon.png" alt="Spider Solitaire" class="app-image loading" loading="eager" data-app-id="21">
+          </div>
+          <div class="app-info">
+            <h3 class="app-name">Spider Solitaire</h3>
+            <p class="app-description">Play the classic solitaire game with a unique twist of spider solitaire.</p>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.spiderSolitaireGP" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/spider-solitaire/id1507224245" class="app-link ios-link">App Store</a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- FreeCell Solitaire -->
+        <div class="app-card">
+          <div class="app-image-container">
+            <img src="https://cdn.bdz5.com/staplegames/freecellSolitaire_icon.png" alt="FreeCell Solitaire" class="app-image loading" loading="eager" data-app-id="22">
+          </div>
+          <div class="app-info">
+            <h3 class="app-name">FreeCell Solitaire</h3>
+            <p class="app-description">Play the classic solitaire game with a unique twist of freecell solitaire.</p>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.freecellSolitaireGP" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/freecell-solitaire/id1506267119" class="app-link ios-link">App Store</a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Sagadoku -->
+        <div class="app-card">
+          <div class="app-image-container">
+            <img src="https://cdn.bdz5.com/staplegames/sagadoku_icon.png" alt="Sagadoku" class="app-image loading" loading="eager" data-app-id="6">
+          </div>
+          <div class="app-info">
+            <h3 class="app-name">Sagadoku</h3>
+            <p class="app-description">A fresh take on Sudoku with unique gameplay mechanics and beautiful visuals.</p>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.sagadoku" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/sagadoku/id1612649783" class="app-link ios-link">App Store</a>
+            </div>
+          </div>
+        </div>
+
+        
+        <!-- Block Match -->
+        <div class="app-card">
+          <div class="app-image-container">
+            <img src="https://cdn.bdz5.com/staplegames/blockmatch_icon.png" alt="Block Match" class="app-image loading" loading="eager" data-app-id="8">
+          </div>
+          <div class="app-info">
+            <h3 class="app-name">Block Match</h3>
+            <p class="app-description">Match colorful blocks in this engaging puzzle game. Perfect for quick play sessions.</p>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.blockmatch" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/block-match/id6742160377" class="app-link ios-link">App Store</a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Block Puzzle - Wood Style -->
+        <div class="app-card">
+          <div class="app-image-container">
+            <img src="https://cdn.bdz5.com/staplegames/blocksWood_icon.png" alt="Block Puzzle Wood" class="app-image loading" loading="eager" data-app-id="9">
+          </div>
+          <div class="app-info">
+            <h3 class="app-name">Block Puzzle - Wood Style</h3>
+            <p class="app-description">A beautiful wooden-themed block puzzle game with relaxing gameplay.</p>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.blocksWood" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/block-puzzle-wood/id1630975482" class="app-link ios-link">App Store</a>
+            </div>
+          </div>
+        </div>
+        
+        
+        <!-- Dominoes -->
+        <div class="app-card">
+          <div class="app-image-container">
+            <img src="https://cdn.bdz5.com/staplegames/dominoes_icon.png" alt="Dominoes" class="app-image loading" loading="eager" data-app-id="11">
+          </div>
+          <div class="app-info">
+            <h3 class="app-name">Dominoes</h3>
+            <p class="app-description">Play the classic tile-based game with multiple variations and game modes.</p>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.dominoes" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/dominoes/id6504120934" class="app-link ios-link">App Store</a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Ludo -->
+        <div class="app-card">
+          <div class="app-image-container">
+            <img src="https://cdn.bdz5.com/staplegames/ludo_icon.png" alt="Ludo" class="app-image loading" loading="eager" data-app-id="12">
+          </div>
+          <div class="app-info">
+            <h3 class="app-name">Ludo</h3>
+            <p class="app-description">The classic board game of strategy, luck, and competition for up to four players.</p>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.ludo" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/ludo/id6446255045" class="app-link ios-link">App Store</a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Mahjong Collector -->
+        <div class="app-card" id="mahjong">
+          <div class="app-image-container">
+            <img src="https://cdn.bdz5.com/staplegames/mahjongcollector_icon.png" alt="Mahjong Collector" class="app-image loading" loading="eager" data-app-id="13">
+          </div>
+          <div class="app-info">
+            <h3 class="app-name">Mahjong Collector</h3>
+            <p class="app-description">Match pairs of identical tiles in this classic Chinese puzzle game with beautiful designs.</p>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.mahjongcollector" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/mahjong-collector/id6737984114" class="app-link ios-link">App Store</a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Sort Collector -->
+        <div class="app-card">
+          <div class="app-image-container">
+            <img src="https://cdn.bdz5.com/staplegames/sortcollector_icon.png" alt="Sort Collector" class="app-image loading" loading="eager" data-app-id="14">
+          </div>
+          <div class="app-info">
+            <h3 class="app-name">Sort Collector</h3>
+            <p class="app-description">Sort and organize colorful items in this relaxing and satisfying puzzle game.</p>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.sortcollector" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/sort-collector/id6476427887" class="app-link ios-link">App Store</a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Word Horizons -->
+        <div class="app-card">
+          <div class="app-image-container">
+            <img src="https://cdn.bdz5.com/staplegames/wordhorizons_icon.png" alt="Word Horizons" class="app-image loading" loading="eager" data-app-id="17">
+          </div>
+          <div class="app-info">
+            <h3 class="app-name">Word Horizons</h3>
+            <p class="app-description">Explore your vocabulary in this innovative word puzzle game with beautiful landscapes.</p>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.wordhorizons" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/word-horizons/id6444349473" class="app-link ios-link">App Store</a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Word Search -->
+        <div class="app-card">
+          <div class="app-image-container">
+            <img src="https://cdn.bdz5.com/staplegames/wordsearch_icon.png" alt="Word Search" class="app-image loading" loading="eager" data-app-id="18">
+          </div>
+          <div class="app-info">
+            <h3 class="app-name">Word Search</h3>
+            <p class="app-description">Find hidden words in all directions in this classic word search puzzle with multiple themes.</p>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.wordsearch" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/word-search/id1643013597" class="app-link ios-link">App Store</a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Word Gems -->
+        <div class="app-card" id="wordgems">
+          <div class="app-image-container">
+            <img src="https://cdn.bdz5.com/staplegames/wordgems_icon.png" alt="Word Gems" class="app-image loading" loading="eager" data-app-id="2">
+          </div>
+          <div class="app-info">
+            <h3 class="app-name">Word Gems™</h3>
+            <p class="app-description">Test your vocabulary skills in this engaging word puzzle game with beautiful gem visuals.</p>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.wordgems" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/word-gems/id1639588528" class="app-link ios-link">App Store</a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Yatzy -->
+        <div class="app-card">
+          <div class="app-image-container">
+            <img src="https://cdn.bdz5.com/staplegames/yatzy_icon.png" alt="Yatzy" class="app-image loading" loading="eager" data-app-id="19">
+          </div>
+          <div class="app-info">
+            <h3 class="app-name">Yatzy</h3>
+            <p class="app-description">Roll dice and score points in this classic dice game.</p>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.yatzy" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/yatzy/id6477965248" class="app-link ios-link">App Store</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Vertical Pinball -->
+        <div class="app-card">
+          <div class="app-image-container">
+            <img src="https://cdn.bdz5.com/staplegames/verticalpinball_icon.png" alt="Vertical Pinball" class="app-image loading" loading="eager" data-app-id="24">
+          </div>
+          <div class="app-info">
+            <h3 class="app-name">Vertical Pinball</h3>
+            <p class="app-description">Experience pinball like never before! Play classic pinball with a unique vertical twist.</p>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.verticalpinball" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/vertical-pinball/id6746164704" class="app-link ios-link">App Store</a>
+            </div>
+          </div>
+        </div>
+   
+        <!-- Backgammon -->
+        <div class="app-card" id="backgammon">
+          <div class="app-image-container">
+            <img src="https://cdn.bdz5.com/staplegames/backgammon_icon.png" alt="Backgammon" class="app-image loading" loading="eager" data-app-id="7">
+          </div>
+          <div class="app-info">
+            <h3 class="app-name">Backgammon</h3>
+            <p class="app-description">The classic board game with smooth controls and beautiful design for endless fun.</p>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.backgammon" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/backgammon/id6451217307" class="app-link ios-link">App Store</a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Solitaire -->
+        <div class="app-card" id="solitaire">
+          <div class="app-image-container">
+            <img src="https://cdn.bdz5.com/staplegames/solitaire_icon.png" alt="Solitaire" class="app-image loading" loading="eager" data-app-id="25">
+          </div>
+          <div class="app-info">
+            <h3 class="app-name">Solitaire</h3>
+            <p class="app-description">The timeless classic, reimagined. Experience the world's most beloved card game with stunning graphics.</p>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.solitaireGP" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/solitaire/id1454538656" class="app-link ios-link">App Store</a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Hearts -->
+        <div class="app-card" id="hearts">
+          <div class="app-image-container">
+            <img src="https://cdn.bdz5.com/staplegames/hearts_icon.png" alt="Hearts" class="app-image loading" loading="eager" data-app-id="26">
+          </div>
+          <div class="app-info">
+            <h3 class="app-name">Hearts</h3>
+            <p class="app-description">Master the art of trick avoidance in this strategic card game with clever AI opponents.</p>
+            <div class="app-links">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.hearts" class="app-link">Google Play</a>
+              <a href="https://apps.apple.com/app/hearts/id6744656403" class="app-link ios-link">App Store</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <section class="cta" style="display: none;">
+      <h3>Discover More Games</h3>
+      <p>Check out our full collection on Google Play and the App Store</p>
+      <div class="app-links" style="max-width: 400px; margin: 1rem auto;">
+        <a href="https://play.google.com/store/apps/developer?id=Staple+Games" class="app-link" style="margin-top: 1rem;">Google Play</a>
+        <a href="https://apps.apple.com/us/developer/staple-games/id1454538415" class="app-link ios-link" style="margin-top: 1rem;">App Store</a>
+      </div>
+    </section>
+  </main>
+  
+  <footer style="padding: 40px 0; text-align: center;">
+    <div class="container">
+      <div style="margin-bottom: 24px;">
+        <img src="https://cdn.bdz5.com/staplegames/matchcollector_icon.png" alt="Staple Games" style="width: 48px; height: 48px; border-radius: 12px; margin-bottom: 16px;">
+        <h3 style="font-size: 20px; margin-bottom: 8px;">Staple Games</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 0;">Simple. Clean. Fun.</p>
+      </div>
+      <div class="footer-links" style="margin-bottom: 24px;">
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+        <a href="contact.html">Support</a>
+      </div>
+      <p style="color: var(--text-secondary); font-size: 14px;">© 2024 Staple Games. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Modern site functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      // Mobile menu toggle
+      const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+      const navLinks = document.querySelector('.nav-links');
+      
+      // Scroll-based logo appearance
+      const navLogo = document.getElementById('scrollLogo');
+      const heroLogo = document.querySelector('.hero-logo');
+      const navHeader = document.querySelector('.nav-header');
+      
+      // Check scroll position to show/hide nav logo
+      function checkScroll() {
+        if (heroLogo) {
+          const heroLogoBottom = heroLogo.getBoundingClientRect().bottom;
+          const shouldShowNavLogo = heroLogoBottom < 100;
+          
+          if (shouldShowNavLogo) {
+            navLogo.classList.add('visible');
+            navHeader.classList.add('scrolled');
+          } else {
+            navLogo.classList.remove('visible');
+            navHeader.classList.remove('scrolled');
+          }
+        }
+      }
+      
+      // Throttle scroll events
+      let scrollTimeout;
+      window.addEventListener('scroll', function() {
+        if (scrollTimeout) {
+          window.cancelAnimationFrame(scrollTimeout);
+        }
+        scrollTimeout = window.requestAnimationFrame(checkScroll);
+      });
+      
+      // Initial check
+      checkScroll();
+      
+      // Animation on scroll
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      };
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, observerOptions);
+      
+      // Observe all elements with animate-on-scroll class (except game cards for now)
+      document.querySelectorAll('.animate-on-scroll:not(.game-card)').forEach(el => {
+        observer.observe(el);
+      });
+      
+      // We'll add animate-on-scroll after all cards are converted
+      // First, remove animate-on-scroll from any game cards that might have it
+      document.querySelectorAll('.game-card').forEach(card => {
+        card.classList.remove('animate-on-scroll');
+      });
+      
+      mobileMenuBtn.addEventListener('click', function() {
+        navLinks.classList.toggle('active');
+        mobileMenuBtn.classList.toggle('active');
+      });
+      
+      // Close menu when clicking a link
+      const navLinksItems = document.querySelectorAll('.nav-link');
+      navLinksItems.forEach(link => {
+        link.addEventListener('click', function() {
+          navLinks.classList.remove('active');
+          mobileMenuBtn.classList.remove('active');
+        });
+      });
+      
+      // Smooth scroll to sections
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            e.preventDefault();
+            // Calculate offset accounting for fixed header
+            const headerHeight = document.querySelector('.nav-header').offsetHeight;
+            const devBannerHeight = 40;
+            const offset = headerHeight + devBannerHeight + 20; // 20px extra padding
+            
+            window.scrollTo({
+              top: target.getBoundingClientRect().top + window.pageYOffset - offset,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+      
+      // Convert remaining old cards to new format
+      const oldCards = document.querySelectorAll('.app-card');
+      const gameCategories = {
+        'solitaire': 'Card Games',
+        'hearts': 'Card Games',
+        'spades': 'Card Games',
+        'spider': 'Card Games',
+        'freecell': 'Card Games',
+        'block': 'Puzzle',
+        'sudoku': 'Puzzle',
+        'word': 'Word Games',
+        'dice': 'Puzzle',
+        'mahjong': 'Board Games',
+        'ludo': 'Board Games',
+        'dominoes': 'Board Games',
+        'backgammon': 'Board Games',
+        'yatzy': 'Dice Games',
+        'sort': 'Puzzle',
+        'dyno': 'Adventure',
+        'pinball': 'Arcade',
+        'sagadoku': 'Puzzle'
+      };
+      
+      function getCategory(gameName) {
+        const lowerName = gameName.toLowerCase();
+        for (const [key, category] of Object.entries(gameCategories)) {
+          if (lowerName.includes(key)) {
+            return category;
+          }
+        }
+        return 'Games';
+      }
+      
+      oldCards.forEach(card => {
+        const imgContainer = card.querySelector('.app-image-container');
+        const img = imgContainer ? imgContainer.querySelector('img') : null;
+        const info = card.querySelector('.app-info');
+        const name = info ? info.querySelector('.app-name') : null;
+        const desc = info ? info.querySelector('.app-description') : null;
+        const links = info ? info.querySelector('.app-links') : null;
+        
+        if (img && name && desc && links) {
+          const category = getCategory(name.textContent);
+          
+          card.className = 'game-card';
+          card.innerHTML = `
+            <div class="game-card-content">
+              <div class="game-header">
+                <img src="${img.src}" alt="${img.alt}" class="game-icon">
+                <div class="game-info">
+                  <h3>${name.textContent}</h3>
+                  <p class="game-category">${category}</p>
+                </div>
+              </div>
+              <p class="game-description">${desc.textContent}</p>
+              <div class="game-links">
+                ${Array.from(links.querySelectorAll('a')).map(link => 
+                  `<a href="${link.href}" class="game-link">${link.textContent}</a>`
+                ).join('')}
+              </div>
+            </div>
+          `;
+        }
+      });
+      
+      // Featured Games Configuration
+      const featuredGameIds = ['matchcollector', 'dice']; // Configure which games to feature
+      
+      // Populate Featured Games from Our Games section
+      function populateFeaturedGames() {
+        const featuredContainer = document.getElementById('featuredGamesContainer');
+        if (!featuredContainer) return;
+        
+        featuredGameIds.forEach(gameId => {
+          const gameCard = document.querySelector(`#${gameId}.game-card`);
+          if (gameCard) {
+            const gameContent = gameCard.querySelector('.game-card-content');
+            if (gameContent) {
+              const gameHeader = gameContent.querySelector('.game-header');
+              const gameIcon = gameHeader ? gameHeader.querySelector('.game-icon') : null;
+              const gameInfo = gameHeader ? gameHeader.querySelector('.game-info h3') : null;
+              const gameDesc = gameContent.querySelector('.game-description');
+              const gameLinks = gameContent.querySelector('.game-links');
+              
+              if (gameIcon && gameInfo && gameDesc && gameLinks) {
+                const featuredGame = document.createElement('div');
+                featuredGame.className = 'featured-game animate-on-scroll';
+                featuredGame.innerHTML = `
+                  <div class="featured-game-header">
+                    <img src="${gameIcon.src}" alt="${gameIcon.alt}" class="featured-game-icon">
+                    <div class="featured-content">
+                      <h3>${gameInfo.textContent}</h3>
+                    </div>
+                  </div>
+                  <p>${gameDesc.textContent}</p>
+                  <div class="game-links">
+                    ${gameLinks.innerHTML}
+                  </div>
+                `;
+                featuredContainer.appendChild(featuredGame);
+              }
+            }
+          }
+        });
+        
+        // Re-observe new elements for animation
+        const newFeaturedGames = featuredContainer.querySelectorAll('.animate-on-scroll');
+        newFeaturedGames.forEach(el => {
+          if (observer) observer.observe(el);
+        });
+      }
+      
+      // Call after all game cards are processed
+      setTimeout(populateFeaturedGames, 100);
+      
+      // Add animate-on-scroll to ALL game cards after conversion
+      setTimeout(() => {
+        // First, fix any cards that might already have animate-on-scroll
+        document.querySelectorAll('.game-card.animate-on-scroll').forEach(card => {
+          card.classList.remove('animate-on-scroll');
+        });
+        
+        // Then add it properly to all game cards
+        document.querySelectorAll('.game-card').forEach((card, index) => {
+          card.classList.add('animate-on-scroll');
+          card.style.transitionDelay = `${index * 0.05}s`;
+          // Immediately observe for animation
+          if (observer) {
+            observer.observe(card);
+            // Check if already in view and trigger animation
+            const rect = card.getBoundingClientRect();
+            if (rect.top < window.innerHeight && rect.bottom > 0) {
+              setTimeout(() => card.classList.add('visible'), 50 + (index * 50));
+            }
+          }
+        });
+      }, 150);
+      
+      // Existing code continues below
+      console.log("Staple Games website loaded");
+      const forceImageRedraw = () => {
+        console.log("Forcing image redraw");
+        const appImages = document.querySelectorAll('.app-image');
+        
+        // Force redraw by slightly modifying the DOM
+        appImages.forEach((img, index) => {
+          const parent = img.parentElement;
+          
+          // Force a reflow/repaint by getting offsetHeight
+          const height = img.offsetHeight;
+          console.log(`Image ${index+1} height: ${height}px`);
+          
+          // Set explicit dimensions if needed
+          if (height === 0 && img.complete) {
+            console.log(`Fixing image ${index+1}`);
+            img.style.width = '100%';
+            img.style.height = '100%';
+            parent.style.display = 'block';
+            // Force a reflow
+            parent.offsetHeight;
+          }
+          
+          // Remove loading class once image is loaded
+          if (img.complete) {
+            img.classList.remove('loading');
+          }
+        });
+      };
+      
+      // Debug image loading
+      console.log("Checking all app images...");
+      const appImages = document.querySelectorAll('.app-image');
+      console.log(`Found ${appImages.length} app images`);
+      
+      // Preload all images
+      const imageUrls = [
+        "https://cdn.bdz5.com/staplegames/matchcollector_icon.png",
+        "https://cdn.bdz5.com/staplegames/wordgems_icon.png",
+        "https://cdn.bdz5.com/staplegames/solitaire_icon.png",
+        "https://cdn.bdz5.com/staplegames/sudokuSG_icon.png",
+        "https://cdn.bdz5.com/staplegames/blocksClassicSG_icon.png",
+        "https://cdn.bdz5.com/staplegames/sagadoku_icon.png",
+        "https://cdn.bdz5.com/staplegames/backgammon_icon.png",
+        "https://cdn.bdz5.com/staplegames/blockmatch_icon.png",
+        "https://cdn.bdz5.com/staplegames/blocksWood_icon.png",
+        "https://cdn.bdz5.com/staplegames/dice_icon.png",
+        "https://cdn.bdz5.com/staplegames/dominoes_icon.png",
+        "https://cdn.bdz5.com/staplegames/ludo_icon.png",
+        "https://cdn.bdz5.com/staplegames/mahjongcollector_icon.png",
+        "https://cdn.bdz5.com/staplegames/sortcollector_icon.png",
+        "https://cdn.bdz5.com/staplegames/spades_icon.png",
+        "https://cdn.bdz5.com/staplegames/hearts_icon.png",
+        "https://cdn.bdz5.com/staplegames/tilecollector_icon.png",
+        "https://cdn.bdz5.com/staplegames/wordhorizons_icon.png",
+        "https://cdn.bdz5.com/staplegames/wordsearch_icon.png",
+        "https://cdn.bdz5.com/staplegames/yatzy_icon.png",
+        "https://cdn.bdz5.com/staplegames/blocksSudokuSG_icon.png",
+        "https://cdn.bdz5.com/staplegames/spiderSolitaire_icon.png",
+        "https://cdn.bdz5.com/staplegames/freecellSolitaire_icon.png",
+        "https://cdn.bdz5.com/staplegames/dyno_icon.png",
+        "https://cdn.bdz5.com/staplegames/verticalpinball_icon.png",
+        "https://cdn.bdz5.com/staplegames/solitaire_icon.png",
+        "https://cdn.bdz5.com/staplegames/hearts_icon.png"
+      ];
+      
+      let loadedCount = 0;
+      imageUrls.forEach((url, index) => {
+        const img = new Image();
+        img.onload = function() {
+          loadedCount++;
+          console.log(`Preloaded image ${index+1}: ${url}`);
+          
+          // Find the corresponding visible image and remove loading class
+          const visibleImg = document.querySelector(`.app-image[data-app-id="${index+1}"]`);
+          if (visibleImg) {
+            visibleImg.classList.remove('loading');
+          }
+          
+          if (loadedCount === imageUrls.length) {
+            console.log("All images preloaded");
+            // Force redraw after all images are loaded
+            forceImageRedraw();
+          }
+        };
+        img.onerror = function() {
+          console.error(`Failed to preload image ${index+1}: ${url}`);
+          loadedCount++;
+        };
+        img.src = url;
+      });
+      
+      // Monitor visible image loading
+      appImages.forEach((img, index) => {
+        console.log(`Image ${index+1}: ${img.src}`);
+        
+        // Check if already complete
+        if (img.complete) {
+          console.log(`Image ${index+1} already loaded: ${img.complete}, size: ${img.naturalWidth}x${img.naturalHeight}`);
+          img.classList.remove('loading');
+        } else {
+          // Add load and error event handlers
+          img.addEventListener('load', function() {
+            console.log(`Image ${index+1} loaded successfully: ${img.naturalWidth}x${img.naturalHeight}`);
+            img.classList.remove('loading');
+          });
+          
+          img.addEventListener('error', function() {
+            console.error(`Image ${index+1} failed to load: ${img.src}`);
+          });
+        }
+      });
+      
+      // Run a final check after a short delay
+      setTimeout(forceImageRedraw, 500);
+      // And another check after a longer delay
+      setTimeout(forceImageRedraw, 2000);
+      
+      // AppsFlyer Attribution Tracking
+      console.log("Initializing AppsFlyer attribution tracking");
+      
+      // Configuration for AppsFlyer
+      const APPSFLYER_CONFIG = {
+        devKey: 'YOUR_APPSFLYER_DEV_KEY', // Replace with your actual AppsFlyer dev key
+        appId: {
+          android: 'com.staplegames', // Your Android app ID prefix
+          ios: 'id1454538415' // Your iOS developer ID
+        },
+        attributionEndpoint: 'https://app.appsflyer.com/'
+      };
+      
+      // Function to extract app ID from store URL
+      function extractAppInfo(url) {
+        console.log(`Extracting app info from URL: ${url}`);
+        
+        // Google Play pattern
+        const googlePlayMatch = url.match(/play\.google\.com\/store\/apps\/details\?id=([^&]+)/);
+        if (googlePlayMatch) {
+          console.log('Matched Google Play URL');
+          return {
+            store: 'google',
+            appId: googlePlayMatch[1],
+            bundleId: googlePlayMatch[1]
+          };
+        }
+        
+        // App Store pattern with app name (with or without country code)
+        const appStoreMatch = url.match(/apps\.apple\.com\/(?:[^\/]+\/)?app\/([^\/]+)\/id(\d+)/);
+        if (appStoreMatch) {
+          console.log('Matched App Store URL with name');
+          return {
+            store: 'apple',
+            appName: appStoreMatch[1],
+            appId: `id${appStoreMatch[2]}`,
+            bundleId: appStoreMatch[2]
+          };
+        }
+        
+        // App Store pattern without app name (like Dyno)
+        const appStoreShortMatch = url.match(/apps\.apple\.com\/(?:[^\/]+\/)?app\/id(\d+)/);
+        if (appStoreShortMatch) {
+          console.log('Matched App Store URL without name');
+          return {
+            store: 'apple',
+            appName: null,
+            appId: `id${appStoreShortMatch[1]}`,
+            bundleId: appStoreShortMatch[1]
+          };
+        }
+        
+        // Developer page patterns
+        if (url.includes('play.google.com/store/apps/developer')) {
+          console.log('Matched Google Developer page');
+          return { store: 'google', isDeveloperPage: true };
+        }
+        if (url.includes('apps.apple.com') && url.includes('developer')) {
+          console.log('Matched Apple Developer page');
+          return { store: 'apple', isDeveloperPage: true };
+        }
+        
+        console.log('No match found for URL');
+        return null;
+      }
+      
+      // Function to send attribution data to AppsFlyer
+      async function sendAttribution(appInfo, clickEvent) {
+        console.log('Sending attribution data:', appInfo);
+        
+        // Generate a unique click ID
+        const clickId = `web_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        
+        // Build attribution parameters as a string
+        const appId = appInfo.appId || APPSFLYER_CONFIG.appId[appInfo.store === 'google' ? 'android' : 'ios'];
+        
+        // Build base URL with required parameters
+        let attributionUrl = `${APPSFLYER_CONFIG.attributionEndpoint}` +
+          `${encodeURIComponent(appId)}?` +
+          `c=${encodeURIComponent('website_organic')}` +
+          `&pid=${encodeURIComponent('sg_web')}` +
+          `&click_id=${encodeURIComponent(clickId)}` +
+          `&redirect=false` +
+          `&af_siteid=${encodeURIComponent('staplegames-website')}`;
+        
+        // Add optional parameters
+        if (appInfo.appName) {
+          attributionUrl += `&af_ad=${encodeURIComponent(appInfo.appName)}`;
+        }
+        
+        // LOG THE FULL ATTRIBUTION URL
+        console.log('=== APPSFLYER ATTRIBUTION URL ===');
+        console.log('Full URL:', attributionUrl);
+        console.log('Parsed components:', {
+          endpoint: APPSFLYER_CONFIG.attributionEndpoint,
+          appId: appId,
+          campaign: 'website_organic',
+          clickId: clickId,
+          appName: appInfo.appName || 'N/A',
+          store: appInfo.store
+        });
+        console.log('================================');
+        
+        try {
+          // Send attribution request using fetch (non-blocking)
+          const response = await fetch(attributionUrl, {
+            method: 'GET',
+            mode: 'no-cors' // Avoid CORS issues
+          });
+          console.log('Attribution request sent successfully');
+        } catch (error) {
+          console.error('Error sending attribution data:', error);
+          // Don't block the redirect even if attribution fails
+        }
+      }
+      
+      // Add click handlers to all app store links (updated for new design)
+      const appStoreLinks = document.querySelectorAll('.game-link, .store-button, .app-link');
+      console.log(`Found ${appStoreLinks.length} app store links`);
+      
+      appStoreLinks.forEach((link, index) => {
+        link.addEventListener('click', async function(e) {
+          const url = this.href;
+          const appInfo = extractAppInfo(url);
+          
+          // Get the app name from the closest game card or store button
+          let appName = 'Unknown App';
+          let linkType = 'Store';
+          
+          if (this.classList.contains('store-button')) {
+            appName = 'Developer Page';
+            linkType = this.textContent.trim();
+          } else {
+            // Try to find the game name from different card structures
+            const gameCard = this.closest('.game-card');
+            const featuredGame = this.closest('.featured-game');
+            const appCard = this.closest('.app-card');
+            
+            if (gameCard) {
+              const nameEl = gameCard.querySelector('.game-info h3');
+              appName = nameEl ? nameEl.textContent : 'Unknown App';
+            } else if (featuredGame) {
+              const nameEl = featuredGame.querySelector('.featured-content h3');
+              appName = nameEl ? nameEl.textContent : 'Unknown App';
+            } else if (appCard) {
+              const nameEl = appCard.querySelector('.app-name');
+              appName = nameEl ? nameEl.textContent : 'Unknown App';
+            }
+            
+            linkType = url.includes('apple.com') ? 'App Store' : 'Google Play';
+          }
+          
+          // Send Google Analytics event for outbound link
+          if (typeof gtag !== 'undefined') {
+            gtag('event', 'click', {
+              event_category: 'outbound',
+              event_label: `${appName} - ${linkType}`,
+              transport_type: 'beacon',
+              value: 1
+            });
+            console.log(`GA event sent: ${appName} - ${linkType}`);
+          }
+          
+          if (appInfo && !appInfo.isDeveloperPage) {
+            console.log(`App store link clicked: ${url}`);
+            
+            // Prevent default navigation temporarily
+            e.preventDefault();
+            
+            // Send attribution data in background
+            await sendAttribution(appInfo, e);
+            
+            // Small delay to ensure request is sent
+            setTimeout(() => {
+              console.log(`Redirecting to: ${url}`);
+              window.location.href = url;
+            }, 100);
+          } else if (appInfo && appInfo.isDeveloperPage) {
+            console.log(`Developer page link clicked: ${url}`);
+            // For developer pages, just track the click without detailed app info
+            const developerInfo = {
+              store: appInfo.store,
+              bundleId: 'developer-page',
+              isDeveloperPage: true
+            };
+            
+            e.preventDefault();
+            await sendAttribution(developerInfo, e);
+            
+            setTimeout(() => {
+              window.location.href = url;
+            }, 100);
+          }
+          // If no app info extracted, let the link work normally
+        });
+      });
+      
+      console.log('AppsFlyer attribution tracking initialized');
+      
+      // Add tracking for CTA section links (developer pages)
+      const ctaLinks = document.querySelectorAll('.cta .app-link');
+      ctaLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          const linkText = this.textContent.trim();
+          
+          // Send Google Analytics event for CTA links
+          if (typeof gtag !== 'undefined') {
+            gtag('event', 'click', {
+              event_category: 'cta',
+              event_label: `Developer Page - ${linkText}`,
+              transport_type: 'beacon',
+              value: 1
+            });
+            console.log(`GA CTA event sent: Developer Page - ${linkText}`);
+          }
+        });
+      });
+    });
+
+  </script>
+</body>
+</html> 
