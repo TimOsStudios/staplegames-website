@@ -500,6 +500,29 @@
       .featured-game {
         padding: 24px;
       }
+      
+      /* Reduce font sizes for game cards on mobile */
+      .game-description {
+        font-size: 14px;
+      }
+      
+      .game-link {
+        font-size: 13px;
+        padding: 8px 12px;
+      }
+      
+      .game-icon {
+        width: 50px;
+        height: 50px;
+      }
+      
+      .game-info h3 {
+        font-size: 18px;
+      }
+      
+      .game-category {
+        font-size: 13px;
+      }
     }
     
     @keyframes fadeIn {
@@ -925,7 +948,7 @@
   <!-- Campaign Section -->
   <section class="campaign-section">
     <div class="container">
-      <div class="campaign-content animate-on-scroll">
+      <div class="campaign-content">
         <div class="campaign-emoji">🚗 🎮 💛</div>
         <h2 class="campaign-title">Join Us on the Road to $4 Million with Ryan Trahan</h2>
         <p class="campaign-text">
@@ -1444,6 +1467,11 @@
       // Observe all elements with animate-on-scroll class (except game cards for now)
       document.querySelectorAll('.animate-on-scroll:not(.game-card)').forEach(el => {
         observer.observe(el);
+        // Check if element is already in view on page load
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          el.classList.add('visible');
+        }
       });
       
       // We'll add animate-on-scroll after all cards are converted
