@@ -90,7 +90,7 @@
     /* Header Navigation */
     .nav-header {
       position: fixed;
-      top: 40px; /* Account for dev banner */
+      top: 0;
       left: 0;
       right: 0;
       background: rgba(255, 255, 255, 0);
@@ -455,7 +455,7 @@
       }
       
       .hero {
-        padding: 100px 0 60px;
+        padding: 80px 0 60px;
       }
       
       .hero-container {
@@ -726,7 +726,7 @@
     @media (max-width: 768px) {
       .nav-links {
         position: fixed;
-        top: 92px; /* Account for nav + dev banner */
+        top: 52px; /* Account for nav height */
         left: 0;
         right: 0;
         background: rgba(255, 255, 255, 0.98);
@@ -823,11 +823,7 @@
     })();
   </script>
   
-  <!-- Development banner -->
-  <div style="background-color: #ff9800; color: #000; padding: 10px; text-align: center; font-weight: bold; position: fixed; top: 0; left: 0; right: 0; z-index: 9999;">
-    ⚠️ DEVELOPMENT VERSION - Changes here are for testing only ⚠️
-  </div>
-  <div style="height: 40px;"></div>
+
   
   <!-- New Header Navigation -->
   <header class="nav-header">
@@ -1478,8 +1474,7 @@
             e.preventDefault();
             // Calculate offset accounting for fixed header
             const headerHeight = document.querySelector('.nav-header').offsetHeight;
-            const devBannerHeight = 40;
-            const offset = headerHeight + devBannerHeight + 20; // 20px extra padding
+            const offset = headerHeight + 20; // 20px extra padding
             
             window.scrollTo({
               top: target.getBoundingClientRect().top + window.pageYOffset - offset,
