@@ -904,43 +904,8 @@
       </div>
       
       <!-- App Icon Strip -->
-      <div class="app-icon-strip">
-        <!-- Column 1 (left) - 1 icon vertically centered -->
-        <div class="icon-column">
-          <a href="#tilecollector" class="mini-app-icon-link">
-            <img src="https://cdn.bdz5.com/staplegames/tilecollector_icon.png" alt="Tile Collector" class="mini-app-icon">
-          </a>
-        </div>
-        <!-- Column 2 (middle) - 3 icons -->
-        <div class="icon-column">
-          <a href="#sudoku" class="mini-app-icon-link">
-            <img src="https://cdn.bdz5.com/staplegames/sudokuSG_icon.png" alt="Sudoku" class="mini-app-icon">
-          </a>
-          <a href="#blockpuzzle" class="mini-app-icon-link">
-            <img src="https://cdn.bdz5.com/staplegames/blocksClassicSG_icon.png" alt="Block Puzzle" class="mini-app-icon">
-          </a>
-          <a href="#spades" class="mini-app-icon-link">
-            <img src="https://cdn.bdz5.com/staplegames/spades_icon.png" alt="Spades" class="mini-app-icon">
-          </a>
-        </div>
-        <!-- Column 3 (right) - 5 icons -->
-        <div class="icon-column">
-          <a href="#wordgems" class="mini-app-icon-link">
-            <img src="https://cdn.bdz5.com/staplegames/wordgems_icon.png" alt="Word Gems" class="mini-app-icon">
-          </a>
-          <a href="#backgammon" class="mini-app-icon-link">
-            <img src="https://cdn.bdz5.com/staplegames/backgammon_icon.png" alt="Backgammon" class="mini-app-icon">
-          </a>
-          <a href="#dice" class="mini-app-icon-link">
-            <img src="https://cdn.bdz5.com/staplegames/dice_icon.png" alt="Dice" class="mini-app-icon">
-          </a>
-          <a href="#spider" class="mini-app-icon-link">
-            <img src="https://cdn.bdz5.com/staplegames/spiderSolitaire_icon.png" alt="Spider Solitaire" class="mini-app-icon">
-          </a>
-          <a href="#mahjong" class="mini-app-icon-link">
-            <img src="https://cdn.bdz5.com/staplegames/mahjongcollector_icon.png" alt="Mahjong" class="mini-app-icon">
-          </a>
-        </div>
+      <div class="app-icon-strip" id="heroIconStrip">
+        <!-- Icons will be populated dynamically from gameData -->
       </div>
     </div>
   </section>
@@ -994,392 +959,8 @@
         <h2 class="section-title">Our Games</h2>
         <p class="section-subtitle">Classic favorites and modern originals, crafted with care</p>
       </div>
-      <div class="games-grid">
-        
-        <!-- Match Collector -->
-        <div class="game-card" id="matchcollector">
-          <div class="game-card-content">
-            <div class="game-header">
-              <img src="https://cdn.bdz5.com/staplegames/matchcollector_icon.png" alt="Match Collector" class="game-icon">
-              <div class="game-info">
-                <h3>Match Collector</h3>
-                <p class="game-category">Puzzle</p>
-              </div>
-            </div>
-            <p class="game-description">A colorful and addictive match-3 puzzle game. Connect icons and clear the board.</p>
-            <div class="game-links">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.matchcollector" class="game-link">Google Play</a>
-              <a href="https://apps.apple.com/app/match-collector/id6462309005" class="game-link">App Store</a>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Tile Collector -->
-        <div class="game-card" id="tilecollector">
-          <div class="game-card-content">
-            <div class="game-header">
-              <img src="https://cdn.bdz5.com/staplegames/tilecollector_icon.png" alt="Tile Collector" class="game-icon">
-              <div class="game-info">
-                <h3>Tile Collector</h3>
-                <p class="game-category">Puzzle</p>
-              </div>
-            </div>
-            <p class="game-description">Match and collect tiles in this addictive puzzle game with beautiful visuals.</p>
-            <div class="game-links">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.tilecollector" class="game-link">Google Play</a>
-              <a href="https://apps.apple.com/app/tile-collector/id6449299885" class="game-link">App Store</a>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Block Puzzle -->
-        <div class="app-card" id="blockpuzzle">
-          <div class="app-image-container">
-            <img src="https://cdn.bdz5.com/staplegames/blocksClassicSG_icon.png" alt="Block Puzzle" class="app-image loading" loading="eager" data-app-id="5">
-          </div>
-          <div class="app-info">
-            <h3 class="app-name">Block Puzzle - Classic Style</h3>
-            <p class="app-description">Arrange blocks to complete lines and clear the board in this addictive puzzle game.</p>
-            <div class="app-links">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.blocksClassicSGGP" class="app-link">Google Play</a>
-              <a href="https://apps.apple.com/app/block-puzzle-classic/id1572892132" class="app-link ios-link">App Store</a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Dice -->
-        <div class="app-card" id="dice">
-          <div class="app-image-container">
-            <img src="https://cdn.bdz5.com/staplegames/dice_icon.png" alt="Dice" class="app-image loading" loading="eager" data-app-id="10">
-          </div>
-          <div class="app-info">
-            <h3 class="app-name">Dice Merge</h3>
-            <p class="app-description">The perfect puzzle combination of a block and merge game.</p>
-            <div class="app-links">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.dice" class="app-link">Google Play</a>
-              <a href="https://apps.apple.com/app/dice/id1663958329" class="app-link ios-link">App Store</a>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Spades -->
-        <div class="app-card" id="spades">
-          <div class="app-image-container">
-            <img src="https://cdn.bdz5.com/staplegames/spades_icon.png" alt="Spades" class="app-image loading" loading="eager" data-app-id="15">
-          </div>
-          <div class="app-info">
-            <h3 class="app-name">Spades</h3>
-            <p class="app-description">The classic trick-taking card game for fun and domination.</p>
-            <div class="app-links">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.spades" class="app-link">Google Play</a>
-              <a href="https://apps.apple.com/app/spades/id6447909127" class="app-link ios-link">App Store</a>
-            </div>
-          </div>
-        </div>
-
-        
-        <!-- Blocks Sudoku SG -->
-        <div class="app-card">
-          <div class="app-image-container">
-            <img src="https://cdn.bdz5.com/staplegames/blocksSudokuSG_icon.png" alt="Blocks Sudoku SG" class="app-image loading" loading="eager" data-app-id="20">
-          </div>
-          <div class="app-info">
-            <h3 class="app-name">Block Puzzle - Sudoku Style</h3>
-            <p class="app-description">Arrange blocks to complete lines and clear the board in this addictive puzzle game.</p>
-            <div class="app-links">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.blocksSudokuSGGP" class="app-link">Google Play</a>
-              <a href="https://apps.apple.com/app/blocks-sudoku-sg/id1566174072" class="app-link ios-link">App Store</a>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Dyno -->
-        <div class="app-card">
-          <div class="app-image-container">
-            <img src="https://cdn.bdz5.com/staplegames/dyno_icon.png" alt="Dyno" class="app-image loading" loading="eager" data-app-id="23">
-          </div>
-          <div class="app-info">
-            <h3 class="app-name">Dyno</h3>
-            <p class="app-description">A fun and challenging game where you need to climb to the peak of the mountain... underwater... in space.</p>
-            <div class="app-links">
-              <a href="https://apps.apple.com/app/id6636553804" class="app-link ios-link">App Store</a>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Sudoku -->
-        <div class="app-card" id="sudoku">
-          <div class="app-image-container">
-            <img src="https://cdn.bdz5.com/staplegames/sudokuSG_icon.png" alt="Sudoku" class="app-image loading" loading="eager" data-app-id="4">
-          </div>
-          <div class="app-info">
-            <h3 class="app-name">Sudoku</h3>
-            <p class="app-description">Classic number puzzle game with multiple difficulty levels for all skill levels.</p>
-            <div class="app-links">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.sudokuClassicGP" class="app-link">Google Play</a>
-              <a href="https://apps.apple.com/app/sudoku/id1561193287" class="app-link ios-link">App Store</a>
-            </div>
-          </div>
-        </div>
-
-
-        
-        <!-- Spider Solitaire -->
-        <div class="app-card" id="spider">
-          <div class="app-image-container">
-            <img src="https://cdn.bdz5.com/staplegames/spiderSolitaire_icon.png" alt="Spider Solitaire" class="app-image loading" loading="eager" data-app-id="21">
-          </div>
-          <div class="app-info">
-            <h3 class="app-name">Spider Solitaire</h3>
-            <p class="app-description">Play the classic solitaire game with a unique twist of spider solitaire.</p>
-            <div class="app-links">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.spiderSolitaireGP" class="app-link">Google Play</a>
-              <a href="https://apps.apple.com/app/spider-solitaire/id1507224245" class="app-link ios-link">App Store</a>
-            </div>
-          </div>
-        </div>
-        
-        <!-- FreeCell Solitaire -->
-        <div class="app-card">
-          <div class="app-image-container">
-            <img src="https://cdn.bdz5.com/staplegames/freecellSolitaire_icon.png" alt="FreeCell Solitaire" class="app-image loading" loading="eager" data-app-id="22">
-          </div>
-          <div class="app-info">
-            <h3 class="app-name">FreeCell Solitaire</h3>
-            <p class="app-description">Play the classic solitaire game with a unique twist of freecell solitaire.</p>
-            <div class="app-links">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.freecellSolitaireGP" class="app-link">Google Play</a>
-              <a href="https://apps.apple.com/app/freecell-solitaire/id1506267119" class="app-link ios-link">App Store</a>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Sagadoku -->
-        <div class="app-card">
-          <div class="app-image-container">
-            <img src="https://cdn.bdz5.com/staplegames/sagadoku_icon.png" alt="Sagadoku" class="app-image loading" loading="eager" data-app-id="6">
-          </div>
-          <div class="app-info">
-            <h3 class="app-name">Sagadoku</h3>
-            <p class="app-description">A fresh take on Sudoku with unique gameplay mechanics and beautiful visuals.</p>
-            <div class="app-links">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.sagadoku" class="app-link">Google Play</a>
-              <a href="https://apps.apple.com/app/sagadoku/id1612649783" class="app-link ios-link">App Store</a>
-            </div>
-          </div>
-        </div>
-
-        
-        <!-- Block Match -->
-        <div class="app-card">
-          <div class="app-image-container">
-            <img src="https://cdn.bdz5.com/staplegames/blockmatch_icon.png" alt="Block Match" class="app-image loading" loading="eager" data-app-id="8">
-          </div>
-          <div class="app-info">
-            <h3 class="app-name">Block Match</h3>
-            <p class="app-description">Match colorful blocks in this engaging puzzle game. Perfect for quick play sessions.</p>
-            <div class="app-links">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.blockmatch" class="app-link">Google Play</a>
-              <a href="https://apps.apple.com/app/block-match/id6742160377" class="app-link ios-link">App Store</a>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Block Puzzle - Wood Style -->
-        <div class="app-card">
-          <div class="app-image-container">
-            <img src="https://cdn.bdz5.com/staplegames/blocksWood_icon.png" alt="Block Puzzle Wood" class="app-image loading" loading="eager" data-app-id="9">
-          </div>
-          <div class="app-info">
-            <h3 class="app-name">Block Puzzle - Wood Style</h3>
-            <p class="app-description">A beautiful wooden-themed block puzzle game with relaxing gameplay.</p>
-            <div class="app-links">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.blocksWood" class="app-link">Google Play</a>
-              <a href="https://apps.apple.com/app/block-puzzle-wood/id1630975482" class="app-link ios-link">App Store</a>
-            </div>
-          </div>
-        </div>
-        
-        
-        <!-- Dominoes -->
-        <div class="app-card">
-          <div class="app-image-container">
-            <img src="https://cdn.bdz5.com/staplegames/dominoes_icon.png" alt="Dominoes" class="app-image loading" loading="eager" data-app-id="11">
-          </div>
-          <div class="app-info">
-            <h3 class="app-name">Dominoes</h3>
-            <p class="app-description">Play the classic tile-based game with multiple variations and game modes.</p>
-            <div class="app-links">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.dominoes" class="app-link">Google Play</a>
-              <a href="https://apps.apple.com/app/dominoes/id6504120934" class="app-link ios-link">App Store</a>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Ludo -->
-        <div class="app-card">
-          <div class="app-image-container">
-            <img src="https://cdn.bdz5.com/staplegames/ludo_icon.png" alt="Ludo" class="app-image loading" loading="eager" data-app-id="12">
-          </div>
-          <div class="app-info">
-            <h3 class="app-name">Ludo</h3>
-            <p class="app-description">The classic board game of strategy, luck, and competition for up to four players.</p>
-            <div class="app-links">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.ludo" class="app-link">Google Play</a>
-              <a href="https://apps.apple.com/app/ludo/id6446255045" class="app-link ios-link">App Store</a>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Mahjong Collector -->
-        <div class="app-card" id="mahjong">
-          <div class="app-image-container">
-            <img src="https://cdn.bdz5.com/staplegames/mahjongcollector_icon.png" alt="Mahjong Collector" class="app-image loading" loading="eager" data-app-id="13">
-          </div>
-          <div class="app-info">
-            <h3 class="app-name">Mahjong Collector</h3>
-            <p class="app-description">Match pairs of identical tiles in this classic Chinese puzzle game with beautiful designs.</p>
-            <div class="app-links">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.mahjongcollector" class="app-link">Google Play</a>
-              <a href="https://apps.apple.com/app/mahjong-collector/id6737984114" class="app-link ios-link">App Store</a>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Sort Collector -->
-        <div class="app-card">
-          <div class="app-image-container">
-            <img src="https://cdn.bdz5.com/staplegames/sortcollector_icon.png" alt="Sort Collector" class="app-image loading" loading="eager" data-app-id="14">
-          </div>
-          <div class="app-info">
-            <h3 class="app-name">Sort Collector</h3>
-            <p class="app-description">Sort and organize colorful items in this relaxing and satisfying puzzle game.</p>
-            <div class="app-links">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.sortcollector" class="app-link">Google Play</a>
-              <a href="https://apps.apple.com/app/sort-collector/id6476427887" class="app-link ios-link">App Store</a>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Word Horizons -->
-        <div class="app-card">
-          <div class="app-image-container">
-            <img src="https://cdn.bdz5.com/staplegames/wordhorizons_icon.png" alt="Word Horizons" class="app-image loading" loading="eager" data-app-id="17">
-          </div>
-          <div class="app-info">
-            <h3 class="app-name">Word Horizons</h3>
-            <p class="app-description">Explore your vocabulary in this innovative word puzzle game with beautiful landscapes.</p>
-            <div class="app-links">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.wordhorizons" class="app-link">Google Play</a>
-              <a href="https://apps.apple.com/app/word-horizons/id6444349473" class="app-link ios-link">App Store</a>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Word Search -->
-        <div class="app-card">
-          <div class="app-image-container">
-            <img src="https://cdn.bdz5.com/staplegames/wordsearch_icon.png" alt="Word Search" class="app-image loading" loading="eager" data-app-id="18">
-          </div>
-          <div class="app-info">
-            <h3 class="app-name">Word Search</h3>
-            <p class="app-description">Find hidden words in all directions in this classic word search puzzle with multiple themes.</p>
-            <div class="app-links">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.wordsearch" class="app-link">Google Play</a>
-              <a href="https://apps.apple.com/app/word-search/id1643013597" class="app-link ios-link">App Store</a>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Word Gems -->
-        <div class="app-card" id="wordgems">
-          <div class="app-image-container">
-            <img src="https://cdn.bdz5.com/staplegames/wordgems_icon.png" alt="Word Gems" class="app-image loading" loading="eager" data-app-id="2">
-          </div>
-          <div class="app-info">
-            <h3 class="app-name">Word Gems™</h3>
-            <p class="app-description">Test your vocabulary skills in this engaging word puzzle game with beautiful gem visuals.</p>
-            <div class="app-links">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.wordgems" class="app-link">Google Play</a>
-              <a href="https://apps.apple.com/app/word-gems/id1639588528" class="app-link ios-link">App Store</a>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Yatzy -->
-        <div class="app-card">
-          <div class="app-image-container">
-            <img src="https://cdn.bdz5.com/staplegames/yatzy_icon.png" alt="Yatzy" class="app-image loading" loading="eager" data-app-id="19">
-          </div>
-          <div class="app-info">
-            <h3 class="app-name">Yatzy</h3>
-            <p class="app-description">Roll dice and score points in this classic dice game.</p>
-            <div class="app-links">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.yatzy" class="app-link">Google Play</a>
-              <a href="https://apps.apple.com/app/yatzy/id6477965248" class="app-link ios-link">App Store</a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Vertical Pinball -->
-        <div class="app-card">
-          <div class="app-image-container">
-            <img src="https://cdn.bdz5.com/staplegames/verticalpinball_icon.png" alt="Vertical Pinball" class="app-image loading" loading="eager" data-app-id="24">
-          </div>
-          <div class="app-info">
-            <h3 class="app-name">Vertical Pinball</h3>
-            <p class="app-description">Experience pinball like never before! Play classic pinball with a unique vertical twist.</p>
-            <div class="app-links">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.verticalpinball" class="app-link">Google Play</a>
-              <a href="https://apps.apple.com/app/vertical-pinball/id6746164704" class="app-link ios-link">App Store</a>
-            </div>
-          </div>
-        </div>
-   
-        <!-- Backgammon -->
-        <div class="app-card" id="backgammon">
-          <div class="app-image-container">
-            <img src="https://cdn.bdz5.com/staplegames/backgammon_icon.png" alt="Backgammon" class="app-image loading" loading="eager" data-app-id="7">
-          </div>
-          <div class="app-info">
-            <h3 class="app-name">Backgammon</h3>
-            <p class="app-description">The classic board game with smooth controls and beautiful design for endless fun.</p>
-            <div class="app-links">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.backgammon" class="app-link">Google Play</a>
-              <a href="https://apps.apple.com/app/backgammon/id6451217307" class="app-link ios-link">App Store</a>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Solitaire -->
-        <div class="app-card" id="solitaire">
-          <div class="app-image-container">
-            <img src="https://cdn.bdz5.com/staplegames/solitaire_icon.png" alt="Solitaire" class="app-image loading" loading="eager" data-app-id="25">
-          </div>
-          <div class="app-info">
-            <h3 class="app-name">Solitaire</h3>
-            <p class="app-description">The timeless classic, reimagined. Experience the world's most beloved card game with stunning graphics.</p>
-            <div class="app-links">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.solitaireGP" class="app-link">Google Play</a>
-              <a href="https://apps.apple.com/app/solitaire/id1454538656" class="app-link ios-link">App Store</a>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Hearts -->
-        <div class="app-card" id="hearts">
-          <div class="app-image-container">
-            <img src="https://cdn.bdz5.com/staplegames/hearts_icon.png" alt="Hearts" class="app-image loading" loading="eager" data-app-id="26">
-          </div>
-          <div class="app-info">
-            <h3 class="app-name">Hearts</h3>
-            <p class="app-description">Master the art of trick avoidance in this strategic card game with clever AI opponents.</p>
-            <div class="app-links">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.hearts" class="app-link">Google Play</a>
-              <a href="https://apps.apple.com/app/hearts/id6744656403" class="app-link ios-link">App Store</a>
-            </div>
-          </div>
-        </div>
+            <div class="games-grid" id="allGamesGrid">
+        <!-- Games will be populated dynamically from gameData -->
       </div>
     </section>
   </main>
@@ -1413,6 +994,304 @@
   <script>
     // Modern site functionality
     document.addEventListener('DOMContentLoaded', function() {
+      // Centralized game data structure
+      const gameData = {
+        games: {
+          matchcollector: {
+            id: "matchcollector",
+            name: "Match Collector",
+            category: "Puzzle",
+            description: "A colorful and addictive match-3 puzzle game. Connect icons and clear the board.",
+            icon: "https://cdn.bdz5.com/staplegames/matchcollector_icon.png",
+            links: {
+              android: "https://play.google.com/store/apps/details?id=com.staplegames.matchcollector",
+              ios: "https://apps.apple.com/app/match-collector/id6462309005"
+            }
+          },
+          tilecollector: {
+            id: "tilecollector",
+            name: "Tile Collector",
+            category: "Puzzle",
+            description: "Match and collect tiles in this addictive puzzle game with beautiful visuals.",
+            icon: "https://cdn.bdz5.com/staplegames/tilecollector_icon.png",
+            links: {
+              android: "https://play.google.com/store/apps/details?id=com.staplegames.tilecollector",
+              ios: "https://apps.apple.com/app/tile-collector/id6449299885"
+            }
+          },
+          blockpuzzle: {
+            id: "blockpuzzle",
+            name: "Block Puzzle - Classic Style",
+            category: "Puzzle",
+            description: "Arrange blocks to complete lines and clear the board in this addictive puzzle game.",
+            icon: "https://cdn.bdz5.com/staplegames/blocksClassicSG_icon.png",
+            links: {
+              android: "https://play.google.com/store/apps/details?id=com.staplegames.blocksClassicSGGP",
+              ios: "https://apps.apple.com/app/block-puzzle-classic/id1572892132"
+            }
+          },
+          dice: {
+            id: "dice",
+            name: "Dice Merge",
+            category: "Puzzle",
+            description: "The perfect puzzle combination of a block and merge game.",
+            icon: "https://cdn.bdz5.com/staplegames/dice_icon.png",
+            links: {
+              android: "https://play.google.com/store/apps/details?id=com.staplegames.dice",
+              ios: "https://apps.apple.com/app/dice/id1663958329"
+            }
+          },
+          spades: {
+            id: "spades",
+            name: "Spades",
+            category: "Card Games",
+            description: "The classic trick-taking card game for fun and domination.",
+            icon: "https://cdn.bdz5.com/staplegames/spades_icon.png",
+            links: {
+              android: "https://play.google.com/store/apps/details?id=com.staplegames.spades",
+              ios: "https://apps.apple.com/app/spades/id6447909127"
+            }
+          },
+          hearts: {
+            id: "hearts",
+            name: "Hearts",
+            category: "Card Games",
+            description: "Master the art of trick avoidance in this strategic card game with clever AI opponents.",
+            icon: "https://cdn.bdz5.com/staplegames/hearts_icon.png",
+            links: {
+              android: "https://play.google.com/store/apps/details?id=com.staplegames.hearts",
+              ios: "https://apps.apple.com/app/hearts/id6744656403"
+            }
+          },
+          solitaire: {
+            id: "solitaire",
+            name: "Solitaire",
+            category: "Card Games",
+            description: "The timeless classic, reimagined. Experience the world's most beloved card game with stunning graphics.",
+            icon: "https://cdn.bdz5.com/staplegames/solitaire_icon.png",
+            links: {
+              android: "https://play.google.com/store/apps/details?id=com.staplegames.solitaireGP",
+              ios: "https://apps.apple.com/app/solitaire/id1454538656"
+            }
+          },
+          sudoku: {
+            id: "sudoku",
+            name: "Sudoku",
+            category: "Puzzle",
+            description: "Classic number puzzle game with multiple difficulty levels for all skill levels.",
+            icon: "https://cdn.bdz5.com/staplegames/sudokuSG_icon.png",
+            links: {
+              android: "https://play.google.com/store/apps/details?id=com.staplegames.sudokuClassicGP",
+              ios: "https://apps.apple.com/app/sudoku/id1561193287"
+            }
+          },
+          blockssudoku: {
+            id: "blockssudoku",
+            name: "Block Puzzle - Sudoku Style",
+            category: "Puzzle",
+            description: "Arrange blocks to complete lines and clear the board in this addictive puzzle game.",
+            icon: "https://cdn.bdz5.com/staplegames/blocksSudokuSG_icon.png",
+            links: {
+              android: "https://play.google.com/store/apps/details?id=com.staplegames.blocksSudokuSGGP",
+              ios: "https://apps.apple.com/app/blocks-sudoku-sg/id1566174072"
+            }
+          },
+          dyno: {
+            id: "dyno",
+            name: "Dyno",
+            category: "Adventure",
+            description: "A fun and challenging game where you need to climb to the peak of the mountain... underwater... in space.",
+            icon: "https://cdn.bdz5.com/staplegames/dyno_icon.png",
+            links: {
+              ios: "https://apps.apple.com/app/id6636553804"
+            }
+          },
+          spider: {
+            id: "spider",
+            name: "Spider Solitaire",
+            category: "Card Games",
+            description: "Play the classic solitaire game with a unique twist of spider solitaire.",
+            icon: "https://cdn.bdz5.com/staplegames/spiderSolitaire_icon.png",
+            links: {
+              android: "https://play.google.com/store/apps/details?id=com.staplegames.spiderSolitaireGP",
+              ios: "https://apps.apple.com/app/spider-solitaire/id1507224245"
+            }
+          },
+          freecell: {
+            id: "freecell",
+            name: "FreeCell Solitaire",
+            category: "Card Games",
+            description: "Play the classic solitaire game with a unique twist of freecell solitaire.",
+            icon: "https://cdn.bdz5.com/staplegames/freecellSolitaire_icon.png",
+            links: {
+              android: "https://play.google.com/store/apps/details?id=com.staplegames.freecellSolitaireGP",
+              ios: "https://apps.apple.com/app/freecell-solitaire/id1506267119"
+            }
+          },
+          sagadoku: {
+            id: "sagadoku",
+            name: "Sagadoku",
+            category: "Puzzle",
+            description: "A fresh take on Sudoku with unique gameplay mechanics and beautiful visuals.",
+            icon: "https://cdn.bdz5.com/staplegames/sagadoku_icon.png",
+            links: {
+              android: "https://play.google.com/store/apps/details?id=com.staplegames.sagadoku",
+              ios: "https://apps.apple.com/app/sagadoku/id1612649783"
+            }
+          },
+          blockmatch: {
+            id: "blockmatch",
+            name: "Block Match",
+            category: "Puzzle",
+            description: "Match colorful blocks in this engaging puzzle game. Perfect for quick play sessions.",
+            icon: "https://cdn.bdz5.com/staplegames/blockmatch_icon.png",
+            links: {
+              android: "https://play.google.com/store/apps/details?id=com.staplegames.blockmatch",
+              ios: "https://apps.apple.com/app/block-match/id6742160377"
+            }
+          },
+          blockswood: {
+            id: "blockswood",
+            name: "Block Puzzle - Wood Style",
+            category: "Puzzle",
+            description: "A beautiful wooden-themed block puzzle game with relaxing gameplay.",
+            icon: "https://cdn.bdz5.com/staplegames/blocksWood_icon.png",
+            links: {
+              android: "https://play.google.com/store/apps/details?id=com.staplegames.blocksWood",
+              ios: "https://apps.apple.com/app/block-puzzle-wood/id1630975482"
+            }
+          },
+          dominoes: {
+            id: "dominoes",
+            name: "Dominoes",
+            category: "Board Games",
+            description: "Play the classic tile-based game with multiple variations and game modes.",
+            icon: "https://cdn.bdz5.com/staplegames/dominoes_icon.png",
+            links: {
+              android: "https://play.google.com/store/apps/details?id=com.staplegames.dominoes",
+              ios: "https://apps.apple.com/app/dominoes/id6504120934"
+            }
+          },
+          ludo: {
+            id: "ludo",
+            name: "Ludo",
+            category: "Board Games",
+            description: "The classic board game of strategy, luck, and competition for up to four players.",
+            icon: "https://cdn.bdz5.com/staplegames/ludo_icon.png",
+            links: {
+              android: "https://play.google.com/store/apps/details?id=com.staplegames.ludo",
+              ios: "https://apps.apple.com/app/ludo/id6446255045"
+            }
+          },
+          mahjong: {
+            id: "mahjong",
+            name: "Mahjong Collector",
+            category: "Board Games",
+            description: "Match pairs of identical tiles in this classic Chinese puzzle game with beautiful designs.",
+            icon: "https://cdn.bdz5.com/staplegames/mahjongcollector_icon.png",
+            links: {
+              android: "https://play.google.com/store/apps/details?id=com.staplegames.mahjongcollector",
+              ios: "https://apps.apple.com/app/mahjong-collector/id6737984114"
+            }
+          },
+          sortcollector: {
+            id: "sortcollector",
+            name: "Sort Collector",
+            category: "Puzzle",
+            description: "Sort and organize colorful items in this relaxing and satisfying puzzle game.",
+            icon: "https://cdn.bdz5.com/staplegames/sortcollector_icon.png",
+            links: {
+              android: "https://play.google.com/store/apps/details?id=com.staplegames.sortcollector",
+              ios: "https://apps.apple.com/app/sort-collector/id6476427887"
+            }
+          },
+          wordhorizons: {
+            id: "wordhorizons",
+            name: "Word Horizons",
+            category: "Word Games",
+            description: "Explore your vocabulary in this innovative word puzzle game with beautiful landscapes.",
+            icon: "https://cdn.bdz5.com/staplegames/wordhorizons_icon.png",
+            links: {
+              android: "https://play.google.com/store/apps/details?id=com.staplegames.wordhorizons",
+              ios: "https://apps.apple.com/app/word-horizons/id6444349473"
+            }
+          },
+          wordsearch: {
+            id: "wordsearch",
+            name: "Word Search",
+            category: "Word Games",
+            description: "Find hidden words in all directions in this classic word search puzzle with multiple themes.",
+            icon: "https://cdn.bdz5.com/staplegames/wordsearch_icon.png",
+            links: {
+              android: "https://play.google.com/store/apps/details?id=com.staplegames.wordsearch",
+              ios: "https://apps.apple.com/app/word-search/id1643013597"
+            }
+          },
+          wordgems: {
+            id: "wordgems",
+            name: "Word Gems™",
+            category: "Word Games",
+            description: "Test your vocabulary skills in this engaging word puzzle game with beautiful gem visuals.",
+            icon: "https://cdn.bdz5.com/staplegames/wordgems_icon.png",
+            links: {
+              android: "https://play.google.com/store/apps/details?id=com.staplegames.wordgems",
+              ios: "https://apps.apple.com/app/word-gems/id1639588528"
+            }
+          },
+          yatzy: {
+            id: "yatzy",
+            name: "Yatzy",
+            category: "Dice Games",
+            description: "Roll dice and score points in this classic dice game.",
+            icon: "https://cdn.bdz5.com/staplegames/yatzy_icon.png",
+            links: {
+              android: "https://play.google.com/store/apps/details?id=com.staplegames.yatzy",
+              ios: "https://apps.apple.com/app/yatzy/id6477965248"
+            }
+          },
+          verticalpinball: {
+            id: "verticalpinball",
+            name: "Vertical Pinball",
+            category: "Arcade",
+            description: "Experience pinball like never before! Play classic pinball with a unique vertical twist.",
+            icon: "https://cdn.bdz5.com/staplegames/verticalpinball_icon.png",
+            links: {
+              android: "https://play.google.com/store/apps/details?id=com.staplegames.verticalpinball",
+              ios: "https://apps.apple.com/app/vertical-pinball/id6746164704"
+            }
+          },
+          backgammon: {
+            id: "backgammon",
+            name: "Backgammon",
+            category: "Board Games",
+            description: "The classic board game with smooth controls and beautiful design for endless fun.",
+            icon: "https://cdn.bdz5.com/staplegames/backgammon_icon.png",
+            links: {
+              android: "https://play.google.com/store/apps/details?id=com.staplegames.backgammon",
+              ios: "https://apps.apple.com/app/backgammon/id6451217307"
+            }
+          }
+        },
+        sections: {
+          // Hero icons configuration (1-3-5 pattern)
+          heroIcons: [
+            ["tilecollector"], // Column 1
+            ["sudoku", "blockpuzzle", "spades"], // Column 2
+            ["wordgems", "backgammon", "dice", "spider", "mahjong"] // Column 3
+          ],
+          // Featured games
+          featured: ["matchcollector", "dice"],
+          // All games order
+          allGames: [
+            "matchcollector", "tilecollector", "blockpuzzle", "dice", "spades",
+            "blockssudoku", "dyno", "sudoku", "spider", "freecell", "sagadoku",
+            "blockmatch", "blockswood", "dominoes", "ludo", "mahjong",
+            "sortcollector", "wordhorizons", "wordsearch", "wordgems", "yatzy",
+            "verticalpinball", "backgammon", "solitaire", "hearts"
+          ]
+        }
+      };
+
       // Mobile menu toggle
       const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
       const navLinks = document.querySelector('.nav-links');
@@ -1577,55 +1456,120 @@
         }
       });
       
-      // Featured Games Configuration
-      const featuredGameIds = ['matchcollector', 'dice']; // Configure which games to feature
+      // Function to populate hero icons
+      function populateHeroIcons() {
+        const heroIconStrip = document.getElementById('heroIconStrip');
+        if (!heroIconStrip) return;
+        
+        gameData.sections.heroIcons.forEach((column, colIndex) => {
+          const iconColumn = document.createElement('div');
+          iconColumn.className = 'icon-column';
+          
+          column.forEach(gameId => {
+            const game = gameData.games[gameId];
+            if (game) {
+              const iconLink = document.createElement('a');
+              iconLink.href = `#${gameId}`;
+              iconLink.className = 'mini-app-icon-link';
+              
+              const icon = document.createElement('img');
+              icon.src = game.icon;
+              icon.alt = game.name;
+              icon.className = 'mini-app-icon';
+              
+              iconLink.appendChild(icon);
+              iconColumn.appendChild(iconLink);
+            }
+          });
+          
+          heroIconStrip.appendChild(iconColumn);
+        });
+      }
       
-      // Populate Featured Games from Our Games section
+      // Function to populate featured games
       function populateFeaturedGames() {
         const featuredContainer = document.getElementById('featuredGamesContainer');
         if (!featuredContainer) return;
         
-        featuredGameIds.forEach(gameId => {
-          const gameCard = document.querySelector(`#${gameId}.game-card`);
-          if (gameCard) {
-            const gameContent = gameCard.querySelector('.game-card-content');
-            if (gameContent) {
-              const gameHeader = gameContent.querySelector('.game-header');
-              const gameIcon = gameHeader ? gameHeader.querySelector('.game-icon') : null;
-              const gameInfo = gameHeader ? gameHeader.querySelector('.game-info h3') : null;
-              const gameDesc = gameContent.querySelector('.game-description');
-              const gameLinks = gameContent.querySelector('.game-links');
-              
-              if (gameIcon && gameInfo && gameDesc && gameLinks) {
-                const featuredGame = document.createElement('div');
-                featuredGame.className = 'featured-game animate-on-scroll';
-                featuredGame.innerHTML = `
-                  <div class="featured-game-header">
-                    <img src="${gameIcon.src}" alt="${gameIcon.alt}" class="featured-game-icon">
-                    <div class="featured-content">
-                      <h3>${gameInfo.textContent}</h3>
-                    </div>
-                  </div>
-                  <p>${gameDesc.textContent}</p>
-                  <div class="game-links">
-                    ${gameLinks.innerHTML}
-                  </div>
-                `;
-                featuredContainer.appendChild(featuredGame);
-              }
-            }
+        gameData.sections.featured.forEach(gameId => {
+          const game = gameData.games[gameId];
+          if (game) {
+            const featuredGame = document.createElement('div');
+            featuredGame.className = 'featured-game animate-on-scroll';
+            featuredGame.innerHTML = `
+              <div class="featured-game-header">
+                <img src="${game.icon}" alt="${game.name}" class="featured-game-icon">
+                <div class="featured-content">
+                  <h3>${game.name}</h3>
+                </div>
+              </div>
+              <p>${game.description}</p>
+              <div class="game-links">
+                ${game.links.android ? `<a href="${game.links.android}" class="game-link">Google Play</a>` : ''}
+                ${game.links.ios ? `<a href="${game.links.ios}" class="game-link">App Store</a>` : ''}
+              </div>
+            `;
+            featuredContainer.appendChild(featuredGame);
           }
         });
         
         // Re-observe new elements for animation
         const newFeaturedGames = featuredContainer.querySelectorAll('.animate-on-scroll');
         newFeaturedGames.forEach(el => {
-          if (observer) observer.observe(el);
+          observer.observe(el);
         });
       }
       
-      // Call after all game cards are processed
-      setTimeout(populateFeaturedGames, 100);
+      // Function to populate all games
+      function populateAllGames() {
+        const allGamesGrid = document.getElementById('allGamesGrid');
+        if (!allGamesGrid) return;
+        
+        gameData.sections.allGames.forEach((gameId, index) => {
+          const game = gameData.games[gameId];
+          if (game) {
+            const gameCard = document.createElement('div');
+            gameCard.className = 'game-card animate-on-scroll';
+            gameCard.id = gameId;
+            gameCard.style.transitionDelay = `${Math.min(index * 0.02, 0.3)}s`;
+            
+            gameCard.innerHTML = `
+              <div class="game-card-content">
+                <div class="game-header">
+                  <img src="${game.icon}" alt="${game.name}" class="game-icon">
+                  <div class="game-info">
+                    <h3>${game.name}</h3>
+                    <p class="game-category">${game.category}</p>
+                  </div>
+                </div>
+                <p class="game-description">${game.description}</p>
+                <div class="game-links">
+                  ${game.links.android ? `<a href="${game.links.android}" class="game-link">Google Play</a>` : ''}
+                  ${game.links.ios ? `<a href="${game.links.ios}" class="game-link">App Store</a>` : ''}
+                </div>
+              </div>
+            `;
+            
+            allGamesGrid.appendChild(gameCard);
+          }
+        });
+        
+        // Re-observe new elements for animation
+        const newGameCards = allGamesGrid.querySelectorAll('.animate-on-scroll');
+        newGameCards.forEach(el => {
+          observer.observe(el);
+          // Check if already in view and trigger animation
+          const rect = el.getBoundingClientRect();
+          if (rect.top < window.innerHeight && rect.bottom > 0) {
+            setTimeout(() => el.classList.add('visible'), 20);
+          }
+        });
+      }
+      
+      // Initialize all sections
+      populateHeroIcons();
+      populateFeaturedGames();
+      populateAllGames();
       
       // Add animate-on-scroll to ALL game cards after conversion
       setTimeout(() => {
@@ -2100,8 +2044,8 @@
         });
         
         }, 50); // End of setTimeout for click handlers
-        } // End of initializeAnalyticsTracking function
-      });
+      } // End of initializeAnalyticsTracking function
+    }); // End of DOMContentLoaded
 
   </script>
 </body>
