@@ -1603,6 +1603,66 @@
         return null;
       }
       
+      // Configuration for AppsFlyer
+      const APPSFLYER_CONFIG = {
+        appId: {
+          android: 'com.staplegames.matchcollector', // default
+          ios: 'id6462309005' // default
+        },
+        attributionEndpoint: 'https://app.appsflyer.com/',
+        impressionEndpoint: 'https://impression.appsflyer.com/'
+      };
+      
+      // Function to send attribution data to AppsFlyer
+      async function sendAttribution(appInfo, clickEvent) {
+        console.log('Sending attribution data:', appInfo);
+        
+        // Generate a unique click ID
+        const clickId = `web_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        
+        // Build attribution parameters as a string
+        const appId = appInfo.appId || APPSFLYER_CONFIG.appId[appInfo.store === 'google' ? 'android' : 'ios'];
+        
+        // Build base URL with required parameters
+        let attributionUrl = `${APPSFLYER_CONFIG.attributionEndpoint}` +
+          `${encodeURIComponent(appId)}?` +
+          `c=${encodeURIComponent('website2_organic')}` +
+          `&pid=${encodeURIComponent('sg_web')}` +
+          `&click_id=${encodeURIComponent(clickId)}` +
+          `&redirect=false` +
+          `&af_siteid=${encodeURIComponent('staplegames-website')}`;
+        
+        // Add optional parameters
+        if (appInfo.appName) {
+          attributionUrl += `&af_ad=${encodeURIComponent(appInfo.appName)}`;
+        }
+        
+        // LOG THE FULL ATTRIBUTION URL
+        console.log('=== APPSFLYER ATTRIBUTION URL ===');
+        console.log('Full URL:', attributionUrl);
+        console.log('Parsed components:', {
+          endpoint: APPSFLYER_CONFIG.attributionEndpoint,
+          appId: appId,
+          campaign: 'website2_organic',
+          clickId: clickId,
+          appName: appInfo.appName || 'N/A',
+          store: appInfo.store
+        });
+        console.log('================================');
+        
+        try {
+          // Send attribution request using fetch (non-blocking)
+          const response = await fetch(attributionUrl, {
+            method: 'GET',
+            mode: 'no-cors' // Avoid CORS issues
+          });
+          console.log('Attribution request sent successfully');
+        } catch (error) {
+          console.error('Error sending attribution data:', error);
+          // Don't block the redirect even if attribution fails
+        }
+      }
+      
       // Function to populate hero scrolling cards
       function populateHeroGames() {
         const heroGamesScroll = document.getElementById('heroGamesScroll');
@@ -1659,8 +1719,15 @@
                 });
               }
               
-              // Navigate to store
-              window.location.href = storeUrl;
+              // Send AppsFlyer attribution
+              const appInfo = extractAppInfo(storeUrl);
+              if (appInfo) {
+                sendAttribution(appInfo, e).then(() => {
+                  window.location.href = storeUrl;
+                });
+              } else {
+                window.location.href = storeUrl;
+              }
             }
           });
           
@@ -1769,6 +1836,45 @@
       // Re-setup smooth scroll for dynamically created elements
       setupSmoothScroll();
       
+      // Add tracking for inline store links
+      const inlineStoreLinks = document.querySelectorAll('.inline-store-link');
+      inlineStoreLinks.forEach(link => {
+        link.addEventListener('click', async function(e) {
+          const url = this.href;
+          const storeName = this.textContent.trim();
+          
+          // Send Google Analytics event
+          if (typeof gtag !== 'undefined') {
+            gtag('event', 'click', {
+              event_category: 'hero_inline',
+              event_label: `Developer Page - ${storeName}`,
+              transport_type: 'beacon',
+              value: 1
+            });
+          }
+          
+          // Extract app info and send attribution
+          const appInfo = extractAppInfo(url);
+          if (appInfo) {
+            e.preventDefault();
+            
+            // For developer pages
+            const developerInfo = {
+              store: appInfo.store,
+              bundleId: 'developer-page',
+              isDeveloperPage: true,
+              appName: `Staple Games - ${storeName}`
+            };
+            
+            await sendAttribution(developerInfo, e);
+            
+            setTimeout(() => {
+              window.location.href = url;
+            }, 100);
+          }
+        });
+      });
+      
       // Initialize analytics tracking after all content is loaded
       setTimeout(initializeAnalyticsTracking, 300);
       
@@ -1777,16 +1883,6 @@
       // AppsFlyer Attribution Tracking
       function initializeAnalyticsTracking() {
         console.log("Initializing AppsFlyer attribution tracking");
-        
-        // Configuration for AppsFlyer
-        const APPSFLYER_CONFIG = {
-          appId: {
-            android: 'com.staplegames.matchcollector', // default
-            ios: 'id6462309005' // default
-          },
-          attributionEndpoint: 'https://app.appsflyer.com/',
-          impressionEndpoint: 'https://impression.appsflyer.com/'
-        };
       
 
       
@@ -1859,56 +1955,6 @@
       
       // Send impression event when page loads
       sendImpressionEvent();
-      
-      // Function to send attribution data to AppsFlyer
-      async function sendAttribution(appInfo, clickEvent) {
-        console.log('Sending attribution data:', appInfo);
-        
-        // Generate a unique click ID
-        const clickId = `web_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-        
-        // Build attribution parameters as a string
-        const appId = appInfo.appId || APPSFLYER_CONFIG.appId[appInfo.store === 'google' ? 'android' : 'ios'];
-        
-        // Build base URL with required parameters
-        let attributionUrl = `${APPSFLYER_CONFIG.attributionEndpoint}` +
-          `${encodeURIComponent(appId)}?` +
-          `c=${encodeURIComponent('website2_organic')}` +
-          `&pid=${encodeURIComponent('sg_web')}` +
-          `&click_id=${encodeURIComponent(clickId)}` +
-          `&redirect=false` +
-          `&af_siteid=${encodeURIComponent('staplegames-website')}`;
-        
-        // Add optional parameters
-        if (appInfo.appName) {
-          attributionUrl += `&af_ad=${encodeURIComponent(appInfo.appName)}`;
-        }
-        
-        // LOG THE FULL ATTRIBUTION URL
-        console.log('=== APPSFLYER ATTRIBUTION URL ===');
-        console.log('Full URL:', attributionUrl);
-        console.log('Parsed components:', {
-          endpoint: APPSFLYER_CONFIG.attributionEndpoint,
-          appId: appId,
-          campaign: 'websites2_organic',
-          clickId: clickId,
-          appName: appInfo.appName || 'N/A',
-          store: appInfo.store
-        });
-        console.log('================================');
-        
-        try {
-          // Send attribution request using fetch (non-blocking)
-          const response = await fetch(attributionUrl, {
-            method: 'GET',
-            mode: 'no-cors' // Avoid CORS issues
-          });
-          console.log('Attribution request sent successfully');
-        } catch (error) {
-          console.error('Error sending attribution data:', error);
-          // Don't block the redirect even if attribution fails
-        }
-      }
       
       // Add click handlers to all app store links (updated for new design)
       // Use a slight delay to ensure all dynamic content is loaded
