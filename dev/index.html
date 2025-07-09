@@ -528,13 +528,15 @@
     }
     
     /* Mobile Menu */
-    .mobile-menu-btn {
-      display: none;
-      background: none;
-      border: none;
-      padding: 8px;
-      cursor: pointer;
-    }
+      .mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    position: relative;
+    z-index: 1020;
+  }
     
     .mobile-menu-btn span {
       display: block;
@@ -1514,12 +1516,13 @@
       
 
       
-          mobileMenuBtn.addEventListener('click', function() {
-      navLinks.classList.toggle('active');
-      mobileMenuBtn.classList.toggle('active');
-      // Show/hide logo when menu is opened/closed
-      navLogo.classList.toggle('visible');
-    });
+                mobileMenuBtn.addEventListener('click', function(e) {
+        e.stopPropagation(); // Prevent event from bubbling
+        navLinks.classList.toggle('active');
+        mobileMenuBtn.classList.toggle('active');
+        // Show/hide logo when menu is opened/closed
+        navLogo.classList.toggle('visible');
+      });
       
       // Close menu when clicking a link
       const navLinksItems = document.querySelectorAll('.nav-link');
@@ -1532,6 +1535,21 @@
             navLogo.classList.remove('visible');
           }
         });
+      });
+      
+      // Close menu when clicking outside
+      document.addEventListener('click', function(e) {
+        // Check if menu is active and click is outside menu and button
+        if (navLinks.classList.contains('active') && 
+            !navLinks.contains(e.target) && 
+            !mobileMenuBtn.contains(e.target)) {
+          navLinks.classList.remove('active');
+          mobileMenuBtn.classList.remove('active');
+          // Only hide logo if we're not scrolled
+          if (window.scrollY <= 100) {
+            navLogo.classList.remove('visible');
+          }
+        }
       });
       
       // Function to setup smooth scroll for anchor links
