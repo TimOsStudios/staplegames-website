@@ -1389,37 +1389,8 @@
         });
       }
       
-      oldCards.forEach(card => {
-        const imgContainer = card.querySelector('.app-image-container');
-        const img = imgContainer ? imgContainer.querySelector('img') : null;
-        const info = card.querySelector('.app-info');
-        const name = info ? info.querySelector('.app-name') : null;
-        const desc = info ? info.querySelector('.app-description') : null;
-        const links = info ? info.querySelector('.app-links') : null;
-        
-        if (img && name && desc && links) {
-          const category = getCategory(name.textContent);
-          
-          card.className = 'game-card';
-          card.innerHTML = `
-            <div class="game-card-content">
-              <div class="game-header">
-                <img src="${img.src}" alt="${img.alt}" class="game-icon">
-                <div class="game-info">
-                  <h3>${name.textContent}</h3>
-                  <p class="game-category">${category}</p>
-                </div>
-              </div>
-              <p class="game-description">${desc.textContent}</p>
-              <div class="game-links">
-                ${Array.from(links.querySelectorAll('a')).map(link => 
-                  `<a href="${link.href}" class="game-link">${link.textContent}</a>`
-                ).join('')}
-              </div>
-            </div>
-          `;
-        }
-      });
+      // Call it initially for existing elements
+      setupSmoothScroll();
       
       // Function to populate hero icons
       function populateHeroIcons() {
