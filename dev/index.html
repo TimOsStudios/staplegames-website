@@ -769,18 +769,6 @@
       .featured-game:last-child {
         margin-right: 20px;
       }
-      
-      .campaign-content {
-        padding: 24px;
-      }
-      
-      .campaign-title {
-        font-size: 22px;
-      }
-      
-      .campaign-highlight {
-        font-size: 18px;
-      }
     }
     
     /* Campaign Section */
@@ -853,6 +841,31 @@
     .campaign-hashtag {
       color: var(--accent-purple);
       font-weight: 600;
+    }
+
+    .campaign-terms {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-top: 20px;
+    }
+    
+    /* Mobile overrides for campaign section */
+    @media (max-width: 768px) {
+      .campaign-content {
+        padding: 24px;
+      }
+      
+      .campaign-title {
+        font-size: 22px;
+      }
+      
+      .campaign-highlight {
+        font-size: 18px;
+      }
+      
+      .campaign-emoji {
+        font-size: 32px;
+      }
     }
   </style>
   
@@ -1043,7 +1056,7 @@
         <div class="campaign-emoji">🚗 🎮 💛</div>
         <h2 class="campaign-title">Join Us on the Road to $4 Million with Ryan Trahan</h2>
         <p class="campaign-text">
-          We're proud to support Ryan and Haley on their <em>50 States in 50 Days</em> road trip to raise funds for <strong>St. Jude Children's Research Hospital</strong> — a cause we deeply care about.
+          We're proud to support Ryan and Haley on their <a href="https://www.youtube.com/@ryan" class="campaign-link" target="_blank"><em>50 States in 50 Days</em></a> road trip to raise funds for <strong>St. Jude Children's Research Hospital</strong> — a cause we deeply care about.
         </p>
         <p class="campaign-highlight">
           This week, we're donating $1 for every game download.
@@ -1056,8 +1069,11 @@
           👉 <a href="https://50-states-in-50-days.experience.stjude.org/" class="campaign-link" target="_blank">stjude.org/50states</a>
         </p>
         <p class="campaign-download">
-          <strong>Download to donate on iOS and Android</strong><br>
+          <strong>Download to donate on <a href="https://apps.apple.com/us/developer/staple-games/id1454538415" class="campaign-link" target="_blank">iOS</a> and <a href="https://play.google.com/store/apps/developer?id=Staple+Games" class="campaign-link" target="_blank">Android</a></strong><br>
           <span class="campaign-hashtag">#GamingForGood</span>
+        </p>
+        <p class="campaign-terms">
+          See full terms & details here
         </p>
       </div>
     </div>
