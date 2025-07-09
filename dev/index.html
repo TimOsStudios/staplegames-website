@@ -1518,10 +1518,22 @@
       
                 mobileMenuBtn.addEventListener('click', function(e) {
         e.stopPropagation(); // Prevent event from bubbling
+        const isMenuActive = navLinks.classList.contains('active');
+        
         navLinks.classList.toggle('active');
         mobileMenuBtn.classList.toggle('active');
-        // Show/hide logo when menu is opened/closed
-        navLogo.classList.toggle('visible');
+        
+        // Handle logo visibility based on menu state
+        if (!isMenuActive) {
+          // Opening menu - always show logo
+          navLogo.classList.add('visible');
+        } else {
+          // Closing menu - only hide if not scrolled
+          const heroLogoBottom = heroLogo ? heroLogo.getBoundingClientRect().bottom : 0;
+          if (heroLogoBottom >= 100) {
+            navLogo.classList.remove('visible');
+          }
+        }
       });
       
       // Close menu when clicking a link
@@ -1531,7 +1543,8 @@
           navLinks.classList.remove('active');
           mobileMenuBtn.classList.remove('active');
           // Only hide logo if we're not scrolled
-          if (window.scrollY <= 100) {
+          const heroLogoBottom = heroLogo ? heroLogo.getBoundingClientRect().bottom : 0;
+          if (heroLogoBottom >= 100) {
             navLogo.classList.remove('visible');
           }
         });
@@ -1546,7 +1559,8 @@
           navLinks.classList.remove('active');
           mobileMenuBtn.classList.remove('active');
           // Only hide logo if we're not scrolled
-          if (window.scrollY <= 100) {
+          const heroLogoBottom = heroLogo ? heroLogo.getBoundingClientRect().bottom : 0;
+          if (heroLogoBottom >= 100) {
             navLogo.classList.remove('visible');
           }
         }
