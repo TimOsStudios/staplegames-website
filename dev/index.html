@@ -1517,6 +1517,92 @@
       // Call it initially for existing elements
       setupSmoothScroll();
       
+      // Function to detect user's operating system
+      function detectOS() {
+        const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+        const platform = navigator.platform;
+        
+        // iOS detection
+        if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+          return 'ios';
+        }
+        
+        // iOS detection for iPad on iOS 13+
+        if (platform === 'MacIntel' && navigator.maxTouchPoints > 1) {
+          return 'ios';
+        }
+        
+        // Android detection
+        if (/android/i.test(userAgent)) {
+          return 'android';
+        }
+        
+        // Windows Phone detection
+        if (/windows phone/i.test(userAgent)) {
+          return 'windows_phone';
+        }
+        
+        // Desktop detection
+        if (/Mac|Win|Linux/i.test(platform)) {
+          return 'desktop';
+        }
+        
+        return 'unknown';
+      }
+      
+      // Function to extract app ID from store URL
+      function extractAppInfo(url) {
+        console.log(`Extracting app info from URL: ${url}`);
+        
+        // Google Play pattern
+        const googlePlayMatch = url.match(/play\.google\.com\/store\/apps\/details\?id=([^&]+)/);
+        if (googlePlayMatch) {
+          console.log('Matched Google Play URL');
+          return {
+            store: 'google',
+            appId: googlePlayMatch[1],
+            bundleId: googlePlayMatch[1]
+          };
+        }
+        
+        // App Store pattern with app name (with or without country code)
+        const appStoreMatch = url.match(/apps\.apple\.com\/(?:[^\/]+\/)?app\/([^\/]+)\/id(\d+)/);
+        if (appStoreMatch) {
+          console.log('Matched App Store URL with name');
+          return {
+            store: 'apple',
+            appName: appStoreMatch[1],
+            appId: `id${appStoreMatch[2]}`,
+            bundleId: appStoreMatch[2]
+          };
+        }
+        
+        // App Store pattern without app name (like Dyno)
+        const appStoreShortMatch = url.match(/apps\.apple\.com\/(?:[^\/]+\/)?app\/id(\d+)/);
+        if (appStoreShortMatch) {
+          console.log('Matched App Store URL without name');
+          return {
+            store: 'apple',
+            appName: null,
+            appId: `id${appStoreShortMatch[1]}`,
+            bundleId: appStoreShortMatch[1]
+          };
+        }
+        
+        // Developer page patterns
+        if (url.includes('play.google.com/store/apps/developer')) {
+          console.log('Matched Google Developer page');
+          return { store: 'google', isDeveloperPage: true };
+        }
+        if (url.includes('apps.apple.com') && url.includes('developer')) {
+          console.log('Matched Apple Developer page');
+          return { store: 'apple', isDeveloperPage: true };
+        }
+        
+        console.log('No match found for URL');
+        return null;
+      }
+      
       // Function to populate hero scrolling cards
       function populateHeroGames() {
         const heroGamesScroll = document.getElementById('heroGamesScroll');
@@ -1573,15 +1659,8 @@
                 });
               }
               
-              // Send AppsFlyer attribution
-              const appInfo = extractAppInfo(storeUrl);
-              if (appInfo) {
-                sendAttribution(appInfo, e).then(() => {
-                  window.location.href = storeUrl;
-                });
-              } else {
-                window.location.href = storeUrl;
-              }
+              // Navigate to store
+              window.location.href = storeUrl;
             }
           });
           
@@ -1709,41 +1788,7 @@
           impressionEndpoint: 'https://impression.appsflyer.com/'
         };
       
-      // Function to detect user's operating system
-      function detectOS() {
-        const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-        const platform = navigator.platform;
-        
-        console.log('User Agent:', userAgent);
-        console.log('Platform:', platform);
-        
-        // iOS detection
-        if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-          return 'ios';
-        }
-        
-        // iOS detection for iPad on iOS 13+
-        if (platform === 'MacIntel' && navigator.maxTouchPoints > 1) {
-          return 'ios';
-        }
-        
-        // Android detection
-        if (/android/i.test(userAgent)) {
-          return 'android';
-        }
-        
-        // Windows Phone detection
-        if (/windows phone/i.test(userAgent)) {
-          return 'windows_phone';
-        }
-        
-        // Desktop detection
-        if (/Mac|Win|Linux/i.test(platform)) {
-          return 'desktop';
-        }
-        
-        return 'unknown';
-      }
+
       
       // Function to send impression event when page loads
       async function sendImpressionEvent() {
@@ -1751,6 +1796,8 @@
         
         // Detect user's OS
         const detectedOS = detectOS();
+        console.log('User Agent:', navigator.userAgent);
+        console.log('Platform:', navigator.platform);
         console.log('Detected OS:', detectedOS);
         
         // Determine which app ID to use based on OS
@@ -1812,59 +1859,6 @@
       
       // Send impression event when page loads
       sendImpressionEvent();
-      
-      // Function to extract app ID from store URL
-      function extractAppInfo(url) {
-        console.log(`Extracting app info from URL: ${url}`);
-        
-        // Google Play pattern
-        const googlePlayMatch = url.match(/play\.google\.com\/store\/apps\/details\?id=([^&]+)/);
-        if (googlePlayMatch) {
-          console.log('Matched Google Play URL');
-          return {
-            store: 'google',
-            appId: googlePlayMatch[1],
-            bundleId: googlePlayMatch[1]
-          };
-        }
-        
-        // App Store pattern with app name (with or without country code)
-        const appStoreMatch = url.match(/apps\.apple\.com\/(?:[^\/]+\/)?app\/([^\/]+)\/id(\d+)/);
-        if (appStoreMatch) {
-          console.log('Matched App Store URL with name');
-          return {
-            store: 'apple',
-            appName: appStoreMatch[1],
-            appId: `id${appStoreMatch[2]}`,
-            bundleId: appStoreMatch[2]
-          };
-        }
-        
-        // App Store pattern without app name (like Dyno)
-        const appStoreShortMatch = url.match(/apps\.apple\.com\/(?:[^\/]+\/)?app\/id(\d+)/);
-        if (appStoreShortMatch) {
-          console.log('Matched App Store URL without name');
-          return {
-            store: 'apple',
-            appName: null,
-            appId: `id${appStoreShortMatch[1]}`,
-            bundleId: appStoreShortMatch[1]
-          };
-        }
-        
-        // Developer page patterns
-        if (url.includes('play.google.com/store/apps/developer')) {
-          console.log('Matched Google Developer page');
-          return { store: 'google', isDeveloperPage: true };
-        }
-        if (url.includes('apps.apple.com') && url.includes('developer')) {
-          console.log('Matched Apple Developer page');
-          return { store: 'apple', isDeveloperPage: true };
-        }
-        
-        console.log('No match found for URL');
-        return null;
-      }
       
       // Function to send attribution data to AppsFlyer
       async function sendAttribution(appInfo, clickEvent) {
