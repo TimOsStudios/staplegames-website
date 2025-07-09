@@ -1,0 +1,42 @@
+SOCIAL SHARING IMAGE (OG-IMAGE) INSTRUCTIONS
+============================================
+
+You need to create an og-image.jpg file for social media sharing. 
+This image will appear when your website is shared on Facebook, Twitter, LinkedIn, etc.
+
+SPECIFICATIONS:
+- Filename: og-image.jpg
+- Dimensions: 1200 x 630 pixels (Facebook/LinkedIn recommended)
+- Format: JPEG (for smaller file size)
+- File size: Keep under 1MB for fast loading
+
+DESIGN SUGGESTIONS:
+1. Background: Use your purple accent color (#af52de) or a gradient
+2. Include the Staple Games logo prominently
+3. Add your tagline: "Simple. Clean. Fun."
+4. Show 4-6 game icons in a grid or row
+5. Include text: "Classic Board & Puzzle Games for Mobile"
+6. Add subtle App Store and Google Play logos/badges
+
+TOOLS TO CREATE:
+- Canva (has social media templates)
+- Figma
+- Adobe Photoshop/Illustrator
+- Or any design tool that can export 1200x630px images
+
+ONCE CREATED:
+1. Save as og-image.jpg
+2. Upload to the root of your website
+3. The meta tags are already pointing to https://staplegames.com/og-image.jpg
+
+TESTING:
+After uploading, test your social sharing using:
+- Facebook Sharing Debugger: https://developers.facebook.com/tools/debug/
+- Twitter Card Validator: https://cards-dev.twitter.com/validator
+- LinkedIn Post Inspector: https://www.linkedin.com/post-inspector/
+
+ALTERNATIVE:
+If you want different images for different pages, you can create:
+- og-image-games.jpg (for game pages)
+- og-image-50states.jpg (for the campaign)
+And update the meta tags accordingly on those pages. 

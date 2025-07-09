@@ -1,9 +1,44 @@
-# Robots.txt for staplegames.com
-# Prevent crawling of development pages
+# Robots.txt for Staple Games
+# Last updated: January 2025
 
+# Allow all crawlers
 User-agent: *
-Disallow: /dev/
-Disallow: /dev/*
+Allow: /
 
-# Allow crawling of main site
+# Disallow development directory
+Disallow: /dev/
+
+# Sitemap location
+Sitemap: https://staplegames.com/sitemap.xml
+
+# Crawl delay (optional - remove if not needed)
+# Crawl-delay: 1
+
+# Specific crawler instructions
+User-agent: Googlebot
+Allow: /
+Disallow: /dev/
+
+User-agent: Bingbot
+Allow: /
+Disallow: /dev/
+
+# Block bad bots (optional)
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+# Allow social media crawlers
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
 Allow: /

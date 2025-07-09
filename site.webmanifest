@@ -1,0 +1,45 @@
+{
+  "name": "Staple Games",
+  "short_name": "Staple Games",
+  "description": "Classic board games and modern puzzle games. Simple. Clean. Fun.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#af52de",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://cdn.bdz5.com/staplegames/matchcollector_icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://cdn.bdz5.com/staplegames/matchcollector_icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn.bdz5.com/staplegames/matchcollector_icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn.bdz5.com/staplegames/matchcollector_icon.png",
+      "sizes": "167x167",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn.bdz5.com/staplegames/matchcollector_icon.png",
+      "sizes": "152x152",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn.bdz5.com/staplegames/matchcollector_icon.png",
+      "sizes": "120x120",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["games", "entertainment"],
+  "lang": "en-US"
+} 
