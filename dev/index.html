@@ -849,6 +849,17 @@
       margin-top: 20px;
     }
     
+    .campaign-terms a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    
+    .campaign-terms a:hover {
+      color: var(--text-primary);
+      text-decoration: underline;
+    }
+    
     /* Mobile overrides for campaign section */
     @media (max-width: 768px) {
       .campaign-content {
@@ -1073,7 +1084,7 @@
           <span class="campaign-hashtag">#GamingForGood</span>
         </p>
         <p class="campaign-terms">
-          See full terms & details here
+          <a href="../50-states-terms.html" style="color: var(--text-secondary);">See full terms & details here</a>
         </p>
       </div>
     </div>
