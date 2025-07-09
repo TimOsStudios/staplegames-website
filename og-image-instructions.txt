@@ -15,7 +15,7 @@ DESIGN SUGGESTIONS:
 2. Include the Staple Games logo prominently
 3. Add your tagline: "Simple. Clean. Fun."
 4. Show 4-6 game icons in a grid or row
-5. Include text: "Classic Board & Puzzle Games for Mobile"
+5. Include text: "Simple. Clean. Fun." or "Classic card & puzzle games + compelling originals"
 6. Add subtle App Store and Google Play logos/badges
 
 TOOLS TO CREATE:
