@@ -216,27 +216,48 @@
     }
     
     /* Horizontal Scrolling Game Cards */
-    .hero-games-scroll {
+    .hero-games-wrapper {
       margin-top: 48px;
+      position: relative;
+      max-width: var(--max-width);
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .hero-games-scroll {
       overflow-x: auto;
       overflow-y: hidden;
       scroll-behavior: smooth;
       -webkit-overflow-scrolling: touch;
       padding: 20px 0;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE and Edge */
     }
     
     .hero-games-scroll::-webkit-scrollbar {
-      height: 8px;
+      display: none; /* Hide scrollbar */
     }
     
-    .hero-games-scroll::-webkit-scrollbar-track {
-      background: var(--bg-secondary);
-      border-radius: 4px;
+    /* Gradient overlays for fade effect */
+    .hero-games-wrapper::before,
+    .hero-games-wrapper::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 100px;
+      pointer-events: none;
+      z-index: 1;
     }
     
-    .hero-games-scroll::-webkit-scrollbar-thumb {
-      background: rgba(0, 0, 0, 0.2);
-      border-radius: 4px;
+    .hero-games-wrapper::before {
+      left: 0;
+      background: linear-gradient(to right, var(--bg-secondary) 0%, transparent 100%);
+    }
+    
+    .hero-games-wrapper::after {
+      right: 0;
+      background: linear-gradient(to left, var(--bg-secondary) 0%, transparent 100%);
     }
     
     .hero-games-container {
@@ -279,6 +300,53 @@
     .hero-game-name {
       font-size: 16px;
       font-weight: 600;
+    }
+    
+    /* Auto-scroll animation */
+    @keyframes autoScroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    
+    .hero-games-container {
+      animation: autoScroll 60s linear infinite;
+    }
+    
+    .hero-games-scroll:hover .hero-games-container {
+      animation-play-state: paused;
+    }
+    
+    /* Down arrow section */
+    .hero-see-all {
+      text-align: center;
+      margin-top: 40px;
+      padding-bottom: 20px;
+    }
+    
+    .hero-see-all a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+    
+    .hero-see-all a:hover {
+      color: var(--primary-color);
+      transform: translateY(2px);
+    }
+    
+    .hero-see-all svg {
+      width: 20px;
+      height: 20px;
+      transition: transform 0.2s ease;
+    }
+    
+    .hero-see-all a:hover svg {
+      transform: translateY(2px);
     }
     
     .hero-logo {
@@ -520,9 +588,22 @@
         height: 32px;
       }
       
-      .hero-game-name {
-        font-size: 15px;
-      }
+              .hero-game-name {
+          font-size: 15px;
+        }
+        
+        .hero-games-wrapper::before,
+        .hero-games-wrapper::after {
+          width: 60px;
+        }
+        
+        .hero-see-all {
+          margin-top: 24px;
+        }
+        
+        .hero-see-all a {
+          font-size: 15px;
+        }
       
       .nav-links {
         display: none;
@@ -937,8 +1018,20 @@
     </div>
     
     <!-- Horizontal Scrolling Game Cards -->
-    <div class="hero-games-scroll" id="heroGamesScroll">
-      <!-- Cards will be populated dynamically -->
+    <div class="hero-games-wrapper">
+      <div class="hero-games-scroll" id="heroGamesScroll">
+        <!-- Cards will be populated dynamically -->
+      </div>
+    </div>
+    
+    <!-- See all games arrow -->
+    <div class="hero-see-all">
+      <a href="#games">
+        see all our games
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </a>
     </div>
   </section>
   
@@ -1433,15 +1526,11 @@
         const container = document.createElement('div');
         container.className = 'hero-games-container';
         
-        // Get all games in order
-        gameData.sections.allGames.forEach(gameId => {
-          const game = gameData.games[gameId];
-          if (!game) return;
-          
-          // Create card
+        // Function to create a card
+        function createCard(game) {
           const card = document.createElement('a');
           card.className = 'hero-game-card';
-          card.href = '#'; // Will be set by click handler
+          card.href = 'javascript:void(0)'; // Prevent navigation issues
           
           // Create icon
           const icon = document.createElement('img');
@@ -1496,7 +1585,18 @@
             }
           });
           
-          container.appendChild(card);
+          return card;
+        }
+        
+        // Get all games in order
+        const allGames = gameData.sections.allGames.map(gameId => gameData.games[gameId]).filter(game => game);
+        
+        // Add games twice for seamless looping
+        allGames.forEach(game => {
+          container.appendChild(createCard(game));
+        });
+        allGames.forEach(game => {
+          container.appendChild(createCard(game));
         });
         
         heroGamesScroll.appendChild(container);
