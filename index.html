@@ -532,6 +532,7 @@
     height: 40px;
     justify-content: center;
     align-items: center;
+    z-index: 1002; /* Above everything */
   }
   
   .mobile-menu-btn span {
@@ -893,7 +894,9 @@
   
   /* Mobile menu styles */
   @media (max-width: 768px) {
-    .nav-links {
+    /* Create a full-screen overlay behind the menu */
+    .nav-links::before {
+      content: '';
       position: fixed;
       top: 0;
       left: 0;
@@ -901,19 +904,40 @@
       bottom: 0;
       background: rgba(255, 255, 255, 0.98);
       backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: -1;
+    }
+    
+    .nav-links {
+      position: fixed;
+      top: 52px; /* Start below nav header */
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: transparent; /* Make container transparent */
       flex-direction: column;
-      padding: 72px 20px 20px; /* Top padding to account for nav height */
-      transform: translateY(-100%);
+      padding: 20px;
+      transform: translateY(calc(-100% - 52px)); /* Adjust for header height */
       opacity: 0;
       transition: all 0.3s ease;
-      box-shadow: var(--shadow-medium);
-      z-index: 999; /* Below the nav header */
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      z-index: 999; /* Below nav header */
     }
     
     .nav-links.active {
       display: flex;
       transform: translateY(0);
       opacity: 1;
+    }
+    
+    .nav-links.active::before {
+      opacity: 1;
+    }
+    
+    /* Ensure nav header stays above menu */
+    .nav-header {
+      z-index: 1001 !important;
     }
     
     .nav-link {
