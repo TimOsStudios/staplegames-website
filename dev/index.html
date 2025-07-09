@@ -1856,7 +1856,7 @@
         // Build impression URL
         let impressionUrl = `${APPSFLYER_CONFIG.impressionEndpoint}` +
           `${encodeURIComponent(appIdToUse)}?` +
-          `c=${encodeURIComponent('website_organic')}` +
+          `c=${encodeURIComponent('website2_organic')}` +
           `&pid=${encodeURIComponent('sg_web')}` +
           `&impression_id=${encodeURIComponent(impressionId)}` +
           `&af_siteid=${encodeURIComponent('staplegames-website')}` +
@@ -1868,7 +1868,7 @@
         console.log('Parsed components:', {
           endpoint: APPSFLYER_CONFIG.impressionEndpoint,
           appId: appIdToUse,
-          campaign: 'website_organic',
+          campaign: 'website2_organic',
           pid: 'sg_web',
           impressionId: impressionId,
           platform: detectedOS,
@@ -1958,7 +1958,7 @@
         // Build base URL with required parameters
         let attributionUrl = `${APPSFLYER_CONFIG.attributionEndpoint}` +
           `${encodeURIComponent(appId)}?` +
-          `c=${encodeURIComponent('website_organic')}` +
+          `c=${encodeURIComponent('website2_organic')}` +
           `&pid=${encodeURIComponent('sg_web')}` +
           `&click_id=${encodeURIComponent(clickId)}` +
           `&redirect=false` +
@@ -1975,7 +1975,7 @@
         console.log('Parsed components:', {
           endpoint: APPSFLYER_CONFIG.attributionEndpoint,
           appId: appId,
-          campaign: 'website_organic',
+          campaign: 'websites_organic',
           clickId: clickId,
           appName: appInfo.appName || 'N/A',
           store: appInfo.store
