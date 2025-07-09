@@ -116,16 +116,18 @@
       height: 52px;
     }
     
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      color: var(--text-primary);
-      opacity: 0;
-      transform: translateY(-10px);
-      transition: all 0.3s ease;
-    }
+      .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--text-primary);
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1010;
+  }
     
     .nav-logo.visible {
       opacity: 1;
@@ -906,6 +908,7 @@
       opacity: 0;
       transition: all 0.3s ease;
       box-shadow: var(--shadow-medium);
+      z-index: 999;
     }
       
       .nav-links.active {

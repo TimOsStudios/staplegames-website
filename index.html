@@ -120,6 +120,8 @@
     opacity: 0;
     transform: translateY(-10px);
     transition: all 0.3s ease;
+    position: relative;
+    z-index: 1010;
   }
   
   .nav-logo.visible {
@@ -901,6 +903,7 @@
       opacity: 0;
       transition: all 0.3s ease;
       box-shadow: var(--shadow-medium);
+      z-index: 999;
     }
     
     .nav-links.active {
