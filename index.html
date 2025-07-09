@@ -1421,7 +1421,10 @@
           navLogo.classList.add('visible');
           navHeader.classList.add('scrolled');
         } else {
-          navLogo.classList.remove('visible');
+          // Only hide logo if menu is not active
+          if (!navLinks.classList.contains('active')) {
+            navLogo.classList.remove('visible');
+          }
           navHeader.classList.remove('scrolled');
         }
       }
@@ -1468,6 +1471,8 @@
     mobileMenuBtn.addEventListener('click', function() {
       navLinks.classList.toggle('active');
       mobileMenuBtn.classList.toggle('active');
+      // Show/hide logo when menu is opened/closed
+      navLogo.classList.toggle('visible');
     });
     
     // Close menu when clicking a link
@@ -1476,6 +1481,10 @@
       link.addEventListener('click', function() {
         navLinks.classList.remove('active');
         mobileMenuBtn.classList.remove('active');
+        // Only hide logo if we're not scrolled
+        if (window.scrollY <= 100) {
+          navLogo.classList.remove('visible');
+        }
       });
     });
     
