@@ -26,7 +26,7 @@
     :root {
       --primary-color: #007AFF; /* Apple blue */
       --accent-red: #FF3B30; /* Apple red */
-      --accent-purple: #5856D6; /* Purple from logo */
+      --accent-purple: #af52de; /* Purple from logo */
       --text-primary: #1D1D1F;
       --text-secondary: #86868B;
       --bg-primary: #FFFFFF;
@@ -56,7 +56,7 @@
     
     /* Typography */
     h1 {
-      font-size: 48px;
+      font-size: 40px;
       font-weight: 700;
       letter-spacing: -0.02em;
       line-height: 1.1;
@@ -179,7 +179,7 @@
     
     /* Hero Section */
     .hero {
-      padding: 120px 0 40px;
+      padding: 80px 0 32px;
       text-align: center;
       background: var(--bg-secondary);
       border-bottom: 1px solid var(--border-color);
@@ -197,11 +197,12 @@
       margin: 0 auto;
     }
     
-    .hero-find-us {
-      font-size: 17px;
-      color: var(--text-secondary);
-      margin: 24px 0 0;
-    }
+          .hero-find-us {
+        font-size: 17px;
+        color: var(--text-secondary);
+        margin: 16px auto 0;
+        text-align: center;
+      }
     
     .inline-store-link {
       color: var(--primary-color);
@@ -217,7 +218,7 @@
     
     /* Horizontal Scrolling Game Cards */
     .hero-games-wrapper {
-      margin-top: 48px;
+      margin-top: 8px;
       position: relative;
       max-width: var(--max-width);
       margin-left: auto;
@@ -229,7 +230,7 @@
       overflow-y: hidden;
       scroll-behavior: smooth;
       -webkit-overflow-scrolling: touch;
-      padding: 20px 0;
+      padding: 12px 0;
       scrollbar-width: none; /* Firefox */
       -ms-overflow-style: none; /* IE and Edge */
     }
@@ -319,8 +320,8 @@
     /* Down arrow section */
     .hero-see-all {
       text-align: center;
-      margin-top: 40px;
-      padding-bottom: 20px;
+      margin-top: 24px;
+      padding-bottom: 16px;
     }
     
     .hero-see-all a {
@@ -350,28 +351,28 @@
     }
     
     .hero-logo {
-      width: 120px;
-      height: 120px;
-      margin: 0 auto 24px;
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 16px;
       border-radius: var(--border-radius-large);
       box-shadow: var(--shadow-medium);
     }
     
     .hero h1 {
-      margin-bottom: 8px;
+      margin-bottom: 4px;
     }
     
     .hero-tagline {
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 500;
-      color: var(--text-primary);
-      margin-bottom: 16px;
+      color: var(--accent-purple);
+      margin-bottom: 12px;
     }
     
     .hero-subtitle {
-      font-size: 19px;
+      font-size: 18px;
       color: var(--text-secondary);
-      margin: 0 0 40px;
+      margin: 0 0 24px;
     }
     
     .store-buttons {
@@ -552,11 +553,11 @@
     
     @media (max-width: 768px) {
       h1 {
-        font-size: 36px;
+        font-size: 32px;
       }
       
       .hero {
-        padding: 80px 0 20px;
+        padding: 72px 0 20px;
       }
       
       .hero-tagline {
@@ -572,7 +573,7 @@
       }
       
       .hero-games-scroll {
-        margin-top: 32px;
+        margin-top: 8px;
       }
       
       .hero-games-container {
@@ -598,7 +599,7 @@
         }
         
         .hero-see-all {
-          margin-top: 24px;
+          margin-top: 16px;
         }
         
         .hero-see-all a {
@@ -785,7 +786,7 @@
     /* Campaign Section */
     .campaign-section {
       background: linear-gradient(135deg, #f8f8fb 0%, #ffffff 100%);
-      padding: 60px 0;
+      padding: 48px 0;
       border-bottom: 1px solid var(--border-color);
     }
     
@@ -1006,14 +1007,6 @@
         
         <!-- Subtitle -->
         <p class="hero-subtitle">Rediscover the classics you love — and fall for our originals</p>
-        
-        <!-- Find us text with inline store links -->
-        <p class="hero-find-us">
-          Find us in the 
-          <a href="https://apps.apple.com/us/developer/staple-games/id1454538415" class="inline-store-link">App Store</a> 
-          and 
-          <a href="https://play.google.com/store/apps/developer?id=Staple+Games" class="inline-store-link">Google Play</a>
-        </p>
       </div>
     </div>
     
@@ -1023,6 +1016,14 @@
         <!-- Cards will be populated dynamically -->
       </div>
     </div>
+    
+    <!-- Find us text with inline store links -->
+    <p class="hero-find-us">
+      Find us in the 
+      <a href="https://apps.apple.com/us/developer/staple-games/id1454538415" class="inline-store-link">App Store</a> 
+      and 
+      <a href="https://play.google.com/store/apps/developer?id=Staple+Games" class="inline-store-link">Google Play</a>
+    </p>
     
     <!-- See all games arrow -->
     <div class="hero-see-all">
