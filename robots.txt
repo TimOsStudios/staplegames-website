@@ -8,6 +8,9 @@ Allow: /
 # Disallow development directory
 Disallow: /dev/
 
+# Disallow private directories
+Disallow: /teamwater/
+
 # Sitemap location
 Sitemap: https://staplegames.com/sitemap.xml
 
@@ -18,10 +21,12 @@ Sitemap: https://staplegames.com/sitemap.xml
 User-agent: Googlebot
 Allow: /
 Disallow: /dev/
+Disallow: /teamwater/
 
 User-agent: Bingbot
 Allow: /
 Disallow: /dev/
+Disallow: /teamwater/
 
 # Block bad bots (optional)
 User-agent: AhrefsBot
