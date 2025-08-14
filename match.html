@@ -321,6 +321,108 @@
       return 'unknown';
     }
     
+    // Configuration for AppsFlyer
+    const APPSFLYER_CONFIG = {
+      appId: {
+        android: 'com.staplegames.matchcollector',
+        ios: 'id6462309005'
+      },
+      attributionEndpoint: 'https://app.appsflyer.com/'
+    };
+    
+    // Function to extract app ID from store URL
+    function extractAppInfo(url) {
+      console.log(`Extracting app info from URL: ${url}`);
+      
+      // Google Play pattern
+      const googlePlayMatch = url.match(/play\.google\.com\/store\/apps\/details\?id=([^&]+)/);
+      if (googlePlayMatch) {
+        console.log('Matched Google Play URL');
+        return {
+          store: 'google',
+          appId: googlePlayMatch[1],
+          bundleId: googlePlayMatch[1]
+        };
+      }
+      
+      // App Store pattern with app name (with or without country code)
+      const appStoreMatch = url.match(/apps\.apple\.com\/(?:[^\/]+\/)?app\/([^\/]+)\/id(\d+)/);
+      if (appStoreMatch) {
+        console.log('Matched App Store URL with name');
+        return {
+          store: 'apple',
+          appName: appStoreMatch[1],
+          appId: `id${appStoreMatch[2]}`,
+          bundleId: appStoreMatch[2]
+        };
+      }
+      
+      // App Store pattern without app name
+      const appStoreShortMatch = url.match(/apps\.apple\.com\/(?:[^\/]+\/)?app\/id(\d+)/);
+      if (appStoreShortMatch) {
+        console.log('Matched App Store URL without name');
+        return {
+          store: 'apple',
+          appName: null,
+          appId: `id${appStoreShortMatch[1]}`,
+          bundleId: appStoreShortMatch[1]
+        };
+      }
+      
+      console.log('No match found for URL');
+      return null;
+    }
+    
+    // Function to send attribution data to AppsFlyer
+    async function sendAttribution(appInfo, clickEvent) {
+      console.log('Sending attribution data:', appInfo);
+      
+      // Generate a unique click ID
+      const clickId = `web_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      
+      // Build attribution parameters
+      const appId = appInfo.appId || APPSFLYER_CONFIG.appId[appInfo.store === 'google' ? 'android' : 'ios'];
+      
+      // Build base URL with required parameters
+      let attributionUrl = `${APPSFLYER_CONFIG.attributionEndpoint}` +
+        `${encodeURIComponent(appId)}?` +
+        `c=${encodeURIComponent('website_organic')}` +
+        `&pid=${encodeURIComponent('sg_web')}` +
+        `&click_id=${encodeURIComponent(clickId)}` +
+        `&redirect=false` +
+        `&af_siteid=${encodeURIComponent('staplegames-website-match')}`;
+      
+      // Add optional parameters
+      if (appInfo.appName) {
+        attributionUrl += `&af_ad=${encodeURIComponent(appInfo.appName)}`;
+      }
+      
+      // LOG THE FULL ATTRIBUTION URL
+      console.log('=== APPSFLYER ATTRIBUTION URL ===');
+      console.log('Full URL:', attributionUrl);
+      console.log('Parsed components:', {
+        endpoint: APPSFLYER_CONFIG.attributionEndpoint,
+        appId: appId,
+        campaign: 'website_organic',
+        clickId: clickId,
+        appName: appInfo.appName || 'N/A',
+        store: appInfo.store
+      });
+      console.log('================================');
+      
+      try {
+        // Send attribution request using fetch (non-blocking)
+        const response = await fetch(attributionUrl, {
+          method: 'GET',
+          mode: 'no-cors' // Avoid CORS issues
+        });
+        console.log('Attribution request sent successfully');
+      } catch (error) {
+        console.error('Error sending attribution data:', error);
+        // Don't block the redirect even if attribution fails
+      }
+    }
+    
     // Handle redirect based on device
     window.addEventListener('DOMContentLoaded', function() {
       const os = detectOS();
@@ -339,13 +441,26 @@
           });
         }
         
-        // Show loading state briefly then redirect
-        document.querySelector('.mobile-redirect').style.display = 'block';
-        document.querySelector('.game-card').style.display = 'none';
-        
-        setTimeout(() => {
-          window.location.replace(iosUrl);
-        }, 500);
+        // Send AppsFlyer attribution
+        const appInfo = extractAppInfo(iosUrl);
+        if (appInfo) {
+          sendAttribution(appInfo, null).then(() => {
+            // Show loading state briefly then redirect
+            document.querySelector('.mobile-redirect').style.display = 'block';
+            document.querySelector('.game-card').style.display = 'none';
+            
+            setTimeout(() => {
+              window.location.replace(iosUrl);
+            }, 300);
+          });
+        } else {
+          // Fallback if attribution fails
+          document.querySelector('.mobile-redirect').style.display = 'block';
+          document.querySelector('.game-card').style.display = 'none';
+          setTimeout(() => {
+            window.location.replace(iosUrl);
+          }, 500);
+        }
         
       } else if (os === 'android') {
         // Send analytics event
@@ -357,13 +472,26 @@
           });
         }
         
-        // Show loading state briefly then redirect
-        document.querySelector('.mobile-redirect').style.display = 'block';
-        document.querySelector('.game-card').style.display = 'none';
-        
-        setTimeout(() => {
-          window.location.replace(androidUrl);
-        }, 500);
+        // Send AppsFlyer attribution
+        const appInfo = extractAppInfo(androidUrl);
+        if (appInfo) {
+          sendAttribution(appInfo, null).then(() => {
+            // Show loading state briefly then redirect
+            document.querySelector('.mobile-redirect').style.display = 'block';
+            document.querySelector('.game-card').style.display = 'none';
+            
+            setTimeout(() => {
+              window.location.replace(androidUrl);
+            }, 300);
+          });
+        } else {
+          // Fallback if attribution fails
+          document.querySelector('.mobile-redirect').style.display = 'block';
+          document.querySelector('.game-card').style.display = 'none';
+          setTimeout(() => {
+            window.location.replace(androidUrl);
+          }, 500);
+        }
         
       } else {
         // Desktop or unknown - show game card
@@ -380,16 +508,31 @@
         }
       }
       
-      // Add click tracking to store links
+      // Add click tracking to store links with AppsFlyer attribution
       document.querySelectorAll('.game-link').forEach(link => {
-        link.addEventListener('click', function() {
+        link.addEventListener('click', async function(e) {
+          const url = this.href;
           const store = this.classList.contains('ios') ? 'App Store' : 'Google Play';
+          
+          // Send Google Analytics event
           if (typeof gtag !== 'undefined') {
             gtag('event', 'click', {
               event_category: 'match_desktop',
               event_label: `${store} - Match Collector`,
               transport_type: 'beacon'
             });
+          }
+          
+          // Send AppsFlyer attribution
+          const appInfo = extractAppInfo(url);
+          if (appInfo) {
+            e.preventDefault();
+            await sendAttribution(appInfo, e);
+            
+            // Small delay to ensure request is sent
+            setTimeout(() => {
+              window.location.href = url;
+            }, 100);
           }
         });
       });
