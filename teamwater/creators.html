@@ -9,6 +9,65 @@
     gtag('js', new Date());
     gtag('config', 'G-KBFQ2R1TS4');
   </script>
+  
+  <!-- AppsFlyer Configuration -->
+  <script>
+    // Configuration for AppsFlyer
+    const APPSFLYER_CONFIG = {
+      appId: {
+        android: 'com.staplegames.toycollector',
+        ios: 'id1560969812'
+      },
+      devKey: 'YOUR_APPSFLYER_DEV_KEY' // Replace with actual dev key
+    };
+    
+    // Function to send attribution data to AppsFlyer
+    async function sendAttribution(appInfo, clickEvent) {
+      console.log('Sending attribution data:', appInfo);
+      
+      // Generate a unique click ID
+      const clickId = `web_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      
+      // Prepare attribution data
+      const attributionData = {
+        media_source: 'teamwater_creators',
+        campaign: 'teamwater_2024',
+        click_id: clickId,
+        app_id: appInfo.appId,
+        platform: appInfo.platform,
+        timestamp: new Date().toISOString()
+      };
+      
+      // Store click data for later retrieval
+      sessionStorage.setItem('af_click_data', JSON.stringify(attributionData));
+      
+      // Send to AppsFlyer (placeholder - replace with actual endpoint)
+      try {
+        // Actual AppsFlyer API call would go here
+        console.log('Attribution data prepared:', attributionData);
+      } catch (error) {
+        console.error('Error sending attribution:', error);
+      }
+    }
+    
+    // Function to extract app info from URL
+    function extractAppInfo(url) {
+      if (url.includes('apps.apple.com')) {
+        return {
+          platform: 'ios',
+          appId: APPSFLYER_CONFIG.appId.ios,
+          storeUrl: url
+        };
+      } else if (url.includes('play.google.com')) {
+        return {
+          platform: 'android',
+          appId: APPSFLYER_CONFIG.appId.android,
+          storeUrl: url
+        };
+      }
+      return null;
+    }
+  </script>
 
   <!-- Primary Meta Tags -->
   <meta charset="UTF-8">
@@ -746,6 +805,22 @@
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
+    
+    /* Form error/success states */
+    .form-error {
+      background: #ffebee;
+      color: #c62828;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-top: 16px;
+      font-size: 14px;
+      display: none;
+    }
+    
+    .form-error.show {
+      display: block;
+      animation: slideDown 0.3s ease-out;
+    }
   </style>
 </head>
 <body>
@@ -772,7 +847,7 @@
   <div class="container">
     <div class="hero-content">
       <div class="water-emoji">💧</div>
-      <h1>#PlayItForward with Staple Games and <span class="highlight">#TeamWater</span></h1>
+              <h1><span style="color: var(--accent-purple);">#PlayItForward</span> for <span class="highlight">#TeamWater</span></h1>
       <p class="hero-subtitle">
         We've released a special Water World event in our top game, <a href="/match" style="color: var(--water-blue); text-decoration: none; font-weight: 600; transition: all 0.2s ease;" onmouseover="this.style.color='var(--accent-purple)'; this.style.textDecoration='underline';" onmouseout="this.style.color='var(--water-blue)'; this.style.textDecoration='none';">Match Collector</a>, 
         where every water tile or Creator Trophy unlocked generates another week of water! 
@@ -782,6 +857,11 @@
       <p class="hero-subtitle" style="margin-top: 16px; font-weight: 600;">
         The more you encourage your audiences to download and play Staple Games, 
         the more donations they'll unlock for #TeamWater!
+      </p>
+      <p style="margin-top: 24px;">
+        <a href="#creatorForm" class="submit-btn" style="display: inline-block; padding: 14px 32px; margin-top: 0;">
+          Fill out the form to get started →
+        </a>
       </p>
       <div class="hero-stats">
         <div class="stat-item">
@@ -800,6 +880,364 @@
     </div>
   </div>
 </section>
+
+<!-- How It Works Section (Moved up) -->
+<section class="overview-section">
+  <div class="container">
+    <div class="overview-content">
+      <div class="section-header">
+        <h2>How It Works</h2>
+        <p>Simple steps to make a massive impact</p>
+      </div>
+      
+      <h3>Why This Works</h3>
+      <p>
+        Many of your followers want to support #TeamWater but might be tapped out or unable to donate cash. 
+        Through Staple Games, they can contribute meaningfully just by playing a fun, free game. 
+        This approach has already generated over $300K for #TeamWater and raised $815K+ for St. Jude Children's Hospital.
+      </p>
+      
+      <h3 style="margin-top: 32px;">Recent Success</h3>
+      <p>
+        Content creator Christian and his cat Layla have already raised more than <strong>$15,000 for #TeamWater</strong> 
+        by working with Staple Games. In fact, they're the top donors on their community fundraising pages!
+      </p>
+      
+      <div class="impact-box">
+        <h4>Your Impact Potential</h4>
+        <p><strong>If just 1,000 of your followers play:</strong></p>
+        <ul style="list-style: none; padding: 0; margin: 12px 0;">
+          <li>✓ 1,000 months of clean water donated instantly</li>
+          <li>✓ Thousands more weeks from gameplay</li>
+          <li>✓ Zero cost to your audience</li>
+          <li>✓ Fun, engaging content for your channel</li>
+        </ul>
+      </div>
+      
+      <h3 style="margin-top: 32px;">How It Works</h3>
+      <ol class="steps-list">
+        <li data-step="1">
+          <strong>Create engaging content</strong> encouraging your audience to download and play "Match Collector" - our most popular match-3 game with a special Water World event just for #TeamWater.
+        </li>
+        <li data-step="2">
+          <strong>Every download = 1 month of clean water</strong> for someone in need.
+        </li>
+        <li data-step="3">
+          <strong>Every trophy or Water Tile unlocked = another week of water!</strong>
+        </li>
+        <li data-step="4">
+          <strong>Create a Tiltify #TeamWater community page</strong> so we can donate on your community's behalf!
+        </li>
+        <li data-step="5">
+          <strong>Join us</strong> as we track the impact of thousands of followers from creators like you as they contribute to #TeamWater without opening their wallets.
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- Match Collector Game Preview Section -->
+<section class="game-preview-section" style="padding: 60px 0; background: linear-gradient(135deg, rgba(0, 122, 255, 0.05) 0%, rgba(175, 82, 222, 0.05) 100%);">
+  <div class="container">
+    <div class="section-header">
+      <h2>Match Collector Game Preview</h2>
+      <p>See the special #TeamWater Water World event in action</p>
+    </div>
+    
+    <div class="game-preview-container" style="display: flex; gap: 32px; align-items: stretch; justify-content: center; max-width: 1400px; margin: 0 auto;">
+      
+      <!-- Column 1: Game Overview -->
+      <div class="game-overview" style="flex: 0 0 320px; display: flex; flex-direction: column;">
+        <div style="background: white; padding: 24px; border-radius: 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); height: 100%; display: flex; flex-direction: column;">
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+            <img src="https://cdn.bdz5.com/staplegames/matchcollector_icon.png" alt="Match Collector" style="width: 56px; height: 56px; border-radius: 12px;">
+            <div>
+              <h3 style="font-size: 18px; margin: 0; color: var(--primary-color);">Match Collector</h3>
+              <p style="margin: 0; font-size: 14px; color: var(--water-blue); font-weight: 600;">Water World</p>
+            </div>
+          </div>
+          
+          <p style="font-size: 14px; line-height: 1.5; margin-bottom: 16px;">
+            Water World is a special <span style="color: var(--water-blue); font-weight: 600;">#TeamWater</span> themed expansion of Match Collector.
+          </p>
+          
+          <p style="font-size: 14px; line-height: 1.5; margin-bottom: 20px; font-weight: 600;">
+            Every Water Tile unlock and Creator Trophy adds more to the water total!
+          </p>
+          
+          <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
+            <a href="https://apps.apple.com/us/app/match-collector-organize-game/id1560969812" 
+               target="_blank" 
+               class="app-store-btn ios-btn"
+               onclick="trackAppDownload('ios', event)"
+               style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 25px; font-weight: 600; font-size: 14px; transition: all 0.3s ease;"
+               onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(175, 82, 222, 0.25)'" 
+               onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+              <svg viewBox="0 0 24 24" fill="currentColor" style="width: 18px; height: 18px;">
+                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+              </svg>
+              Download on App Store
+            </a>
+            <a href="https://play.google.com/store/apps/details?id=com.staplegames.toycollector" 
+               target="_blank" 
+               class="app-store-btn android-btn"
+               onclick="trackAppDownload('android', event)"
+               style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 20px; background: linear-gradient(135deg, #0F9D58 0%, #4285F4 100%); color: white; text-decoration: none; border-radius: 25px; font-weight: 600; font-size: 14px; transition: all 0.3s ease;"
+               onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(15, 157, 88, 0.25)'" 
+               onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+              <svg viewBox="0 0 24 24" fill="currentColor" style="width: 18px; height: 18px;">
+                <path d="M3 20.5v-17c0-.59.34-1.11.84-1.35L13.69 12l-9.85 9.85c-.5-.25-.84-.76-.84-1.35m13.81-5.38L6.05 21.34l8.49-8.49 2.27 2.27m3.35-4.31c.34.27.59.69.59 1.19s-.25.92-.59 1.19l-2.06 1.19-2.48-2.48 2.48-2.48 2.06 1.39M6.05 2.66L16.81 8.88l-2.27 2.27L6.05 2.66z"/>
+              </svg>
+              Get it on Google Play
+            </a>
+          </div>
+          
+          <div style="text-align: center; padding: 16px; background: var(--bg-secondary); border-radius: 12px; margin-top: auto;">
+            <div style="width: 140px; height: 140px; margin: 0 auto 12px; background: white; padding: 12px; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+              <img src="images/match-collector-qr-code.png" alt="Match Collector QR Code" style="width: 100%; height: 100%; object-fit: contain;">
+            </div>
+            <p style="font-size: 12px; margin: 0; line-height: 1.4;">
+              scan to download or go to<br>
+              <a href="/match" style="color: var(--primary-color); font-weight: 600; text-decoration: none;">staplegames.com/match</a>
+            </p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Column 2: Toggle Buttons -->
+      <div class="demo-controls" style="flex: 0 0 380px; display: flex; flex-direction: column; justify-content: center;">
+        <div class="demo-toggle-stack" style="display: flex; flex-direction: column; gap: 14px;">
+          
+          <!-- Themed Gameplay Button -->
+          <button class="demo-btn active" data-demo="themed" onclick="switchDemo('themed')" 
+                  style="position: relative; display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; background: white; border: 2px solid var(--accent-purple); border-radius: 14px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(175, 82, 222, 0.3); transform: scale(1.02); z-index: 3;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <img src="images/tile-1-month.png" alt="+1 Month" style="width: 40px; height: 40px; object-fit: contain;">
+              <div style="text-align: left;">
+                <div style="font-size: 16px; font-weight: 700; color: var(--accent-purple);">Themed Gameplay</div>
+                <small style="display: block; font-size: 12px; color: var(--text-secondary); margin-top: 1px;">when you download and play</small>
+              </div>
+            </div>
+            <svg viewBox="0 0 24 24" fill="currentColor" style="width: 20px; height: 20px; color: var(--accent-purple); flex-shrink: 0;">
+              <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+            </svg>
+          </button>
+          
+          <!-- Special Event Tiles Button -->
+          <button class="demo-btn" data-demo="water" onclick="switchDemo('water')" 
+                  style="position: relative; display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; background: white; border: 2px solid var(--border-color); border-radius: 14px; cursor: pointer; transition: all 0.3s ease; opacity: 0.7; transform: scale(0.98); z-index: 2;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <img src="images/tile-1-week.png" alt="+1 Week" style="width: 40px; height: 40px; object-fit: contain; opacity: 0.8;">
+              <div style="text-align: left;">
+                <div style="font-size: 16px; font-weight: 600; color: var(--text-primary); opacity: 0.8;">Special Event Tiles</div>
+                <small style="display: block; font-size: 12px; color: var(--text-secondary); margin-top: 1px; opacity: 0.8;">for every Water World Tile</small>
+              </div>
+            </div>
+            <svg viewBox="0 0 24 24" fill="currentColor" style="width: 20px; height: 20px; color: var(--text-secondary); flex-shrink: 0; opacity: 0.6;">
+              <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+            </svg>
+          </button>
+          
+          <!-- Creator Trophies Button -->
+          <button class="demo-btn" data-demo="trophy" onclick="switchDemo('trophy')" 
+                  style="position: relative; display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; background: white; border: 2px solid var(--border-color); border-radius: 14px; cursor: pointer; transition: all 0.3s ease; opacity: 0.6; transform: scale(0.95); z-index: 1;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <img src="images/tile-1-week.png" alt="+1 Week" style="width: 40px; height: 40px; object-fit: contain; opacity: 0.8;">
+              <div style="text-align: left;">
+                <div style="font-size: 16px; font-weight: 600; color: var(--text-primary); opacity: 0.8;">Creator Trophies</div>
+                <small style="display: block; font-size: 12px; color: var(--text-secondary); margin-top: 1px; opacity: 0.8;">for every Creator Trophy</small>
+              </div>
+            </div>
+            <svg viewBox="0 0 24 24" fill="currentColor" style="width: 20px; height: 20px; color: var(--text-secondary); flex-shrink: 0; opacity: 0.6;">
+              <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Column 3: iPhone Mockup -->
+      <div class="game-demo" style="flex: 0 0 280px; display: flex; align-items: center;">
+        <div class="iphone-frame" style="position: relative; width: 100%; max-width: 280px;">
+          <div style="background: #1a1a1a; border-radius: 30px; padding: 8px; box-shadow: 0 12px 40px rgba(0,0,0,0.2);">
+            <div style="background: #000; border-radius: 24px; overflow: hidden; position: relative;">
+              <!-- Phone notch -->
+              <div style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 120px; height: 20px; background: #1a1a1a; border-radius: 0 0 15px 15px; z-index: 10;"></div>
+              
+              <!-- Demo Content Container -->
+              <div style="padding-top: 20px; background: #000; position: relative; overflow: hidden;">
+                <!-- Aspect ratio container matching the GIF dimensions -->
+                <div style="position: relative; width: 100%; padding-bottom: 200%;"><!-- Adjusted for better fit -->
+                  <img id="demo-themed" src="images/themed-play.gif" alt="Themed Gameplay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity 0.3s ease;">
+                  <img id="demo-water" src="images/water-tiles-demo.gif" alt="Water Event Tiles" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; display: none; transition: opacity 0.3s ease;">
+                  <img id="demo-trophy" src="images/layla.gif" alt="Creator Trophies" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; display: none; transition: opacity 0.3s ease;">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @media (max-width: 1200px) {
+    .game-preview-container {
+      flex-direction: column !important;
+      gap: 24px !important;
+      align-items: center !important;
+    }
+    
+    .game-overview,
+    .demo-controls,
+    .game-demo {
+      flex: 1 1 auto !important;
+      width: 100% !important;
+      max-width: 500px !important;
+    }
+    
+    .demo-toggle-stack {
+      width: 100%;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .demo-btn {
+      padding: 16px 18px !important;
+    }
+    
+    .demo-btn img {
+      width: 36px !important;
+      height: 36px !important;
+    }
+    
+    .demo-btn > div > div > div {
+      font-size: 15px !important;
+    }
+    
+    .demo-btn small {
+      font-size: 11px !important;
+    }
+  }
+</style>
+
+<script>
+let autoRotateTimer;
+let currentDemoIndex = 0;
+const demoTypes = ['themed', 'water', 'trophy'];
+
+function switchDemo(type) {
+  // Clear auto-rotate timer
+  clearInterval(autoRotateTimer);
+  
+  // Hide all demos with fade effect
+  document.querySelectorAll('[id^="demo-"]').forEach(demo => {
+    demo.style.display = 'none';
+  });
+  
+  // Show selected demo
+  setTimeout(() => {
+    document.getElementById('demo-' + type).style.display = 'block';
+  }, 100);
+  
+  // Update button states
+  document.querySelectorAll('.demo-btn').forEach((btn, index) => {
+    const isActive = btn.dataset.demo === type;
+    
+    if (isActive) {
+      // Active state
+      btn.classList.add('active');
+      btn.style.border = '2px solid var(--accent-purple)';
+      btn.style.boxShadow = '0 4px 12px rgba(175, 82, 222, 0.3)';
+      btn.style.transform = 'scale(1.02)';
+      btn.style.opacity = '1';
+      btn.style.zIndex = '3';
+      
+      // Update text colors for active
+      btn.querySelector('div > div > div').style.color = 'var(--accent-purple)';
+      btn.querySelector('svg').style.color = 'var(--accent-purple)';
+      btn.querySelector('img').style.opacity = '1';
+      btn.querySelector('small').style.opacity = '1';
+    } else {
+      // Inactive states with progressive fade
+      btn.classList.remove('active');
+      btn.style.border = '2px solid var(--border-color)';
+      btn.style.boxShadow = 'none';
+      
+      const btnIndex = demoTypes.indexOf(btn.dataset.demo);
+      const activeIndex = demoTypes.indexOf(type);
+      const distance = Math.abs(btnIndex - activeIndex);
+      
+      if (distance === 1) {
+        btn.style.transform = 'scale(0.98)';
+        btn.style.opacity = '0.7';
+        btn.style.zIndex = '2';
+      } else {
+        btn.style.transform = 'scale(0.95)';
+        btn.style.opacity = '0.6';
+        btn.style.zIndex = '1';
+      }
+      
+      // Update text colors for inactive
+      btn.querySelector('div > div > div').style.color = 'var(--text-primary)';
+      btn.querySelector('div > div > div').style.opacity = '0.8';
+      btn.querySelector('svg').style.color = 'var(--text-secondary)';
+      btn.querySelector('svg').style.opacity = '0.6';
+      btn.querySelector('img').style.opacity = '0.8';
+      btn.querySelector('small').style.opacity = '0.8';
+    }
+  });
+  
+  // Update current index
+  currentDemoIndex = demoTypes.indexOf(type);
+  
+  // Restart auto-rotate
+  startAutoRotate();
+}
+
+function startAutoRotate() {
+  autoRotateTimer = setInterval(() => {
+    currentDemoIndex = (currentDemoIndex + 1) % demoTypes.length;
+    switchDemo(demoTypes[currentDemoIndex]);
+  }, 10000); // Rotate every 10 seconds
+}
+
+// Initialize auto-rotation on page load
+document.addEventListener('DOMContentLoaded', () => {
+  startAutoRotate();
+});
+
+// Function to track app downloads
+function trackAppDownload(platform, event) {
+  const store = platform === 'ios' ? 'App Store' : 'Google Play';
+  const url = event.currentTarget.href;
+  
+  // Send Google Analytics event
+  if (typeof gtag !== 'undefined') {
+    gtag('event', 'click', {
+      event_category: 'teamwater_creators',
+      event_label: `${store} - Match Collector`,
+      event_value: 1,
+      transport_type: 'beacon'
+    });
+    
+    gtag('event', 'download_click', {
+      app_name: 'Match Collector',
+      platform: platform,
+      source: 'teamwater_creators_page'
+    });
+  }
+  
+  // Send AppsFlyer attribution
+  const appInfo = extractAppInfo(url);
+  if (appInfo && typeof sendAttribution === 'function') {
+    event.preventDefault();
+    sendAttribution(appInfo, event).then(() => {
+      window.open(url, '_blank');
+    });
+  }
+}
+</script>
 
 <!-- Form Section -->
 <section class="form-section">
@@ -863,13 +1301,40 @@
           <div class="checkbox-label">
             <label for="trophy">
               <strong>Yes, I want to have a trophy in the game!</strong><br>
-              <small>Get your custom trophy integrated into Match Collector that matches your personality and online brand.</small>
+              <small>Get your custom trophy integrated into Match Collector that matches your personality and online brand. Click the examples below to see these creators!</small>
             </label>
             <div class="checkbox-images">
-              <img src="images/layla-tile.png" alt="Example Trophy 1" onerror="this.style.display='none'">
-              <img src="images/purple-spinner.png" alt="Example Trophy 2" onerror="this.style.display='none'">
+              <a href="https://www.instagram.com/laylathaplaya/" target="_blank" rel="noopener noreferrer" title="@laylathaplaya">
+                <img src="images/tile-layla.png" alt="Layla Trophy" style="cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" onerror="this.style.display='none'">
+              </a>
+              <a href="https://www.instagram.com/mrbeast/" target="_blank" rel="noopener noreferrer" title="@mrbeast">
+                <img src="images/tile-beast.png" alt="MrBeast Trophy" style="cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" onerror="this.style.display='none'">
+              </a>
+              <a href="https://www.instagram.com/ryantrahan/" target="_blank" rel="noopener noreferrer" title="@ryantrahan">
+                <img src="images/tile-sleepy-cowboy.png" alt="Ryan Trahan Trophy" style="cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" onerror="this.style.display='none'">
+              </a>
+              <a href="https://www.instagram.com/markrober/" target="_blank" rel="noopener noreferrer" title="@markrober">
+                <img src="images/tile-squirel.png" alt="Mark Rober Trophy" style="cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" onerror="this.style.display='none'">
+              </a>
             </div>
           </div>
+        </div>
+        
+        <div class="checkbox-group">
+          <input type="checkbox" id="gameChallenges" name="gameChallenges">
+          <div class="checkbox-label">
+            <label for="gameChallenges">
+              <strong>YES, I would like to talk to Staple Games about other ways to boost donations through game challenges for my audience.</strong>
+            </label>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="tiltify">Tiltify Creator Community Link (Optional)</label>
+          <input type="text" id="tiltify" name="tiltify" placeholder="https://tiltify.com/@yourcreatorname">
+          <small style="display: block; margin-top: 8px; color: var(--text-secondary); font-size: 14px;">
+            Add your Tiltify #TeamWater community link so we can donate toward your goal!
+          </small>
         </div>
         
         <div class="form-group">
@@ -878,7 +1343,7 @@
         </div>
         
         <button type="submit" class="submit-btn">
-          <span id="btnText">Submit & Unlock Assets</span>
+          <span id="btnText">Submit and Get Your Ad-Free Promo Code</span>
           <span id="btnSpinner" class="spinner" style="display: none;"></span>
         </button>
       </form>
@@ -891,7 +1356,7 @@
       
       <div class="promo-code-box">
         <p>Your Exclusive Promo Code</p>
-        <div class="promo-code">TEAMWATER2024</div>
+        <div class="promo-code">CREATOR783</div>
         <p><small>Removes ads and gives 2x experience points for better content creation</small></p>
         <button class="copy-btn" onclick="copyPromoCode()">Copy Code</button>
       </div>
@@ -1009,57 +1474,6 @@
   </div>
 </section>
 
-<!-- Overview Section -->
-<section class="overview-section">
-  <div class="container">
-    <div class="overview-content">
-      <div class="section-header">
-        <h2>How It Works</h2>
-        <p>Simple steps to make a massive impact</p>
-      </div>
-      
-      <ol class="steps-list">
-        <li data-step="1">
-          <strong>Create engaging content</strong> encouraging your audience to download and play "Match Collector" - our most popular match-3 game with a special Water World event just for #TeamWater.
-        </li>
-        <li data-step="2">
-          <strong>Share your promo code</strong> to give your audience ad-free gameplay and 2x experience points, making it easier and more fun to play.
-        </li>
-        <li data-step="3">
-          <strong>Every download = 1 month of clean water</strong> for someone in need. Every trophy or tile unlocked = another week of water!
-        </li>
-        <li data-step="4">
-          <strong>Track your impact</strong> as thousands of your followers contribute to #TeamWater without spending money.
-        </li>
-      </ol>
-      
-      <div class="impact-box">
-        <h4>Your Impact Potential</h4>
-        <p><strong>If just 1,000 of your followers play:</strong></p>
-        <ul style="list-style: none; padding: 0; margin: 12px 0;">
-          <li>✓ 1,000 months of clean water donated instantly</li>
-          <li>✓ Thousands more weeks from gameplay</li>
-          <li>✓ Zero cost to your audience</li>
-          <li>✓ Fun, engaging content for your channel</li>
-        </ul>
-      </div>
-      
-      <h3>Why This Works</h3>
-      <p>
-        Many of your followers want to support #TeamWater but might be tapped out or unable to donate cash. 
-        Through Staple Games, they can contribute meaningfully just by playing a fun, free game. 
-        This approach has already generated over $300K for #TeamWater and raised $815K+ for St. Jude Children's Hospital.
-      </p>
-      
-      <h3>Success Stories</h3>
-      <p>
-        Content creators Christian and Layla have already raised more than <strong>$15,000 for #TeamWater</strong> 
-        by working with Staple Games. In fact, they're the top donors on their community fundraising pages!
-      </p>
-    </div>
-  </div>
-</section>
-
 <!-- Examples Section -->
 <section class="examples-section">
   <div class="container">
@@ -1068,30 +1482,13 @@
       <p>Examples and ideas for your #TeamWater content</p>
     </div>
     
-    <div class="examples-grid">
-      <div class="example-item">
-        <h4>Livestream Challenge</h4>
-        <img src="images/state-unlocked.gif" alt="State Challenge" onerror="this.style.display='none'">
-        <p style="margin-top: 12px; font-size: 14px; color: var(--text-secondary);">
-          Challenge yourself to unlock all 50 states while your audience cheers you on and plays along
-        </p>
-      </div>
-      
-      <div class="example-item">
-        <h4>1-Year Anniversary Event</h4>
-        <img src="images/1-year-tile.png" alt="Anniversary Event" onerror="this.style.display='none'">
-        <p style="margin-top: 12px; font-size: 14px; color: var(--text-secondary);">
-          Celebrate special milestones with exclusive in-game events that donate even more water
-        </p>
-      </div>
-      
-      <div class="example-item">
-        <h4>Custom Creator Trophies</h4>
-        <img src="images/add-promo.gif" alt="Add Promo Code" onerror="this.style.display='none'">
-        <p style="margin-top: 12px; font-size: 14px; color: var(--text-secondary);">
-          Show your audience how to add the promo code and unlock your custom trophy in the game
-        </p>
-      </div>
+    <div style="text-align: center; padding: 60px 20px;">
+      <div style="font-size: 48px; margin-bottom: 20px;">🎬</div>
+      <h3 style="font-size: 28px; color: var(--accent-purple); margin-bottom: 12px;">Coming Soon!</h3>
+      <p style="font-size: 18px; color: var(--text-secondary); max-width: 600px; margin: 0 auto;">
+        We're creating amazing content examples and templates to help you engage your audience with #TeamWater. 
+        Check back soon for livestream ideas, video concepts, and more!
+      </p>
     </div>
   </div>
 </section>
@@ -1159,6 +1556,8 @@ document.addEventListener('DOMContentLoaded', function() {
       tiktok: formData.get('tiktok'),
       other: formData.get('other'),
       trophy: formData.get('trophy') ? 'Yes' : 'No',
+      gameChallenges: formData.get('gameChallenges') ? 'Yes' : 'No',
+      tiltify: formData.get('tiltify'),
       additional: formData.get('additional')
     };
     
@@ -1176,6 +1575,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 Email: ${data.email}
 Want Trophy: ${data.trophy}
+Interested in Game Challenges: ${data.gameChallenges}
+Tiltify Link: ${data.tiltify || 'Not provided'}
 
 Social Handles:
 ${socialHandles.join('\n')}
@@ -1190,8 +1591,12 @@ Source: TeamWater Creator Landing Page
     const url = `https://www.bdz11.com/contact?email=${encodeURIComponent(data.email)}&app=TeamWater%20Creator&platform=Web&message=${encodeURIComponent(message)}&to=addison@staplegames.com&source=teamwater-creators`;
     
     try {
-      await fetch(url);
+      const response = await fetch(url, {
+        method: 'GET',
+        mode: 'no-cors' // This endpoint doesn't support CORS, so we use no-cors mode
+      });
       
+      // Since no-cors mode doesn't give us response details, we assume success if no error thrown
       // Show success message
       successMessage.classList.add('show');
       form.style.display = 'none';
@@ -1208,9 +1613,21 @@ Source: TeamWater Creator Landing Page
         });
       }
       
+      // Log submission for debugging
+      console.log('Form submitted successfully to:', url);
+      
     } catch (error) {
-      console.error('Error:', error);
-      alert('There was an error submitting your form. Please try again or email us directly at addison@staplegames.com');
+      console.error('Error submitting form:', error);
+      
+      // Fallback to mailto as backup
+      const mailtoLink = `mailto:addison@staplegames.com?subject=TeamWater Creator Registration&body=${encodeURIComponent(message)}`;
+      
+      // Show error message with mailto option
+      if (confirm('There was an issue submitting the form automatically. Would you like to send the registration via email instead?')) {
+        window.location.href = mailtoLink;
+      } else {
+        alert('Please try again later or email us directly at addison@staplegames.com with your information.');
+      }
     } finally {
       // Reset loading state
       btnText.style.display = 'inline';
@@ -1222,7 +1639,7 @@ Source: TeamWater Creator Landing Page
 
 // Copy promo code function
 function copyPromoCode() {
-  const promoCode = 'TEAMWATER2024';
+  const promoCode = 'CREATOR783';
   navigator.clipboard.writeText(promoCode).then(() => {
     const btn = event.target;
     const originalText = btn.textContent;
