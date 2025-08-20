@@ -1141,11 +1141,12 @@
     }
     
     .game-overview {
-      order: 2;
+      order: 1;
     }
     
     .demo-controls {
-      order: 1;
+      order: 2;
+      margin-top: 20px;
     }
     
     .game-demo {
@@ -1153,26 +1154,77 @@
       margin-top: 20px;
     }
     
-    /* Adjust button sizes */
+    /* Make demo buttons horizontal carousel */
+    .demo-toggle-stack {
+      flex-direction: row !important;
+      overflow-x: auto !important;
+      overflow-y: hidden !important;
+      scroll-snap-type: x mandatory !important;
+      -webkit-overflow-scrolling: touch !important;
+      padding-bottom: 10px !important;
+      margin: 0 -20px !important;
+      padding-left: 20px !important;
+      padding-right: 20px !important;
+      position: relative;
+    }
+    
+    /* Add fade effect on edges to indicate scrollability */
+    .demo-toggle-stack::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 10px;
+      width: 40px;
+      background: linear-gradient(to right, transparent, white);
+      pointer-events: none;
+      z-index: 1;
+    }
+    
+    /* Style scrollbar for webkit browsers */
+    .demo-toggle-stack::-webkit-scrollbar {
+      height: 6px;
+    }
+    
+    .demo-toggle-stack::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 3px;
+    }
+    
+    .demo-toggle-stack::-webkit-scrollbar-thumb {
+      background: var(--accent-purple);
+      border-radius: 3px;
+    }
+    
+    /* Adjust button sizes for horizontal layout */
     .demo-btn {
-      padding: 14px 16px !important;
-      flex-direction: column !important;
-      align-items: flex-start !important;
+      flex: 0 0 280px !important;
+      min-width: 280px !important;
+      padding: 16px !important;
+      scroll-snap-align: start !important;
+      margin-right: 12px !important;
+    }
+    
+    .demo-btn:last-child {
+      margin-right: 20px !important;
     }
     
     .demo-btn > svg {
-      position: absolute !important;
-      right: 16px !important;
-      top: 50% !important;
-      transform: translateY(-50%) !important;
+      position: static !important;
+      transform: none !important;
+      margin-left: auto !important;
+      flex-shrink: 0 !important;
     }
     
     .demo-btn img {
-      width: 32px !important;
-      height: 32px !important;
+      width: 36px !important;
+      height: 36px !important;
     }
     
     .demo-btn > div {
+      display: flex;
+      align-items: center;
+      gap: 12px;
       width: 100%;
     }
     
@@ -1264,6 +1316,21 @@
     .promo-code {
       font-size: 24px !important;
       word-break: break-all;
+    }
+    
+    /* Make carousel buttons slightly smaller on very small screens */
+    .demo-btn {
+      flex: 0 0 250px !important;
+      min-width: 250px !important;
+      padding: 14px !important;
+    }
+    
+    .demo-btn > div > div > div {
+      font-size: 13px !important;
+    }
+    
+    .demo-btn small {
+      font-size: 10px !important;
     }
   }
 </style>
