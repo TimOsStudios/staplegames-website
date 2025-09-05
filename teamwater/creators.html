@@ -877,15 +877,20 @@
     <div class="hero-content">
       <div class="water-emoji">💧</div>
               <h1><span style="color: var(--accent-purple);">#PlayItForward</span> for <span class="highlight">#TeamWater</span></h1>
+      <div style="background: linear-gradient(135deg, rgba(255, 193, 7, 0.1) 0%, rgba(255, 152, 0, 0.1) 100%); border: 2px solid #FFC107; border-radius: 16px; padding: 20px; margin: 20px 0;">
+        <p style="font-size: 18px; color: #F57C00; margin: 0; font-weight: 600; text-align: center;">
+          🎉 The #TeamWater campaign has successfully concluded! 🎉
+        </p>
+        <p style="font-size: 16px; color: var(--text-secondary); margin: 10px 0 0; text-align: center;">
+          Thank you to all the amazing creators who participated and helped provide clean water to millions!
+        </p>
+      </div>
       <p class="hero-subtitle">
-        We've released a special Water World event in our top game, <a href="/match" style="color: var(--water-blue); text-decoration: none; font-weight: 600; transition: all 0.2s ease;" onmouseover="this.style.color='var(--accent-purple)'; this.style.textDecoration='underline';" onmouseout="this.style.color='var(--water-blue)'; this.style.textDecoration='none';">Match Collector</a>, 
-        where every water tile or Creator Trophy unlocked generates another week of water! 
-        See below for details on how you can share the games and drive more donations, 
-        and fill out the form if you'd like your unique trophy integrated into the game as well.
+        While the current campaign has ended, we're always looking for passionate creators to partner with for future charitable gaming initiatives.
+        If you're interested in being part of our next campaign, please fill out the form below and we'll contact you when new opportunities arise!
       </p>
       <p class="hero-subtitle" style="margin-top: 16px; font-weight: 600;">
-        The more you encourage your audiences to download and play Staple Games, 
-        the more donations they'll unlock for #TeamWater!
+        Stay tuned for more ways to make a difference through gaming!
       </p>
       <p style="margin-top: 24px;">
         <a href="#creatorForm" class="submit-btn" style="display: inline-block; padding: 14px 32px; margin-top: 0;">
@@ -895,15 +900,15 @@
       <div class="hero-stats">
         <div class="stat-item">
           <span class="stat-number">$30M+</span>
-          <span class="stat-label">Raised So Far</span>
+          <span class="stat-label">Total Raised</span>
         </div>
         <div class="stat-item">
           <span class="stat-number">$300K+</span>
           <span class="stat-label">From Gaming</span>
         </div>
         <div class="stat-item">
-          <span class="stat-number">2M</span>
-          <span class="stat-label">Lives to Impact</span>
+          <span class="stat-number">2M+</span>
+          <span class="stat-label">Lives Impacted</span>
         </div>
       </div>
     </div>
@@ -1458,8 +1463,8 @@ function trackAppDownload(platform, event) {
   <div class="container">
     <div class="form-container">
       <div class="form-header">
-        <h2>Get Started in Minutes</h2>
-        <p>Fill out this quick form to unlock assets and your exclusive promo code</p>
+        <h2>Join Our Creator Network</h2>
+        <p>Register your interest for future charitable gaming campaigns</p>
       </div>
       
       <form id="creatorForm">
@@ -1514,8 +1519,8 @@ function trackAppDownload(platform, event) {
           <input type="checkbox" id="trophy" name="trophy">
           <div class="checkbox-label">
             <label for="trophy">
-              <strong>Yes, I want to have a trophy in the game!</strong><br>
-              <small>Get your custom trophy integrated into Match Collector that matches your personality and online brand. Click the examples below to see these creators!</small>
+              <strong>Yes, I'd like to have a trophy in future campaigns!</strong><br>
+              <small>We'll consider adding your custom trophy to future charitable gaming events. Click the examples below to see what creator trophies look like!</small>
             </label>
             <div class="checkbox-images">
               <a href="https://www.instagram.com/laylathaplaya/" target="_blank" rel="noopener noreferrer" title="@laylathaplaya">
@@ -1557,7 +1562,7 @@ function trackAppDownload(platform, event) {
         </div>
         
         <button type="submit" class="submit-btn">
-          <span id="btnText">Submit and Get Your Ad-Free Promo Code</span>
+          <span id="btnText">Submit for Future Opportunities</span>
           <span id="btnSpinner" class="spinner" style="display: none;"></span>
         </button>
       </form>
@@ -1565,17 +1570,18 @@ function trackAppDownload(platform, event) {
     
     <!-- Success Message -->
     <div id="successMessage" class="success-container">
-      <h2>🎉 Welcome to #TeamWater!</h2>
-      <p>Thank you for joining the movement! Here's everything you need to get started:</p>
+      <h2>🎉 Thank You for Your Interest!</h2>
+      <p>We've received your information and added you to our creator network.</p>
       
-      <div class="promo-code-box">
-        <p>Your Exclusive Promo Code</p>
-        <div class="promo-code">CREATOR783</div>
-        <p><small>Removes ads and gives 2x experience points for better content creation</small></p>
-        <button class="copy-btn" onclick="copyPromoCode()">Copy Code</button>
+      <div style="background: white; padding: 24px; border-radius: 12px; margin: 24px 0; box-shadow: var(--shadow-light);">
+        <h3 style="font-size: 20px; margin-bottom: 12px; color: var(--accent-purple);">What's Next?</h3>
+        <p style="font-size: 16px; color: var(--text-secondary); margin: 0;">
+          We'll reach out when we launch our next charitable gaming campaign. 
+          In the meantime, feel free to explore our games and stay connected through our social channels!
+        </p>
       </div>
       
-      <p>Check your email for additional instructions and tips for creating engaging content!</p>
+      <p>Check your email for confirmation and updates about future partnership opportunities!</p>
     </div>
   </div>
 </section>
@@ -1785,10 +1791,10 @@ document.addEventListener('DOMContentLoaded', function() {
     if (data.other) socialHandles.push(`Other: ${data.other}`);
     
     const message = `
-#TeamWater Creator Registration
+Creator Network Registration - Future Partnerships
 
 Email: ${data.email}
-Want Trophy: ${data.trophy}
+Want Trophy in Future Campaigns: ${data.trophy}
 Interested in Game Challenges: ${data.gameChallenges}
 Tiltify Link: ${data.tiltify || 'Not provided'}
 
@@ -1798,6 +1804,7 @@ ${socialHandles.join('\n')}
 Additional Info:
 ${data.additional || 'None'}
 
+Note: Campaign has ended - Registration for future opportunities
 Source: TeamWater Creator Landing Page
     `.trim();
     
@@ -1851,21 +1858,7 @@ Source: TeamWater Creator Landing Page
   });
 });
 
-// Copy promo code function
-function copyPromoCode() {
-  const promoCode = 'CREATOR783';
-  navigator.clipboard.writeText(promoCode).then(() => {
-    const btn = event.target;
-    const originalText = btn.textContent;
-    btn.textContent = 'Copied!';
-    btn.classList.add('copied');
-    
-    setTimeout(() => {
-      btn.textContent = originalText;
-      btn.classList.remove('copied');
-    }, 2000);
-  });
-}
+// Removed copyPromoCode function as campaign has ended
 
 // Smooth scroll for anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
