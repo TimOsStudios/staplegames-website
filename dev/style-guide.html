@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staple Games - Style Guide</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+      line-height: 1.6;
+      color: #1a1a1a;
+      background: #f5f5f5;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      background: white;
+      padding: 30px 0;
+      margin-bottom: 40px;
+      border-bottom: 3px solid #1a1a1a;
+    }
+    
+    h1 {
+      font-size: 48px;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      color: #666;
+      font-size: 18px;
+    }
+    
+    section {
+      background: white;
+      border: 2px solid #1a1a1a;
+      border-radius: 16px;
+      padding: 40px;
+      margin-bottom: 40px;
+    }
+    
+    h2 {
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #1a1a1a;
+    }
+    
+    h3 {
+      font-size: 24px;
+      font-weight: 700;
+      margin: 30px 0 20px;
+    }
+    
+    /* Color swatches */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin: 20px 0;
+    }
+    
+    .color-swatch {
+      border: 2px solid #1a1a1a;
+      border-radius: 12px;
+      overflow: hidden;
+      background: white;
+    }
+    
+    .color-display {
+      height: 100px;
+      border-bottom: 2px solid #1a1a1a;
+    }
+    
+    .color-info {
+      padding: 15px;
+    }
+    
+    .color-name {
+      font-weight: 700;
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+    
+    .color-value {
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      color: #666;
+    }
+    
+    /* Typography samples */
+    .type-sample {
+      margin: 20px 0;
+      padding: 20px;
+      background: #f9f9f9;
+      border-radius: 8px;
+    }
+    
+    .type-label {
+      font-size: 12px;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+    
+    /* Component examples */
+    .example-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+      margin: 40px 0;
+    }
+    
+    /* Shadow technique examples */
+    .shadow-demo {
+      padding: 30px;
+      background: #f9f9f9;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    
+    /* Button with wrapper shadow */
+    .button-wrapper {
+      position: relative;
+      display: inline-block;
+      margin: 20px;
+    }
+    
+    .button-wrapper::before {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 0;
+      right: 0;
+      bottom: -6px;
+      background: #CCCCCC;
+      border: 2px solid black;
+      border-radius: 12px;
+      z-index: 1;
+      pointer-events: none;
+    }
+    
+    .button-sample {
+      background: white;
+      border: 2px solid black;
+      border-radius: 12px;
+      padding: 16px 32px;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      position: relative;
+      z-index: 2;
+      transition: transform 0.2s;
+    }
+    
+    .button-sample:hover {
+      transform: translateY(-2px);
+    }
+    
+    .button-sample.primary {
+      background: #FFCC00;
+    }
+    
+    /* Card with wrapper shadow */
+    .card-wrapper {
+      position: relative;
+      display: inline-block;
+      width: 280px;
+      margin: 20px;
+    }
+    
+    .card-wrapper::before {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 0;
+      right: 0;
+      bottom: -6px;
+      background: #CCCCCC;
+      border: 2px solid black;
+      border-radius: 16px;
+      z-index: 1;
+      pointer-events: none;
+    }
+    
+    .card-sample {
+      background: white;
+      border: 2px solid black;
+      border-radius: 16px;
+      padding: 24px;
+      position: relative;
+      z-index: 2;
+      min-height: 200px;
+    }
+    
+    .card-sample:hover {
+      transform: translateY(-2px);
+      transition: transform 0.2s;
+    }
+    
+    /* Code blocks */
+    .code-block {
+      background: #1a1a1a;
+      color: #f0f0f0;
+      padding: 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 20px 0;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    
+    .code-comment {
+      color: #6a9955;
+    }
+    
+    /* Spacing visualization */
+    .spacing-demo {
+      display: flex;
+      gap: 20px;
+      align-items: flex-end;
+      margin: 20px 0;
+    }
+    
+    .spacing-box {
+      background: #FFCC00;
+      border: 2px solid #1a1a1a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Staple Games Style Guide</h1>
+      <p class="subtitle">Design System Reference - Version 1.0</p>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Brand Colors Section -->
+    <section>
+      <h2>🎨 Brand Colors</h2>
+      
+      <h3>Primary Palette</h3>
+      <div class="color-grid">
+        <div class="color-swatch">
+          <div class="color-display" style="background: #FF3B30;"></div>
+          <div class="color-info">
+            <div class="color-name">Red</div>
+            <div class="color-value">HEX: #FF3B30<br>RGB: 255/59/48</div>
+          </div>
+        </div>
+        
+        <div class="color-swatch">
+          <div class="color-display" style="background: #FF9500;"></div>
+          <div class="color-info">
+            <div class="color-name">Orange</div>
+            <div class="color-value">HEX: #FF9500<br>RGB: 255/149/0</div>
+          </div>
+        </div>
+        
+        <div class="color-swatch">
+          <div class="color-display" style="background: #FFCC00;"></div>
+          <div class="color-info">
+            <div class="color-name">Gold (Primary)</div>
+            <div class="color-value">HEX: #FFCC00<br>RGB: 255/204/0</div>
+          </div>
+        </div>
+        
+        <div class="color-swatch">
+          <div class="color-display" style="background: #34C759;"></div>
+          <div class="color-info">
+            <div class="color-name">Green</div>
+            <div class="color-value">HEX: #34C759<br>RGB: 52/199/89</div>
+          </div>
+        </div>
+        
+        <div class="color-swatch">
+          <div class="color-display" style="background: #5AC8FA;"></div>
+          <div class="color-info">
+            <div class="color-name">Cyan</div>
+            <div class="color-value">HEX: #5AC8FA<br>RGB: 90/200/250</div>
+          </div>
+        </div>
+        
+        <div class="color-swatch">
+          <div class="color-display" style="background: #007AFF;"></div>
+          <div class="color-info">
+            <div class="color-name">Blue</div>
+            <div class="color-value">HEX: #007AFF<br>RGB: 0/122/255</div>
+          </div>
+        </div>
+        
+        <div class="color-swatch">
+          <div class="color-display" style="background: #AF52DE;"></div>
+          <div class="color-info">
+            <div class="color-name">Purple</div>
+            <div class="color-value">HEX: #AF52DE<br>RGB: 175/82/222</div>
+          </div>
+        </div>
+        
+        <div class="color-swatch">
+          <div class="color-display" style="background: #8E8E93;"></div>
+          <div class="color-info">
+            <div class="color-name">Gray</div>
+            <div class="color-value">HEX: #8E8E93<br>RGB: 142/142/147</div>
+          </div>
+        </div>
+      </div>
+      
+      <h3>Neutral Colors</h3>
+      <div class="color-grid">
+        <div class="color-swatch">
+          <div class="color-display" style="background: #1a1a1a;"></div>
+          <div class="color-info">
+            <div class="color-name">Primary Black</div>
+            <div class="color-value">HEX: #1a1a1a</div>
+          </div>
+        </div>
+        
+        <div class="color-swatch">
+          <div class="color-display" style="background: #CCCCCC;"></div>
+          <div class="color-info">
+            <div class="color-name">Shadow Gray</div>
+            <div class="color-value">HEX: #CCCCCC</div>
+          </div>
+        </div>
+        
+        <div class="color-swatch">
+          <div class="color-display" style="background: #F8F8FA;"></div>
+          <div class="color-info">
+            <div class="color-name">Background Light</div>
+            <div class="color-value">HEX: #F8F8FA</div>
+          </div>
+        </div>
+        
+        <div class="color-swatch">
+          <div class="color-display" style="background: #FFFFFF;"></div>
+          <div class="color-info">
+            <div class="color-name">White</div>
+            <div class="color-value">HEX: #FFFFFF</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Typography Section -->
+    <section>
+      <h2>✏️ Typography</h2>
+      
+      <div class="type-sample">
+        <div class="type-label">Hero Title - 72px / 900 weight</div>
+        <div style="font-size: 72px; font-weight: 900;">Simple. Clean. Fun.</div>
+      </div>
+      
+      <div class="type-sample">
+        <div class="type-label">Section Title - 48px / 800 weight</div>
+        <div style="font-size: 48px; font-weight: 800;">Featured Games</div>
+      </div>
+      
+      <div class="type-sample">
+        <div class="type-label">Card Title - 24px / 700 weight</div>
+        <div style="font-size: 24px; font-weight: 700;">Match Collector</div>
+      </div>
+      
+      <div class="type-sample">
+        <div class="type-label">Body Text - 16px / 400 weight</div>
+        <div style="font-size: 16px; font-weight: 400;">A colorful and addictive match-3 puzzle game with hundreds of levels to explore.</div>
+      </div>
+      
+      <div class="type-sample">
+        <div class="type-label">Button Text - 18px / 700 weight</div>
+        <div style="font-size: 18px; font-weight: 700;">PLAY NOW</div>
+      </div>
+      
+      <h3>Font Stack</h3>
+      <div class="code-block">
+font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      </div>
+    </section>
+
+    <!-- Shadow Technique Section -->
+    <section>
+      <h2>🎯 3D Shadow Technique</h2>
+      
+      <h3>Implementation Pattern</h3>
+      <div class="code-block">
+<span class="code-comment">/* HTML Structure */</span>
+&lt;div class="wrapper"&gt;
+  &lt;element class="main-element"&gt;Content&lt;/element&gt;
+&lt;/div&gt;
+
+<span class="code-comment">/* CSS Implementation */</span>
+.wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.wrapper::before {
+  content: '';
+  position: absolute;
+  top: 6px;      <span class="code-comment">/* Offset down */</span>
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  background: #CCCCCC;
+  border: 2px solid black;
+  border-radius: 12px;  <span class="code-comment">/* Match main element */</span>
+  z-index: 1;
+  pointer-events: none;
+}
+
+.main-element {
+  background: white;
+  border: 2px solid black;
+  border-radius: 12px;
+  position: relative;
+  z-index: 2;
+  <span class="code-comment">/* Your styles here */</span>
+}
+      </div>
+      
+      <h3>Button Examples</h3>
+      <div class="shadow-demo">
+        <div class="button-wrapper">
+          <button class="button-sample">Default Button</button>
+        </div>
+        
+        <div class="button-wrapper">
+          <button class="button-sample primary">Primary Button</button>
+        </div>
+      </div>
+      
+      <h3>Card Example</h3>
+      <div class="shadow-demo">
+        <div class="card-wrapper">
+          <div class="card-sample">
+            <h3 style="margin-top: 0;">Card Title</h3>
+            <p>This is a card with the 3D shadow effect applied using the wrapper technique.</p>
+          </div>
+        </div>
+      </div>
+      
+      <h3>Key Points</h3>
+      <ul style="margin-left: 20px; line-height: 2;">
+        <li>Shadow offset is <strong>6px down only</strong> (no horizontal offset)</li>
+        <li>Both element and shadow have <strong>2px black border</strong></li>
+        <li>Borders perfectly align on left and right</li>
+        <li>Shadow background is <strong>#CCCCCC</strong></li>
+        <li>Use <strong>wrapper::before</strong> for the shadow layer</li>
+        <li>Main element gets <strong>z-index: 2</strong>, shadow gets <strong>z-index: 1</strong></li>
+      </ul>
+    </section>
+
+    <!-- Spacing System -->
+    <section>
+      <h2>📐 Spacing System</h2>
+      
+      <h3>Base Unit: 8px</h3>
+      <div class="spacing-demo">
+        <div class="spacing-box" style="width: 8px; height: 8px;">xs</div>
+        <div class="spacing-box" style="width: 16px; height: 16px;">sm</div>
+        <div class="spacing-box" style="width: 24px; height: 24px;">md</div>
+        <div class="spacing-box" style="width: 32px; height: 32px;">lg</div>
+        <div class="spacing-box" style="width: 48px; height: 48px;">xl</div>
+        <div class="spacing-box" style="width: 64px; height: 64px;">2xl</div>
+      </div>
+      
+      <div class="code-block">
+--spacing-xs: 8px;
+--spacing-sm: 16px;
+--spacing-md: 24px;
+--spacing-lg: 32px;
+--spacing-xl: 48px;
+--spacing-2xl: 64px;
+      </div>
+    </section>
+
+    <!-- Border Styles -->
+    <section>
+      <h2>🔲 Borders & Radii</h2>
+      
+      <h3>Border Widths</h3>
+      <div style="display: flex; gap: 20px; margin: 20px 0;">
+        <div style="padding: 20px; background: white; border: 2px solid black; border-radius: 8px;">
+          <strong>Standard:</strong> 2px
+        </div>
+        <div style="padding: 20px; background: white; border: 2.5px solid black; border-radius: 8px;">
+          <strong>Medium:</strong> 2.5px
+        </div>
+        <div style="padding: 20px; background: white; border: 3.5px solid black; border-radius: 8px;">
+          <strong>Bold:</strong> 3.5px
+        </div>
+      </div>
+      
+      <h3>Border Radii</h3>
+      <div style="display: flex; gap: 20px; margin: 20px 0;">
+        <div style="padding: 20px; background: #FFCC00; border: 2px solid black; border-radius: 8px;">
+          <strong>Small:</strong> 8px
+        </div>
+        <div style="padding: 20px; background: #FFCC00; border: 2px solid black; border-radius: 12px;">
+          <strong>Medium:</strong> 12px
+        </div>
+        <div style="padding: 20px; background: #FFCC00; border: 2px solid black; border-radius: 16px;">
+          <strong>Large:</strong> 16px
+        </div>
+        <div style="padding: 20px; background: #FFCC00; border: 2px solid black; border-radius: 24px;">
+          <strong>XL:</strong> 24px
+        </div>
+      </div>
+    </section>
+
+    <!-- Component Library -->
+    <section>
+      <h2>🧩 Component Patterns</h2>
+      
+      <h3>Category Badges</h3>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap; margin: 20px 0;">
+        <span style="background: #FFCC00; border: 2px solid black; border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 700; text-transform: uppercase;">PUZZLE</span>
+        <span style="background: #FF3B30; color: white; border: 2px solid black; border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 700; text-transform: uppercase;">CARDS</span>
+        <span style="background: #5AC8FA; border: 2px solid black; border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 700; text-transform: uppercase;">WORD</span>
+        <span style="background: #34C759; color: white; border: 2px solid black; border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 700; text-transform: uppercase;">BOARD</span>
+        <span style="background: #FF9500; border: 2px solid black; border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 700; text-transform: uppercase;">DICE</span>
+        <span style="background: #007AFF; color: white; border: 2px solid black; border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 700; text-transform: uppercase;">ADVENTURE</span>
+      </div>
+      
+      <h3>Hover States</h3>
+      <div class="code-block">
+<span class="code-comment">/* Standard hover transform */</span>
+.element:hover {
+  transform: translateY(-2px);
+  transition: transform 0.2s;
+}
+
+<span class="code-comment">/* With rotation for playful effect */</span>
+.card:nth-child(odd):hover {
+  transform: translateY(-4px) rotate(-1deg);
+}
+
+.card:nth-child(even):hover {
+  transform: translateY(-4px) rotate(1deg);
+}
+      </div>
+    </section>
+
+    <!-- Grid Systems -->
+    <section>
+      <h2>📱 Responsive Grid</h2>
+      
+      <h3>Breakpoints</h3>
+      <div class="code-block">
+/* Mobile First */
+@media (min-width: 640px)  { /* Tablet */ }
+@media (min-width: 768px)  { /* Small Desktop */ }
+@media (min-width: 1024px) { /* Desktop */ }
+@media (min-width: 1280px) { /* Large Desktop */ }
+      </div>
+      
+      <h3>Grid Patterns</h3>
+      <div class="code-block">
+<span class="code-comment">/* Auto-fit grid for cards */</span>
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 32px;
+}
+
+<span class="code-comment">/* Fixed 3-column grid on desktop */</span>
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(280px, 1fr));
+  gap: 32px;
+}
+
+<span class="code-comment">/* Horizontal scroll on mobile */</span>
+@media (max-width: 768px) {
+  .featured-grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 20px;
+  }
+  
+  .featured-grid > * {
+    flex: 0 0 280px;
+    scroll-snap-align: start;
+  }
+}
+      </div>
+    </section>
+
+    <!-- Animation Guide -->
+    <section>
+      <h2>✨ Animations</h2>
+      
+      <h3>Timing Functions</h3>
+      <div class="code-block">
+--transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+--transition-fast: all 0.2s ease;
+--transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      </div>
+      
+      <h3>Common Animations</h3>
+      <div class="code-block">
+<span class="code-comment">/* Bounce animation */</span>
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.bounce-animation {
+  animation: bounce 2s infinite;
+}
+
+<span class="code-comment">/* Pulse animation */</span>
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.pulse-animation {
+  animation: pulse 2s infinite;
+}
+      </div>
+    </section>
+  </div>
+</body>
+</html>

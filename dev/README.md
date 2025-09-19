@@ -2,11 +2,33 @@
 
 This directory contains the development version of the Staple Games website.
 
+## Files
+
+- **`index-v2.html`** - Redesigned homepage with game-inspired design system
+- **`style-guide.html`** - Complete design system reference and component library  
+- **`index.html`** - Original development version with password protection
+- **`hp-backup-9-19-25.html`** - Backup of the original homepage (Sept 19, 2025)
+- **`.htaccess`** - Server configuration for development environment
+
+## Quick Links
+
+- **New Homepage**: `https://staplegames.com/dev/index-v2.html`
+- **Style Guide**: `https://staplegames.com/dev/style-guide.html`
+- **Original Dev**: `https://staplegames.com/dev/index.html`
+
+## Design System (v2)
+
+The new design uses a game-inspired aesthetic with:
+- **3D Shadow Technique**: Wrapper-based shadows with 6px offset
+- **Brand Colors**: Gold primary (#FFCC00) with supporting palette
+- **Typography**: Bold, playful headings with clean body text
+- See `style-guide.html` for complete documentation
+
 ## Access Protection
 
 This development site is protected by multiple layers:
 
-1. **JavaScript Password Protection**
+1. **JavaScript Password Protection** (index.html only)
    - Password: `stapledev2024`
    - Session duration: 24 hours
    - To change the password, edit the `DEV_PASSWORD` variable in `index.html`
@@ -23,7 +45,7 @@ This development site is protected by multiple layers:
 
 - Access the dev site at: `https://staplegames.com/dev/`
 - Make changes to test new features before deploying to production
-- The dev version is an exact copy of the main site with added protections
+- Refer to `style-guide.html` for design consistency
 
 ## Additional Security Options
 
