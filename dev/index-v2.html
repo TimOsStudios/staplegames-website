@@ -1,0 +1,1652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[DEV] Staple Games - Simple. Clean. Fun. Mobile Games</title>
+  
+  <style>
+    /* ==========================================
+       DESIGN SYSTEM - Game-Inspired Aesthetic
+       ========================================== */
+    
+    :root {
+      /* Official Staple Games Brand Colors */
+      --brand-red: #FF3B30;      /* RGB: 255/59/48 */
+      --brand-orange: #FF9500;   /* RGB: 255/149/0 */
+      --brand-gold: #FFCC00;     /* RGB: 255/204/0 */
+      --brand-green: #34C759;    /* RGB: 52/199/89 */
+      --brand-cyan: #5AC8FA;     /* RGB: 90/200/250 */
+      --brand-blue: #007AFF;     /* RGB: 28/28/30 */
+      --brand-gray: #8E8E93;     /* RGB: 142/142/147 */
+      --brand-purple: #AF52DE;    /* Purple for footer */
+      
+      /* Primary Colors */
+      --primary-yellow: #FFCC00; /* Using brand gold */
+      --primary-black: #1a1a1a;
+      --shadow-gray: #CCCCCC;
+      --bg-light: #F8F8FA;
+      --white: #FFFFFF;
+      
+      /* Borders */
+      --border-width: 2.5px;
+      --border-radius: 24px;
+      --border-radius-sm: 12px;
+      
+      /* Shadows - Extended with inner border effect */
+      --shadow-sm: 0 9px 0 0 var(--shadow-gray), 0 7px 0 0 #B0B0B0, 0 11px 12px rgba(0,0,0,0.1);
+      --shadow-md: 0 10px 0 0 var(--shadow-gray), 0 8px 0 0 #B0B0B0, 0 12px 16px rgba(0,0,0,0.1);
+      --shadow-lg: 0 12px 0 0 var(--shadow-gray), 0 10px 0 0 #B0B0B0, 0 14px 20px rgba(0,0,0,0.15);
+      
+      /* Typography */
+      --font-main: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+      --font-weight-bold: 900;
+      --font-weight-semibold: 700;
+      --font-weight-regular: 500;
+      
+      /* Spacing */
+      --spacing-xs: 8px;
+      --spacing-sm: 12px;
+      --spacing-md: 24px;
+      --spacing-lg: 48px;
+      --spacing-xl: 80px;
+      
+      /* Animation */
+      --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    /* ==========================================
+       RESET & BASE STYLES
+       ========================================== */
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: var(--font-main);
+      background-color: var(--bg-light);
+      color: var(--primary-black);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    
+    a {
+      text-decoration: none;
+      color: inherit;
+      transition: var(--transition);
+    }
+    
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+    
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 var(--spacing-md);
+    }
+    
+    /* ==========================================
+       NAVIGATION - Game Style
+       ========================================== */
+    
+    .nav-header {
+      background: var(--white);
+      border-bottom: var(--border-width) solid var(--primary-black);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .nav-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--spacing-sm) 0;
+      height: 72px;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+      font-weight: var(--font-weight-bold);
+      font-size: 24px;
+      letter-spacing: -0.02em;
+    }
+    
+    .logo img {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--border-radius-sm);
+      border: var(--border-width) solid var(--primary-black);
+    }
+    
+    .nav-menu {
+      display: flex;
+      gap: var(--spacing-sm);
+      list-style: none;
+    }
+    
+    /* Nav item wrapper for shadow effect */
+    .nav-item-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .nav-item-wrapper::before {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 0;
+      right: 0;
+      bottom: -6px;
+      background: #CCCCCC;
+      border: 2px solid black;
+      border-radius: var(--border-radius-sm);
+      z-index: 1;
+      pointer-events: none;
+    }
+    
+    .nav-item {
+      background: var(--white);
+      border: 2px solid var(--primary-black);
+      border-radius: var(--border-radius-sm);
+      padding: var(--spacing-xs) var(--spacing-md);
+      font-weight: var(--font-weight-semibold);
+      transition: var(--transition);
+      position: relative;
+      z-index: 2;
+      display: block;
+      text-decoration: none;
+      color: var(--primary-black);
+    }
+    
+    .nav-item:hover {
+      background: var(--brand-gold);
+      transform: translateY(-2px);
+    }
+    
+    /* Mobile menu button wrapper */
+    .menu-toggle-wrapper {
+      display: none;
+      position: relative;
+    }
+    
+    .menu-toggle-wrapper::before {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 0;
+      right: 0;
+      bottom: -6px;
+      background: #CCCCCC;
+      border: 2px solid black;
+      border-radius: var(--border-radius-sm);
+      z-index: 1;
+      pointer-events: none;
+    }
+    
+    /* Mobile menu button */
+    .menu-toggle {
+      background: var(--brand-gold);
+      border: 2px solid var(--primary-black);
+      border-radius: var(--border-radius-sm);
+      padding: var(--spacing-xs) var(--spacing-sm);
+      font-size: 24px;
+      cursor: pointer;
+      position: relative;
+      z-index: 2;
+    }
+    
+    /* ==========================================
+       HERO SECTION - Game Welcome
+       ========================================== */
+    
+    .hero-section {
+      padding: var(--spacing-xl) 0;
+      background: linear-gradient(180deg, var(--white) 0%, var(--bg-light) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero-content {
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+    
+    /* Score counter style element */
+    .score-badge {
+      display: inline-block;
+      background: var(--brand-gold);
+      border: var(--border-width) solid var(--primary-black);
+      border-radius: var(--border-radius-sm);
+      padding: var(--spacing-xs) var(--spacing-md);
+      font-weight: var(--font-weight-bold);
+      font-size: 18px;
+      margin-bottom: var(--spacing-md);
+      box-shadow: 0 9px 0 0 var(--shadow-gray), 0 7px 0 0 #B0B0B0;
+      position: relative;
+    }
+    
+    /* Floating game icons decoration */
+    .floating-icons {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    
+    .floating-icon {
+      position: absolute;
+      font-size: 32px;
+      opacity: 0.1;
+      animation: float 20s infinite ease-in-out;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      25% { transform: translateY(-20px) rotate(5deg); }
+      50% { transform: translateY(10px) rotate(-5deg); }
+      75% { transform: translateY(-10px) rotate(3deg); }
+    }
+    
+    .floating-icon:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
+    .floating-icon:nth-child(2) { top: 20%; right: 10%; animation-delay: 3s; }
+    .floating-icon:nth-child(3) { bottom: 30%; left: 8%; animation-delay: 5s; }
+    .floating-icon:nth-child(4) { top: 40%; right: 5%; animation-delay: 8s; }
+    .floating-icon:nth-child(5) { bottom: 10%; right: 15%; animation-delay: 11s; }
+    
+    .hero-title {
+      font-size: clamp(48px, 8vw, 96px);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: -0.03em;
+      margin-bottom: var(--spacing-sm);
+      line-height: 1;
+    }
+    
+    .hero-subtitle {
+      font-size: clamp(20px, 3vw, 28px);
+      font-weight: var(--font-weight-regular);
+      color: #666;
+      margin-bottom: var(--spacing-lg);
+    }
+    
+    /* Play buttons */
+    .hero-buttons {
+      display: flex;
+      gap: var(--spacing-md);
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    /* Play Button with clean shadow technique */
+    .play-button-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .play-button-wrapper::before {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 0;
+      right: 0;
+      bottom: -6px;
+      background: var(--shadow-gray);
+      border: var(--border-width) solid var(--primary-black);
+      border-radius: var(--border-radius);
+      z-index: 1;
+      pointer-events: none;
+    }
+    
+    .play-button {
+      background: var(--white);
+      border: var(--border-width) solid var(--primary-black);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-md) var(--spacing-lg);
+      font-weight: var(--font-weight-bold);
+      font-size: 20px;
+      transition: var(--transition);
+      cursor: pointer;
+      position: relative;
+      z-index: 2;
+      text-decoration: none;
+      display: inline-block;
+      color: var(--primary-black);
+    }
+    
+    .play-button.primary {
+      background: var(--brand-gold);
+    }
+    
+    .play-button:hover {
+      transform: translateY(-2px);
+    }
+    
+    .play-button:active {
+      transform: translateY(0);
+    }
+    
+    /* Platform badges */
+    .platform-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacing-xs);
+      padding: 4px 12px;
+      background: var(--white);
+      border: 2px solid var(--primary-black);
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: var(--font-weight-semibold);
+      position: absolute;
+      top: -10px;
+      right: -10px;
+    }
+    
+    /* ==========================================
+       FEATURED GAMES - Tile Grid
+       ========================================== */
+    
+    .featured-section {
+      padding: var(--spacing-xl) 0;
+      background: var(--bg-light);
+      position: relative;
+      z-index: 1;
+    }
+    
+    .section-header {
+      text-align: center;
+      margin-bottom: var(--spacing-lg);
+    }
+    
+    .section-title {
+      font-size: clamp(32px, 5vw, 48px);
+      font-weight: var(--font-weight-bold);
+      margin-bottom: var(--spacing-sm);
+      position: relative;
+      display: inline-block;
+    }
+    
+    /* Level indicator decoration */
+    .section-title::before {
+      content: "LEVEL 1";
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 12px;
+      background: var(--brand-cyan);
+      padding: 2px 12px;
+      border-radius: 12px;
+      border: 2px solid var(--primary-black);
+    }
+    
+    .section-subtitle {
+      font-size: 18px;
+      color: #666;
+      font-weight: var(--font-weight-regular);
+    }
+    
+    /* Game tiles grid */
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(280px, 1fr));
+      gap: var(--spacing-lg);
+      margin-bottom: var(--spacing-lg);
+      position: relative;
+      z-index: 0;
+      align-items: stretch; /* Ensure all items stretch to same height */
+    }
+    
+    .games-grid-compact {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: var(--spacing-md);
+      position: relative;
+      z-index: 0;
+      align-items: stretch; /* Ensure all items stretch to same height */
+    }
+    
+    /* Game Tile with clean shadow technique */
+    .game-tile-wrapper {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    
+    .game-tile-wrapper::before {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 0;
+      right: 0;
+      bottom: -6px;
+      background: var(--shadow-gray);
+      border: var(--border-width) solid var(--primary-black);
+      border-radius: var(--border-radius);
+      z-index: 1;
+      pointer-events: none;
+    }
+    
+    .game-tile {
+      background: var(--white);
+      border: var(--border-width) solid var(--primary-black);
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      transition: var(--transition);
+      cursor: pointer;
+      position: relative;
+      z-index: 2;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .game-tile-wrapper:hover .game-tile {
+      transform: translateY(-4px);
+    }
+    
+    .game-tile-wrapper:hover::before {
+      transform: translateY(-2px);
+    }
+    
+    .game-tile-wrapper:nth-child(odd):hover .game-tile {
+      transform: translateY(-4px) rotate(-1deg);
+    }
+    
+    .game-tile-wrapper:nth-child(even):hover .game-tile {
+      transform: translateY(-4px) rotate(1deg);
+    }
+    
+    .game-tile-wrapper:nth-child(odd):hover::before,
+    .game-tile-wrapper:nth-child(even):hover::before {
+      transform: translateY(-2px);
+    }
+    
+    .game-tile-icon {
+      width: 100%;
+      aspect-ratio: 1;
+      background: var(--bg-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: var(--border-width) solid var(--primary-black);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .game-tile-icon img {
+      width: 80%;
+      height: 80%;
+      object-fit: cover;
+      border-radius: var(--border-radius-sm);
+    }
+    
+    /* Category badge */
+    .category-badge {
+      position: absolute;
+      top: var(--spacing-sm);
+      right: var(--spacing-sm);
+      background: var(--brand-gold);
+      border: 2px solid var(--primary-black);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 11px;
+      font-weight: var(--font-weight-bold);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    /* Color variations for different categories */
+    .category-badge.puzzle {
+      background: var(--brand-gold);
+    }
+    .category-badge.cards {
+      background: var(--brand-red);
+      color: var(--white);
+    }
+    .category-badge.word {
+      background: var(--brand-cyan);
+    }
+    .category-badge.board {
+      background: var(--brand-green);
+      color: var(--white);
+    }
+    .category-badge.dice {
+      background: var(--brand-orange);
+    }
+    .category-badge.adventure {
+      background: var(--brand-blue);
+      color: var(--white);
+    }
+    
+    .game-tile-content {
+      padding: var(--spacing-md);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .game-tile-title {
+      font-size: 20px;
+      font-weight: var(--font-weight-bold);
+      margin-bottom: var(--spacing-xs);
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    
+    .game-tile-desc {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: var(--spacing-md);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      flex: 1; /* Take up remaining space */
+    }
+    
+    .game-tile-actions {
+      display: flex;
+      gap: var(--spacing-xs);
+      margin-top: auto; /* Push to bottom */
+    }
+    
+    /* Store Buttons with clean shadow technique */
+    .store-button-wrapper {
+      flex: 1;
+      position: relative;
+      display: block;
+    }
+    
+    .store-button-wrapper::before {
+      content: '';
+      position: absolute;
+      top: 4px;
+      left: 0;
+      right: 0;
+      bottom: -4px;
+      background: var(--shadow-gray);
+      border: 2px solid var(--primary-black);
+      border-radius: var(--border-radius-sm);
+      z-index: 1;
+      pointer-events: none;
+    }
+    
+    .store-button {
+      display: block;
+      width: 100%;
+      padding: var(--spacing-xs);
+      background: var(--white);
+      border: 2px solid var(--primary-black);
+      border-radius: var(--border-radius-sm);
+      font-weight: var(--font-weight-semibold);
+      font-size: 12px;
+      transition: var(--transition);
+      position: relative;
+      z-index: 2;
+      text-decoration: none;
+      color: var(--primary-black);
+      text-align: center;
+    }
+    
+    .store-button:hover {
+      background: var(--brand-gold);
+      transform: translateY(-1px);
+    }
+    
+    /* Alternating store button colors */
+    .store-button:nth-child(1):hover {
+      background: var(--brand-blue);
+      color: var(--white);
+    }
+    
+    .store-button:nth-child(2):hover {
+      background: var(--brand-green);
+      color: var(--white);
+    }
+    
+    /* Mobile/Desktop text toggle */
+    .mobile-text {
+      display: none;
+    }
+    
+    .desktop-text {
+      display: inline;
+    }
+    
+    @media (max-width: 768px) {
+      .mobile-text {
+        display: inline;
+      }
+      
+      .desktop-text {
+        display: none;
+      }
+    }
+    
+    /* ==========================================
+       SPECIAL PROMO CARD
+       ========================================== */
+    
+    .promo-banner {
+      padding: var(--spacing-lg) 0;
+      background: var(--white);
+      border-top: var(--border-width) solid var(--primary-black);
+      border-bottom: var(--border-width) solid var(--primary-black);
+    }
+    
+    /* Promo Card with clean shadow technique */
+    .promo-card-wrapper {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .promo-card-wrapper::before {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 0;
+      right: 0;
+      bottom: -8px;
+      background: var(--shadow-gray);
+      border: var(--border-width) solid var(--primary-black);
+      border-radius: var(--border-radius);
+      z-index: 1;
+      pointer-events: none;
+    }
+    
+    .promo-card-special {
+      background: var(--white);
+      border: var(--border-width) solid var(--primary-black);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-lg);
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .promo-emoji {
+      font-size: 48px;
+      margin-bottom: var(--spacing-md);
+    }
+    
+    .promo-title {
+      font-size: 32px;
+      font-weight: var(--font-weight-bold);
+      margin-bottom: var(--spacing-md);
+    }
+    
+    /* Promo Badge with clean shadow technique */
+    .promo-badge-wrapper {
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+    }
+    
+    .promo-badge-wrapper::before {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 0;
+      right: 0;
+      bottom: -6px;
+      background: var(--shadow-gray);
+      border: 3.5px solid var(--primary-black);
+      border-radius: 12px;
+      z-index: 1;
+      pointer-events: none;
+    }
+    
+    .promo-badge-bottom {
+      position: relative;
+      background: var(--brand-gold);
+      color: var(--primary-black);
+      border: 3.5px solid var(--primary-black);
+      border-radius: 12px;
+      padding: 12px 32px;
+      min-width: 220px;
+      font-weight: var(--font-weight-bold);
+      font-size: 22px;
+      z-index: 2;
+      display: inline-block;
+    }
+    
+    /* ==========================================
+       ALL GAMES SECTION
+       ========================================== */
+    
+    .all-games-section {
+      padding: var(--spacing-xl) 0;
+      background: var(--bg-light);
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* Filter tabs */
+    .filter-tabs {
+      display: flex;
+      gap: var(--spacing-xs);
+      justify-content: center;
+      margin-bottom: var(--spacing-lg);
+      flex-wrap: wrap;
+    }
+    
+    .filter-tab {
+      padding: var(--spacing-sm) var(--spacing-md);
+      background: var(--white);
+      border: var(--border-width) solid var(--primary-black);
+      border-radius: var(--border-radius-sm);
+      font-weight: var(--font-weight-semibold);
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 9px 0 0 var(--shadow-gray), 0 7px 0 0 #B0B0B0;
+    }
+    
+    .filter-tab.active {
+      background: var(--brand-gold);
+      transform: translateY(-2px);
+      box-shadow: 0 11px 0 0 var(--shadow-gray), 0 9px 0 0 #B0B0B0;
+    }
+    
+    .filter-tab:hover:not(.active) {
+      transform: translateY(-1px);
+      background: #fff9e6;
+      box-shadow: 0 10px 0 0 var(--shadow-gray), 0 8px 0 0 #B0B0B0;
+    }
+    
+    /* Colored filter tabs on hover */
+    .filter-tab[data-category="puzzle"]:hover {
+      background: var(--brand-gold);
+    }
+    .filter-tab[data-category="cards"]:hover {
+      background: var(--brand-red);
+      color: var(--white);
+    }
+    .filter-tab[data-category="word"]:hover {
+      background: var(--brand-cyan);
+    }
+    .filter-tab[data-category="board"]:hover {
+      background: var(--brand-green);
+      color: var(--white);
+    }
+    
+    /* ==========================================
+       FOOTER
+       ========================================== */
+    
+    .footer {
+      background: var(--brand-purple);
+      color: var(--white);
+      padding: var(--spacing-lg) 0 var(--spacing-md);
+      border-top: 4px solid var(--brand-gold);
+    }
+    
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: var(--spacing-lg);
+      margin-bottom: var(--spacing-lg);
+    }
+    
+    .footer-brand h3 {
+      font-size: 28px;
+      font-weight: var(--font-weight-bold);
+      margin-bottom: var(--spacing-sm);
+    }
+    
+    .footer-links {
+      display: flex;
+      gap: var(--spacing-md);
+      margin-top: var(--spacing-md);
+    }
+    
+    .footer-link {
+      padding: var(--spacing-xs) var(--spacing-md);
+      background: var(--brand-gold);
+      color: var(--primary-black);
+      border-radius: var(--border-radius-sm);
+      font-weight: var(--font-weight-semibold);
+      transition: var(--transition);
+    }
+    
+    .footer-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    
+    .footer-bottom {
+      text-align: center;
+      padding-top: var(--spacing-md);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 14px;
+      opacity: 0.7;
+    }
+    
+    /* ==========================================
+       RESPONSIVE DESIGN
+       ========================================== */
+    
+    @media (max-width: 768px) {
+      .nav-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--white);
+        border: 2px solid var(--primary-black);
+        border-top: none;
+        flex-direction: column;
+        padding: var(--spacing-sm);
+        z-index: 100;
+      }
+      
+      .nav-menu.active {
+        display: flex;
+      }
+      
+      .nav-item-wrapper {
+        width: 100%;
+        margin-bottom: var(--spacing-xs);
+      }
+      
+      .nav-item {
+        width: 100%;
+        text-align: center;
+      }
+      
+      .menu-toggle-wrapper {
+        display: block;
+      }
+      
+      .hero-title {
+        font-size: 48px;
+      }
+      
+      /* Horizontal scroll for featured games */
+      .featured-section .games-grid {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        gap: var(--spacing-md);
+        padding-bottom: var(--spacing-sm);
+        margin: 0 -20px;
+        padding-left: 20px;
+        padding-right: 20px;
+        grid-template-columns: unset;
+      }
+      
+      .featured-section .games-grid .game-tile-wrapper {
+        flex: 0 0 280px;
+        scroll-snap-align: start;
+      }
+      
+      /* Regular grids on mobile */
+      .games-grid-compact,
+      .all-games-section .games-grid {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: var(--spacing-sm);
+      }
+      
+      .game-tile-title {
+        font-size: 16px;
+      }
+      
+      .game-tile-desc {
+        display: none;
+      }
+    }
+    
+    /* ==========================================
+       ANIMATIONS
+       ========================================== */
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    .bounce-animation {
+      animation: bounce 2s infinite;
+    }
+    
+    .pulse-animation {
+      animation: pulse 2s infinite;
+    }
+    
+    /* Loading states */
+    .loading {
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: loading 1.5s infinite;
+    }
+    
+    @keyframes loading {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <header class="nav-header">
+    <nav class="container">
+      <div class="nav-content">
+        <a href="#" class="logo">
+          <img src="https://cdn.bdz5.com/staplegames/matchcollector_icon.png" alt="Staple Games">
+          <span>Staple Games</span>
+        </a>
+        
+        <ul class="nav-menu" id="navMenu">
+          <li><div class="nav-item-wrapper"><a href="#" class="nav-item">Games</a></div></li>
+          <li><div class="nav-item-wrapper"><a href="#featured" class="nav-item">Featured</a></div></li>
+          <li><div class="nav-item-wrapper"><a href="#about" class="nav-item">About</a></div></li>
+          <li><div class="nav-item-wrapper"><a href="contact.html" class="nav-item">Support</a></div></li>
+        </ul>
+        
+        <div class="menu-toggle-wrapper">
+          <button class="menu-toggle" id="menuToggle">☰</button>
+        </div>
+      </div>
+    </nav>
+  </header>
+  
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-content">
+        
+        
+        <h1 class="hero-title">Simple. Clean. Fun.</h1>
+        <p class="hero-subtitle">Rediscover the classics you love — and fall for our originals</p>
+        
+        <div class="hero-buttons">
+          <div class="play-button-wrapper">
+            <a href="https://apps.apple.com/us/developer/staple-games/id1454538415" class="play-button primary">
+              Play on iOS
+              
+            </a>
+          </div>
+          <div class="play-button-wrapper">
+            <a href="https://play.google.com/store/apps/developer?id=Staple+Games" class="play-button primary">
+              Play on Android
+              
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Featured Games -->
+  <section class="featured-section" id="featured">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Featured Games</h2>
+        <p class="section-subtitle">Our most loved games with millions of happy players</p>
+      </div>
+      
+      <div class="games-grid">
+        <!-- Match Collector -->
+        <div class="game-tile-wrapper">
+          <div class="game-tile">
+          <div class="game-tile-icon">
+            <img src="https://cdn.bdz5.com/staplegames/matchcollector_icon.png" alt="Match Collector">
+            <span class="category-badge puzzle">Puzzle</span>
+          </div>
+          <div class="game-tile-content">
+            <h3 class="game-tile-title">Match Collector</h3>
+            <p class="game-tile-desc">A colorful and addictive match-3 puzzle game</p>
+            <div class="game-tile-actions">
+              <div class="store-button-wrapper">
+                <a href="https://play.google.com/store/apps/details?id=com.staplegames.matchcollector" class="store-button"><span class="mobile-text">Play</span><span class="desktop-text">Google Play</span></a>
+              </div>
+              <div class="store-button-wrapper">
+                <a href="https://apps.apple.com/app/match-collector/id6462309005" class="store-button"><span class="mobile-text">iOS</span><span class="desktop-text">App Store</span></a>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+        
+        <!-- Dice Merge -->
+        <div class="game-tile-wrapper">
+          <div class="game-tile">
+          <div class="game-tile-icon">
+            <img src="https://cdn.bdz5.com/staplegames/dice_icon.png" alt="Dice Merge">
+            <span class="category-badge puzzle">Puzzle</span>
+          </div>
+          <div class="game-tile-content">
+            <h3 class="game-tile-title">Dice Merge</h3>
+            <p class="game-tile-desc">The perfect puzzle combination of block and merge</p>
+            <div class="game-tile-actions">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.dice" class="store-button"><span class="mobile-text">Play</span><span class="desktop-text">Google Play</span></a>
+              <a href="https://apps.apple.com/app/dice/id1663958329" class="store-button"><span class="mobile-text">iOS</span><span class="desktop-text">App Store</span></a>
+            </div>
+          </div>
+          </div>
+        </div>
+        
+        <!-- Tile Collector -->
+        <div class="game-tile-wrapper">
+          <div class="game-tile">
+          <div class="game-tile-icon">
+            <img src="https://cdn.bdz5.com/staplegames/tilecollector_icon.png" alt="Tile Collector">
+            <span class="category-badge puzzle">Puzzle</span>
+          </div>
+          <div class="game-tile-content">
+            <h3 class="game-tile-title">Tile Collector</h3>
+            <p class="game-tile-desc">Match and collect tiles in this addictive puzzle</p>
+            <div class="game-tile-actions">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.tilecollector" class="store-button"><span class="mobile-text">Play</span><span class="desktop-text">Google Play</span></a>
+              <a href="https://apps.apple.com/app/tile-collector/id6449299885" class="store-button"><span class="mobile-text">iOS</span><span class="desktop-text">App Store</span></a>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+      
+      <div style="text-align: center; margin-top: 48px;">
+        <div class="play-button-wrapper" style="display: inline-block;">
+          <a href="#all-games" class="play-button">
+            View All 25+ Games →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Special Promo Banner -->
+  <section class="promo-banner">
+    <div class="container">
+      <div class="promo-card-wrapper">
+        <div class="promo-card-special">
+            <img src="../images/SJ_LogoTaglineHoriz_RGB.svg" alt="St. Jude Children's Research Hospital" style="width: 320px; max-width: 90%; margin: 0 auto 32px auto; display: block;">
+          <h2 class="promo-title">Help raise $1M for St. Jude!</h2>
+          
+          <p style="margin-bottom: 16px;">You raised $867,395 for St. Jude by downloading and playing our games during Ryan and Haley's 50 States in 50 Days series. Now we are extending that fundraise with a new goal to reach $1M!</p>
+          
+          <p style="margin-bottom: 16px;">On September 20, 2025 we are released a special event for Match Collector where we're donating $0.02 for every State or Stay tile collected and $0.10 for every St. Jude tile.</p>
+          
+          <p style="margin-bottom: 16px;">These St. Jude tiles are extra special – each was inspired by artwork from amazing St. Jude Patients!</p>
+          
+          <p style="margin-bottom: 24px;">You can follow the campaign or donate directly at <a href="https://stjude.org/50states" style="color: var(--brand-blue); text-decoration: underline;">stjude.org/50states</a>.</p>
+          
+          <div class="promo-badge-wrapper">
+            <a href="https://staplegames.com/match" class="promo-badge-bottom" style="text-decoration: none; cursor: pointer;">
+              <span>Play to Donate Now!</span>
+            </a>
+          </div>
+          
+          <div style="margin-top: 32px; padding-top: 24px; border-top: 2px solid rgba(0,0,0,0.1);">
+            <p style="font-weight: 600; margin-bottom: 12px;">Download to donate on <a href="https://apps.apple.com/app/match-collector/id6462309005" style="color: var(--brand-blue);">iOS</a> and <a href="https://play.google.com/store/apps/details?id=com.staplegames.matchcollector" style="color: var(--brand-green);">Android</a></p>
+              <p style="font-size: 14px;"><a href="/50-stays-terms.html" style="color: #666666; text-decoration: underline;">See full terms & details here</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- All Games Section -->
+  <section class="all-games-section" id="all-games">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title" style="position: relative;">All Games</h2>
+        <p class="section-subtitle">Choose your adventure from our complete collection</p>
+      </div>
+      
+      <!-- Filter tabs -->
+      <div class="filter-tabs">
+        <button class="filter-tab active">All</button>
+        <button class="filter-tab">Puzzle</button>
+        <button class="filter-tab">Cards</button>
+        <button class="filter-tab">Word</button>
+        <button class="filter-tab">Board</button>
+      </div>
+      
+      <!-- All games grid -->
+      <div class="games-grid-compact">
+        <!-- Block Puzzle Classic -->
+        <div class="game-tile-wrapper">
+          <div class="game-tile">
+            <div class="game-tile-icon">
+            <img src="https://cdn.bdz5.com/staplegames/blocksClassicSG_icon.png" alt="Block Puzzle">
+            <span class="category-badge puzzle">Puzzle</span>
+          </div>
+          <div class="game-tile-content">
+            <h3 class="game-tile-title">Block Puzzle Classic</h3>
+            <div class="game-tile-actions">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.blocksClassicSGGP" class="store-button">Play</a>
+              <a href="https://apps.apple.com/app/block-puzzle-classic/id1572892132" class="store-button">iOS</a>
+            </div>
+          </div>
+          </div>
+        </div>
+        
+        <!-- Sudoku -->
+        <div class="game-tile-wrapper">
+          <div class="game-tile">
+          <div class="game-tile-icon">
+            <img src="https://cdn.bdz5.com/staplegames/sudokuSG_icon.png" alt="Sudoku">
+            <span class="category-badge puzzle">Puzzle</span>
+          </div>
+          <div class="game-tile-content">
+            <h3 class="game-tile-title">Sudoku</h3>
+            <div class="game-tile-actions">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.sudokuClassicGP" class="store-button">Play</a>
+              <a href="https://apps.apple.com/app/sudoku/id1561193287" class="store-button">iOS</a>
+            </div>
+          </div>
+          </div>
+        </div>
+        
+        <!-- Spider Solitaire -->
+        <div class="game-tile-wrapper">
+          <div class="game-tile">
+          <div class="game-tile-icon">
+            <img src="https://cdn.bdz5.com/staplegames/spiderSolitaire_icon.png" alt="Spider Solitaire">
+            <span class="category-badge cards">Cards</span>
+          </div>
+          <div class="game-tile-content">
+            <h3 class="game-tile-title">Spider Solitaire</h3>
+            <div class="game-tile-actions">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.spiderSolitaireGP" class="store-button">Play</a>
+              <a href="https://apps.apple.com/app/spider-solitaire/id1507224245" class="store-button">iOS</a>
+            </div>
+          </div>
+          </div>
+        </div>
+        
+        <!-- FreeCell Solitaire -->
+        <div class="game-tile-wrapper">
+          <div class="game-tile">
+          <div class="game-tile-icon">
+            <img src="https://cdn.bdz5.com/staplegames/freecellSolitaire_icon.png" alt="FreeCell">
+            <span class="category-badge cards">Cards</span>
+          </div>
+          <div class="game-tile-content">
+            <h3 class="game-tile-title">FreeCell Solitaire</h3>
+            <div class="game-tile-actions">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.freecellSolitaireGP" class="store-button">Play</a>
+              <a href="https://apps.apple.com/app/freecell-solitaire/id1506267119" class="store-button">iOS</a>
+            </div>
+          </div>
+          </div>
+        </div>
+        
+        <!-- Hearts -->
+        <div class="game-tile-wrapper">
+          <div class="game-tile">
+          <div class="game-tile-icon">
+            <img src="https://cdn.bdz5.com/staplegames/hearts_icon.png" alt="Hearts">
+            <span class="category-badge cards">Cards</span>
+          </div>
+          <div class="game-tile-content">
+            <h3 class="game-tile-title">Hearts</h3>
+            <div class="game-tile-actions">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.hearts" class="store-button">Play</a>
+              <a href="https://apps.apple.com/app/hearts/id6744656403" class="store-button">iOS</a>
+            </div>
+          </div>
+          </div>
+        </div>
+        
+        <!-- Word Gems -->
+        <div class="game-tile-wrapper">
+          <div class="game-tile">
+          <div class="game-tile-icon">
+            <img src="https://cdn.bdz5.com/staplegames/wordgems_icon.png" alt="Word Gems">
+            <span class="category-badge word">Word</span>
+          </div>
+          <div class="game-tile-content">
+            <h3 class="game-tile-title">Word Gems™</h3>
+            <div class="game-tile-actions">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.wordgems" class="store-button">Play</a>
+              <a href="https://apps.apple.com/app/word-gems/id1639588528" class="store-button">iOS</a>
+            </div>
+          </div>
+          </div>
+        </div>
+        
+        <!-- Word Horizons -->
+        <div class="game-tile-wrapper">
+          <div class="game-tile">
+          <div class="game-tile-icon">
+            <img src="https://cdn.bdz5.com/staplegames/wordhorizons_icon.png" alt="Word Horizons">
+            <span class="category-badge word">Word</span>
+          </div>
+          <div class="game-tile-content">
+            <h3 class="game-tile-title">Word Horizons</h3>
+            <div class="game-tile-actions">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.wordhorizons" class="store-button">Play</a>
+              <a href="https://apps.apple.com/app/word-horizons/id6444349473" class="store-button">iOS</a>
+            </div>
+          </div>
+          </div>
+        </div>
+        
+        <!-- Dominoes -->
+        <div class="game-tile-wrapper">
+          <div class="game-tile">
+          <div class="game-tile-icon">
+            <img src="https://cdn.bdz5.com/staplegames/dominoes_icon.png" alt="Dominoes">
+            <span class="category-badge board">Board</span>
+          </div>
+          <div class="game-tile-content">
+            <h3 class="game-tile-title">Dominoes</h3>
+            <div class="game-tile-actions">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.dominoes" class="store-button">Play</a>
+              <a href="https://apps.apple.com/app/dominoes/id6504120934" class="store-button">iOS</a>
+            </div>
+          </div>
+          </div>
+        </div>
+        
+        <!-- Ludo -->
+        <div class="game-tile-wrapper">
+          <div class="game-tile">
+          <div class="game-tile-icon">
+            <img src="https://cdn.bdz5.com/staplegames/ludo_icon.png" alt="Ludo">
+            <span class="category-badge board">Board</span>
+          </div>
+          <div class="game-tile-content">
+            <h3 class="game-tile-title">Ludo</h3>
+            <div class="game-tile-actions">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.ludo" class="store-button">Play</a>
+              <a href="https://apps.apple.com/app/ludo/id6446255045" class="store-button">iOS</a>
+            </div>
+          </div>
+          </div>
+        </div>
+        
+        <!-- Backgammon -->
+        <div class="game-tile-wrapper">
+          <div class="game-tile">
+          <div class="game-tile-icon">
+            <img src="https://cdn.bdz5.com/staplegames/backgammon_icon.png" alt="Backgammon">
+            <span class="category-badge board">Board</span>
+          </div>
+          <div class="game-tile-content">
+            <h3 class="game-tile-title">Backgammon</h3>
+            <div class="game-tile-actions">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.backgammon" class="store-button">Play</a>
+              <a href="https://apps.apple.com/app/backgammon/id6451217307" class="store-button">iOS</a>
+            </div>
+          </div>
+          </div>
+        </div>
+        
+        <!-- Yatzy -->
+        <div class="game-tile-wrapper">
+          <div class="game-tile">
+          <div class="game-tile-icon">
+            <img src="https://cdn.bdz5.com/staplegames/yatzy_icon.png" alt="Yatzy">
+            <span class="category-badge dice">Dice</span>
+          </div>
+          <div class="game-tile-content">
+            <h3 class="game-tile-title">Yatzy</h3>
+            <div class="game-tile-actions">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.yatzy" class="store-button">Play</a>
+              <a href="https://apps.apple.com/app/yatzy/id6477965248" class="store-button">iOS</a>
+            </div>
+          </div>
+          </div>
+        </div>
+        
+        <!-- Block Puzzle Sudoku -->
+        <div class="game-tile-wrapper">
+          <div class="game-tile">
+          <div class="game-tile-icon">
+            <img src="https://cdn.bdz5.com/staplegames/blocksSudokuSG_icon.png" alt="Block Sudoku">
+            <span class="category-badge puzzle">Puzzle</span>
+          </div>
+          <div class="game-tile-content">
+            <h3 class="game-tile-title">Block Sudoku</h3>
+            <div class="game-tile-actions">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.blocksSudokuSGGP" class="store-button">Play</a>
+              <a href="https://apps.apple.com/app/blocks-sudoku-sg/id1566174072" class="store-button">iOS</a>
+            </div>
+          </div>
+          </div>
+        </div>
+        
+        <!-- Block Puzzle Wood -->
+        <div class="game-tile-wrapper">
+          <div class="game-tile">
+          <div class="game-tile-icon">
+            <img src="https://cdn.bdz5.com/staplegames/blocksWood_icon.png" alt="Block Wood">
+            <span class="category-badge puzzle">Puzzle</span>
+          </div>
+          <div class="game-tile-content">
+            <h3 class="game-tile-title">Block Wood</h3>
+            <div class="game-tile-actions">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.blocksWood" class="store-button">Play</a>
+              <a href="https://apps.apple.com/app/block-puzzle-wood/id1630975482" class="store-button">iOS</a>
+            </div>
+          </div>
+          </div>
+        </div>
+        
+        <!-- Sagadoku -->
+        <div class="game-tile-wrapper">
+          <div class="game-tile">
+          <div class="game-tile-icon">
+            <img src="https://cdn.bdz5.com/staplegames/sagadoku_icon.png" alt="Sagadoku">
+            <span class="category-badge puzzle">Puzzle</span>
+          </div>
+          <div class="game-tile-content">
+            <h3 class="game-tile-title">Sagadoku</h3>
+            <div class="game-tile-actions">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.sagadoku" class="store-button">Play</a>
+              <a href="https://apps.apple.com/app/sagadoku/id1612649783" class="store-button">iOS</a>
+            </div>
+          </div>
+          </div>
+        </div>
+        
+        <!-- Block Match -->
+        <div class="game-tile-wrapper">
+          <div class="game-tile">
+          <div class="game-tile-icon">
+            <img src="https://cdn.bdz5.com/staplegames/blockmatch_icon.png" alt="Block Match">
+            <span class="category-badge puzzle">Puzzle</span>
+          </div>
+          <div class="game-tile-content">
+            <h3 class="game-tile-title">Block Match</h3>
+            <div class="game-tile-actions">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.blockmatch" class="store-button">Play</a>
+              <a href="https://apps.apple.com/app/block-match/id6742160377" class="store-button">iOS</a>
+            </div>
+          </div>
+          </div>
+        </div>
+        
+        <!-- Sort Collector -->
+        <div class="game-tile-wrapper">
+          <div class="game-tile">
+          <div class="game-tile-icon">
+            <img src="https://cdn.bdz5.com/staplegames/sortcollector_icon.png" alt="Sort Collector">
+            <span class="category-badge puzzle">Puzzle</span>
+          </div>
+          <div class="game-tile-content">
+            <h3 class="game-tile-title">Sort Collector</h3>
+            <div class="game-tile-actions">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.sortcollector" class="store-button">Play</a>
+              <a href="https://apps.apple.com/app/sort-collector/id6476427887" class="store-button">iOS</a>
+            </div>
+          </div>
+          </div>
+        </div>
+        
+        <!-- Mahjong Collector -->
+        <div class="game-tile-wrapper">
+          <div class="game-tile">
+          <div class="game-tile-icon">
+            <img src="https://cdn.bdz5.com/staplegames/mahjongcollector_icon.png" alt="Mahjong">
+            <span class="category-badge board">Board</span>
+          </div>
+          <div class="game-tile-content">
+            <h3 class="game-tile-title">Mahjong Collector</h3>
+            <div class="game-tile-actions">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.mahjongcollector" class="store-button">Play</a>
+              <a href="https://apps.apple.com/app/mahjong-collector/id6737984114" class="store-button">iOS</a>
+            </div>
+          </div>
+          </div>
+        </div>
+        
+        <!-- Dyno -->
+        <div class="game-tile-wrapper">
+          <div class="game-tile">
+          <div class="game-tile-icon">
+            <img src="https://cdn.bdz5.com/staplegames/dyno_icon.png" alt="Dyno">
+            <span class="category-badge adventure">Adventure</span>
+          </div>
+          <div class="game-tile-content">
+            <h3 class="game-tile-title">Dyno</h3>
+            <div class="game-tile-actions">
+              <a href="#" class="store-button" style="opacity: 0.5;">Coming</a>
+              <a href="https://apps.apple.com/app/id6636553804" class="store-button">iOS</a>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Test Section for Card Design -->
+  <section class="test-section" style="padding: 60px 20px; background: #f5f5f5;">
+    <div class="container" style="max-width: 1200px; margin: 0 auto;">
+      <h2 style="text-align: center; margin-bottom: 40px; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;">Button Shadow Test</h2>
+      
+      <!-- Test Buttons Row -->
+      <div style="display: flex; gap: 40px; justify-content: center; margin-bottom: 60px;">
+        <div class="test-button-wrapper">
+          <button class="test-button">Button One</button>
+        </div>
+        <div class="test-button-wrapper">
+          <button class="test-button">Button Two</button>
+        </div>
+        <div class="test-button-wrapper">
+          <button class="test-button">Button Three</button>
+        </div>
+      </div>
+      
+      <!-- Test Cards Row -->
+      <div style="display: flex; gap: 40px; justify-content: center;">
+        <div class="test-card-wrapper">
+          <div class="test-card">
+            <h3>Card One</h3>
+            <p>Test content here</p>
+          </div>
+        </div>
+        <div class="test-card-wrapper">
+          <div class="test-card">
+            <h3>Card Two</h3>
+            <p>Test content here</p>
+          </div>
+        </div>
+        <div class="test-card-wrapper">
+          <div class="test-card">
+            <h3>Card Three</h3>
+            <p>Test content here</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <style>
+      /* ==========================================
+         SHADOW TECHNIQUE DOCUMENTATION
+         
+         The clean 3D shadow effect uses a wrapper element approach:
+         
+         1. STRUCTURE:
+            <div class="wrapper">
+              <element class="main-element">Content</element>
+            </div>
+         
+         2. WRAPPER SETUP:
+            - position: relative
+            - display: inline-block (or block)
+            
+         3. MAIN ELEMENT:
+            - background: white
+            - border: 2px solid black
+            - position: relative
+            - z-index: 2 (above shadow)
+            
+         4. SHADOW (wrapper::before):
+            - position: absolute
+            - top: 6px (offset down)
+            - left: 0, right: 0
+            - bottom: -6px
+            - background: #CCCCCC
+            - border: 2px solid black (aligns with main border)
+            - z-index: 1 (below main element)
+            - pointer-events: none
+            
+         5. KEY POINTS:
+            - Borders perfectly align left/right
+            - Shadow offset only downward (6px)
+            - Both elements have same border width
+            - Both have matching border-radius
+         ========================================== */
+      
+      /* Test Button Styles */
+      .test-button-wrapper {
+        position: relative;
+        display: inline-block;
+      }
+      
+      .test-button {
+        /* Main button styles */
+        background: white;
+        border: 2px solid black;
+        border-radius: 12px;
+        padding: 16px 32px;
+        font-size: 18px;
+        font-weight: 700;
+        font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+        cursor: pointer;
+        position: relative;
+        z-index: 2;
+        transition: transform 0.2s;
+      }
+      
+      /* Shadow element - positioned absolutely behind the button */
+      .test-button-wrapper::before {
+        content: '';
+        position: absolute;
+        top: 6px; /* 6px offset down */
+        left: 0;
+        right: 0;
+        bottom: -6px;
+        background: #CCCCCC;
+        border: 2px solid black;
+        border-radius: 12px;
+        z-index: 1;
+        pointer-events: none;
+      }
+      
+      .test-button:hover {
+        transform: translateY(-2px);
+      }
+      
+      /* Test Card Styles */
+      .test-card-wrapper {
+        position: relative;
+        display: inline-block;
+        width: 280px;
+      }
+      
+      .test-card {
+        background: white;
+        border: 2px solid black;
+        border-radius: 16px;
+        padding: 24px;
+        position: relative;
+        z-index: 2;
+        min-height: 200px;
+      }
+      
+      .test-card h3 {
+        margin: 0 0 12px 0;
+        font-size: 24px;
+        font-weight: 700;
+        font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+      }
+      
+      .test-card p {
+        margin: 0;
+        color: #666;
+        font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+      }
+      
+      /* Card shadow - positioned absolutely behind the card */
+      .test-card-wrapper::before {
+        content: '';
+        position: absolute;
+        top: 6px;
+        left: 0;
+        right: 0;
+        bottom: -6px;
+        background: #CCCCCC;
+        border: 2px solid black;
+        border-radius: 16px;
+        z-index: 1;
+        pointer-events: none;
+      }
+      
+      .test-card:hover {
+        transform: translateY(-2px);
+        transition: transform 0.2s;
+      }
+    </style>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <h3>Staple Games</h3>
+          <p>Simple. Clean. Fun.</p>
+          <div class="footer-links">
+            <a href="privacy.html" class="footer-link">Privacy</a>
+            <a href="terms-of-use.html" class="footer-link">Terms</a>
+            <a href="contact.html" class="footer-link">Support</a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>© 2024 Staple Games. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+  
+  <script>
+    // Mobile menu toggle
+    document.getElementById('menuToggle').addEventListener('click', function() {
+      const navMenu = document.getElementById('navMenu');
+      navMenu.classList.toggle('active');
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', function(e) {
+      const navMenu = document.getElementById('navMenu');
+      const menuToggle = document.getElementById('menuToggle');
+      if (!navMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+        navMenu.classList.remove('active');
+      }
+    });
+  </script>
+</body>
+</html>

@@ -930,6 +930,171 @@
         font-size: 32px;
       }
     }
+    
+    /* New Promo Card Styles */
+    .card-test-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    .promo-card {
+      position: relative;
+      width: 100%;
+      max-width: 360px;
+      margin: 0 auto 30px; /* Add bottom margin for badge overflow */
+    }
+    
+    .promo-card-content {
+      background: white;
+      border-radius: 28px;
+      padding: 50px 30px 70px; /* Reduced bottom padding since badge extends out */
+      position: relative;
+      min-height: 280px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      border: 2.5px solid #000000;
+      /* Create the 3D shadow effect - only downward */
+      box-shadow: 
+        /* Gray shadow layer - only down */
+        0 4px 0 0 #CCCCCC,
+        /* Black shadow layer - only down */
+        0 4px 0 2.5px #000000,
+        /* Soft drop shadow */
+        0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+    
+    .promo-card-content h3 {
+      font-size: 54px;
+      font-weight: 900;
+      margin-bottom: 12px;
+      color: #000000;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+    }
+    
+    .promo-card-content p {
+      font-size: 19px;
+      color: #666666;
+      margin: 0;
+      font-weight: 500;
+    }
+    
+    .promo-card-badge-wrapper {
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: auto;
+      min-width: 220px;
+      height: auto;
+    }
+    
+    .promo-card-badge-shadow {
+      position: absolute;
+      top: 5px;
+      left: 0;
+      right: 0;
+      bottom: -5px;
+      background: #CCCCCC;
+      border-radius: 12px;
+      border: 3.5px solid #000000;
+      z-index: 1;
+    }
+    
+    .promo-card-badge {
+      position: relative;
+      background: #FFC837; /* Yellow/gold color */
+      border-radius: 12px;
+      padding: 12px 32px;
+      min-width: 220px;
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      z-index: 2;
+      border: 3.5px solid #000000;
+    }
+    
+    .promo-card-badge span {
+      position: relative;
+      z-index: 1;
+      color: #000000;
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      display: block;
+      line-height: 1;
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+    }
+    
+    /* Empty badge state */
+    .promo-card-badge:empty {
+      min-height: 52px;
+    }
+    
+    /* Hover effects */
+    .promo-card:hover .promo-card-content {
+      transform: translateY(-2px);
+      box-shadow: 
+        0 6px 0 0 #CCCCCC,
+        0 6px 0 2.5px #000000,
+        0 10px 20px rgba(0, 0, 0, 0.2);
+      transition: all 0.2s ease;
+    }
+    
+    .promo-card:hover .promo-card-badge-wrapper {
+      transform: translateX(-50%) translateY(-2px);
+      transition: transform 0.2s ease;
+    }
+    
+    .promo-card:hover .promo-card-badge-shadow {
+      top: 7px;
+      bottom: -7px;
+      transition: all 0.2s ease;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .card-test-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+      
+      .promo-card {
+        max-width: 300px;
+      }
+      
+      .promo-card-content {
+        padding: 40px 24px 60px;
+        min-height: 240px;
+      }
+      
+      .promo-card-content h3 {
+        font-size: 42px;
+      }
+      
+      .promo-card-content p {
+        font-size: 18px;
+      }
+      
+      .promo-card-badge {
+        min-width: 200px;
+        padding: 12px 28px;
+        min-height: 48px;
+      }
+      
+      .promo-card-badge span {
+        font-size: 22px;
+      }
+    }
   </style>
   
   <!-- Custom style to override specific elements -->
@@ -1111,6 +1276,56 @@
         </svg>
       </a>
           </div>
+  </section>
+  
+  <!-- New Card Design Test Section -->
+  <section class="card-test-section" style="padding: 60px 0; background: #f0f0f5;">
+    <div class="container">
+      <h2 style="text-align: center; margin-bottom: 40px;">Card Design Test</h2>
+      <div class="card-test-grid">
+        <!-- Card with text -->
+        <div class="promo-card">
+          <div class="promo-card-content">
+            <h3>Example Text</h3>
+            <p>Card content goes here</p>
+          </div>
+          <div class="promo-card-badge-wrapper">
+            <div class="promo-card-badge-shadow"></div>
+            <div class="promo-card-badge">
+              <span>1x per user</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Card without text (blank badge) -->
+        <div class="promo-card">
+          <div class="promo-card-content">
+            <h3>Another Card</h3>
+            <p>More content here</p>
+          </div>
+          <div class="promo-card-badge-wrapper">
+            <div class="promo-card-badge-shadow"></div>
+            <div class="promo-card-badge">
+              <!-- Empty badge -->
+            </div>
+          </div>
+        </div>
+        
+        <!-- Third example -->
+        <div class="promo-card">
+          <div class="promo-card-content">
+            <h3>Special Offer</h3>
+            <p>Limited time only</p>
+          </div>
+          <div class="promo-card-badge-wrapper">
+            <div class="promo-card-badge-shadow"></div>
+            <div class="promo-card-badge">
+              <span>50% OFF</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
   
   <!-- Campaign Section -->
