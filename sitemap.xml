@@ -38,12 +38,5 @@
     <priority>0.5</priority>
   </url>
   
-  <!-- 50 States Campaign Terms -->
-  <url>
-    <loc>https://staplegames.com/50-states-terms.html</loc>
-    <lastmod>2025-01-09</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
   
 </urlset> 
