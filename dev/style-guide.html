@@ -4,6 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Staple Games - Style Guide</title>
+  
+  <!-- Google Fonts - Rubik -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
   <style>
     * {
       margin: 0;
@@ -12,10 +18,11 @@
     }
     
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+      font-family: 'Rubik', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+      font-weight: 300; /* Rubik Light for body text */
       line-height: 1.6;
-      color: #1a1a1a;
-      background: #f5f5f5;
+      color: #1C1C1E; /* Off-Black */
+      background: #F8F8FA; /* Background Light */
     }
     
     .container {
@@ -28,12 +35,12 @@
       background: white;
       padding: 30px 0;
       margin-bottom: 40px;
-      border-bottom: 3px solid #1a1a1a;
+      border-bottom: 3px solid #1C1C1E; /* Off-Black */
     }
     
     h1 {
       font-size: 48px;
-      font-weight: 900;
+      font-weight: 600; /* Rubik Semi-Bold */
       margin-bottom: 10px;
     }
     
@@ -44,7 +51,7 @@
     
     section {
       background: white;
-      border: 2px solid #1a1a1a;
+      border: 2px solid #1C1C1E; /* Off-Black */
       border-radius: 16px;
       padding: 40px;
       margin-bottom: 40px;
@@ -52,15 +59,15 @@
     
     h2 {
       font-size: 32px;
-      font-weight: 800;
+      font-weight: 600; /* Rubik Semi-Bold */
       margin-bottom: 20px;
       padding-bottom: 10px;
-      border-bottom: 2px solid #1a1a1a;
+      border-bottom: 2px solid #1C1C1E; /* Off-Black */
     }
     
     h3 {
       font-size: 24px;
-      font-weight: 700;
+      font-weight: 600; /* Rubik Semi-Bold */
       margin: 30px 0 20px;
     }
     
@@ -73,7 +80,7 @@
     }
     
     .color-swatch {
-      border: 2px solid #1a1a1a;
+      border: 2px solid #1C1C1E; /* Off-Black */
       border-radius: 12px;
       overflow: hidden;
       background: white;
@@ -81,7 +88,7 @@
     
     .color-display {
       height: 100px;
-      border-bottom: 2px solid #1a1a1a;
+      border-bottom: 2px solid #1C1C1E; /* Off-Black */
     }
     
     .color-info {
@@ -89,7 +96,7 @@
     }
     
     .color-name {
-      font-weight: 700;
+      font-weight: 600; /* Rubik Semi-Bold */
       font-size: 18px;
       margin-bottom: 5px;
     }
@@ -104,8 +111,127 @@
     .type-sample {
       margin: 20px 0;
       padding: 20px;
-      background: #f9f9f9;
+      background: #F8F8FA; /* Slightly lighter than Light Gray for contrast */
       border-radius: 8px;
+    }
+    
+    /* Logo styles */
+    .logo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+      margin: 40px 0;
+    }
+    
+    .logo-container {
+      border: 2px solid #1C1C1E; /* Off-Black */
+      border-radius: 16px;
+      background: white;
+      overflow: hidden;
+    }
+    
+    .logo-header {
+      background: #1C1C1E; /* Off-Black */
+      color: white;
+      padding: 12px 20px;
+      font-weight: 600; /* Rubik Semi-Bold */
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .logo-display {
+      padding: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 200px;
+      background: white;
+    }
+    
+    .logo-display.with-padding {
+      padding: 30%; /* 30% padding as requested */
+    }
+    
+    .logo-display.dark {
+      background: #1C1C1E; /* Off-Black */
+    }
+    
+    .logo-display.light-bg {
+      background: #F8F8FA; /* Background Light */
+    }
+    
+    /* Logo variations */
+    .logo-vertical {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+    
+    .logo-horizontal {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    
+    .logo-icon {
+      width: 60px;
+      height: auto;
+    }
+    
+    .logo-text {
+      height: 24px;
+      width: auto;
+    }
+    
+    .logo-vertical .logo-icon {
+      width: 80px;
+    }
+    
+    .logo-vertical .logo-text {
+      height: 30px;
+    }
+    
+    .logo-horizontal .logo-icon {
+      width: 50px;
+    }
+    
+    .logo-horizontal .logo-text {
+      height: 28px;
+    }
+    
+    .logo-display.dark svg path,
+    .logo-display.dark svg circle {
+      stroke: white;
+    }
+    
+    .logo-display.dark svg path[fill="#1C1C1E"] {
+      fill: white;
+    }
+    
+    .logo-specs {
+      padding: 20px;
+      background: #F8F8FA; /* Background Light */
+      border-top: 2px solid #1C1C1E; /* Off-Black */
+      font-size: 14px;
+      line-height: 1.8;
+    }
+    
+    .spec-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+    }
+    
+    .spec-label {
+      font-weight: 600; /* Rubik Semi-Bold */
+      color: #1C1C1E; /* Off-Black */
+    }
+    
+    .spec-value {
+      font-family: 'Courier New', monospace;
+      color: #666;
     }
     
     .type-label {
@@ -127,7 +253,7 @@
     /* Shadow technique examples */
     .shadow-demo {
       padding: 30px;
-      background: #f9f9f9;
+      background: #F8F8FA; /* Slightly lighter than Light Gray for contrast */
       border-radius: 8px;
       margin: 20px 0;
     }
@@ -137,6 +263,7 @@
       position: relative;
       display: inline-block;
       margin: 20px;
+      transition: transform 0.2s;
     }
     
     .button-wrapper::before {
@@ -146,8 +273,8 @@
       left: 0;
       right: 0;
       bottom: -6px;
-      background: #CCCCCC;
-      border: 2px solid black;
+      background: #E5E5EA; /* Light Gray for shadow */
+      border: 2px solid #1C1C1E; /* Off-Black */
       border-radius: 12px;
       z-index: 1;
       pointer-events: none;
@@ -155,18 +282,18 @@
     
     .button-sample {
       background: white;
-      border: 2px solid black;
+      border: 2px solid #1C1C1E; /* Off-Black */
       border-radius: 12px;
       padding: 16px 32px;
       font-size: 18px;
-      font-weight: 700;
+      font-weight: 600; /* Rubik Semi-Bold */
       cursor: pointer;
       position: relative;
       z-index: 2;
-      transition: transform 0.2s;
+      /* No transform on the button itself */
     }
     
-    .button-sample:hover {
+    .button-wrapper:hover {
       transform: translateY(-2px);
     }
     
@@ -180,6 +307,7 @@
       display: inline-block;
       width: 280px;
       margin: 20px;
+      transition: transform 0.2s;
     }
     
     .card-wrapper::before {
@@ -189,8 +317,8 @@
       left: 0;
       right: 0;
       bottom: -6px;
-      background: #CCCCCC;
-      border: 2px solid black;
+      background: #E5E5EA; /* Light Gray for shadow */
+      border: 2px solid #1C1C1E; /* Off-Black */
       border-radius: 16px;
       z-index: 1;
       pointer-events: none;
@@ -198,22 +326,22 @@
     
     .card-sample {
       background: white;
-      border: 2px solid black;
+      border: 2px solid #1C1C1E; /* Off-Black */
       border-radius: 16px;
       padding: 24px;
       position: relative;
       z-index: 2;
       min-height: 200px;
+      /* No transform on the card itself */
     }
     
-    .card-sample:hover {
-      transform: translateY(-2px);
-      transition: transform 0.2s;
+    .card-wrapper:hover {
+      transform: translateY(-4px);
     }
     
     /* Code blocks */
     .code-block {
-      background: #1a1a1a;
+      background: #1C1C1E; /* Off-Black */
       color: #f0f0f0;
       padding: 20px;
       border-radius: 8px;
@@ -238,11 +366,11 @@
     
     .spacing-box {
       background: #FFCC00;
-      border: 2px solid #1a1a1a;
+      border: 2px solid #1C1C1E; /* Off-Black */
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 700;
+      font-weight: 600; /* Rubik Semi-Bold */
     }
   </style>
 </head>
@@ -329,18 +457,18 @@
       <h3>Neutral Colors</h3>
       <div class="color-grid">
         <div class="color-swatch">
-          <div class="color-display" style="background: #1a1a1a;"></div>
+          <div class="color-display" style="background: #1C1C1E;"></div>
           <div class="color-info">
-            <div class="color-name">Primary Black</div>
-            <div class="color-value">HEX: #1a1a1a</div>
+            <div class="color-name">Off-Black</div>
+            <div class="color-value">HEX: #1C1C1E<br>RGB: 28/28/30</div>
           </div>
         </div>
         
         <div class="color-swatch">
-          <div class="color-display" style="background: #CCCCCC;"></div>
+          <div class="color-display" style="background: #E5E5EA;"></div>
           <div class="color-info">
-            <div class="color-name">Shadow Gray</div>
-            <div class="color-value">HEX: #CCCCCC</div>
+            <div class="color-name">Light Gray (Shadows)</div>
+            <div class="color-value">HEX: #E5E5EA<br>RGB: 229/229/234</div>
           </div>
         </div>
         
@@ -348,7 +476,7 @@
           <div class="color-display" style="background: #F8F8FA;"></div>
           <div class="color-info">
             <div class="color-name">Background Light</div>
-            <div class="color-value">HEX: #F8F8FA</div>
+            <div class="color-value">HEX: #F8F8FA<br>RGB: 248/248/250</div>
           </div>
         </div>
         
@@ -356,7 +484,7 @@
           <div class="color-display" style="background: #FFFFFF;"></div>
           <div class="color-info">
             <div class="color-name">White</div>
-            <div class="color-value">HEX: #FFFFFF</div>
+            <div class="color-value">HEX: #FFFFFF<br>RGB: 255/255/255</div>
           </div>
         </div>
       </div>
@@ -367,34 +495,166 @@
       <h2>✏️ Typography</h2>
       
       <div class="type-sample">
-        <div class="type-label">Hero Title - 72px / 900 weight</div>
-        <div style="font-size: 72px; font-weight: 900;">Simple. Clean. Fun.</div>
+        <div class="type-label">Hero Title - 72px / Semi-Bold (600)</div>
+        <div style="font-size: 72px; font-weight: 600;">Simple. Clean. Fun.</div>
       </div>
       
       <div class="type-sample">
-        <div class="type-label">Section Title - 48px / 800 weight</div>
-        <div style="font-size: 48px; font-weight: 800;">Featured Games</div>
+        <div class="type-label">Section Title - 48px / Semi-Bold (600)</div>
+        <div style="font-size: 48px; font-weight: 600;">Featured Games</div>
       </div>
       
       <div class="type-sample">
-        <div class="type-label">Card Title - 24px / 700 weight</div>
-        <div style="font-size: 24px; font-weight: 700;">Match Collector</div>
+        <div class="type-label">Card Title - 24px / Semi-Bold (600)</div>
+        <div style="font-size: 24px; font-weight: 600;">Match Collector</div>
       </div>
       
       <div class="type-sample">
-        <div class="type-label">Body Text - 16px / 400 weight</div>
-        <div style="font-size: 16px; font-weight: 400;">A colorful and addictive match-3 puzzle game with hundreds of levels to explore.</div>
+        <div class="type-label">Body Text - 16px / Light (300)</div>
+        <div style="font-size: 16px; font-weight: 300;">A colorful and addictive match-3 puzzle game with hundreds of levels to explore.</div>
       </div>
       
       <div class="type-sample">
-        <div class="type-label">Button Text - 18px / 700 weight</div>
-        <div style="font-size: 18px; font-weight: 700;">PLAY NOW</div>
+        <div class="type-label">Button Text - 18px / Semi-Bold (600)</div>
+        <div style="font-size: 18px; font-weight: 600;">PLAY NOW</div>
       </div>
       
       <h3>Font Stack</h3>
       <div class="code-block">
-font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+font-family: 'Rubik', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+<span class="code-comment">/* Font Weights */</span>
+font-weight: 300; <span class="code-comment">/* Rubik Light - for body text */</span>
+font-weight: 600; <span class="code-comment">/* Rubik Semi-Bold - for headers, buttons, logo */</span>
       </div>
+    </section>
+
+    <!-- Logo Section -->
+    <section>
+      <h2>🎨 Logo & Branding</h2>
+      
+      <div class="logo-grid">
+        <!-- Logo Only -->
+        <div class="logo-container">
+          <div class="logo-header">Logo Only (30% Padding)</div>
+          <div class="logo-display with-padding">
+            <img src="../images/sg-logo.svg" alt="Staple Games Logo" style="width: 100%; height: auto;">
+          </div>
+          <div class="logo-specs">
+            <div class="spec-item">
+              <span class="spec-label">Use Case:</span>
+              <span class="spec-value">App icons, avatars</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Min Size:</span>
+              <span class="spec-value">32px × 32px</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Clear Space:</span>
+              <span class="spec-value">30% of logo width</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Vertical Logo -->
+        <div class="logo-container">
+          <div class="logo-header">Vertical Logo</div>
+          <div class="logo-display">
+            <div class="logo-vertical">
+              <img src="../images/sg-logo.svg" alt="Logo" class="logo-icon">
+              <img src="../images/staple-games.svg" alt="Staple Games" class="logo-text">
+            </div>
+          </div>
+          <div class="logo-specs">
+            <div class="spec-item">
+              <span class="spec-label">Use Case:</span>
+              <span class="spec-value">Splash screens, posters</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Min Width:</span>
+              <span class="spec-value">120px</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Aspect Ratio:</span>
+              <span class="spec-value">~1:1.5</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Horizontal Logo -->
+        <div class="logo-container">
+          <div class="logo-header">Horizontal Logo</div>
+          <div class="logo-display">
+            <div class="logo-horizontal">
+              <img src="../images/sg-logo.svg" alt="Logo" class="logo-icon">
+              <img src="../images/staple-games.svg" alt="Staple Games" class="logo-text">
+            </div>
+          </div>
+          <div class="logo-specs">
+            <div class="spec-item">
+              <span class="spec-label">Use Case:</span>
+              <span class="spec-value">Website header, documents</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Min Width:</span>
+              <span class="spec-value">200px</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Aspect Ratio:</span>
+              <span class="spec-value">~5:1</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Logo Variations on Different Backgrounds</h3>
+      <div class="logo-grid">
+        <!-- On White -->
+        <div class="logo-container">
+          <div class="logo-header">On White Background</div>
+          <div class="logo-display">
+            <div class="logo-horizontal">
+              <img src="../images/sg-logo.svg" alt="Logo" class="logo-icon">
+              <img src="../images/staple-games.svg" alt="Staple Games" class="logo-text">
+            </div>
+          </div>
+        </div>
+
+        <!-- On Light Background -->
+        <div class="logo-container">
+          <div class="logo-header">On Light Background</div>
+          <div class="logo-display light-bg">
+            <div class="logo-horizontal">
+              <img src="../images/sg-logo.svg" alt="Logo" class="logo-icon">
+              <img src="../images/staple-games.svg" alt="Staple Games" class="logo-text">
+            </div>
+          </div>
+        </div>
+
+        <!-- On Dark (Note: would need inverted SVGs) -->
+        <div class="logo-container">
+          <div class="logo-header">On Dark Background</div>
+          <div class="logo-display dark">
+            <div class="logo-horizontal">
+              <!-- Note: In production, use inverted white versions of logos -->
+              <img src="../images/sg-logo.svg" alt="Logo" class="logo-icon" style="filter: invert(1);">
+              <img src="../images/staple-games.svg" alt="Staple Games" class="logo-text" style="filter: invert(1);">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Logo Usage Guidelines</h3>
+      <ul style="margin-left: 20px; line-height: 2;">
+        <li>Always maintain the aspect ratio - never stretch or distort the logo</li>
+        <li>Ensure adequate clear space around the logo (minimum 30% of logo width)</li>
+        <li>Use the purple color <strong style="font-weight: 600;">#AF52DE</strong> for the glasses in the icon</li>
+        <li>Primary logo colors are Off-Black <strong style="font-weight: 600;">#1C1C1E</strong> and Purple <strong style="font-weight: 600;">#AF52DE</strong></li>
+        <li>For dark backgrounds, use inverted (white) versions of the logo</li>
+        <li>Minimum size: 32px height for icon only, 120px width for full logos</li>
+        <li>Prefer horizontal layout for web headers and documents</li>
+        <li>Use vertical layout for mobile splash screens and social media</li>
+      </ul>
     </section>
 
     <!-- Shadow Technique Section -->
@@ -412,6 +672,7 @@ font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Ro
 .wrapper {
   position: relative;
   display: inline-block;
+  transition: transform 0.2s;  <span class="code-comment">/* For hover animations */</span>
 }
 
 .wrapper::before {
@@ -421,8 +682,8 @@ font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Ro
   left: 0;
   right: 0;
   bottom: -6px;
-  background: #CCCCCC;
-  border: 2px solid black;
+  background: #E5E5EA;  <span class="code-comment">/* Light Gray for shadows */</span>
+  border: 2px solid #1C1C1E;  <span class="code-comment">/* Off-Black */</span>
   border-radius: 12px;  <span class="code-comment">/* Match main element */</span>
   z-index: 1;
   pointer-events: none;
@@ -430,11 +691,16 @@ font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Ro
 
 .main-element {
   background: white;
-  border: 2px solid black;
+  border: 2px solid #1C1C1E;  <span class="code-comment">/* Off-Black */</span>
   border-radius: 12px;
   position: relative;
   z-index: 2;
   <span class="code-comment">/* Your styles here */</span>
+}
+
+<span class="code-comment">/* Hover effect - move the entire wrapper */</span>
+.wrapper:hover {
+  transform: translateY(-2px);
 }
       </div>
       
@@ -461,12 +727,14 @@ font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Ro
       
       <h3>Key Points</h3>
       <ul style="margin-left: 20px; line-height: 2;">
-        <li>Shadow offset is <strong>6px down only</strong> (no horizontal offset)</li>
-        <li>Both element and shadow have <strong>2px black border</strong></li>
+        <li>Shadow offset is <strong style="font-weight: 600;">6px down only</strong> (no horizontal offset)</li>
+        <li>Both element and shadow have <strong style="font-weight: 600;">2px Off-Black (#1C1C1E) border</strong></li>
         <li>Borders perfectly align on left and right</li>
-        <li>Shadow background is <strong>#CCCCCC</strong></li>
-        <li>Use <strong>wrapper::before</strong> for the shadow layer</li>
-        <li>Main element gets <strong>z-index: 2</strong>, shadow gets <strong>z-index: 1</strong></li>
+        <li>Shadow background is <strong style="font-weight: 600;">#E5E5EA</strong> (Light Gray for shadows only)</li>
+        <li>Use <strong style="font-weight: 600;">wrapper::before</strong> for the shadow layer</li>
+        <li>Main element gets <strong style="font-weight: 600;">z-index: 2</strong>, shadow gets <strong style="font-weight: 600;">z-index: 1</strong></li>
+        <li><strong style="font-weight: 600;">CRITICAL:</strong> Apply hover transforms to the wrapper, not the element, so shadows move in sync</li>
+        <li>Use <strong style="font-weight: 600;">transition: transform 0.2s</strong> on wrappers for smooth animations</li>
       </ul>
     </section>
 
@@ -500,30 +768,30 @@ font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Ro
       
       <h3>Border Widths</h3>
       <div style="display: flex; gap: 20px; margin: 20px 0;">
-        <div style="padding: 20px; background: white; border: 2px solid black; border-radius: 8px;">
-          <strong>Standard:</strong> 2px
+        <div style="padding: 20px; background: white; border: 2px solid #1C1C1E; border-radius: 8px;">
+          <strong style="font-weight: 600;">Standard:</strong> 2px
         </div>
-        <div style="padding: 20px; background: white; border: 2.5px solid black; border-radius: 8px;">
-          <strong>Medium:</strong> 2.5px
+        <div style="padding: 20px; background: white; border: 2.5px solid #1C1C1E; border-radius: 8px;">
+          <strong style="font-weight: 600;">Medium:</strong> 2.5px
         </div>
-        <div style="padding: 20px; background: white; border: 3.5px solid black; border-radius: 8px;">
-          <strong>Bold:</strong> 3.5px
+        <div style="padding: 20px; background: white; border: 3.5px solid #1C1C1E; border-radius: 8px;">
+          <strong style="font-weight: 600;">Bold:</strong> 3.5px
         </div>
       </div>
       
       <h3>Border Radii</h3>
       <div style="display: flex; gap: 20px; margin: 20px 0;">
-        <div style="padding: 20px; background: #FFCC00; border: 2px solid black; border-radius: 8px;">
-          <strong>Small:</strong> 8px
+        <div style="padding: 20px; background: #FFCC00; border: 2px solid #1C1C1E; border-radius: 8px;">
+          <strong style="font-weight: 600;">Small:</strong> 8px
         </div>
-        <div style="padding: 20px; background: #FFCC00; border: 2px solid black; border-radius: 12px;">
-          <strong>Medium:</strong> 12px
+        <div style="padding: 20px; background: #FFCC00; border: 2px solid #1C1C1E; border-radius: 12px;">
+          <strong style="font-weight: 600;">Medium:</strong> 12px
         </div>
-        <div style="padding: 20px; background: #FFCC00; border: 2px solid black; border-radius: 16px;">
-          <strong>Large:</strong> 16px
+        <div style="padding: 20px; background: #FFCC00; border: 2px solid #1C1C1E; border-radius: 16px;">
+          <strong style="font-weight: 600;">Large:</strong> 16px
         </div>
-        <div style="padding: 20px; background: #FFCC00; border: 2px solid black; border-radius: 24px;">
-          <strong>XL:</strong> 24px
+        <div style="padding: 20px; background: #FFCC00; border: 2px solid #1C1C1E; border-radius: 24px;">
+          <strong style="font-weight: 600;">XL:</strong> 24px
         </div>
       </div>
     </section>
@@ -534,29 +802,46 @@ font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Ro
       
       <h3>Category Badges</h3>
       <div style="display: flex; gap: 10px; flex-wrap: wrap; margin: 20px 0;">
-        <span style="background: #FFCC00; border: 2px solid black; border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 700; text-transform: uppercase;">PUZZLE</span>
-        <span style="background: #FF3B30; color: white; border: 2px solid black; border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 700; text-transform: uppercase;">CARDS</span>
-        <span style="background: #5AC8FA; border: 2px solid black; border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 700; text-transform: uppercase;">WORD</span>
-        <span style="background: #34C759; color: white; border: 2px solid black; border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 700; text-transform: uppercase;">BOARD</span>
-        <span style="background: #FF9500; border: 2px solid black; border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 700; text-transform: uppercase;">DICE</span>
-        <span style="background: #007AFF; color: white; border: 2px solid black; border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 700; text-transform: uppercase;">ADVENTURE</span>
+        <span style="background: #FFCC00; border: 2px solid #1C1C1E; border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 600; text-transform: uppercase;">PUZZLE</span>
+        <span style="background: #FF3B30; color: white; border: 2px solid #1C1C1E; border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 600; text-transform: uppercase;">CARDS</span>
+        <span style="background: #5AC8FA; border: 2px solid #1C1C1E; border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 600; text-transform: uppercase;">WORD</span>
+        <span style="background: #34C759; color: white; border: 2px solid #1C1C1E; border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 600; text-transform: uppercase;">BOARD</span>
+        <span style="background: #FF9500; border: 2px solid #1C1C1E; border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 600; text-transform: uppercase;">DICE</span>
+        <span style="background: #007AFF; color: white; border: 2px solid #1C1C1E; border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 600; text-transform: uppercase;">ADVENTURE</span>
       </div>
       
       <h3>Hover States</h3>
       <div class="code-block">
-<span class="code-comment">/* Standard hover transform */</span>
-.element:hover {
-  transform: translateY(-2px);
+<span class="code-comment">/* IMPORTANT: Apply hover transforms to wrapper elements */</span>
+<span class="code-comment">/* This ensures shadows move in sync with elements */</span>
+
+<span class="code-comment">/* Button hover - wrapper moves, shadow follows */</span>
+.button-wrapper {
   transition: transform 0.2s;
 }
-
-<span class="code-comment">/* With rotation for playful effect */</span>
-.card:nth-child(odd):hover {
-  transform: translateY(-4px) rotate(-1deg);
+.button-wrapper:hover {
+  transform: translateY(-2px);
 }
 
-.card:nth-child(even):hover {
+<span class="code-comment">/* Card hover with playful rotation */</span>
+.game-tile-wrapper {
+  transition: transform 0.2s;
+}
+.game-tile-wrapper:hover {
+  transform: translateY(-4px);
+}
+
+<span class="code-comment">/* Alternating rotation for visual interest */</span>
+.game-tile-wrapper:nth-child(odd):hover {
+  transform: translateY(-4px) rotate(-1deg);
+}
+.game-tile-wrapper:nth-child(even):hover {
   transform: translateY(-4px) rotate(1deg);
+}
+
+<span class="code-comment">/* Active state returns to original position */</span>
+.button-wrapper:active {
+  transform: translateY(0);
 }
       </div>
     </section>
@@ -609,12 +894,33 @@ font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Ro
 
     <!-- Animation Guide -->
     <section>
-      <h2>✨ Animations</h2>
+      <h2>✨ Animations & Interactions</h2>
+      
+      <h3>Animation Principles</h3>
+      <ul style="margin-left: 20px; line-height: 2;">
+        <li><strong style="font-weight: 600;">Wrapper-based transforms:</strong> Always apply hover transforms to wrapper elements containing shadows</li>
+        <li><strong style="font-weight: 600;">Consistent timing:</strong> Use 0.2s transitions for responsive, snappy interactions</li>
+        <li><strong style="font-weight: 600;">Synchronized movement:</strong> Shadows must move with their parent elements</li>
+        <li><strong style="font-weight: 600;">Smooth scrolling:</strong> Use CSS scroll-behavior: smooth for navigation links</li>
+      </ul>
+      
+      <h3>Standard Hover Heights</h3>
+      <div class="code-block">
+<span class="code-comment">/* Small lift - buttons, nav items */</span>
+transform: translateY(-2px);
+
+<span class="code-comment">/* Medium lift - cards, tiles */</span>
+transform: translateY(-4px);
+
+<span class="code-comment">/* With rotation - game tiles */</span>
+transform: translateY(-4px) rotate(-1deg); <span class="code-comment">/* odd children */</span>
+transform: translateY(-4px) rotate(1deg);  <span class="code-comment">/* even children */</span>
+      </div>
       
       <h3>Timing Functions</h3>
       <div class="code-block">
 --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
---transition-fast: all 0.2s ease;
+--transition-fast: all 0.2s ease;  <span class="code-comment">/* Preferred for hover states */</span>
 --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
       </div>
       
@@ -639,6 +945,18 @@ font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Ro
 
 .pulse-animation {
   animation: pulse 2s infinite;
+}
+
+<span class="code-comment">/* Loading shimmer */</span>
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.loading {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
 }
       </div>
     </section>

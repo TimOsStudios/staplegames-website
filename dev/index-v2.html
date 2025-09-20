@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>[DEV] Staple Games - Simple. Clean. Fun. Mobile Games</title>
   
+  <!-- Google Fonts - Rubik -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
   <style>
     /* ==========================================
        DESIGN SYSTEM - Game-Inspired Aesthetic
@@ -17,16 +22,16 @@
       --brand-gold: #FFCC00;     /* RGB: 255/204/0 */
       --brand-green: #34C759;    /* RGB: 52/199/89 */
       --brand-cyan: #5AC8FA;     /* RGB: 90/200/250 */
-      --brand-blue: #007AFF;     /* RGB: 28/28/30 */
+      --brand-blue: #007AFF;     /* RGB: 0/122/255 */
       --brand-gray: #8E8E93;     /* RGB: 142/142/147 */
       --brand-purple: #AF52DE;    /* Purple for footer */
       
       /* Primary Colors */
       --primary-yellow: #FFCC00; /* Using brand gold */
-      --primary-black: #1a1a1a;
-      --shadow-gray: #CCCCCC;
-      --bg-light: #F8F8FA;
-      --white: #FFFFFF;
+      --primary-black: #1C1C1E;  /* Off-Black RGB: 28/28/30 */
+      --shadow-gray: #E5E5EA;     /* Light Gray for shadows ONLY - RGB: 229/229/234 */
+      --bg-light: #F8F8FA;        /* Background Light - RGB: 248/248/250 */
+      --white: #FFFFFF;           /* RGB: 255/255/255 */
       
       /* Borders */
       --border-width: 2.5px;
@@ -34,15 +39,15 @@
       --border-radius-sm: 12px;
       
       /* Shadows - Extended with inner border effect */
-      --shadow-sm: 0 9px 0 0 var(--shadow-gray), 0 7px 0 0 #B0B0B0, 0 11px 12px rgba(0,0,0,0.1);
-      --shadow-md: 0 10px 0 0 var(--shadow-gray), 0 8px 0 0 #B0B0B0, 0 12px 16px rgba(0,0,0,0.1);
-      --shadow-lg: 0 12px 0 0 var(--shadow-gray), 0 10px 0 0 #B0B0B0, 0 14px 20px rgba(0,0,0,0.15);
+      --shadow-sm: 0 9px 0 0 var(--shadow-gray), 0 7px 0 0 #D0D0D5, 0 11px 12px rgba(28,28,30,0.1);
+      --shadow-md: 0 10px 0 0 var(--shadow-gray), 0 8px 0 0 #D0D0D5, 0 12px 16px rgba(28,28,30,0.1);
+      --shadow-lg: 0 12px 0 0 var(--shadow-gray), 0 10px 0 0 #D0D0D5, 0 14px 20px rgba(28,28,30,0.15);
       
       /* Typography */
-      --font-main: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
-      --font-weight-bold: 900;
-      --font-weight-semibold: 700;
-      --font-weight-regular: 500;
+      --font-main: 'Rubik', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+      --font-weight-bold: 600;    /* Rubik Semi-Bold for headers */
+      --font-weight-semibold: 600; /* Rubik Semi-Bold for buttons */
+      --font-weight-regular: 300;  /* Rubik Light for body text */
       
       /* Spacing */
       --spacing-xs: 8px;
@@ -65,8 +70,13 @@
       box-sizing: border-box;
     }
     
+    html {
+      scroll-behavior: smooth;
+    }
+    
     body {
       font-family: var(--font-main);
+      font-weight: var(--font-weight-regular); /* Rubik Light as default */
       background-color: var(--bg-light);
       color: var(--primary-black);
       line-height: 1.6;
@@ -101,31 +111,36 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      box-shadow: var(--shadow-sm);
+      /* box-shadow removed */
     }
     
     .nav-content {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: var(--spacing-sm) 0;
-      height: 72px;
+      padding: var(--spacing-sm) 0 16px 0; /* Added bottom padding for drop shadow */
+      height: 84px; /* Increased height to account for bottom padding */
     }
     
     .logo {
       display: flex;
       align-items: center;
-      gap: var(--spacing-sm);
-      font-weight: var(--font-weight-bold);
-      font-size: 24px;
-      letter-spacing: -0.02em;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--primary-black);
     }
     
-    .logo img {
-      width: 48px;
-      height: 48px;
-      border-radius: var(--border-radius-sm);
-      border: var(--border-width) solid var(--primary-black);
+    .logo-icon {
+      width: 45px;
+      height: auto;
+      display: block;
+    }
+    
+    .logo-text {
+      height: 28px;  /* Increased from 22px for better proportion */
+      width: auto;
+      display: block;
+      transform: translateY(2px); /* Optical adjustment to vertically center */
     }
     
     .nav-menu {
@@ -147,8 +162,8 @@
       left: 0;
       right: 0;
       bottom: -6px;
-      background: #CCCCCC;
-      border: 2px solid black;
+      background: var(--shadow-gray); /* Light Gray */
+      border: 2px solid var(--primary-black); /* Off-Black */
       border-radius: var(--border-radius-sm);
       z-index: 1;
       pointer-events: none;
@@ -170,6 +185,13 @@
     
     .nav-item:hover {
       background: var(--brand-gold);
+    }
+    
+    .nav-item-wrapper {
+      transition: transform 0.2s;
+    }
+    
+    .nav-item-wrapper:hover {
       transform: translateY(-2px);
     }
     
@@ -177,6 +199,11 @@
     .menu-toggle-wrapper {
       display: none;
       position: relative;
+      transition: transform 0.2s;
+    }
+    
+    .menu-toggle-wrapper:hover {
+      transform: translateY(-2px);
     }
     
     .menu-toggle-wrapper::before {
@@ -186,8 +213,8 @@
       left: 0;
       right: 0;
       bottom: -6px;
-      background: #CCCCCC;
-      border: 2px solid black;
+      background: var(--shadow-gray); /* Light Gray */
+      border: 2px solid var(--primary-black); /* Off-Black */
       border-radius: var(--border-radius-sm);
       z-index: 1;
       pointer-events: none;
@@ -229,10 +256,10 @@
       border: var(--border-width) solid var(--primary-black);
       border-radius: var(--border-radius-sm);
       padding: var(--spacing-xs) var(--spacing-md);
-      font-weight: var(--font-weight-bold);
+      font-weight: var(--font-weight-semibold); /* Rubik Semi-Bold */
       font-size: 18px;
       margin-bottom: var(--spacing-md);
-      box-shadow: 0 9px 0 0 var(--shadow-gray), 0 7px 0 0 #B0B0B0;
+      box-shadow: 0 9px 0 0 var(--shadow-gray), 0 7px 0 0 #D0D0D5;
       position: relative;
     }
     
@@ -269,7 +296,7 @@
     
     .hero-title {
       font-size: clamp(48px, 8vw, 96px);
-      font-weight: var(--font-weight-bold);
+      font-weight: var(--font-weight-bold); /* Rubik Semi-Bold for main title */
       letter-spacing: -0.03em;
       margin-bottom: var(--spacing-sm);
       line-height: 1;
@@ -303,8 +330,8 @@
       left: 0;
       right: 0;
       bottom: -6px;
-      background: var(--shadow-gray);
-      border: var(--border-width) solid var(--primary-black);
+      background: var(--shadow-gray); /* Light Gray */
+      border: var(--border-width) solid var(--primary-black); /* Off-Black */
       border-radius: var(--border-radius);
       z-index: 1;
       pointer-events: none;
@@ -315,7 +342,7 @@
       border: var(--border-width) solid var(--primary-black);
       border-radius: var(--border-radius);
       padding: var(--spacing-md) var(--spacing-lg);
-      font-weight: var(--font-weight-bold);
+      font-weight: var(--font-weight-semibold); /* Rubik Semi-Bold for buttons */
       font-size: 20px;
       transition: var(--transition);
       cursor: pointer;
@@ -330,11 +357,17 @@
       background: var(--brand-gold);
     }
     
-    .play-button:hover {
+    /* .play-button hover effects handled by wrapper */
+    
+    .play-button-wrapper {
+      transition: transform 0.2s;
+    }
+    
+    .play-button-wrapper:hover {
       transform: translateY(-2px);
     }
     
-    .play-button:active {
+    .play-button-wrapper:active {
       transform: translateY(0);
     }
     
@@ -345,7 +378,7 @@
       gap: var(--spacing-xs);
       padding: 4px 12px;
       background: var(--white);
-      border: 2px solid var(--primary-black);
+      border: 2px solid var(--primary-black); /* Off-Black */
       border-radius: 8px;
       font-size: 12px;
       font-weight: var(--font-weight-semibold);
@@ -372,7 +405,7 @@
     
     .section-title {
       font-size: clamp(32px, 5vw, 48px);
-      font-weight: var(--font-weight-bold);
+      font-weight: var(--font-weight-bold); /* Rubik Semi-Bold for section headers */
       margin-bottom: var(--spacing-sm);
       position: relative;
       display: inline-block;
@@ -389,7 +422,7 @@
       background: var(--brand-cyan);
       padding: 2px 12px;
       border-radius: 12px;
-      border: 2px solid var(--primary-black);
+      border: 2px solid var(--primary-black); /* Off-Black */
     }
     
     .section-subtitle {
@@ -433,8 +466,8 @@
       left: 0;
       right: 0;
       bottom: -6px;
-      background: var(--shadow-gray);
-      border: var(--border-width) solid var(--primary-black);
+      background: var(--shadow-gray); /* Light Gray */
+      border: var(--border-width) solid var(--primary-black); /* Off-Black */
       border-radius: var(--border-radius);
       z-index: 1;
       pointer-events: none;
@@ -454,25 +487,20 @@
       flex-direction: column;
     }
     
-    .game-tile-wrapper:hover .game-tile {
+    .game-tile-wrapper {
+      transition: transform 0.2s;
+    }
+    
+    .game-tile-wrapper:hover {
       transform: translateY(-4px);
     }
     
-    .game-tile-wrapper:hover::before {
-      transform: translateY(-2px);
-    }
-    
-    .game-tile-wrapper:nth-child(odd):hover .game-tile {
+    .game-tile-wrapper:nth-child(odd):hover {
       transform: translateY(-4px) rotate(-1deg);
     }
     
-    .game-tile-wrapper:nth-child(even):hover .game-tile {
+    .game-tile-wrapper:nth-child(even):hover {
       transform: translateY(-4px) rotate(1deg);
-    }
-    
-    .game-tile-wrapper:nth-child(odd):hover::before,
-    .game-tile-wrapper:nth-child(even):hover::before {
-      transform: translateY(-2px);
     }
     
     .game-tile-icon {
@@ -500,11 +528,11 @@
       top: var(--spacing-sm);
       right: var(--spacing-sm);
       background: var(--brand-gold);
-      border: 2px solid var(--primary-black);
+      border: 2px solid var(--primary-black); /* Off-Black */
       border-radius: 20px;
       padding: 4px 12px;
       font-size: 11px;
-      font-weight: var(--font-weight-bold);
+      font-weight: var(--font-weight-semibold); /* Rubik Semi-Bold for badges */
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
@@ -541,7 +569,7 @@
     
     .game-tile-title {
       font-size: 20px;
-      font-weight: var(--font-weight-bold);
+      font-weight: var(--font-weight-semibold); /* Rubik Semi-Bold for tile titles */
       margin-bottom: var(--spacing-xs);
       display: -webkit-box;
       -webkit-line-clamp: 1;
@@ -580,8 +608,8 @@
       left: 0;
       right: 0;
       bottom: -4px;
-      background: var(--shadow-gray);
-      border: 2px solid var(--primary-black);
+      background: var(--shadow-gray); /* Light Gray */
+      border: 2px solid var(--primary-black); /* Off-Black */
       border-radius: var(--border-radius-sm);
       z-index: 1;
       pointer-events: none;
@@ -592,7 +620,7 @@
       width: 100%;
       padding: var(--spacing-xs);
       background: var(--white);
-      border: 2px solid var(--primary-black);
+      border: 2px solid var(--primary-black); /* Off-Black */
       border-radius: var(--border-radius-sm);
       font-weight: var(--font-weight-semibold);
       font-size: 12px;
@@ -606,7 +634,14 @@
     
     .store-button:hover {
       background: var(--brand-gold);
-      transform: translateY(-1px);
+    }
+    
+    .store-button-wrapper {
+      transition: transform 0.2s;
+    }
+    
+    .store-button-wrapper:hover {
+      transform: translateY(-2px);
     }
     
     /* Alternating store button colors */
@@ -664,8 +699,8 @@
       left: 0;
       right: 0;
       bottom: -8px;
-      background: var(--shadow-gray);
-      border: var(--border-width) solid var(--primary-black);
+      background: var(--shadow-gray); /* Light Gray */
+      border: var(--border-width) solid var(--primary-black); /* Off-Black */
       border-radius: var(--border-radius);
       z-index: 1;
       pointer-events: none;
@@ -688,7 +723,7 @@
     
     .promo-title {
       font-size: 32px;
-      font-weight: var(--font-weight-bold);
+      font-weight: var(--font-weight-semibold); /* Rubik Semi-Bold */
       margin-bottom: var(--spacing-md);
     }
     
@@ -699,6 +734,11 @@
       left: 50%;
       transform: translateX(-50%);
       z-index: 3;
+      transition: transform 0.2s;
+    }
+    
+    .promo-badge-wrapper:hover {
+      transform: translateX(-50%) translateY(-2px);
     }
     
     .promo-badge-wrapper::before {
@@ -708,8 +748,8 @@
       left: 0;
       right: 0;
       bottom: -6px;
-      background: var(--shadow-gray);
-      border: 3.5px solid var(--primary-black);
+      background: var(--shadow-gray); /* Light Gray */
+      border: 3.5px solid var(--primary-black); /* Off-Black */
       border-radius: 12px;
       z-index: 1;
       pointer-events: none;
@@ -723,7 +763,7 @@
       border-radius: 12px;
       padding: 12px 32px;
       min-width: 220px;
-      font-weight: var(--font-weight-bold);
+      font-weight: var(--font-weight-semibold); /* Rubik Semi-Bold */
       font-size: 22px;
       z-index: 2;
       display: inline-block;
@@ -754,22 +794,22 @@
       background: var(--white);
       border: var(--border-width) solid var(--primary-black);
       border-radius: var(--border-radius-sm);
-      font-weight: var(--font-weight-semibold);
+      font-weight: var(--font-weight-semibold); /* Rubik Semi-Bold for filter tabs */
       cursor: pointer;
       transition: var(--transition);
-      box-shadow: 0 9px 0 0 var(--shadow-gray), 0 7px 0 0 #B0B0B0;
+      box-shadow: 0 9px 0 0 var(--shadow-gray), 0 7px 0 0 #D0D0D5;
     }
     
     .filter-tab.active {
       background: var(--brand-gold);
       transform: translateY(-2px);
-      box-shadow: 0 11px 0 0 var(--shadow-gray), 0 9px 0 0 #B0B0B0;
+      box-shadow: 0 11px 0 0 var(--shadow-gray), 0 9px 0 0 #D0D0D5;
     }
     
     .filter-tab:hover:not(.active) {
       transform: translateY(-1px);
       background: #fff9e6;
-      box-shadow: 0 10px 0 0 var(--shadow-gray), 0 8px 0 0 #B0B0B0;
+      box-shadow: 0 10px 0 0 var(--shadow-gray), 0 8px 0 0 #D0D0D5;
     }
     
     /* Colored filter tabs on hover */
@@ -808,7 +848,7 @@
     
     .footer-brand h3 {
       font-size: 28px;
-      font-weight: var(--font-weight-bold);
+      font-weight: var(--font-weight-semibold); /* Rubik Semi-Bold */
       margin-bottom: var(--spacing-sm);
     }
     
@@ -823,7 +863,7 @@
       background: var(--brand-gold);
       color: var(--primary-black);
       border-radius: var(--border-radius-sm);
-      font-weight: var(--font-weight-semibold);
+      font-weight: var(--font-weight-semibold); /* Rubik Semi-Bold for footer links */
       transition: var(--transition);
     }
     
@@ -852,8 +892,8 @@
         left: 0;
         right: 0;
         background: var(--white);
-        border: 2px solid var(--primary-black);
-        border-top: none;
+          border: 2px solid var(--primary-black); /* Off-Black */
+          border-top: none;
         flex-direction: column;
         padding: var(--spacing-sm);
         z-index: 100;
@@ -958,14 +998,13 @@
     <nav class="container">
       <div class="nav-content">
         <a href="#" class="logo">
-          <img src="https://cdn.bdz5.com/staplegames/matchcollector_icon.png" alt="Staple Games">
-          <span>Staple Games</span>
+          <img src="../images/sg-logo.svg" alt="Logo" class="logo-icon">
+          <img src="../images/staple-games.svg" alt="Staple Games" class="logo-text">
         </a>
         
         <ul class="nav-menu" id="navMenu">
-          <li><div class="nav-item-wrapper"><a href="#" class="nav-item">Games</a></div></li>
+          <li><div class="nav-item-wrapper"><a href="#all-games" class="nav-item">Games</a></div></li>
           <li><div class="nav-item-wrapper"><a href="#featured" class="nav-item">Featured</a></div></li>
-          <li><div class="nav-item-wrapper"><a href="#about" class="nav-item">About</a></div></li>
           <li><div class="nav-item-wrapper"><a href="contact.html" class="nav-item">Support</a></div></li>
         </ul>
         
@@ -1045,8 +1084,12 @@
             <h3 class="game-tile-title">Dice Merge</h3>
             <p class="game-tile-desc">The perfect puzzle combination of block and merge</p>
             <div class="game-tile-actions">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.dice" class="store-button"><span class="mobile-text">Play</span><span class="desktop-text">Google Play</span></a>
-              <a href="https://apps.apple.com/app/dice/id1663958329" class="store-button"><span class="mobile-text">iOS</span><span class="desktop-text">App Store</span></a>
+              <div class="store-button-wrapper">
+                <a href="https://play.google.com/store/apps/details?id=com.staplegames.dice" class="store-button"><span class="mobile-text">Android</span><span class="desktop-text">Google Play</span></a>
+              </div>
+              <div class="store-button-wrapper">
+                <a href="https://apps.apple.com/app/dice/id1663958329" class="store-button"><span class="mobile-text">iOS</span><span class="desktop-text">App Store</span></a>
+              </div>
             </div>
           </div>
           </div>
@@ -1063,8 +1106,12 @@
             <h3 class="game-tile-title">Tile Collector</h3>
             <p class="game-tile-desc">Match and collect tiles in this addictive puzzle</p>
             <div class="game-tile-actions">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.tilecollector" class="store-button"><span class="mobile-text">Play</span><span class="desktop-text">Google Play</span></a>
-              <a href="https://apps.apple.com/app/tile-collector/id6449299885" class="store-button"><span class="mobile-text">iOS</span><span class="desktop-text">App Store</span></a>
+              <div class="store-button-wrapper">
+                <a href="https://play.google.com/store/apps/details?id=com.staplegames.tilecollector" class="store-button"><span class="mobile-text">Android</span><span class="desktop-text">Google Play</span></a>
+              </div>
+              <div class="store-button-wrapper">
+                <a href="https://apps.apple.com/app/tile-collector/id6449299885" class="store-button"><span class="mobile-text">iOS</span><span class="desktop-text">App Store</span></a>
+              </div>
             </div>
           </div>
           </div>
@@ -1104,8 +1151,8 @@
           </div>
           
           <div style="margin-top: 32px; padding-top: 24px; border-top: 2px solid rgba(0,0,0,0.1);">
-            <p style="font-weight: 600; margin-bottom: 12px;">Download to donate on <a href="https://apps.apple.com/app/match-collector/id6462309005" style="color: var(--brand-blue);">iOS</a> and <a href="https://play.google.com/store/apps/details?id=com.staplegames.matchcollector" style="color: var(--brand-green);">Android</a></p>
-              <p style="font-size: 14px;"><a href="/50-stays-terms.html" style="color: #666666; text-decoration: underline;">See full terms & details here</a></p>
+            <p style="font-weight: 600; margin-bottom: 12px;">Download to donate on <a href="https://apps.apple.com/app/match-collector/id6462309005" style="color: var(--brand-blue); font-weight: 600;">iOS</a> and <a href="https://play.google.com/store/apps/details?id=com.staplegames.matchcollector" style="color: var(--brand-green); font-weight: 600;">Android</a></p>
+              <p style="font-size: 16px; margin-bottom: 8px;"><a href="/50-stays-terms.html" style="color: var(--brand-blue); text-decoration: underline; font-weight: 500;">See full terms & details here</a></p>
           </div>
         </div>
       </div>
@@ -1131,6 +1178,57 @@
       
       <!-- All games grid -->
       <div class="games-grid-compact">
+        <!-- Match Collector -->
+        <div class="game-tile-wrapper">
+          <div class="game-tile">
+          <div class="game-tile-icon">
+            <img src="https://cdn.bdz5.com/staplegames/matchcollector_icon.png" alt="Match Collector">
+            <span class="category-badge puzzle">Puzzle</span>
+          </div>
+          <div class="game-tile-content">
+            <h3 class="game-tile-title">Match Collector</h3>
+            <div class="game-tile-actions">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.matchcollector" class="store-button">Android</a>
+              <a href="https://apps.apple.com/app/match-collector/id6462309005" class="store-button">iOS</a>
+            </div>
+          </div>
+          </div>
+        </div>
+        
+        <!-- Dice Merge -->
+        <div class="game-tile-wrapper">
+          <div class="game-tile">
+          <div class="game-tile-icon">
+            <img src="https://cdn.bdz5.com/staplegames/dice_icon.png" alt="Dice Merge">
+            <span class="category-badge puzzle">Puzzle</span>
+          </div>
+          <div class="game-tile-content">
+            <h3 class="game-tile-title">Dice Merge</h3>
+            <div class="game-tile-actions">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.dice" class="store-button">Android</a>
+              <a href="https://apps.apple.com/app/dice/id1663958329" class="store-button">iOS</a>
+            </div>
+          </div>
+          </div>
+        </div>
+        
+        <!-- Tile Collector -->
+        <div class="game-tile-wrapper">
+          <div class="game-tile">
+          <div class="game-tile-icon">
+            <img src="https://cdn.bdz5.com/staplegames/tilecollector_icon.png" alt="Tile Collector">
+            <span class="category-badge puzzle">Puzzle</span>
+          </div>
+          <div class="game-tile-content">
+            <h3 class="game-tile-title">Tile Collector</h3>
+            <div class="game-tile-actions">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.tilecollector" class="store-button">Android</a>
+              <a href="https://apps.apple.com/app/tile-collector/id6449299885" class="store-button">iOS</a>
+            </div>
+          </div>
+          </div>
+        </div>
+        
         <!-- Block Puzzle Classic -->
         <div class="game-tile-wrapper">
           <div class="game-tile">
@@ -1141,7 +1239,7 @@
           <div class="game-tile-content">
             <h3 class="game-tile-title">Block Puzzle Classic</h3>
             <div class="game-tile-actions">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.blocksClassicSGGP" class="store-button">Play</a>
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.blocksClassicSGGP" class="store-button">Android</a>
               <a href="https://apps.apple.com/app/block-puzzle-classic/id1572892132" class="store-button">iOS</a>
             </div>
           </div>
@@ -1158,7 +1256,7 @@
           <div class="game-tile-content">
             <h3 class="game-tile-title">Sudoku</h3>
             <div class="game-tile-actions">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.sudokuClassicGP" class="store-button">Play</a>
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.sudokuClassicGP" class="store-button">Android</a>
               <a href="https://apps.apple.com/app/sudoku/id1561193287" class="store-button">iOS</a>
             </div>
           </div>
@@ -1175,7 +1273,7 @@
           <div class="game-tile-content">
             <h3 class="game-tile-title">Spider Solitaire</h3>
             <div class="game-tile-actions">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.spiderSolitaireGP" class="store-button">Play</a>
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.spiderSolitaireGP" class="store-button">Android</a>
               <a href="https://apps.apple.com/app/spider-solitaire/id1507224245" class="store-button">iOS</a>
             </div>
           </div>
@@ -1192,7 +1290,7 @@
           <div class="game-tile-content">
             <h3 class="game-tile-title">FreeCell Solitaire</h3>
             <div class="game-tile-actions">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.freecellSolitaireGP" class="store-button">Play</a>
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.freecellSolitaireGP" class="store-button">Android</a>
               <a href="https://apps.apple.com/app/freecell-solitaire/id1506267119" class="store-button">iOS</a>
             </div>
           </div>
@@ -1209,7 +1307,7 @@
           <div class="game-tile-content">
             <h3 class="game-tile-title">Hearts</h3>
             <div class="game-tile-actions">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.hearts" class="store-button">Play</a>
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.hearts" class="store-button">Android</a>
               <a href="https://apps.apple.com/app/hearts/id6744656403" class="store-button">iOS</a>
             </div>
           </div>
@@ -1226,7 +1324,7 @@
           <div class="game-tile-content">
             <h3 class="game-tile-title">Word Gems™</h3>
             <div class="game-tile-actions">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.wordgems" class="store-button">Play</a>
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.wordgems" class="store-button">Android</a>
               <a href="https://apps.apple.com/app/word-gems/id1639588528" class="store-button">iOS</a>
             </div>
           </div>
@@ -1243,7 +1341,7 @@
           <div class="game-tile-content">
             <h3 class="game-tile-title">Word Horizons</h3>
             <div class="game-tile-actions">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.wordhorizons" class="store-button">Play</a>
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.wordhorizons" class="store-button">Android</a>
               <a href="https://apps.apple.com/app/word-horizons/id6444349473" class="store-button">iOS</a>
             </div>
           </div>
@@ -1260,7 +1358,7 @@
           <div class="game-tile-content">
             <h3 class="game-tile-title">Dominoes</h3>
             <div class="game-tile-actions">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.dominoes" class="store-button">Play</a>
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.dominoes" class="store-button">Android</a>
               <a href="https://apps.apple.com/app/dominoes/id6504120934" class="store-button">iOS</a>
             </div>
           </div>
@@ -1277,7 +1375,7 @@
           <div class="game-tile-content">
             <h3 class="game-tile-title">Ludo</h3>
             <div class="game-tile-actions">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.ludo" class="store-button">Play</a>
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.ludo" class="store-button">Android</a>
               <a href="https://apps.apple.com/app/ludo/id6446255045" class="store-button">iOS</a>
             </div>
           </div>
@@ -1294,7 +1392,7 @@
           <div class="game-tile-content">
             <h3 class="game-tile-title">Backgammon</h3>
             <div class="game-tile-actions">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.backgammon" class="store-button">Play</a>
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.backgammon" class="store-button">Android</a>
               <a href="https://apps.apple.com/app/backgammon/id6451217307" class="store-button">iOS</a>
             </div>
           </div>
@@ -1311,7 +1409,7 @@
           <div class="game-tile-content">
             <h3 class="game-tile-title">Yatzy</h3>
             <div class="game-tile-actions">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.yatzy" class="store-button">Play</a>
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.yatzy" class="store-button">Android</a>
               <a href="https://apps.apple.com/app/yatzy/id6477965248" class="store-button">iOS</a>
             </div>
           </div>
@@ -1328,7 +1426,7 @@
           <div class="game-tile-content">
             <h3 class="game-tile-title">Block Sudoku</h3>
             <div class="game-tile-actions">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.blocksSudokuSGGP" class="store-button">Play</a>
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.blocksSudokuSGGP" class="store-button">Android</a>
               <a href="https://apps.apple.com/app/blocks-sudoku-sg/id1566174072" class="store-button">iOS</a>
             </div>
           </div>
@@ -1345,7 +1443,7 @@
           <div class="game-tile-content">
             <h3 class="game-tile-title">Block Wood</h3>
             <div class="game-tile-actions">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.blocksWood" class="store-button">Play</a>
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.blocksWood" class="store-button">Android</a>
               <a href="https://apps.apple.com/app/block-puzzle-wood/id1630975482" class="store-button">iOS</a>
             </div>
           </div>
@@ -1362,7 +1460,7 @@
           <div class="game-tile-content">
             <h3 class="game-tile-title">Sagadoku</h3>
             <div class="game-tile-actions">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.sagadoku" class="store-button">Play</a>
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.sagadoku" class="store-button">Android</a>
               <a href="https://apps.apple.com/app/sagadoku/id1612649783" class="store-button">iOS</a>
             </div>
           </div>
@@ -1379,7 +1477,7 @@
           <div class="game-tile-content">
             <h3 class="game-tile-title">Block Match</h3>
             <div class="game-tile-actions">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.blockmatch" class="store-button">Play</a>
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.blockmatch" class="store-button">Android</a>
               <a href="https://apps.apple.com/app/block-match/id6742160377" class="store-button">iOS</a>
             </div>
           </div>
@@ -1396,7 +1494,7 @@
           <div class="game-tile-content">
             <h3 class="game-tile-title">Sort Collector</h3>
             <div class="game-tile-actions">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.sortcollector" class="store-button">Play</a>
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.sortcollector" class="store-button">Android</a>
               <a href="https://apps.apple.com/app/sort-collector/id6476427887" class="store-button">iOS</a>
             </div>
           </div>
@@ -1413,7 +1511,7 @@
           <div class="game-tile-content">
             <h3 class="game-tile-title">Mahjong Collector</h3>
             <div class="game-tile-actions">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.mahjongcollector" class="store-button">Play</a>
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.mahjongcollector" class="store-button">Android</a>
               <a href="https://apps.apple.com/app/mahjong-collector/id6737984114" class="store-button">iOS</a>
             </div>
           </div>
@@ -1430,7 +1528,6 @@
           <div class="game-tile-content">
             <h3 class="game-tile-title">Dyno</h3>
             <div class="game-tile-actions">
-              <a href="#" class="store-button" style="opacity: 0.5;">Coming</a>
               <a href="https://apps.apple.com/app/id6636553804" class="store-button">iOS</a>
             </div>
           </div>
@@ -1473,6 +1570,45 @@
       const menuToggle = document.getElementById('menuToggle');
       if (!navMenu.contains(e.target) && !menuToggle.contains(e.target)) {
         navMenu.classList.remove('active');
+      }
+    });
+    
+    // Filter functionality for game categories
+    document.addEventListener('DOMContentLoaded', function() {
+      const filterButtons = document.querySelectorAll('.filter-tab');
+      const gameCards = document.querySelectorAll('.all-games-section .game-tile-wrapper');
+      
+      filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          // Remove active class from all buttons
+          filterButtons.forEach(btn => btn.classList.remove('active'));
+          // Add active class to clicked button
+          this.classList.add('active');
+          
+          const filterText = this.textContent.toLowerCase();
+          
+          gameCards.forEach(card => {
+            if (filterText === 'all') {
+              card.style.display = '';
+            } else {
+              const categoryBadge = card.querySelector('.category-badge');
+              if (categoryBadge) {
+                const category = categoryBadge.textContent.toLowerCase();
+                if (category === filterText) {
+                  card.style.display = '';
+                } else {
+                  card.style.display = 'none';
+                }
+              }
+            }
+          });
+        });
+      });
+      
+      // Set 'All' as the default active filter
+      const allButton = Array.from(filterButtons).find(btn => btn.textContent === 'All');
+      if (allButton) {
+        allButton.classList.add('active');
       }
     });
   </script>
