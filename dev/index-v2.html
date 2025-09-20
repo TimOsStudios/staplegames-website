@@ -5,6 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>[DEV] Staple Games - Simple. Clean. Fun. Mobile Games</title>
   
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KBFQ2R1TS4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-KBFQ2R1TS4');
+  </script>
+  
   <!-- Google Fonts - Rubik -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1611,6 +1620,349 @@
         allButton.classList.add('active');
       }
     });
+    
+    // ========================================
+    // APPSFLYER & ANALYTICS TRACKING
+    // ========================================
+    
+    // Function to detect user's operating system
+    function detectOS() {
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      const platform = navigator.platform;
+      
+      // iOS detection
+      if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        return 'ios';
+      }
+      
+      // iOS detection for iPad on iOS 13+
+      if (platform === 'MacIntel' && navigator.maxTouchPoints > 1) {
+        return 'ios';
+      }
+      
+      // Android detection
+      if (/android/i.test(userAgent)) {
+        return 'android';
+      }
+      
+      // Windows Phone detection
+      if (/windows phone/i.test(userAgent)) {
+        return 'windows_phone';
+      }
+      
+      // Desktop detection
+      if (/Mac|Win|Linux/i.test(platform)) {
+        return 'desktop';
+      }
+      
+      return 'unknown';
+    }
+    
+    // Function to extract app ID from store URL
+    function extractAppInfo(url) {
+      console.log(`Extracting app info from URL: ${url}`);
+      
+      // Google Play pattern
+      const googlePlayMatch = url.match(/play\.google\.com\/store\/apps\/details\?id=([^&]+)/);
+      if (googlePlayMatch) {
+        console.log('Matched Google Play URL');
+        return {
+          store: 'google',
+          appId: googlePlayMatch[1],
+          bundleId: googlePlayMatch[1]
+        };
+      }
+      
+      // App Store pattern with app name (with or without country code)
+      const appStoreMatch = url.match(/apps\.apple\.com\/(?:[^\/]+\/)?app\/([^\/]+)\/id(\d+)/);
+      if (appStoreMatch) {
+        console.log('Matched App Store URL with name');
+        return {
+          store: 'apple',
+          appName: appStoreMatch[1],
+          appId: `id${appStoreMatch[2]}`,
+          bundleId: appStoreMatch[2]
+        };
+      }
+      
+      // App Store pattern without app name
+      const appStoreShortMatch = url.match(/apps\.apple\.com\/(?:[^\/]+\/)?app\/id(\d+)/);
+      if (appStoreShortMatch) {
+        console.log('Matched App Store URL without name');
+        return {
+          store: 'apple',
+          appId: `id${appStoreShortMatch[1]}`,
+          bundleId: appStoreShortMatch[1]
+        };
+      }
+      
+      // Developer page pattern (Google Play)
+      const googleDevMatch = url.match(/play\.google\.com\/store\/apps\/developer\?id=([^&]+)/);
+      if (googleDevMatch) {
+        console.log('Matched Google Play developer page');
+        return {
+          store: 'google',
+          isDeveloperPage: true,
+          developerId: googleDevMatch[1]
+        };
+      }
+      
+      // Developer page pattern (App Store)
+      const appleDevMatch = url.match(/apps\.apple\.com\/[^\/]+\/developer\/[^\/]+\/id(\d+)/);
+      if (appleDevMatch) {
+        console.log('Matched App Store developer page');
+        return {
+          store: 'apple',
+          isDeveloperPage: true,
+          developerId: appleDevMatch[1]
+        };
+      }
+      
+      console.log('No match found for URL');
+      return null;
+    }
+    
+    // Configuration for AppsFlyer
+    const APPSFLYER_CONFIG = {
+      appId: {
+        android: 'com.staplegames.matchcollector', // default
+        ios: 'id6462309005' // default
+      },
+      attributionEndpoint: 'https://app.appsflyer.com/',
+      impressionEndpoint: 'https://impression.appsflyer.com/'
+    };
+    
+    // Function to send attribution data to AppsFlyer
+    async function sendAttribution(appInfo, clickEvent) {
+      console.log('Sending attribution data:', appInfo);
+      
+      // Generate a unique click ID
+      const clickId = `web_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      
+      // Build attribution parameters as a string
+      const appId = appInfo.appId || APPSFLYER_CONFIG.appId[appInfo.store === 'google' ? 'android' : 'ios'];
+      
+      // Build base URL with required parameters
+      let attributionUrl = `${APPSFLYER_CONFIG.attributionEndpoint}` +
+        `${encodeURIComponent(appId)}?` +
+        `c=${encodeURIComponent('website2_organic')}` +
+        `&pid=${encodeURIComponent('sg_web')}` +
+        `&click_id=${encodeURIComponent(clickId)}` +
+        `&redirect=false` +
+        `&af_siteid=${encodeURIComponent('staplegames-website')}`;
+      
+      // Add optional parameters
+      if (appInfo.appName) {
+        attributionUrl += `&af_ad=${encodeURIComponent(appInfo.appName)}`;
+      }
+      
+      // LOG THE FULL ATTRIBUTION URL
+      console.log('=== APPSFLYER ATTRIBUTION URL ===');
+      console.log('Full URL:', attributionUrl);
+      console.log('Parsed components:', {
+        endpoint: APPSFLYER_CONFIG.attributionEndpoint,
+        appId: appId,
+        campaign: 'website2_organic',
+        clickId: clickId,
+        appName: appInfo.appName || 'N/A',
+        store: appInfo.store
+      });
+      console.log('================================');
+      
+      try {
+        // Send attribution request using fetch (non-blocking)
+        const response = await fetch(attributionUrl, {
+          method: 'GET',
+          mode: 'no-cors' // Avoid CORS issues
+        });
+        console.log('Attribution request sent successfully');
+      } catch (error) {
+        console.error('Error sending attribution data:', error);
+        // Don't block the redirect even if attribution fails
+      }
+    }
+    
+    // Function to send impression event when page loads
+    async function sendImpressionEvent() {
+      console.log('Sending AppsFlyer impression event');
+      
+      // Detect user's OS
+      const detectedOS = detectOS();
+      console.log('User Agent:', navigator.userAgent);
+      console.log('Platform:', navigator.platform);
+      console.log('Detected OS:', detectedOS);
+      
+      // Determine which app ID to use based on OS
+      let appIdToUse;
+      let platformName;
+      
+      if (detectedOS === 'ios') {
+        appIdToUse = APPSFLYER_CONFIG.appId.ios;
+        platformName = 'iOS';
+      } else if (detectedOS === 'android') {
+        appIdToUse = APPSFLYER_CONFIG.appId.android;
+        platformName = 'Android';
+      } else {
+        // Default to Android for desktop/unknown
+        appIdToUse = APPSFLYER_CONFIG.appId.android;
+        platformName = `Other (${detectedOS})`;
+      }
+      
+      console.log(`Using ${platformName} app ID: ${appIdToUse}`);
+      
+      // Generate a unique impression ID
+      const impressionId = `web_imp_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      
+      // Build impression URL
+      let impressionUrl = `${APPSFLYER_CONFIG.impressionEndpoint}` +
+        `${encodeURIComponent(appIdToUse)}?` +
+        `c=${encodeURIComponent('website2_organic')}` +
+        `&pid=${encodeURIComponent('sg_web')}` +
+        `&impression_id=${encodeURIComponent(impressionId)}` +
+        `&af_siteid=${encodeURIComponent('staplegames-website')}` +
+        `&af_sub1=${encodeURIComponent(detectedOS)}`;
+      
+      // LOG THE FULL IMPRESSION URL
+      console.log('=== APPSFLYER IMPRESSION URL ===');
+      console.log('Full URL:', impressionUrl);
+      console.log('Parsed components:', {
+        endpoint: APPSFLYER_CONFIG.impressionEndpoint,
+        appId: appIdToUse,
+        campaign: 'website2_organic',
+        pid: 'sg_web',
+        impressionId: impressionId,
+        platform: detectedOS,
+        platformName: platformName
+      });
+      console.log('================================');
+      
+      try {
+        // Send impression request using fetch (non-blocking)
+        const response = await fetch(impressionUrl, {
+          method: 'GET',
+          mode: 'no-cors' // Avoid CORS issues
+        });
+        console.log(`Impression event sent successfully for ${platformName}`);
+      } catch (error) {
+        console.error('Error sending impression event:', error);
+        // Don't let impression tracking errors affect page functionality
+      }
+    }
+    
+    // Initialize analytics tracking
+    function initializeAnalyticsTracking() {
+      console.log("Initializing AppsFlyer attribution tracking");
+      
+      // Send impression event when page loads
+      sendImpressionEvent();
+      
+      // Add click handlers to all app store links (updated selectors for new design)
+      setTimeout(() => {
+        // Update selectors to match the new page structure
+        const appStoreLinks = document.querySelectorAll('.store-button, .play-button, .footer-link[href*="play.google.com"], .footer-link[href*="apps.apple.com"], .promo-badge-bottom[href*="staplegames.com"], a[href*="play.google.com"], a[href*="apps.apple.com"]');
+        console.log(`Found ${appStoreLinks.length} app store links`);
+        
+        appStoreLinks.forEach((link, index) => {
+          link.addEventListener('click', async function(e) {
+            const url = this.href;
+            if (!url || url === 'javascript:void(0)' || url === '#') return;
+            
+            const appInfo = extractAppInfo(url);
+            
+            // Get the app name from the closest game card
+            let appName = 'Unknown App';
+            let linkType = 'Store';
+            let eventCategory = 'outbound';
+            
+            // Check different card types in the new structure
+            const gameTileWrapper = this.closest('.game-tile-wrapper');
+            const featuredSection = this.closest('.featured-section');
+            const heroSection = this.closest('.hero-section');
+            const promoSection = this.closest('.promo-banner');
+            
+            if (gameTileWrapper) {
+              const titleEl = gameTileWrapper.querySelector('.game-tile-title');
+              appName = titleEl ? titleEl.textContent : 'Unknown App';
+              eventCategory = featuredSection ? 'featured_game' : 'all_games';
+            } else if (heroSection) {
+              // Hero buttons for developer pages
+              if (this.classList.contains('play-button')) {
+                appName = 'Developer Page';
+                linkType = this.textContent.includes('iOS') ? 'App Store' : 'Google Play';
+                eventCategory = 'hero_cta';
+              }
+            } else if (promoSection) {
+              appName = 'Match Collector';
+              linkType = 'St. Jude Campaign';
+              eventCategory = 'promo';
+            } else if (this.classList.contains('footer-link')) {
+              appName = 'Developer Page';
+              eventCategory = 'footer';
+            }
+            
+            // Determine store type
+            if (url.includes('apple.com')) {
+              linkType = 'App Store';
+            } else if (url.includes('google.com')) {
+              linkType = 'Google Play';
+            }
+            
+            // Send Google Analytics event for outbound link
+            if (typeof gtag !== 'undefined') {
+              gtag('event', 'click', {
+                event_category: eventCategory,
+                event_label: `${appName} - ${linkType}`,
+                transport_type: 'beacon',
+                value: 1
+              });
+              console.log(`GA event sent: ${eventCategory} - ${appName} - ${linkType}`);
+            }
+            
+            if (appInfo && !appInfo.isDeveloperPage) {
+              console.log(`App store link clicked: ${url}`);
+              
+              // Prevent default navigation temporarily
+              e.preventDefault();
+              
+              // Send attribution data in background
+              await sendAttribution(appInfo, e);
+              
+              // Small delay to ensure request is sent
+              setTimeout(() => {
+                console.log(`Redirecting to: ${url}`);
+                window.location.href = url;
+              }, 100);
+            } else if (appInfo && appInfo.isDeveloperPage) {
+              console.log(`Developer page link clicked: ${url}`);
+              // For developer pages, just track the click without detailed app info
+              const developerInfo = {
+                store: appInfo.store,
+                bundleId: 'developer-page',
+                isDeveloperPage: true
+              };
+              
+              e.preventDefault();
+              await sendAttribution(developerInfo, e);
+              
+              setTimeout(() => {
+                window.location.href = url;
+              }, 100);
+            }
+            // If no app info extracted, let the link work normally
+          });
+        });
+        
+        console.log('AppsFlyer attribution tracking initialized');
+      }, 300); // Slight delay to ensure DOM is fully loaded
+    }
+    
+    // Initialize tracking after DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initializeAnalyticsTracking);
+    } else {
+      // DOM is already ready
+      initializeAnalyticsTracking();
+    }
   </script>
 </body>
 </html>
