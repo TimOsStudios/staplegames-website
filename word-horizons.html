@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KBFQ2R1TS4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-KBFQ2R1TS4');
+  </script>
+
+  <!-- Primary Meta Tags -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Word Horizons - Staple Games</title>
+  <meta name="title" content="Word Horizons - Simple. Clean. Fun.">
+  <meta name="description" content="An innovative word puzzle game that challenges your vocabulary. Create words and explore new horizons. Available on iOS and Android.">
+  <meta name="robots" content="index, follow">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://staplegames.com/word-horizons">
+  <meta property="og:title" content="Word Horizons - Staple Games">
+  <meta property="og:description" content="An innovative word puzzle game that challenges your vocabulary. Create words and explore new horizons.">
+  <meta property="og:image" content="https://cdn.bdz5.com/staplegames/wordhorizons_icon.png">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary">
+  <meta property="twitter:url" content="https://staplegames.com/word-horizons">
+  <meta property="twitter:title" content="Word Horizons - Staple Games">
+  <meta property="twitter:description" content="An innovative word puzzle game that challenges your vocabulary. Create words and explore new horizons.">
+  <meta property="twitter:image" content="https://cdn.bdz5.com/staplegames/wordhorizons_icon.png">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="https://cdn.bdz5.com/staplegames/wordhorizons_icon.png" type="image/png">
+  <link rel="apple-touch-icon" href="https://cdn.bdz5.com/staplegames/wordhorizons_icon.png">
+  
+  <style>
+    :root {
+      --primary-color: #007AFF;
+      --accent-purple: #af52de;
+      --text-primary: #1D1D1F;
+      --text-secondary: #86868B;
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #F5F5F7;
+      --border-color: #E5E5E7;
+      --shadow-light: 0 2px 8px rgba(0,0,0,0.08);
+      --shadow-medium: 0 4px 16px rgba(0,0,0,0.12);
+      --border-radius: 16px;
+      --border-radius-large: 24px;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, 
+        rgba(175, 82, 222, 0.15) 0%, 
+        rgba(175, 82, 222, 0.05) 25%, 
+        rgba(245, 245, 247, 1) 50%, 
+        rgba(175, 82, 222, 0.05) 75%, 
+        rgba(175, 82, 222, 0.15) 100%);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    .redirect-container {
+      text-align: center;
+      max-width: 500px;
+      width: 100%;
+    }
+    
+    .logo {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 24px;
+      border-radius: var(--border-radius-large);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    h1 {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+    }
+    
+    .tagline {
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--accent-purple);
+      margin-bottom: 16px;
+    }
+    
+    .description {
+      font-size: 17px;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+    
+    .spinner {
+      margin: 20px auto;
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(175, 82, 222, 0.2);
+      border-top-color: var(--accent-purple);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .redirecting-text {
+      font-size: 16px;
+      color: var(--text-secondary);
+      margin-top: 16px;
+    }
+    
+    /* Game card for desktop */
+    .game-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: var(--border-radius-large);
+      padding: 48px;
+      box-shadow: var(--shadow-medium);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      max-width: 650px;
+      margin: 0 auto;
+    }
+    
+    /* Mobile redirect (initially hidden) */
+    .mobile-redirect {
+      display: none;
+    }
+    
+    .buttons-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    
+    .store-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 20px;
+      border-radius: var(--border-radius);
+      font-size: 17px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border: 2px solid transparent;
+      height: 56px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .store-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    
+    .app-store {
+      background: var(--primary-color);
+      color: white;
+    }
+    
+    .app-store::before {
+      background: radial-gradient(circle at center, rgba(255,255,255,0.2), transparent);
+    }
+    
+    .app-store:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 122, 255, 0.3);
+    }
+    
+    .app-store:hover::before {
+      opacity: 1;
+    }
+    
+    .google-play {
+      background: #34A853;
+      color: white;
+    }
+    
+    .google-play::before {
+      background: radial-gradient(circle at center, rgba(255,255,255,0.2), transparent);
+    }
+    
+    .google-play:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(52, 168, 83, 0.3);
+    }
+    
+    .google-play:hover::before {
+      opacity: 1;
+    }
+    
+    .store-button svg {
+      width: 20px;
+      height: 20px;
+      margin-right: 8px;
+    }
+    
+    .qr-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 32px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border-color);
+    }
+    
+    .qr-container {
+      text-align: center;
+    }
+    
+    .qr-container h3 {
+      font-size: 14px;
+      color: var(--text-secondary);
+      font-weight: 600;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .qr-code {
+      background: white;
+      padding: 16px;
+      border-radius: var(--border-radius);
+      display: inline-block;
+      box-shadow: var(--shadow-light);
+      border: 1px solid var(--border-color);
+    }
+    
+    .qr-code img {
+      width: 140px;
+      height: 140px;
+      display: block;
+    }
+    
+    .footer-link {
+      display: inline-block;
+      margin-top: 32px;
+      color: var(--accent-purple);
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 500;
+      transition: opacity 0.2s ease;
+    }
+    
+    .footer-link:hover {
+      opacity: 0.8;
+    }
+    
+    /* Mobile styles */
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 28px;
+      }
+      
+      .tagline {
+        font-size: 18px;
+      }
+      
+      .description {
+        font-size: 16px;
+      }
+      
+      .buttons-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .qr-section {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+      
+      .game-card {
+        padding: 32px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="redirect-container">
+    <!-- Mobile redirect loading (initially hidden) -->
+    <div class="mobile-redirect">
+      <img src="https://cdn.bdz5.com/staplegames/wordhorizons_icon.png" alt="Word Horizons" class="logo">
+      <h1>Word Horizons</h1>
+      <p class="tagline">Simple. Clean. Fun.</p>
+      <p class="description">Redirecting to the app store...</p>
+      <div class="spinner"></div>
+      <p class="redirecting-text">Taking you to Word Horizons</p>
+    </div>
+    
+    <!-- Desktop game card -->
+    <div class="game-card">
+      <img src="https://cdn.bdz5.com/staplegames/wordhorizons_icon.png" alt="Word Horizons" class="logo">
+      <h1>Word Horizons</h1>
+      <p class="tagline">Simple. Clean. Fun.</p>
+      <p class="description">Challenge your vocabulary and explore new horizons in this innovative word puzzle game. Available now on iOS and Android.</p>
+      
+      <div class="buttons-container">
+        <a href="https://apps.apple.com/us/app/word-horizons/id6444349473" class="store-button app-store" id="ios-link">
+          <svg fill="currentColor" viewBox="0 0 24 24">
+            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+          </svg>
+          App Store
+        </a>
+        <a href="https://play.google.com/store/apps/details?id=com.staplegames.wordhorizons" class="store-button google-play" id="android-link">
+          <svg fill="currentColor" viewBox="0 0 24 24">
+            <path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/>
+          </svg>
+          Google Play
+        </a>
+      </div>
+      
+      <div class="qr-section">
+        <div class="qr-container">
+          <h3>iOS</h3>
+          <div class="qr-code">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=https://apps.apple.com/us/app/word-horizons/id6444349473" alt="QR Code for App Store">
+          </div>
+        </div>
+        <div class="qr-container">
+          <h3>Android</h3>
+          <div class="qr-code">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=https://play.google.com/store/apps/details?id=com.staplegames.wordhorizons" alt="QR Code for Google Play">
+          </div>
+        </div>
+      </div>
+      
+      <a href="https://staplegames.com" class="footer-link">← Back to Staple Games</a>
+    </div>
+  </div>
+
+  <script>
+    // Function to detect user's operating system
+    function detectOS() {
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      const platform = navigator.platform;
+      
+      // iOS detection
+      if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        return 'ios';
+      }
+      
+      // iOS detection for iPad on iOS 13+
+      if (platform === 'MacIntel' && navigator.maxTouchPoints > 1) {
+        return 'ios';
+      }
+      
+      // Android detection
+      if (/android/i.test(userAgent)) {
+        return 'android';
+      }
+      
+      // Windows Phone detection
+      if (/windows phone/i.test(userAgent)) {
+        return 'windows_phone';
+      }
+      
+      // Desktop detection
+      if (/Mac|Win|Linux/i.test(platform)) {
+        return 'desktop';
+      }
+      
+      return 'unknown';
+    }
+    
+    // Function to extract app ID from store URL
+    function extractAppInfo(url) {
+      console.log(`Extracting app info from URL: ${url}`);
+      
+      // Google Play pattern
+      const googlePlayMatch = url.match(/play\.google\.com\/store\/apps\/details\?id=([^&]+)/);
+      if (googlePlayMatch) {
+        console.log('Matched Google Play URL');
+        return {
+          store: 'google',
+          appId: googlePlayMatch[1],
+          bundleId: googlePlayMatch[1]
+        };
+      }
+      
+      // App Store pattern with app name
+      const appStoreMatch = url.match(/apps\.apple\.com\/(?:[^\/]+\/)?app\/([^\/]+)\/id(\d+)/);
+      if (appStoreMatch) {
+        console.log('Matched App Store URL with name');
+        return {
+          store: 'apple',
+          appName: appStoreMatch[1],
+          appId: `id${appStoreMatch[2]}`,
+          bundleId: appStoreMatch[2]
+        };
+      }
+      
+      // App Store pattern without app name
+      const appStoreShortMatch = url.match(/apps\.apple\.com\/(?:[^\/]+\/)?app\/id(\d+)/);
+      if (appStoreShortMatch) {
+        console.log('Matched App Store URL without name');
+        return {
+          store: 'apple',
+          appId: `id${appStoreShortMatch[1]}`,
+          bundleId: appStoreShortMatch[1]
+        };
+      }
+      
+      console.log('No match found for URL');
+      return null;
+    }
+    
+    // Configuration for AppsFlyer
+    const APPSFLYER_CONFIG = {
+      appId: {
+        android: 'com.staplegames.wordhorizons',
+        ios: 'id6444349473'
+      },
+      attributionEndpoint: 'https://app.appsflyer.com/',
+      impressionEndpoint: 'https://impression.appsflyer.com/'
+    };
+    
+    // Function to send attribution data to AppsFlyer
+    async function sendAttribution(appInfo, clickEvent) {
+      console.log('Sending attribution data:', appInfo);
+      
+      // Generate a unique click ID
+      const clickId = `web_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      
+      // Build attribution parameters
+      const appId = appInfo.appId || APPSFLYER_CONFIG.appId[appInfo.store === 'google' ? 'android' : 'ios'];
+      
+      // Build base URL with required parameters
+      let attributionUrl = `${APPSFLYER_CONFIG.attributionEndpoint}` +
+        `${encodeURIComponent(appId)}?` +
+        `c=${encodeURIComponent('website_organic')}` +
+        `&pid=${encodeURIComponent('sg_web')}` +
+        `&click_id=${encodeURIComponent(clickId)}` +
+        `&redirect=false` +
+        `&af_siteid=${encodeURIComponent('staplegames-website-wordhorizons')}`;
+      
+      // Add optional parameters
+      if (appInfo.appName) {
+        attributionUrl += `&af_ad=${encodeURIComponent(appInfo.appName)}`;
+      }
+      
+      // LOG THE FULL ATTRIBUTION URL
+      console.log('=== APPSFLYER ATTRIBUTION URL ===');
+      console.log('Full URL:', attributionUrl);
+      console.log('Parsed components:', {
+        endpoint: APPSFLYER_CONFIG.attributionEndpoint,
+        appId: appId,
+        campaign: 'website_organic',
+        clickId: clickId,
+        appName: appInfo.appName || 'N/A',
+        store: appInfo.store
+      });
+      console.log('================================');
+      
+      try {
+        // Send attribution request using fetch (non-blocking)
+        const response = await fetch(attributionUrl, {
+          method: 'GET',
+          mode: 'no-cors' // Avoid CORS issues
+        });
+        console.log('Attribution request sent successfully');
+      } catch (error) {
+        console.error('Error sending attribution data:', error);
+        // Don't block the redirect even if attribution fails
+      }
+    }
+    
+    // Handle redirect based on device
+    window.addEventListener('DOMContentLoaded', function() {
+      const os = detectOS();
+      const iosUrl = 'https://apps.apple.com/us/app/word-horizons/id6444349473';
+      const androidUrl = 'https://play.google.com/store/apps/details?id=com.staplegames.wordhorizons';
+      
+      console.log('Detected OS:', os);
+      
+      if (os === 'ios') {
+        // Send analytics event
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'redirect', {
+            event_category: 'wordhorizons_redirect',
+            event_label: 'iOS - Word Horizons',
+            transport_type: 'beacon'
+          });
+        }
+        
+        // Send AppsFlyer attribution
+        const appInfo = extractAppInfo(iosUrl);
+        if (appInfo) {
+          sendAttribution(appInfo, null).then(() => {
+            // Show loading state briefly then redirect
+            document.querySelector('.mobile-redirect').style.display = 'block';
+            document.querySelector('.game-card').style.display = 'none';
+            
+            setTimeout(() => {
+              window.location.replace(iosUrl);
+            }, 300);
+          });
+        } else {
+          // Fallback if attribution fails
+          document.querySelector('.mobile-redirect').style.display = 'block';
+          document.querySelector('.game-card').style.display = 'none';
+          setTimeout(() => {
+            window.location.replace(iosUrl);
+          }, 500);
+        }
+        
+      } else if (os === 'android') {
+        // Send analytics event
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'redirect', {
+            event_category: 'wordhorizons_redirect',
+            event_label: 'Android - Word Horizons',
+            transport_type: 'beacon'
+          });
+        }
+        
+        // Send AppsFlyer attribution
+        const appInfo = extractAppInfo(androidUrl);
+        if (appInfo) {
+          sendAttribution(appInfo, null).then(() => {
+            // Show loading state briefly then redirect
+            document.querySelector('.mobile-redirect').style.display = 'block';
+            document.querySelector('.game-card').style.display = 'none';
+            
+            setTimeout(() => {
+              window.location.replace(androidUrl);
+            }, 300);
+          });
+        } else {
+          // Fallback if attribution fails
+          document.querySelector('.mobile-redirect').style.display = 'block';
+          document.querySelector('.game-card').style.display = 'none';
+          setTimeout(() => {
+            window.location.replace(androidUrl);
+          }, 500);
+        }
+        
+      } else if (os === 'desktop') {
+        // Desktop shows the game card with QR codes
+        console.log('Desktop detected, showing download options');
+        
+        // Send analytics event for desktop visit
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'page_view', {
+            event_category: 'wordhorizons_redirect',
+            event_label: 'Desktop - Word Horizons',
+            transport_type: 'beacon'
+          });
+        }
+        
+        // Add click tracking to desktop buttons
+        document.getElementById('ios-link').addEventListener('click', function(e) {
+          // Send analytics event
+          if (typeof gtag !== 'undefined') {
+            gtag('event', 'click', {
+              event_category: 'wordhorizons_desktop',
+              event_label: 'iOS - Word Horizons',
+              transport_type: 'beacon'
+            });
+          }
+          
+          // Send AppsFlyer attribution
+          const appInfo = extractAppInfo(iosUrl);
+          if (appInfo) {
+            e.preventDefault();
+            sendAttribution(appInfo, e).then(() => {
+              setTimeout(() => {
+                window.open(iosUrl, '_blank');
+              }, 100);
+            });
+          }
+        });
+        
+        document.getElementById('android-link').addEventListener('click', function(e) {
+          // Send analytics event
+          if (typeof gtag !== 'undefined') {
+            gtag('event', 'click', {
+              event_category: 'wordhorizons_desktop',
+              event_label: 'Android - Word Horizons',
+              transport_type: 'beacon'
+            });
+          }
+          
+          // Send AppsFlyer attribution
+          const appInfo = extractAppInfo(androidUrl);
+          if (appInfo) {
+            e.preventDefault();
+            sendAttribution(appInfo, e).then(() => {
+              setTimeout(() => {
+                window.open(androidUrl, '_blank');
+              }, 100);
+            });
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>
