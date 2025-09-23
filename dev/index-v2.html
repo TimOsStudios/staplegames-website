@@ -801,6 +801,214 @@
       border-bottom: var(--border-width) solid var(--primary-black);
     }
     
+    /* ==========================================
+       FUNDRAISING PROGRESS BAR SECTION
+       ========================================== */
+    
+    .fundraising-progress-section {
+      padding: var(--spacing-lg) 0;
+      background: var(--white);
+      border-bottom: var(--border-width) solid var(--primary-black);
+    }
+    
+    .progress-container {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    /* Shadow container for depth effect */
+    .progress-container::before {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 0;
+      right: 0;
+      bottom: -8px;
+      background: var(--shadow-gray);
+      border: var(--border-width) solid var(--primary-black);
+      border-radius: var(--border-radius);
+      z-index: 1;
+      pointer-events: none;
+    }
+    
+    .progress-card {
+      background: var(--white);
+      border: var(--border-width) solid var(--primary-black);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-lg);
+      position: relative;
+      z-index: 2;
+    }
+    
+    .progress-bar-wrapper {
+      position: relative;
+      margin: 40px 0 80px 0;
+      padding: 0 20px;
+    }
+    
+    /* Full width background track */
+    .progress-track-bg {
+      position: absolute;
+      top: 0;
+      left: 20px;
+      right: 20px;
+      height: 28px;
+      background: #E8E8ED;
+      border: 3px solid var(--primary-black);
+      border-radius: 14px;
+      z-index: 1;
+    }
+    
+    /* Shadow layer for the progress bar */
+    .progress-shadow {
+      position: absolute;
+      top: 4px;
+      left: 20px;
+      right: 20px;
+      height: 28px;
+      background: #C8C8CD;
+      border: 3px solid var(--primary-black);
+      border-radius: 14px;
+      z-index: 0;
+    }
+    
+    /* Actual progress bar */
+    .progress-bar-fill {
+      position: relative;
+      height: 28px;
+      background: var(--brand-gold);
+      border: 3px solid var(--primary-black);
+      border-radius: 14px;
+      /* Start at 0, will animate to actual width via JavaScript */
+      width: 0;
+      margin-left: 0;
+      transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 2;
+      box-shadow: 0 3px 0 0 #D4A600;
+    }
+    
+    /* Trophy checkpoint markers */
+    .trophy-marker {
+      position: absolute;
+      top: -26px;
+      transform: translateX(-50%);
+      width: 120px;
+      z-index: 5;
+      transition: transform 0.2s;
+      cursor: pointer;
+      text-align: center;
+    }
+    
+    .trophy-marker:hover {
+      transform: translateX(-50%) scale(1.05);
+    }
+    
+    .trophy-marker img {
+      width: 100px;
+      height: 80px;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+      display: block;
+      margin: 0 auto;
+    }
+    
+    /* Trophy labels */
+    .trophy-label {
+      margin-top: 0px;
+      white-space: nowrap;
+    }
+    
+    .trophy-amount {
+      display: block;
+      font-size: 18px;
+      font-weight: var(--font-weight-bold);
+      color: var(--primary-black);
+      margin-bottom: 0;
+    }
+    
+    .trophy-name {
+      display: block;
+      font-size: 13px;
+      font-weight: var(--font-weight-semibold);
+      color: var(--brand-gray);
+      margin-top: 2px;
+    }
+    
+    /* Trophy positions are set dynamically via JavaScript */
+    
+    /* Raised amount display */
+    .raised-amount {
+      text-align: center;
+      margin-bottom: 8px;
+      font-size: 24px;
+      font-weight: var(--font-weight-bold);
+      color: var(--brand-green);
+    }
+    
+    
+    @media (max-width: 768px) {
+      .progress-bar-wrapper {
+        padding: 0 10px;
+        margin: 30px 0 70px 0;
+      }
+      
+      /* Smaller progress bar on mobile */
+      .progress-track-bg {
+        left: 10px;
+        right: 10px;
+        height: 20px;
+        border: 2px solid var(--primary-black);
+        border-radius: 10px;
+      }
+      
+      .progress-shadow {
+        left: 10px;
+        right: 10px;
+        height: 20px;
+        top: 3px;
+        border: 2px solid var(--primary-black);
+        border-radius: 10px;
+      }
+      
+      .progress-bar-fill {
+        height: 20px;
+        border: 2px solid var(--primary-black);
+        border-radius: 10px;
+        width: 0;
+        box-shadow: 0 2px 0 0 #D4A600;
+      }
+      
+      /* Adjust trophy positions for mobile */
+      .trophy-marker {
+        top: -22px;
+        width: 90px;
+      }
+      
+      .trophy-marker img {
+        width: 60px;
+        height: 60px;
+      }
+      
+      /* Trophy positions are set dynamically via JavaScript */
+      
+      .trophy-label {
+        margin-top: -5px;
+      }
+      
+      .trophy-amount {
+        font-size: 14px;
+      }
+      
+      .trophy-name {
+        font-size: 11px;
+      }
+      
+      .raised-amount {
+        font-size: 20px;
+      }
+    }
+    
     /* Promo Card with clean shadow technique */
     .promo-card-wrapper {
       position: relative;
@@ -1275,6 +1483,17 @@
     </div>
   </section>
   
+  <!-- Fundraising Progress Bar Section -->
+  <section class="fundraising-progress-section" id="fundraising-campaign">
+    <div class="container">
+      <div class="progress-container">
+        <div class="progress-card">
+          <!-- Campaign content will be dynamically populated -->
+        </div>
+      </div>
+    </div>
+  </section>
+  
   <!-- All Games Section -->
   <section class="all-games-section" id="all-games">
     <div class="container">
@@ -1674,6 +1893,139 @@
   </footer>
   
   <script>
+    // ========================================
+    // CAMPAIGN CONFIGURATION
+    // ========================================
+    
+    // To create a new campaign:
+    // 1. Copy this campaignConfig object
+    // 2. Update the values for your new campaign
+    // 3. Milestones can be 0 or more (this example has 3)
+    // 4. The progress bar will automatically calculate based on currentAmount/goal
+    
+    const campaignConfig = {
+      // Campaign data - easily swappable
+      logo: "../images/SJ_LogoTaglineHoriz_RGB.svg",
+      logoAlt: "St. Jude Children's Research Hospital",
+      headline: "Play to Raise $1M for St. Jude",
+      goal: 1000000,
+      currentAmount: 867395,
+      milestones: [
+        {
+          amount: 200000,
+          label: "Initial Goal",
+          icon: "../images/initial-trophy.svg",
+          position: 20, // percentage position on bar
+          completed: true
+        },
+        {
+          amount: 815641,
+          label: "50 States Event",
+          icon: "../images/states-trophy.svg",
+          position: 74, // visually adjusted position to prevent overlap
+          completed: true
+        },
+        {
+          amount: 1000000,
+          label: "50 Stays Event",
+          icon: "../images/stay-trophy.svg",
+          position: 100,
+          completed: false
+        }
+      ],
+      bodyText: "You've raised {amount} for St. Jude by downloading and playing our games. Help us reach $1M by playing Match Collector. We're donating 2 cents for every State or Stay tile collected and 10 cents for every St. Jude tile.\n\nThese St. Jude tiles are extra special – each was inspired by artwork from amazing St. Jude Patients!\n\nYou can follow the campaign or donate directly at <a href='https://stjude.org/50states' style='color: var(--brand-blue); text-decoration: underline;'>stjude.org/50states</a>.",
+      downloadLinks: {
+        ios: "https://apps.apple.com/app/match-collector/id6462309005",
+        android: "https://play.google.com/store/apps/details?id=com.staplegames.matchcollector"
+      },
+      termsLink: "/50-stays-terms.html",
+      ctaButton: {
+        text: "Play to Donate Now!",
+        link: "https://staplegames.com/match"
+      }
+    };
+    
+    // Function to build campaign HTML
+    function buildCampaignHTML(config) {
+      const progressPercentage = (config.currentAmount / config.goal) * 100;
+      
+      // Build milestones HTML
+      let milestonesHTML = '';
+      config.milestones.forEach((milestone, index) => {
+        const formattedAmount = milestone.amount >= 1000000 
+          ? `$${(milestone.amount / 1000000).toFixed(1)}M`.replace('.0M', 'M')
+          : `$${(milestone.amount / 1000).toFixed(0)}k`;
+        
+        const fullAmount = `$${milestone.amount.toLocaleString()}`;
+        const completedClass = milestone.completed ? ' style="color: var(--brand-green);"' : '';
+        
+        milestonesHTML += `
+          <div class="trophy-marker trophy-${index}" data-position="${milestone.position}">
+            <img src="${milestone.icon}" alt="${milestone.label}" />
+            <div class="trophy-label">
+              <span class="trophy-amount"${completedClass}>${fullAmount}</span>
+              <span class="trophy-name">${milestone.label}</span>
+            </div>
+          </div>
+        `;
+      });
+      
+      // Format body text with current amount
+      const formattedBodyText = config.bodyText.replace('{amount}', `$${config.currentAmount.toLocaleString()}`);
+      
+      return `
+        <!-- Logo -->
+        <img src="${config.logo}" alt="${config.logoAlt}" style="width: 320px; max-width: 90%; margin: 0 auto 24px auto; display: block;">
+        
+        <!-- Headline -->
+        <h2 class="promo-title" style="margin-bottom: 16px;">${config.headline}</h2>
+        
+        <!-- Raised Amount -->
+        <p class="raised-amount" data-target="${config.currentAmount}">$0 Raised</p>
+        
+        <!-- Progress Bar -->
+        <div class="progress-bar-wrapper">
+          <!-- Shadow layer -->
+          <div class="progress-shadow"></div>
+          
+          <!-- Background track -->
+          <div class="progress-track-bg"></div>
+          
+          <!-- Filled progress -->
+          <div class="progress-bar-fill" data-progress="${progressPercentage.toFixed(2)}"></div>
+          
+          <!-- Trophy Markers -->
+          ${milestonesHTML}
+        </div>
+        
+        <!-- Body Text -->
+        <div style="padding: 0 20px; margin-top: 32px;">
+          ${formattedBodyText.split('\n').map(p => `<p style="margin-bottom: 16px; text-align: center;">${p}</p>`).join('')}
+        </div>
+        
+        <!-- Download Links and Terms -->
+        <div style="margin-top: 24px; padding-top: 24px; border-top: 2px solid rgba(0,0,0,0.1);">
+          <p style="font-weight: 600; margin-bottom: 12px; text-align: center;">
+            Download to donate on 
+            <a href="${config.downloadLinks.ios}" style="color: var(--brand-blue); font-weight: 600;">iOS</a> and 
+            <a href="${config.downloadLinks.android}" style="color: var(--brand-green); font-weight: 600;">Android</a>
+          </p>
+          <p style="font-size: 16px; margin-bottom: 8px; text-align: center;">
+            <a href="${config.termsLink}" style="color: var(--brand-blue); text-decoration: underline; font-weight: 500;">See full terms & details here</a>
+          </p>
+        </div>
+        
+        <!-- CTA Button -->
+        <div style="text-align: center; margin-top: 24px;">
+          <div class="promo-badge-wrapper" style="position: relative; bottom: auto; transform: none; display: inline-block;">
+            <a href="${config.ctaButton.link}" class="promo-badge-bottom" style="text-decoration: none; cursor: pointer;">
+              <span>${config.ctaButton.text}</span>
+            </a>
+          </div>
+        </div>
+      `;
+    }
+    
     // Mobile menu toggle
     document.getElementById('menuToggle').addEventListener('click', function() {
       const navMenu = document.getElementById('navMenu');
@@ -1691,6 +2043,39 @@
     
     // Filter functionality for game categories
     document.addEventListener('DOMContentLoaded', function() {
+      // ========================================
+      // POPULATE CAMPAIGN SECTION
+      // ========================================
+      
+      const campaignSection = document.querySelector('#fundraising-campaign .progress-card');
+      if (campaignSection) {
+        campaignSection.innerHTML = buildCampaignHTML(campaignConfig);
+        
+        // Set milestone positions based on viewport
+        const setMilestonePositions = () => {
+          const isMobile = window.innerWidth <= 768;
+          const milestones = campaignSection.querySelectorAll('.trophy-marker');
+          
+          milestones.forEach((marker) => {
+            const position = parseFloat(marker.dataset.position);
+            if (isMobile) {
+              // Adjust positions for mobile to prevent overlap
+              let adjustedPosition = position;
+              if (position > 70 && position < 100) {
+                adjustedPosition = Math.min(position, 70);
+              }
+              marker.style.left = `calc(10px + ${adjustedPosition}% * (100% - 20px) / 100%)`;
+            } else {
+              // Desktop positioning
+              marker.style.left = `calc(20px + ${position}% * (100% - 40px) / 100%)`;
+            }
+          });
+        };
+        
+        setMilestonePositions();
+        window.addEventListener('resize', setMilestonePositions);
+      }
+      
       const filterButtons = document.querySelectorAll('.filter-tab');
       const gameCards = document.querySelectorAll('.all-games-section .game-tile-wrapper');
       
@@ -1725,6 +2110,75 @@
       const allButton = Array.from(filterButtons).find(btn => btn.textContent === 'All');
       if (allButton) {
         allButton.classList.add('active');
+      }
+      
+      // ========================================
+      // PROGRESS BAR ANIMATION
+      // ========================================
+      
+      // Function to animate counter
+      function animateCounter(element, start, end, duration) {
+        let startTime = null;
+        const startVal = start;
+        const endVal = end;
+        
+        function updateCounter(currentTime) {
+          if (!startTime) startTime = currentTime;
+          const elapsedTime = currentTime - startTime;
+          
+          if (elapsedTime < duration) {
+            const progress = elapsedTime / duration;
+            const currentVal = Math.floor(startVal + (endVal - startVal) * progress);
+            element.textContent = `$${currentVal.toLocaleString()} Raised`;
+            requestAnimationFrame(updateCounter);
+          } else {
+            element.textContent = `$${endVal.toLocaleString()} Raised`;
+          }
+        }
+        
+        requestAnimationFrame(updateCounter);
+      }
+      
+      // Set up Intersection Observer for progress bar animation
+      const progressSection = document.querySelector('.fundraising-progress-section');
+      if (progressSection) {
+        // Wait a tick for dynamic content to be loaded
+        setTimeout(() => {
+          const progressBar = progressSection.querySelector('.progress-bar-fill');
+          const raisedAmount = progressSection.querySelector('.raised-amount');
+          let hasAnimated = false;
+          
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting && !hasAnimated) {
+                hasAnimated = true;
+                
+                // Animate progress bar
+                if (progressBar) {
+                  const targetProgress = parseFloat(progressBar.dataset.progress);
+                  const isMobile = window.innerWidth <= 768;
+                  setTimeout(() => {
+                    if (isMobile) {
+                      progressBar.style.width = `calc(10px + ${targetProgress}% * (100% - 20px) / 100%)`;
+                    } else {
+                      progressBar.style.width = `calc(20px + ${targetProgress}% * (100% - 40px) / 100%)`;
+                    }
+                  }, 100);
+                }
+                
+                // Animate counter
+                if (raisedAmount) {
+                  const targetValue = parseInt(raisedAmount.dataset.target);
+                  animateCounter(raisedAmount, 0, targetValue, 1500);
+                }
+              }
+            });
+          }, {
+            threshold: 0.3 // Trigger when 30% of the element is visible
+          });
+          
+          observer.observe(progressSection);
+        }, 50);
       }
     });
     
