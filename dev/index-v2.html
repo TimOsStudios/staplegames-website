@@ -960,6 +960,11 @@
     
     
     @media (max-width: 768px) {
+      /* Reduce card padding on mobile */
+      .progress-card {
+        padding: var(--spacing-sm);
+      }
+      
       .progress-bar-wrapper {
         padding: 0 10px;
         margin: 30px 0 70px 0;
@@ -967,16 +972,16 @@
       
       /* Smaller progress bar on mobile */
       .progress-track-bg {
-        left: 10px;
-        right: 10px;
+        left: 0;
+        right: 0;
         height: 20px;
         border: 2px solid var(--primary-black);
         border-radius: 10px;
       }
       
       .progress-shadow {
-        left: 10px;
-        right: 10px;
+        left: 0;
+        right: 0;
         height: 20px;
         top: 3px;
         border: 2px solid var(--primary-black);
@@ -1037,6 +1042,12 @@
       
       .campaign-headline {
         text-align: center !important;
+        font-size: 24px;
+      }
+      
+      /* Add bottom margin to prevent CTA button overlap */
+      .fundraising-progress-section {
+        padding-bottom: 60px;
       }
     }
     
@@ -1116,7 +1127,7 @@
       color: var(--primary-black);
       border: 3.5px solid var(--primary-black);
       border-radius: 12px;
-      padding: 12px 32px;
+      padding: 12px 28px;
       min-width: 220px;
       font-weight: var(--font-weight-semibold); /* Rubik Semi-Bold */
       font-size: 22px;
@@ -2041,7 +2052,7 @@
             <a href="${config.downloadLinks.ios}" style="color: var(--brand-blue); font-weight: 600;">iOS</a> and 
             <a href="${config.downloadLinks.android}" style="color: var(--brand-green); font-weight: 600;">Android</a>
           </p>
-          <p style="font-size: 16px; margin-bottom: 24px; text-align: center;">
+          <p style="font-size: 16px; margin-bottom: 40px; text-align: center;">
             <a href="${config.termsLink}" style="color: var(--brand-gray); text-decoration: underline; font-weight: 400;">See full terms & details here</a>
           </p>
         </div>
@@ -2093,7 +2104,7 @@
               if (position > 70 && position < 100) {
                 adjustedPosition = Math.min(position, 70);
               }
-              marker.style.left = `calc(10px + ${adjustedPosition}% * (100% - 20px) / 100%)`;
+              marker.style.left = `${adjustedPosition}%`;
             } else {
               // Desktop positioning
               marker.style.left = `calc(20px + ${position}% * (100% - 40px) / 100%)`;
@@ -2188,7 +2199,7 @@
                   const isMobile = window.innerWidth <= 768;
                   setTimeout(() => {
                     if (isMobile) {
-                      progressBar.style.width = `calc(10px + ${targetProgress}% * (100% - 20px) / 100%)`;
+                      progressBar.style.width = `${targetProgress}%`;
                     } else {
                       progressBar.style.width = `calc(20px + ${targetProgress}% * (100% - 40px) / 100%)`;
                     }
