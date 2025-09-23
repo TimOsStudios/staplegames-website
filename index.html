@@ -527,19 +527,6 @@
       display: inline-block;
     }
     
-    /* Level indicator decoration */
-    .section-title::before {
-      content: "LEVEL 1";
-      position: absolute;
-      top: -20px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 12px;
-      background: var(--brand-cyan);
-      padding: 2px 12px;
-      border-radius: 12px;
-      border: 2px solid var(--primary-black); /* Off-Black */
-    }
     
     .section-subtitle {
       font-size: 18px;
@@ -801,6 +788,353 @@
       border-bottom: var(--border-width) solid var(--primary-black);
     }
     
+    /* ==========================================
+       FUNDRAISING PROGRESS BAR SECTION
+       ========================================== */
+    
+    .fundraising-progress-section {
+      padding: var(--spacing-lg) 0 calc(var(--spacing-lg) + 40px) 0;
+      background: var(--white);
+      border-bottom: var(--border-width) solid var(--primary-black);
+    }
+    
+    /* Carousel styles */
+    .campaigns-carousel-container {
+      position: relative;
+      max-width: 100%;
+      overflow: hidden;
+      margin: 0 auto;
+      padding-bottom: 40px;
+    }
+    
+    .campaigns-carousel {
+      display: flex;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform;
+    }
+    
+    .campaign-slide {
+      flex: 0 0 100%;
+      min-width: 0;
+      padding: 0 20px;
+    }
+    
+    .progress-container {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    /* Gallery Navigation */
+    .campaign-gallery-nav {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      padding: 0 20px;
+      margin-bottom: 32px;
+    }
+    
+    .campaign-nav-btn {
+      padding: 12px 20px;
+      background: var(--white);
+      border: var(--border-width) solid var(--primary-black);
+      border-radius: var(--border-radius);
+      font-family: var(--font-stack);
+      font-size: 14px;
+      font-weight: var(--font-weight-semibold);
+      color: var(--primary-black);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.1);
+    }
+    
+    .campaign-nav-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 0 0 rgba(0, 0, 0, 0.15);
+    }
+    
+    .campaign-nav-btn.active {
+      background: var(--brand-gold);
+      transform: translateY(1px);
+      box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1);
+    }
+    
+    .campaign-nav-btn .amount {
+      display: block;
+      font-size: 18px;
+      font-weight: var(--font-weight-bold);
+      margin-top: 4px;
+    }
+    
+    /* Shadow container for depth effect */
+    .progress-container::before {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 0;
+      right: 0;
+      bottom: -8px;
+      background: var(--shadow-gray);
+      border: var(--border-width) solid var(--primary-black);
+      border-radius: var(--border-radius);
+      z-index: 1;
+      pointer-events: none;
+    }
+    
+    .progress-card {
+      background: var(--white);
+      border: var(--border-width) solid var(--primary-black);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-lg);
+      position: relative;
+      z-index: 2;
+    }
+    
+    .progress-bar-wrapper {
+      position: relative;
+      margin: 40px 0 80px 0;
+      padding: 0 20px;
+      /* Add right padding to account for last trophy width */
+      padding-right: 60px;
+    }
+    
+    /* Full width background track */
+    .progress-track-bg {
+      position: absolute;
+      top: 0;
+      left: 20px;
+      right: 60px;
+      height: 28px;
+      background: #E8E8ED;
+      border: 3px solid var(--primary-black);
+      border-radius: 14px;
+      z-index: 1;
+    }
+    
+    /* Shadow layer for the progress bar */
+    .progress-shadow {
+      position: absolute;
+      top: 4px;
+      left: 20px;
+      right: 60px;
+      height: 28px;
+      background: #C8C8CD;
+      border: 3px solid var(--primary-black);
+      border-radius: 14px;
+      z-index: 0;
+    }
+    
+    /* Actual progress bar */
+    .progress-bar-fill {
+      position: relative;
+      height: 28px;
+      /* Background color set inline based on campaign config */
+      border: 3px solid var(--primary-black);
+      border-radius: 14px;
+      /* Start at 0, will animate to actual width via JavaScript */
+      width: 0;
+      margin-left: 0;
+      transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 2;
+      /* Box shadow set inline based on progress bar color */
+    }
+    
+    /* Trophy checkpoint markers */
+    .trophy-marker {
+      position: absolute;
+      top: -26px;
+      transform: translateX(-50%);
+      width: 120px;
+      z-index: 5;
+      transition: transform 0.2s;
+      cursor: pointer;
+      text-align: center;
+    }
+    
+    .trophy-marker:hover {
+      transform: translateX(-50%) scale(1.05);
+    }
+    
+    .trophy-marker img {
+      width: 100px;
+      height: 80px;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+      display: block;
+      margin: 0 auto;
+    }
+    
+    /* Trophy labels */
+    .trophy-label {
+      margin-top: 0px;
+      white-space: nowrap;
+    }
+    
+    .trophy-amount {
+      display: block;
+      font-size: 18px;
+      font-weight: var(--font-weight-bold);
+      color: var(--primary-black);
+      margin-bottom: 0;
+    }
+    
+    .trophy-name {
+      display: block;
+      font-size: 13px;
+      font-weight: var(--font-weight-semibold);
+      color: var(--brand-gray);
+      margin-top: 2px;
+    }
+    
+    /* Trophy positions are set dynamically via JavaScript */
+    
+    /* Raised amount display */
+    .raised-amount {
+      text-align: center;
+      margin-bottom: 12px;
+      font-size: 32px;
+      font-weight: var(--font-weight-bold);
+      color: var(--brand-purple);
+    }
+    
+    /* Campaign header - logo and headline side by side */
+    .campaign-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+    }
+    
+    .campaign-headline {
+      flex: 1;
+    }
+    
+    
+    @media (max-width: 768px) {
+      /* Reduce card padding on mobile */
+      .progress-card {
+        padding: var(--spacing-sm);
+      }
+      
+      .progress-bar-wrapper {
+        padding: 0 5px;
+        margin: 30px 0 70px 0;
+        /* Add right padding to account for last trophy width on mobile */
+        padding-right: 50px;
+      }
+      
+      /* Smaller progress bar on mobile */
+      .progress-track-bg {
+        left: 5px;
+        right: 50px;
+        height: 20px;
+        border: 2px solid var(--primary-black);
+        border-radius: 10px;
+      }
+      
+      .progress-shadow {
+        left: 5px;
+        right: 50px;
+        height: 20px;
+        top: 3px;
+        border: 2px solid var(--primary-black);
+        border-radius: 10px;
+      }
+      
+      .progress-bar-fill {
+        height: 20px;
+        border: 2px solid var(--primary-black);
+        border-radius: 10px;
+        width: 0;
+        /* Box shadow set inline based on progress bar color */
+      }
+      
+      /* Adjust trophy positions for mobile */
+      .trophy-marker {
+        top: -22px;
+        width: 90px;
+      }
+      
+      .trophy-marker img {
+        width: 60px;
+        height: 60px;
+      }
+      
+      /* Trophy positions are set dynamically via JavaScript */
+      
+      .trophy-label {
+        margin-top: -5px;
+      }
+      
+      .trophy-amount {
+        font-size: 14px;
+      }
+      
+      .trophy-name {
+        font-size: 11px;
+      }
+      
+      .raised-amount {
+        font-size: 26px;
+      }
+      
+      /* Reduce CTA button font size on mobile */
+      .promo-badge-bottom span {
+        font-size: 16px;
+      }
+      
+      /* Stack logo and headline on mobile */
+      .campaign-header {
+        flex-direction: column;
+        gap: 16px;
+      }
+      
+      .campaign-header img {
+        max-width: 70% !important;
+      }
+      
+      .campaign-headline {
+        text-align: center !important;
+        font-size: 24px;
+      }
+      
+      /* Add bottom margin to prevent CTA button overlap */
+      .fundraising-progress-section {
+        padding-bottom: 60px;
+      }
+      
+      /* Gallery navigation mobile styles */
+      .campaign-gallery-nav {
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 24px;
+      }
+      
+      .campaign-nav-btn {
+        padding: 10px 16px;
+        font-size: 13px;
+      }
+      
+      .campaign-nav-btn .amount {
+        font-size: 16px;
+      }
+      
+      .campaign-slide {
+        padding: 0 10px;
+      }
+      
+      /* Section header mobile adjustments */
+      .fundraising-progress-section .section-title {
+        font-size: 36px !important;
+      }
+      
+      .fundraising-progress-section .section-header p {
+        font-size: 16px !important;
+        padding: 0 20px;
+      }
+    }
+    
     /* Promo Card with clean shadow technique */
     .promo-card-wrapper {
       position: relative;
@@ -877,7 +1211,7 @@
       color: var(--primary-black);
       border: 3.5px solid var(--primary-black);
       border-radius: 12px;
-      padding: 12px 32px;
+      padding: 12px 28px;
       min-width: 220px;
       font-weight: var(--font-weight-semibold); /* Rubik Semi-Bold */
       font-size: 22px;
@@ -913,19 +1247,16 @@
       font-weight: var(--font-weight-semibold); /* Rubik Semi-Bold for filter tabs */
       cursor: pointer;
       transition: var(--transition);
-      box-shadow: 0 9px 0 0 var(--shadow-gray), 0 7px 0 0 #D0D0D5;
     }
     
     .filter-tab.active {
       background: var(--brand-gold);
       transform: translateY(-2px);
-      box-shadow: 0 11px 0 0 var(--shadow-gray), 0 9px 0 0 #D0D0D5;
     }
     
     .filter-tab:hover:not(.active) {
       transform: translateY(-1px);
       background: #fff9e6;
-      box-shadow: 0 10px 0 0 var(--shadow-gray), 0 8px 0 0 #D0D0D5;
     }
     
     /* Colored filter tabs on hover */
@@ -1119,8 +1450,9 @@
         </a>
         
         <ul class="nav-menu" id="navMenu">
-          <li><div class="nav-item-wrapper"><a href="#all-games" class="nav-item">Games</a></div></li>
           <li><div class="nav-item-wrapper"><a href="#featured" class="nav-item">Featured</a></div></li>
+          <li><div class="nav-item-wrapper"><a href="#fundraising-campaign" class="nav-item">#PlayItForward</a></div></li>
+          <li><div class="nav-item-wrapper"><a href="#all-games" class="nav-item">All Games</a></div></li>
           <li><div class="nav-item-wrapper"><a href="contact.html" class="nav-item">Support</a></div></li>
         </ul>
         
@@ -1189,6 +1521,28 @@
           </div>
         </div>
         
+        <!-- Word Horizons -->
+        <div class="game-tile-wrapper">
+          <div class="game-tile">
+          <div class="game-tile-icon">
+            <img src="https://cdn.bdz5.com/staplegames/wordhorizons_icon.png" alt="Word Horizons">
+            <span class="category-badge word">Word</span>
+          </div>
+          <div class="game-tile-content">
+            <h3 class="game-tile-title">Word Horizons</h3>
+            <p class="game-tile-desc">Expand your vocabulary in this word puzzle adventure</p>
+            <div class="game-tile-actions">
+              <div class="store-button-wrapper">
+                <a href="https://play.google.com/store/apps/details?id=com.staplegames.wordhorizons" class="store-button"><span class="mobile-text">Android</span><span class="desktop-text">Google Play</span></a>
+              </div>
+              <div class="store-button-wrapper">
+                <a href="https://apps.apple.com/app/word-horizons/id6444349473" class="store-button"><span class="mobile-text">iOS</span><span class="desktop-text">App Store</span></a>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+        
         <!-- Dice Merge -->
         <div class="game-tile-wrapper">
           <div class="game-tile">
@@ -1210,28 +1564,6 @@
           </div>
           </div>
         </div>
-        
-        <!-- Tile Collector -->
-        <div class="game-tile-wrapper">
-          <div class="game-tile">
-          <div class="game-tile-icon">
-            <img src="https://cdn.bdz5.com/staplegames/tilecollector_icon.png" alt="Tile Collector">
-            <span class="category-badge puzzle">Puzzle</span>
-          </div>
-          <div class="game-tile-content">
-            <h3 class="game-tile-title">Tile Collector</h3>
-            <p class="game-tile-desc">Match and collect tiles in this addictive puzzle</p>
-            <div class="game-tile-actions">
-              <div class="store-button-wrapper">
-                <a href="https://play.google.com/store/apps/details?id=com.staplegames.tilecollector" class="store-button"><span class="mobile-text">Android</span><span class="desktop-text">Google Play</span></a>
-              </div>
-              <div class="store-button-wrapper">
-                <a href="https://apps.apple.com/app/tile-collector/id6449299885" class="store-button"><span class="mobile-text">iOS</span><span class="desktop-text">App Store</span></a>
-              </div>
-            </div>
-          </div>
-          </div>
-        </div>
       </div>
       
       <div style="text-align: center; margin-top: 48px;">
@@ -1244,32 +1576,26 @@
     </div>
   </section>
   
-  <!-- Special Promo Banner -->
-  <section class="promo-banner">
+  <!-- Fundraising Progress Bar Section -->
+  <section class="fundraising-progress-section" id="fundraising-campaign">
     <div class="container">
-      <div class="promo-card-wrapper">
-        <div class="promo-card-special">
-            <img src="images/SJ_LogoTaglineHoriz_RGB.svg" alt="St. Jude Children's Research Hospital" style="width: 320px; max-width: 90%; margin: 0 auto 32px auto; display: block;">
-          <h2 class="promo-title">Help raise $1M for St. Jude!</h2>
-          
-          <p style="margin-bottom: 16px;">You raised $867,395 for St. Jude by downloading and playing our games during Ryan and Haley's 50 States in 50 Days series. Now we are extending that fundraise with a new goal to reach $1M!</p>
-          
-          <p style="margin-bottom: 16px;">On September 20, 2025 we are released a special event for Match Collector where we're donating $0.02 for every State or Stay tile collected and $0.10 for every St. Jude tile.</p>
-          
-          <p style="margin-bottom: 16px;">These St. Jude tiles are extra special – each was inspired by artwork from amazing St. Jude Patients!</p>
-          
-          <p style="margin-bottom: 24px;">You can follow the campaign or donate directly at <a href="https://stjude.org/50states" style="color: var(--brand-blue); text-decoration: underline;">stjude.org/50states</a>.</p>
-          
-          <div class="promo-badge-wrapper">
-            <a href="https://staplegames.com/match" class="promo-badge-bottom" style="text-decoration: none; cursor: pointer;">
-              <span>Play to Donate Now!</span>
-            </a>
-          </div>
-          
-          <div style="margin-top: 32px; padding-top: 24px; border-top: 2px solid rgba(0,0,0,0.1);">
-            <p style="font-weight: 600; margin-bottom: 12px;">Download to donate on <a href="https://apps.apple.com/app/match-collector/id6462309005" style="color: var(--brand-blue); font-weight: 600;">iOS</a> and <a href="https://play.google.com/store/apps/details?id=com.staplegames.matchcollector" style="color: var(--brand-green); font-weight: 600;">Android</a></p>
-              <p style="font-size: 16px; margin-bottom: 8px;"><a href="/50-stays-terms.html" style="color: var(--brand-blue); text-decoration: underline; font-weight: 500;">See full terms & details here</a></p>
-          </div>
+      <!-- Section Header -->
+      <div class="section-header" style="text-align: center; margin-bottom: 32px;">
+        <h2 class="section-title" style="font-size: 48px; margin-bottom: 12px;">#PlayItForward</h2>
+        <p style="font-size: 18px; color: var(--text-secondary); max-width: 600px; margin: 0 auto;">
+          Staple Games loves partnering with charities to help anyone give by playing. Check out our active and past campaigns.
+        </p>
+      </div>
+      
+      <!-- Gallery Navigation -->
+      <div class="campaign-gallery-nav" id="campaignGalleryNav" style="margin-bottom: 32px;">
+        <!-- Navigation buttons will be dynamically populated -->
+      </div>
+      
+      <!-- Campaigns Carousel -->
+      <div class="campaigns-carousel-container">
+        <div class="campaigns-carousel" id="campaignsCarousel">
+          <!-- Campaign slides will be dynamically populated -->
         </div>
       </div>
     </div>
@@ -1674,6 +2000,178 @@
   </footer>
   
   <script>
+    // ========================================
+    // CAMPAIGN CONFIGURATION
+    // ========================================
+    
+    // To create a new campaign:
+    // 1. Copy this campaignConfig object
+    // 2. Update the values for your new campaign
+    // 3. Milestones can be 0 or more (this example has 3)
+    // 4. The progress bar will automatically calculate based on currentAmount/goal
+    
+    // Campaigns array with multiple campaign configurations
+    const campaigns = [
+      {
+        id: "stjude",
+        name: "St. Jude",
+        logo: "images/SJ_LogoTaglineHoriz_RGB.svg",
+        logoAlt: "St. Jude Children's Research Hospital",
+          headline: "50 States for St. Jude",
+          goal: 1000000,
+          currentAmount: 867395,
+          accentColor: "var(--brand-red)",
+          progressBarColor: "var(--brand-gold)", // Default gold for St. Jude
+          progressBarPaddingReduction: 80, // Account for trophy spacing on desktop
+        milestones: [
+          {
+            amount: 200000,
+            label: "Initial Goal",
+            icon: "images/initial-trophy.svg",
+            position: 20, // percentage position on bar
+            completed: true
+          },
+          {
+            amount: 815641,
+            label: "50 States Event",
+            icon: "images/states-trophy.svg",
+            position: 74, // visually adjusted position to prevent overlap
+            completed: true
+          },
+          {
+            amount: 1000000,
+            label: "50 Stays Event",
+            icon: "images/stay-trophy.svg",
+            position: 100,
+            completed: false
+          }
+        ],
+        bodyText: "You've raised {amount} for St. Jude by downloading and playing our games. Help us reach $1M by playing Match Collector. We're donating 2 cents for every State or Stay tile collected and 10 cents for every St. Jude tile.\n\nThese St. Jude tiles are extra special – each was inspired by artwork from amazing St. Jude Patients!\n\nYou can follow the campaign or donate directly at <a href='https://stjude.org/50states' style='color: var(--brand-blue); text-decoration: underline;'>stjude.org/50states</a>.",
+        downloadLinks: {
+          ios: "https://apps.apple.com/app/match-collector/id6462309005",
+          android: "https://play.google.com/store/apps/details?id=com.staplegames.matchcollector"
+        },
+        termsLink: "/50-stays-terms.html",
+        ctaButton: {
+          text: "Play to Donate Now!",
+          link: "https://staplegames.com/match"
+        }
+      },
+      {
+        id: "teamwater",
+        name: "#TeamWater",
+        logo: "images/team-water-logo.png",
+        logoAlt: "#TeamWater",
+          headline: "#TeamWater",
+          goal: 360842,
+          currentAmount: 360842,
+          accentColor: "var(--brand-blue)",
+          progressBarColor: "var(--brand-blue)", // Blue progress bar for TeamWater
+          progressBarPaddingReduction: 0, // No padding reduction needed for single milestone at 100%
+        milestones: [
+          {
+            amount: 360842,
+            label: "#TeamWater Goal",
+            icon: "images/team-water-logo.png",
+            position: 100,
+            completed: true
+          }
+        ],
+        bodyText: "Together we raised {amount} for #TeamWater through gaming! This incredible achievement provided clean water for thousands of people in need.\n\nThis campaign has successfully concluded. Thank you to all the creators and players who made this possible!",
+        downloadLinks: {
+          ios: "https://apps.apple.com/app/match-collector/id6462309005",
+          android: "https://play.google.com/store/apps/details?id=com.staplegames.matchcollector"
+        },
+        termsLink: "/teamwater/creators.html",
+        ctaButton: {
+          text: "Campaign Complete ✓",
+          link: "#",
+          disabled: true
+        }
+      }
+    ];
+    
+    let currentCampaignIndex = 0;
+    
+    // Function to build campaign HTML
+    function buildCampaignHTML(config) {
+      const progressPercentage = (config.currentAmount / config.goal) * 100;
+      
+      // Build milestones HTML
+      let milestonesHTML = '';
+      config.milestones.forEach((milestone, index) => {
+        const formattedAmount = milestone.amount >= 1000000 
+          ? `$${(milestone.amount / 1000000).toFixed(1)}M`.replace('.0M', 'M')
+          : `$${(milestone.amount / 1000).toFixed(0)}k`;
+        
+        const fullAmount = `$${milestone.amount.toLocaleString()}`;
+        const completedClass = milestone.completed ? ` style="color: ${config.accentColor};"` : '';
+        
+        milestonesHTML += `
+          <div class="trophy-marker trophy-${index}" data-position="${milestone.position}">
+            <img src="${milestone.icon}" alt="${milestone.label}" />
+            <div class="trophy-label">
+              <span class="trophy-amount"${completedClass}>${fullAmount}</span>
+              <span class="trophy-name">${milestone.label}</span>
+            </div>
+          </div>
+        `;
+      });
+      
+      // Format body text with current amount
+      const formattedBodyText = config.bodyText.replace('{amount}', `$${config.currentAmount.toLocaleString()}`);
+      
+      return `
+        <!-- Logo and Headline -->
+        <div class="campaign-header" style="display: flex; align-items: center; justify-content: center; margin-bottom: 24px; gap: 24px;">
+          <img src="${config.logo}" alt="${config.logoAlt}" style="max-height: 120px; width: auto; max-width: 45%;">
+          <h2 class="promo-title campaign-headline" style="margin: 0; text-align: left;">${config.headline}</h2>
+        </div>
+        
+        <!-- Raised Amount -->
+        <p class="raised-amount" data-target="${config.currentAmount}" style="color: ${config.accentColor};">$0 Raised</p>
+        
+        <!-- Progress Bar -->
+        <div class="progress-bar-wrapper">
+          <!-- Shadow layer -->
+          <div class="progress-shadow"></div>
+          
+          <!-- Background track -->
+          <div class="progress-track-bg"></div>
+          
+          <!-- Filled progress -->
+          <div class="progress-bar-fill" data-progress="${progressPercentage.toFixed(2)}" style="background: ${config.progressBarColor || 'var(--brand-gold)'}; box-shadow: 0 3px 0 0 ${config.progressBarColor === 'var(--brand-blue)' ? '#0066CC' : config.progressBarColor === 'var(--brand-red)' ? '#CC0000' : '#D4A600'};"></div>
+          
+          <!-- Trophy Markers -->
+          ${milestonesHTML}
+        </div>
+        
+        <!-- Body Text -->
+        <div style="padding: 0 20px; margin-top: 32px;">
+          ${formattedBodyText.split('\n').map(p => `<p style="margin-bottom: 16px; text-align: center;">${p}</p>`).join('')}
+        </div>
+        
+        <!-- Download Links and Terms -->
+        <div style="margin-top: 24px; padding-top: 24px; border-top: 2px solid rgba(0,0,0,0.1);">
+          <p style="font-weight: 600; margin-bottom: 12px; text-align: center;">
+            Download to donate on 
+            <a href="${config.downloadLinks.ios}" style="color: var(--brand-blue); font-weight: 600;">iOS</a> and 
+            <a href="${config.downloadLinks.android}" style="color: var(--brand-green); font-weight: 600;">Android</a>
+          </p>
+          <p style="font-size: 16px; margin-bottom: 40px; text-align: center;">
+            <a href="${config.termsLink}" style="color: var(--brand-gray); text-decoration: underline; font-weight: 400;">See full terms & details here</a>
+          </p>
+        </div>
+        
+        <!-- CTA Button -->
+        <div class="promo-badge-wrapper">
+          <a href="${config.ctaButton.link}" class="promo-badge-bottom" style="text-decoration: none; cursor: ${config.ctaButton.disabled ? 'default' : 'pointer'}; ${config.ctaButton.disabled ? 'opacity: 0.6; pointer-events: none;' : ''}">
+            <span>${config.ctaButton.text}</span>
+          </a>
+        </div>
+      `;
+    }
+    
     // Mobile menu toggle
     document.getElementById('menuToggle').addEventListener('click', function() {
       const navMenu = document.getElementById('navMenu');
@@ -1691,6 +2189,158 @@
     
     // Filter functionality for game categories
     document.addEventListener('DOMContentLoaded', function() {
+      // ========================================
+      // POPULATE CAMPAIGN SECTION WITH CAROUSEL
+      // ========================================
+      
+      // Function to animate counter
+      function animateCounter(element, start, end, duration) {
+        let startTime = null;
+        const startVal = start;
+        const endVal = end;
+        
+        function updateCounter(currentTime) {
+          if (!startTime) startTime = currentTime;
+          const elapsedTime = currentTime - startTime;
+          
+          if (elapsedTime < duration) {
+            const progress = elapsedTime / duration;
+            const currentVal = Math.floor(startVal + (endVal - startVal) * progress);
+            element.textContent = `$${currentVal.toLocaleString()} Raised`;
+            requestAnimationFrame(updateCounter);
+          } else {
+            element.textContent = `$${endVal.toLocaleString()} Raised`;
+          }
+        }
+        
+        requestAnimationFrame(updateCounter);
+      }
+      
+      const campaignsCarousel = document.getElementById('campaignsCarousel');
+      const galleryNav = document.getElementById('campaignGalleryNav');
+      
+      if (campaignsCarousel && galleryNav) {
+        // Build carousel slides
+        campaigns.forEach((campaign, index) => {
+          const slide = document.createElement('div');
+          slide.className = 'campaign-slide';
+          slide.innerHTML = `
+            <div class="progress-container">
+              <div class="progress-card">
+                ${buildCampaignHTML(campaign)}
+              </div>
+            </div>
+          `;
+          campaignsCarousel.appendChild(slide);
+          
+          // Create gallery navigation button
+          const navBtn = document.createElement('button');
+          navBtn.className = `campaign-nav-btn${index === 0 ? ' active' : ''}`;
+          navBtn.dataset.index = index;
+          navBtn.innerHTML = `
+            <span>${campaign.name}</span>
+            <span class="amount">$${campaign.currentAmount.toLocaleString()}</span>
+          `;
+          navBtn.addEventListener('click', () => switchCampaign(index));
+          galleryNav.appendChild(navBtn);
+        });
+        
+        // Function to switch campaigns
+        function switchCampaign(index) {
+          currentCampaignIndex = index;
+          const campaign = campaigns[index];
+          
+          // Update carousel position
+          const translateX = -index * 100;
+          campaignsCarousel.style.transform = `translateX(${translateX}%)`;
+          
+          // Update nav buttons
+          document.querySelectorAll('.campaign-nav-btn').forEach((btn, i) => {
+            btn.classList.toggle('active', i === index);
+          });
+          
+          // Reset and trigger animations for the new slide
+          const currentSlide = campaignsCarousel.children[index];
+          const progressBar = currentSlide.querySelector('.progress-bar-fill');
+          const raisedAmount = currentSlide.querySelector('.raised-amount');
+          
+          if (progressBar && raisedAmount) {
+            // Reset values
+            progressBar.style.width = '0';
+            raisedAmount.textContent = '$0 Raised';
+            
+            // Trigger animations after a short delay
+            setTimeout(() => {
+              const targetProgress = parseFloat(progressBar.dataset.progress);
+              const targetAmount = parseInt(raisedAmount.dataset.target);
+              const isMobile = window.innerWidth <= 768;
+              const paddingReduction = campaign.progressBarPaddingReduction !== undefined ? campaign.progressBarPaddingReduction : 80; // Default to 80 if not specified
+              
+              // Animate progress bar
+              setTimeout(() => {
+                if (isMobile) {
+                  // Mobile calculation - adjust if needed based on campaign
+                  if (paddingReduction === 0) {
+                    // No padding reduction - just use percentage directly
+                    progressBar.style.width = `${targetProgress}%`;
+                  } else {
+                    const mobilePaddingReduction = 55;
+                    progressBar.style.width = `calc(5px + ${targetProgress}% * (100% - ${mobilePaddingReduction}px) / 100%)`;
+                  }
+                } else {
+                  // Desktop calculation using campaign-specific padding
+                  if (paddingReduction === 0) {
+                    // No padding reduction - just use percentage directly
+                    progressBar.style.width = `${targetProgress}%`;
+                  } else {
+                    progressBar.style.width = `calc(20px + ${targetProgress}% * (100% - ${paddingReduction}px) / 100%)`;
+                  }
+                }
+              }, 100);
+              
+              // Animate counter
+              animateCounter(raisedAmount, 0, targetAmount, 1500);
+            }, 300);
+          }
+        }
+        
+        // Set milestone positions based on viewport for all campaigns
+        const setMilestonePositions = () => {
+          const isMobile = window.innerWidth <= 768;
+          
+          campaigns.forEach((campaign, slideIndex) => {
+            const slide = campaignsCarousel.children[slideIndex];
+            const milestones = slide.querySelectorAll('.trophy-marker');
+            const paddingReduction = campaign.progressBarPaddingReduction !== undefined ? campaign.progressBarPaddingReduction : 80;
+            
+            milestones.forEach((marker) => {
+              const position = parseFloat(marker.dataset.position);
+              if (isMobile) {
+                // Adjust positions for mobile to prevent overlap
+                let adjustedPosition = position;
+                if (position > 70 && position < 100 && campaign.milestones.length > 1) {
+                  adjustedPosition = Math.min(position, 70);
+                }
+                // Mobile positioning - always use offset calculation for proper alignment
+                // Even when progressBarPaddingReduction is 0, trophies need the offset
+                const mobilePaddingReduction = 55;
+                marker.style.left = `calc(5px + ${adjustedPosition}% * (100% - ${mobilePaddingReduction}px) / 100%)`;
+              } else {
+                // Desktop positioning - always use offset calculation for proper alignment
+                // Even when progressBarPaddingReduction is 0, trophies need the offset
+                marker.style.left = `calc(20px + ${position}% * (100% - 80px) / 100%)`;
+              }
+            });
+          });
+        };
+        
+        setMilestonePositions();
+        window.addEventListener('resize', setMilestonePositions);
+        
+        // Store switchCampaign globally for other scripts if needed
+        window.switchCampaign = switchCampaign;
+      }
+      
       const filterButtons = document.querySelectorAll('.filter-tab');
       const gameCards = document.querySelectorAll('.all-games-section .game-tile-wrapper');
       
@@ -1725,6 +2375,68 @@
       const allButton = Array.from(filterButtons).find(btn => btn.textContent === 'All');
       if (allButton) {
         allButton.classList.add('active');
+      }
+      
+      // ========================================
+      // PROGRESS BAR ANIMATION
+      // ========================================
+      
+      // Set up Intersection Observer for initial animation
+      const progressSection = document.querySelector('.fundraising-progress-section');
+      if (progressSection) {
+        let hasAnimatedInitial = false;
+        
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting && !hasAnimatedInitial) {
+              hasAnimatedInitial = true;
+              
+              // Trigger animation for the first campaign
+              setTimeout(() => {
+                const firstSlide = campaignsCarousel?.children[0];
+                const firstCampaign = campaigns[0];
+                if (firstSlide && firstCampaign) {
+                  const progressBar = firstSlide.querySelector('.progress-bar-fill');
+                  const raisedAmount = firstSlide.querySelector('.raised-amount');
+                  
+                  if (progressBar && raisedAmount) {
+                    const targetProgress = parseFloat(progressBar.dataset.progress);
+                    const targetAmount = parseInt(raisedAmount.dataset.target);
+                    const isMobile = window.innerWidth <= 768;
+                    const paddingReduction = firstCampaign.progressBarPaddingReduction !== undefined ? firstCampaign.progressBarPaddingReduction : 80;
+                    
+                    // Animate progress bar
+                    setTimeout(() => {
+                      if (isMobile) {
+                        if (paddingReduction === 0) {
+                          // No padding reduction - just use percentage directly
+                          progressBar.style.width = `${targetProgress}%`;
+                        } else {
+                          const mobilePaddingReduction = 55;
+                          progressBar.style.width = `calc(5px + ${targetProgress}% * (100% - ${mobilePaddingReduction}px) / 100%)`;
+                        }
+                      } else {
+                        if (paddingReduction === 0) {
+                          // No padding reduction - just use percentage directly
+                          progressBar.style.width = `${targetProgress}%`;
+                        } else {
+                          progressBar.style.width = `calc(20px + ${targetProgress}% * (100% - ${paddingReduction}px) / 100%)`;
+                        }
+                      }
+                    }, 100);
+                    
+                    // Animate counter
+                    animateCounter(raisedAmount, 0, targetAmount, 1500);
+                  }
+                }
+              }, 300);
+            }
+          });
+        }, {
+          threshold: 0.3 // Trigger when 30% of the element is visible
+        });
+        
+        observer.observe(progressSection);
       }
     });
     
