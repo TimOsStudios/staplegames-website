@@ -811,10 +811,72 @@
       border-bottom: var(--border-width) solid var(--primary-black);
     }
     
+    /* Carousel styles */
+    .campaigns-carousel-container {
+      position: relative;
+      max-width: 100%;
+      overflow: hidden;
+      margin: 0 auto;
+    }
+    
+    .campaigns-carousel {
+      display: flex;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform;
+    }
+    
+    .campaign-slide {
+      flex: 0 0 100%;
+      min-width: 0;
+      padding: 0 20px;
+    }
+    
     .progress-container {
       position: relative;
       max-width: 800px;
       margin: 0 auto;
+    }
+    
+    /* Gallery Navigation */
+    .campaign-gallery-nav {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 32px;
+      padding: 0 20px;
+    }
+    
+    .campaign-nav-btn {
+      padding: 12px 20px;
+      background: var(--white);
+      border: var(--border-width) solid var(--primary-black);
+      border-radius: var(--border-radius);
+      font-family: var(--font-stack);
+      font-size: 14px;
+      font-weight: var(--font-weight-semibold);
+      color: var(--primary-black);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.1);
+    }
+    
+    .campaign-nav-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 0 0 rgba(0, 0, 0, 0.15);
+    }
+    
+    .campaign-nav-btn.active {
+      background: var(--brand-gold);
+      transform: translateY(1px);
+      box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1);
+    }
+    
+    .campaign-nav-btn .amount {
+      display: block;
+      font-size: 18px;
+      font-weight: var(--font-weight-bold);
+      margin-top: 4px;
     }
     
     /* Shadow container for depth effect */
@@ -1052,6 +1114,26 @@
       /* Add bottom margin to prevent CTA button overlap */
       .fundraising-progress-section {
         padding-bottom: 60px;
+      }
+      
+      /* Gallery navigation mobile styles */
+      .campaign-gallery-nav {
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 24px;
+      }
+      
+      .campaign-nav-btn {
+        padding: 10px 16px;
+        font-size: 13px;
+      }
+      
+      .campaign-nav-btn .amount {
+        font-size: 16px;
+      }
+      
+      .campaign-slide {
+        padding: 0 10px;
       }
     }
     
@@ -1532,10 +1614,14 @@
   <!-- Fundraising Progress Bar Section -->
   <section class="fundraising-progress-section" id="fundraising-campaign">
     <div class="container">
-      <div class="progress-container">
-        <div class="progress-card">
-          <!-- Campaign content will be dynamically populated -->
+      <div class="campaigns-carousel-container">
+        <div class="campaigns-carousel" id="campaignsCarousel">
+          <!-- Campaign slides will be dynamically populated -->
         </div>
+      </div>
+      <!-- Gallery Navigation -->
+      <div class="campaign-gallery-nav" id="campaignGalleryNav">
+        <!-- Navigation buttons will be dynamically populated -->
       </div>
     </div>
   </section>
@@ -1949,47 +2035,84 @@
     // 3. Milestones can be 0 or more (this example has 3)
     // 4. The progress bar will automatically calculate based on currentAmount/goal
     
-    const campaignConfig = {
-      // Campaign data - easily swappable
-      logo: "../images/SJ_LogoTaglineHoriz_RGB.svg",
-      logoAlt: "St. Jude Children's Research Hospital",
-      headline: "50 States & 50 Stays for St. Jude",
-      goal: 1000000,
-      currentAmount: 867395,
-      milestones: [
-        {
-          amount: 200000,
-          label: "Initial Goal",
-          icon: "../images/initial-trophy.svg",
-          position: 20, // percentage position on bar
-          completed: true
+    // Campaigns array with multiple campaign configurations
+    const campaigns = [
+      {
+        id: "stjude",
+        name: "St. Jude",
+        logo: "../images/SJ_LogoTaglineHoriz_RGB.svg",
+        logoAlt: "St. Jude Children's Research Hospital",
+        headline: "Play to Raise $1M for St. Jude",
+        goal: 1000000,
+        currentAmount: 867395,
+        accentColor: "var(--brand-purple)",
+        milestones: [
+          {
+            amount: 200000,
+            label: "Initial Goal",
+            icon: "../images/initial-trophy.svg",
+            position: 20, // percentage position on bar
+            completed: true
+          },
+          {
+            amount: 815641,
+            label: "50 States Event",
+            icon: "../images/states-trophy.svg",
+            position: 74, // visually adjusted position to prevent overlap
+            completed: true
+          },
+          {
+            amount: 1000000,
+            label: "50 Stays Event",
+            icon: "../images/stay-trophy.svg",
+            position: 100,
+            completed: false
+          }
+        ],
+        bodyText: "You've raised {amount} for St. Jude by downloading and playing our games. Help us reach $1M by playing Match Collector. We're donating 2 cents for every State or Stay tile collected and 10 cents for every St. Jude tile.\n\nThese St. Jude tiles are extra special – each was inspired by artwork from amazing St. Jude Patients!\n\nYou can follow the campaign or donate directly at <a href='https://stjude.org/50states' style='color: var(--brand-blue); text-decoration: underline;'>stjude.org/50states</a>.",
+        downloadLinks: {
+          ios: "https://apps.apple.com/app/match-collector/id6462309005",
+          android: "https://play.google.com/store/apps/details?id=com.staplegames.matchcollector"
         },
-        {
-          amount: 815641,
-          label: "50 States Event",
-          icon: "../images/states-trophy.svg",
-          position: 74, // visually adjusted position to prevent overlap
-          completed: true
-        },
-        {
-          amount: 1000000,
-          label: "50 Stays Event",
-          icon: "../images/stay-trophy.svg",
-          position: 100,
-          completed: false
+        termsLink: "/50-stays-terms.html",
+        ctaButton: {
+          text: "Play to Donate Now!",
+          link: "https://staplegames.com/match"
         }
-      ],
-      bodyText: "You've raised {amount} for St. Jude by downloading and playing our games. Help us reach $1M by playing Match Collector. We're donating 2 cents for every State or Stay tile collected and 10 cents for every St. Jude tile.\n\nThese St. Jude tiles are extra special – each was inspired by artwork from amazing St. Jude Patients!\n\nYou can follow the campaign or donate directly at <a href='https://stjude.org/50states' style='color: var(--brand-blue); text-decoration: underline;'>stjude.org/50states</a>.",
-      downloadLinks: {
-        ios: "https://apps.apple.com/app/match-collector/id6462309005",
-        android: "https://play.google.com/store/apps/details?id=com.staplegames.matchcollector"
       },
-      termsLink: "/50-stays-terms.html",
-      ctaButton: {
-        text: "Play to Donate Now!",
-        link: "https://staplegames.com/match"
+      {
+        id: "teamwater",
+        name: "#TeamWater",
+        logo: "https://cdn.bdz5.com/staplegames/matchcollector_icon.png",
+        logoAlt: "#TeamWater",
+        headline: "Gaming for Clean Water",
+        goal: 360842,
+        currentAmount: 360842,
+        accentColor: "var(--brand-blue)",
+        milestones: [
+          {
+            amount: 360842,
+            label: "#TeamWater Goal",
+            icon: "../images/stay-trophy.svg",
+            position: 100,
+            completed: true
+          }
+        ],
+        bodyText: "Together we raised {amount} for #TeamWater through gaming! This incredible achievement provided clean water for thousands of people in need.\n\nPlayers like you downloaded Match Collector and played our special Water World event. Every download provided 1 month of clean water, and every Water Tile or Trophy unlocked added another week!\n\nThis campaign has successfully concluded. Thank you to all the creators and players who made this possible!",
+        downloadLinks: {
+          ios: "https://apps.apple.com/app/match-collector/id6462309005",
+          android: "https://play.google.com/store/apps/details?id=com.staplegames.matchcollector"
+        },
+        termsLink: "/teamwater/creators.html",
+        ctaButton: {
+          text: "Campaign Complete ✓",
+          link: "#",
+          disabled: true
+        }
       }
-    };
+    ];
+    
+    let currentCampaignIndex = 0;
     
     // Function to build campaign HTML
     function buildCampaignHTML(config) {
@@ -2003,7 +2126,7 @@
           : `$${(milestone.amount / 1000).toFixed(0)}k`;
         
         const fullAmount = `$${milestone.amount.toLocaleString()}`;
-        const completedClass = milestone.completed ? ' style="color: var(--brand-purple);"' : '';
+        const completedClass = milestone.completed ? ` style="color: ${config.accentColor};"` : '';
         
         milestonesHTML += `
           <div class="trophy-marker trophy-${index}" data-position="${milestone.position}">
@@ -2027,7 +2150,7 @@
         </div>
         
         <!-- Raised Amount -->
-        <p class="raised-amount" data-target="${config.currentAmount}">$0 Raised</p>
+        <p class="raised-amount" data-target="${config.currentAmount}" style="color: ${config.accentColor};">$0 Raised</p>
         
         <!-- Progress Bar -->
         <div class="progress-bar-wrapper">
@@ -2063,7 +2186,7 @@
         
         <!-- CTA Button -->
         <div class="promo-badge-wrapper">
-          <a href="${config.ctaButton.link}" class="promo-badge-bottom" style="text-decoration: none; cursor: pointer;">
+          <a href="${config.ctaButton.link}" class="promo-badge-bottom" style="text-decoration: none; cursor: ${config.ctaButton.disabled ? 'default' : 'pointer'}; ${config.ctaButton.disabled ? 'opacity: 0.6; pointer-events: none;' : ''}">
             <span>${config.ctaButton.text}</span>
           </a>
         </div>
@@ -2088,37 +2211,136 @@
     // Filter functionality for game categories
     document.addEventListener('DOMContentLoaded', function() {
       // ========================================
-      // POPULATE CAMPAIGN SECTION
+      // POPULATE CAMPAIGN SECTION WITH CAROUSEL
       // ========================================
       
-      const campaignSection = document.querySelector('#fundraising-campaign .progress-card');
-      if (campaignSection) {
-        campaignSection.innerHTML = buildCampaignHTML(campaignConfig);
+      // Function to animate counter
+      function animateCounter(element, start, end, duration) {
+        let startTime = null;
+        const startVal = start;
+        const endVal = end;
         
-        // Set milestone positions based on viewport
+        function updateCounter(currentTime) {
+          if (!startTime) startTime = currentTime;
+          const elapsedTime = currentTime - startTime;
+          
+          if (elapsedTime < duration) {
+            const progress = elapsedTime / duration;
+            const currentVal = Math.floor(startVal + (endVal - startVal) * progress);
+            element.textContent = `$${currentVal.toLocaleString()} Raised`;
+            requestAnimationFrame(updateCounter);
+          } else {
+            element.textContent = `$${endVal.toLocaleString()} Raised`;
+          }
+        }
+        
+        requestAnimationFrame(updateCounter);
+      }
+      
+      const campaignsCarousel = document.getElementById('campaignsCarousel');
+      const galleryNav = document.getElementById('campaignGalleryNav');
+      
+      if (campaignsCarousel && galleryNav) {
+        // Build carousel slides
+        campaigns.forEach((campaign, index) => {
+          const slide = document.createElement('div');
+          slide.className = 'campaign-slide';
+          slide.innerHTML = `
+            <div class="progress-container">
+              <div class="progress-card">
+                ${buildCampaignHTML(campaign)}
+              </div>
+            </div>
+          `;
+          campaignsCarousel.appendChild(slide);
+          
+          // Create gallery navigation button
+          const navBtn = document.createElement('button');
+          navBtn.className = `campaign-nav-btn${index === 0 ? ' active' : ''}`;
+          navBtn.dataset.index = index;
+          navBtn.innerHTML = `
+            <span>${campaign.name}</span>
+            <span class="amount">$${campaign.currentAmount.toLocaleString()}</span>
+          `;
+          navBtn.addEventListener('click', () => switchCampaign(index));
+          galleryNav.appendChild(navBtn);
+        });
+        
+        // Function to switch campaigns
+        function switchCampaign(index) {
+          currentCampaignIndex = index;
+          
+          // Update carousel position
+          const translateX = -index * 100;
+          campaignsCarousel.style.transform = `translateX(${translateX}%)`;
+          
+          // Update nav buttons
+          document.querySelectorAll('.campaign-nav-btn').forEach((btn, i) => {
+            btn.classList.toggle('active', i === index);
+          });
+          
+          // Reset and trigger animations for the new slide
+          const currentSlide = campaignsCarousel.children[index];
+          const progressBar = currentSlide.querySelector('.progress-bar-fill');
+          const raisedAmount = currentSlide.querySelector('.raised-amount');
+          
+          if (progressBar && raisedAmount) {
+            // Reset values
+            progressBar.style.width = '0';
+            raisedAmount.textContent = '$0 Raised';
+            
+            // Trigger animations after a short delay
+            setTimeout(() => {
+              const targetProgress = parseFloat(progressBar.dataset.progress);
+              const targetAmount = parseInt(raisedAmount.dataset.target);
+              const isMobile = window.innerWidth <= 768;
+              
+              // Animate progress bar
+              setTimeout(() => {
+                if (isMobile) {
+                  progressBar.style.width = `calc(5px + ${targetProgress}% * (100% - 55px) / 100%)`;
+                } else {
+                  progressBar.style.width = `calc(20px + ${targetProgress}% * (100% - 80px) / 100%)`;
+                }
+              }, 100);
+              
+              // Animate counter
+              animateCounter(raisedAmount, 0, targetAmount, 1500);
+            }, 300);
+          }
+        }
+        
+        // Set milestone positions based on viewport for all campaigns
         const setMilestonePositions = () => {
           const isMobile = window.innerWidth <= 768;
-          const milestones = campaignSection.querySelectorAll('.trophy-marker');
           
-          milestones.forEach((marker) => {
-            const position = parseFloat(marker.dataset.position);
-            if (isMobile) {
-              // Adjust positions for mobile to prevent overlap
-              let adjustedPosition = position;
-              if (position > 70 && position < 100) {
-                adjustedPosition = Math.min(position, 70);
+          campaigns.forEach((campaign, slideIndex) => {
+            const slide = campaignsCarousel.children[slideIndex];
+            const milestones = slide.querySelectorAll('.trophy-marker');
+            
+            milestones.forEach((marker) => {
+              const position = parseFloat(marker.dataset.position);
+              if (isMobile) {
+                // Adjust positions for mobile to prevent overlap
+                let adjustedPosition = position;
+                if (position > 70 && position < 100) {
+                  adjustedPosition = Math.min(position, 70);
+                }
+                // Account for 5px left and 50px right padding on mobile
+                marker.style.left = `calc(5px + ${adjustedPosition}% * (100% - 55px) / 100%)`;
+              } else {
+                // Desktop positioning with 20px left and 60px right padding
+                marker.style.left = `calc(20px + ${position}% * (100% - 80px) / 100%)`;
               }
-              // Account for 5px left and 50px right padding on mobile
-              marker.style.left = `calc(5px + ${adjustedPosition}% * (100% - 55px) / 100%)`;
-            } else {
-              // Desktop positioning with 20px left and 60px right padding
-              marker.style.left = `calc(20px + ${position}% * (100% - 80px) / 100%)`;
-            }
+            });
           });
         };
         
         setMilestonePositions();
         window.addEventListener('resize', setMilestonePositions);
+        
+        // Store switchCampaign globally for other scripts if needed
+        window.switchCampaign = switchCampaign;
       }
       
       const filterButtons = document.querySelectorAll('.filter-tab');
@@ -2161,71 +2383,49 @@
       // PROGRESS BAR ANIMATION
       // ========================================
       
-      // Function to animate counter
-      function animateCounter(element, start, end, duration) {
-        let startTime = null;
-        const startVal = start;
-        const endVal = end;
-        
-        function updateCounter(currentTime) {
-          if (!startTime) startTime = currentTime;
-          const elapsedTime = currentTime - startTime;
-          
-          if (elapsedTime < duration) {
-            const progress = elapsedTime / duration;
-            const currentVal = Math.floor(startVal + (endVal - startVal) * progress);
-            element.textContent = `$${currentVal.toLocaleString()} Raised`;
-            requestAnimationFrame(updateCounter);
-          } else {
-            element.textContent = `$${endVal.toLocaleString()} Raised`;
-          }
-        }
-        
-        requestAnimationFrame(updateCounter);
-      }
-      
-      // Set up Intersection Observer for progress bar animation
+      // Set up Intersection Observer for initial animation
       const progressSection = document.querySelector('.fundraising-progress-section');
       if (progressSection) {
-        // Wait a tick for dynamic content to be loaded
-        setTimeout(() => {
-          const progressBar = progressSection.querySelector('.progress-bar-fill');
-          const raisedAmount = progressSection.querySelector('.raised-amount');
-          let hasAnimated = false;
-          
-          const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-              if (entry.isIntersecting && !hasAnimated) {
-                hasAnimated = true;
-                
-                // Animate progress bar
-                if (progressBar) {
-                  const targetProgress = parseFloat(progressBar.dataset.progress);
-                  const isMobile = window.innerWidth <= 768;
-                  setTimeout(() => {
-                    if (isMobile) {
-                      // Account for 5px left and 50px right padding on mobile
-                      progressBar.style.width = `calc(5px + ${targetProgress}% * (100% - 55px) / 100%)`;
-                    } else {
-                      // Account for 20px left and 60px right padding on desktop
-                      progressBar.style.width = `calc(20px + ${targetProgress}% * (100% - 80px) / 100%)`;
-                    }
-                  }, 100);
+        let hasAnimatedInitial = false;
+        
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting && !hasAnimatedInitial) {
+              hasAnimatedInitial = true;
+              
+              // Trigger animation for the first campaign
+              setTimeout(() => {
+                const firstSlide = campaignsCarousel?.children[0];
+                if (firstSlide) {
+                  const progressBar = firstSlide.querySelector('.progress-bar-fill');
+                  const raisedAmount = firstSlide.querySelector('.raised-amount');
+                  
+                  if (progressBar && raisedAmount) {
+                    const targetProgress = parseFloat(progressBar.dataset.progress);
+                    const targetAmount = parseInt(raisedAmount.dataset.target);
+                    const isMobile = window.innerWidth <= 768;
+                    
+                    // Animate progress bar
+                    setTimeout(() => {
+                      if (isMobile) {
+                        progressBar.style.width = `calc(5px + ${targetProgress}% * (100% - 55px) / 100%)`;
+                      } else {
+                        progressBar.style.width = `calc(20px + ${targetProgress}% * (100% - 80px) / 100%)`;
+                      }
+                    }, 100);
+                    
+                    // Animate counter
+                    animateCounter(raisedAmount, 0, targetAmount, 1500);
+                  }
                 }
-                
-                // Animate counter
-                if (raisedAmount) {
-                  const targetValue = parseInt(raisedAmount.dataset.target);
-                  animateCounter(raisedAmount, 0, targetValue, 1500);
-                }
-              }
-            });
-          }, {
-            threshold: 0.3 // Trigger when 30% of the element is visible
+              }, 300);
+            }
           });
-          
-          observer.observe(progressSection);
-        }, 50);
+        }, {
+          threshold: 0.3 // Trigger when 30% of the element is visible
+        });
+        
+        observer.observe(progressSection);
       }
     });
     
