@@ -2306,7 +2306,7 @@
               const targetProgress = parseFloat(progressBar.dataset.progress);
               const targetAmount = parseInt(raisedAmount.dataset.target);
               const isMobile = window.innerWidth <= 768;
-              const paddingReduction = campaign.progressBarPaddingReduction || 80; // Default to 80 if not specified
+              const paddingReduction = campaign.progressBarPaddingReduction !== undefined ? campaign.progressBarPaddingReduction : 80; // Default to 80 if not specified
               
               // Animate progress bar
               setTimeout(() => {
@@ -2333,7 +2333,7 @@
           campaigns.forEach((campaign, slideIndex) => {
             const slide = campaignsCarousel.children[slideIndex];
             const milestones = slide.querySelectorAll('.trophy-marker');
-            const paddingReduction = campaign.progressBarPaddingReduction || 80;
+            const paddingReduction = campaign.progressBarPaddingReduction !== undefined ? campaign.progressBarPaddingReduction : 80;
             
             milestones.forEach((marker) => {
               const position = parseFloat(marker.dataset.position);
@@ -2423,7 +2423,7 @@
                     const targetProgress = parseFloat(progressBar.dataset.progress);
                     const targetAmount = parseInt(raisedAmount.dataset.target);
                     const isMobile = window.innerWidth <= 768;
-                    const paddingReduction = firstCampaign.progressBarPaddingReduction || 80;
+                    const paddingReduction = firstCampaign.progressBarPaddingReduction !== undefined ? firstCampaign.progressBarPaddingReduction : 80;
                     
                     // Animate progress bar
                     setTimeout(() => {
