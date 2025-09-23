@@ -2312,11 +2312,21 @@
               setTimeout(() => {
                 if (isMobile) {
                   // Mobile calculation - adjust if needed based on campaign
-                  const mobilePaddingReduction = paddingReduction > 0 ? 55 : 0;
-                  progressBar.style.width = `calc(5px + ${targetProgress}% * (100% - ${mobilePaddingReduction}px) / 100%)`;
+                  if (paddingReduction === 0) {
+                    // No padding reduction - just use percentage directly
+                    progressBar.style.width = `${targetProgress}%`;
+                  } else {
+                    const mobilePaddingReduction = 55;
+                    progressBar.style.width = `calc(5px + ${targetProgress}% * (100% - ${mobilePaddingReduction}px) / 100%)`;
+                  }
                 } else {
                   // Desktop calculation using campaign-specific padding
-                  progressBar.style.width = `calc(20px + ${targetProgress}% * (100% - ${paddingReduction}px) / 100%)`;
+                  if (paddingReduction === 0) {
+                    // No padding reduction - just use percentage directly
+                    progressBar.style.width = `${targetProgress}%`;
+                  } else {
+                    progressBar.style.width = `calc(20px + ${targetProgress}% * (100% - ${paddingReduction}px) / 100%)`;
+                  }
                 }
               }, 100);
               
@@ -2344,11 +2354,21 @@
                   adjustedPosition = Math.min(position, 70);
                 }
                 // Use campaign-specific padding reduction
-                const mobilePaddingReduction = paddingReduction > 0 ? 55 : 0;
-                marker.style.left = `calc(5px + ${adjustedPosition}% * (100% - ${mobilePaddingReduction}px) / 100%)`;
+                if (paddingReduction === 0) {
+                  // No padding - position directly at percentage
+                  marker.style.left = `${adjustedPosition}%`;
+                } else {
+                  const mobilePaddingReduction = 55;
+                  marker.style.left = `calc(5px + ${adjustedPosition}% * (100% - ${mobilePaddingReduction}px) / 100%)`;
+                }
               } else {
                 // Desktop positioning with campaign-specific padding
-                marker.style.left = `calc(20px + ${position}% * (100% - ${paddingReduction}px) / 100%)`;
+                if (paddingReduction === 0) {
+                  // No padding - position directly at percentage
+                  marker.style.left = `${position}%`;
+                } else {
+                  marker.style.left = `calc(20px + ${position}% * (100% - ${paddingReduction}px) / 100%)`;
+                }
               }
             });
           });
@@ -2428,10 +2448,20 @@
                     // Animate progress bar
                     setTimeout(() => {
                       if (isMobile) {
-                        const mobilePaddingReduction = paddingReduction > 0 ? 55 : 0;
-                        progressBar.style.width = `calc(5px + ${targetProgress}% * (100% - ${mobilePaddingReduction}px) / 100%)`;
+                        if (paddingReduction === 0) {
+                          // No padding reduction - just use percentage directly
+                          progressBar.style.width = `${targetProgress}%`;
+                        } else {
+                          const mobilePaddingReduction = 55;
+                          progressBar.style.width = `calc(5px + ${targetProgress}% * (100% - ${mobilePaddingReduction}px) / 100%)`;
+                        }
                       } else {
-                        progressBar.style.width = `calc(20px + ${targetProgress}% * (100% - ${paddingReduction}px) / 100%)`;
+                        if (paddingReduction === 0) {
+                          // No padding reduction - just use percentage directly
+                          progressBar.style.width = `${targetProgress}%`;
+                        } else {
+                          progressBar.style.width = `calc(20px + ${targetProgress}% * (100% - ${paddingReduction}px) / 100%)`;
+                        }
                       }
                     }, 100);
                     
