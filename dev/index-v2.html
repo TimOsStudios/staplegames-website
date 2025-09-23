@@ -966,22 +966,22 @@
       }
       
       .progress-bar-wrapper {
-        padding: 0 10px;
+        padding: 0 5px;
         margin: 30px 0 70px 0;
       }
       
       /* Smaller progress bar on mobile */
       .progress-track-bg {
-        left: 0;
-        right: 0;
+        left: 5px;
+        right: 5px;
         height: 20px;
         border: 2px solid var(--primary-black);
         border-radius: 10px;
       }
       
       .progress-shadow {
-        left: 0;
-        right: 0;
+        left: 5px;
+        right: 5px;
         height: 20px;
         top: 3px;
         border: 2px solid var(--primary-black);
@@ -2104,7 +2104,8 @@
               if (position > 70 && position < 100) {
                 adjustedPosition = Math.min(position, 70);
               }
-              marker.style.left = `${adjustedPosition}%`;
+              // Account for 5px padding on mobile
+              marker.style.left = `calc(5px + ${adjustedPosition}% * (100% - 10px) / 100%)`;
             } else {
               // Desktop positioning
               marker.style.left = `calc(20px + ${position}% * (100% - 40px) / 100%)`;
@@ -2199,7 +2200,8 @@
                   const isMobile = window.innerWidth <= 768;
                   setTimeout(() => {
                     if (isMobile) {
-                      progressBar.style.width = `${targetProgress}%`;
+                      // Account for 5px padding on each side on mobile
+                      progressBar.style.width = `calc(5px + ${targetProgress}% * (100% - 10px) / 100%)`;
                     } else {
                       progressBar.style.width = `calc(20px + ${targetProgress}% * (100% - 40px) / 100%)`;
                     }
