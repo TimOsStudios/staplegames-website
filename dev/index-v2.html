@@ -804,6 +804,7 @@
       max-width: 100%;
       overflow: hidden;
       margin: 0 auto;
+      padding-bottom: 40px;
     }
     
     .campaigns-carousel {
@@ -1246,19 +1247,16 @@
       font-weight: var(--font-weight-semibold); /* Rubik Semi-Bold for filter tabs */
       cursor: pointer;
       transition: var(--transition);
-      box-shadow: 0 9px 0 0 var(--shadow-gray), 0 7px 0 0 #D0D0D5;
     }
     
     .filter-tab.active {
       background: var(--brand-gold);
       transform: translateY(-2px);
-      box-shadow: 0 11px 0 0 var(--shadow-gray), 0 9px 0 0 #D0D0D5;
     }
     
     .filter-tab:hover:not(.active) {
       transform: translateY(-1px);
       background: #fff9e6;
-      box-shadow: 0 10px 0 0 var(--shadow-gray), 0 8px 0 0 #D0D0D5;
     }
     
     /* Colored filter tabs on hover */
@@ -1452,8 +1450,9 @@
         </a>
         
         <ul class="nav-menu" id="navMenu">
-          <li><div class="nav-item-wrapper"><a href="#all-games" class="nav-item">Games</a></div></li>
           <li><div class="nav-item-wrapper"><a href="#featured" class="nav-item">Featured</a></div></li>
+          <li><div class="nav-item-wrapper"><a href="#fundraising-campaign" class="nav-item">#PlayItForward</a></div></li>
+          <li><div class="nav-item-wrapper"><a href="#all-games" class="nav-item">All Games</a></div></li>
           <li><div class="nav-item-wrapper"><a href="contact.html" class="nav-item">Support</a></div></li>
         </ul>
         
@@ -1572,37 +1571,6 @@
           <a href="#all-games" class="play-button">
             View All 25+ Games →
           </a>
-        </div>
-      </div>
-    </div>
-  </section>
-  
-  <!-- Special Promo Banner -->
-  <section class="promo-banner">
-    <div class="container">
-      <div class="promo-card-wrapper">
-        <div class="promo-card-special">
-            <img src="../images/SJ_LogoTaglineHoriz_RGB.svg" alt="St. Jude Children's Research Hospital" style="width: 320px; max-width: 90%; margin: 0 auto 32px auto; display: block;">
-          <h2 class="promo-title">Help raise $1M for St. Jude!</h2>
-          
-          <p style="margin-bottom: 16px;">You raised $867,395 for St. Jude by downloading and playing our games during Ryan and Haley's 50 States in 50 Days series. Now we are extending that fundraise with a new goal to reach $1M!</p>
-          
-          <p style="margin-bottom: 16px;">On September 20, 2025 we are released a special event for Match Collector where we're donating $0.02 for every State or Stay tile collected and $0.10 for every St. Jude tile.</p>
-          
-          <p style="margin-bottom: 16px;">These St. Jude tiles are extra special – each was inspired by artwork from amazing St. Jude Patients!</p>
-          
-          <p style="margin-bottom: 24px;">You can follow the campaign or donate directly at <a href="https://stjude.org/50states" style="color: var(--brand-blue); text-decoration: underline;">stjude.org/50states</a>.</p>
-          
-          <div class="promo-badge-wrapper">
-            <a href="https://staplegames.com/match" class="promo-badge-bottom" style="text-decoration: none; cursor: pointer;">
-              <span>Play to Donate Now!</span>
-            </a>
-          </div>
-          
-          <div style="margin-top: 32px; padding-top: 24px; border-top: 2px solid rgba(0,0,0,0.1);">
-            <p style="font-weight: 600; margin-bottom: 12px;">Download to donate on <a href="https://apps.apple.com/app/match-collector/id6462309005" style="color: var(--brand-blue); font-weight: 600;">iOS</a> and <a href="https://play.google.com/store/apps/details?id=com.staplegames.matchcollector" style="color: var(--brand-green); font-weight: 600;">Android</a></p>
-              <p style="font-size: 16px; margin-bottom: 8px;"><a href="/50-stays-terms.html" style="color: var(--brand-blue); text-decoration: underline; font-weight: 500;">See full terms & details here</a></p>
-          </div>
         </div>
       </div>
     </div>
@@ -2109,7 +2077,7 @@
             completed: true
           }
         ],
-        bodyText: "Together we raised {amount} for #TeamWater through gaming! This incredible achievement provided clean water for thousands of people in need.\n\nPlayers like you downloaded Match Collector and played our special Water World event. Every download provided 1 month of clean water, and every Water Tile or Trophy unlocked added another week!\n\nThis campaign has successfully concluded. Thank you to all the creators and players who made this possible!",
+        bodyText: "Together we raised {amount} for #TeamWater through gaming! This incredible achievement provided clean water for thousands of people in need.\n\nThis campaign has successfully concluded. Thank you to all the creators and players who made this possible!",
         downloadLinks: {
           ios: "https://apps.apple.com/app/match-collector/id6462309005",
           android: "https://play.google.com/store/apps/details?id=com.staplegames.matchcollector"
