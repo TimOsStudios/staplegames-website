@@ -845,6 +845,8 @@
       position: relative;
       margin: 40px 0 80px 0;
       padding: 0 20px;
+      /* Add right padding to account for last trophy width */
+      padding-right: 60px;
     }
     
     /* Full width background track */
@@ -852,7 +854,7 @@
       position: absolute;
       top: 0;
       left: 20px;
-      right: 20px;
+      right: 60px;
       height: 28px;
       background: #E8E8ED;
       border: 3px solid var(--primary-black);
@@ -865,7 +867,7 @@
       position: absolute;
       top: 4px;
       left: 20px;
-      right: 20px;
+      right: 60px;
       height: 28px;
       background: #C8C8CD;
       border: 3px solid var(--primary-black);
@@ -968,12 +970,14 @@
       .progress-bar-wrapper {
         padding: 0 5px;
         margin: 30px 0 70px 0;
+        /* Add right padding to account for last trophy width on mobile */
+        padding-right: 50px;
       }
       
       /* Smaller progress bar on mobile */
       .progress-track-bg {
         left: 5px;
-        right: 5px;
+        right: 50px;
         height: 20px;
         border: 2px solid var(--primary-black);
         border-radius: 10px;
@@ -981,7 +985,7 @@
       
       .progress-shadow {
         left: 5px;
-        right: 5px;
+        right: 50px;
         height: 20px;
         top: 3px;
         border: 2px solid var(--primary-black);
@@ -2104,11 +2108,11 @@
               if (position > 70 && position < 100) {
                 adjustedPosition = Math.min(position, 70);
               }
-              // Account for 5px padding on mobile
-              marker.style.left = `calc(5px + ${adjustedPosition}% * (100% - 10px) / 100%)`;
+              // Account for 5px left and 50px right padding on mobile
+              marker.style.left = `calc(5px + ${adjustedPosition}% * (100% - 55px) / 100%)`;
             } else {
-              // Desktop positioning
-              marker.style.left = `calc(20px + ${position}% * (100% - 40px) / 100%)`;
+              // Desktop positioning with 20px left and 60px right padding
+              marker.style.left = `calc(20px + ${position}% * (100% - 80px) / 100%)`;
             }
           });
         };
@@ -2200,10 +2204,11 @@
                   const isMobile = window.innerWidth <= 768;
                   setTimeout(() => {
                     if (isMobile) {
-                      // Account for 5px padding on each side on mobile
-                      progressBar.style.width = `calc(5px + ${targetProgress}% * (100% - 10px) / 100%)`;
+                      // Account for 5px left and 50px right padding on mobile
+                      progressBar.style.width = `calc(5px + ${targetProgress}% * (100% - 55px) / 100%)`;
                     } else {
-                      progressBar.style.width = `calc(20px + ${targetProgress}% * (100% - 40px) / 100%)`;
+                      // Account for 20px left and 60px right padding on desktop
+                      progressBar.style.width = `calc(20px + ${targetProgress}% * (100% - 80px) / 100%)`;
                     }
                   }, 100);
                 }
