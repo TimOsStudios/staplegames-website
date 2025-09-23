@@ -940,10 +940,10 @@
     /* Raised amount display */
     .raised-amount {
       text-align: center;
-      margin-bottom: 8px;
-      font-size: 24px;
+      margin-bottom: 12px;
+      font-size: 32px;
       font-weight: var(--font-weight-bold);
-      color: var(--brand-green);
+      color: var(--brand-purple);
     }
     
     
@@ -1005,7 +1005,7 @@
       }
       
       .raised-amount {
-        font-size: 20px;
+        font-size: 26px;
       }
     }
     
@@ -1907,7 +1907,7 @@
       // Campaign data - easily swappable
       logo: "../images/SJ_LogoTaglineHoriz_RGB.svg",
       logoAlt: "St. Jude Children's Research Hospital",
-      headline: "Play to Raise $1M for St. Jude",
+      headline: "50 States & 50 Stays for St. Jude",
       goal: 1000000,
       currentAmount: 867395,
       milestones: [
@@ -1957,7 +1957,7 @@
           : `$${(milestone.amount / 1000).toFixed(0)}k`;
         
         const fullAmount = `$${milestone.amount.toLocaleString()}`;
-        const completedClass = milestone.completed ? ' style="color: var(--brand-green);"' : '';
+        const completedClass = milestone.completed ? ' style="color: var(--brand-purple);"' : '';
         
         milestonesHTML += `
           <div class="trophy-marker trophy-${index}" data-position="${milestone.position}">
@@ -1978,7 +1978,7 @@
         <img src="${config.logo}" alt="${config.logoAlt}" style="width: 320px; max-width: 90%; margin: 0 auto 24px auto; display: block;">
         
         <!-- Headline -->
-        <h2 class="promo-title" style="margin-bottom: 16px;">${config.headline}</h2>
+        <h2 class="promo-title" style="margin-bottom: 16px; text-align: center;">${config.headline}</h2>
         
         <!-- Raised Amount -->
         <p class="raised-amount" data-target="${config.currentAmount}">$0 Raised</p>
@@ -2010,18 +2010,16 @@
             <a href="${config.downloadLinks.ios}" style="color: var(--brand-blue); font-weight: 600;">iOS</a> and 
             <a href="${config.downloadLinks.android}" style="color: var(--brand-green); font-weight: 600;">Android</a>
           </p>
-          <p style="font-size: 16px; margin-bottom: 8px; text-align: center;">
-            <a href="${config.termsLink}" style="color: var(--brand-blue); text-decoration: underline; font-weight: 500;">See full terms & details here</a>
+          <p style="font-size: 16px; margin-bottom: 24px; text-align: center;">
+            <a href="${config.termsLink}" style="color: var(--brand-gray); text-decoration: underline; font-weight: 400;">See full terms & details here</a>
           </p>
         </div>
         
         <!-- CTA Button -->
-        <div style="text-align: center; margin-top: 24px;">
-          <div class="promo-badge-wrapper" style="position: relative; bottom: auto; transform: none; display: inline-block;">
-            <a href="${config.ctaButton.link}" class="promo-badge-bottom" style="text-decoration: none; cursor: pointer;">
-              <span>${config.ctaButton.text}</span>
-            </a>
-          </div>
+        <div class="promo-badge-wrapper">
+          <a href="${config.ctaButton.link}" class="promo-badge-bottom" style="text-decoration: none; cursor: pointer;">
+            <span>${config.ctaButton.text}</span>
+          </a>
         </div>
       `;
     }
