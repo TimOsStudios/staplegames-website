@@ -793,7 +793,7 @@
        ========================================== */
     
     .fundraising-progress-section {
-      padding: var(--spacing-lg) 0;
+      padding: var(--spacing-lg) 0 calc(var(--spacing-lg) + 40px) 0;
       background: var(--white);
       border-bottom: var(--border-width) solid var(--primary-black);
     }
@@ -2054,6 +2054,7 @@
           currentAmount: 867395,
           accentColor: "var(--brand-red)",
           progressBarColor: "var(--brand-gold)", // Default gold for St. Jude
+          progressBarPaddingReduction: 80, // Account for trophy spacing on desktop
         milestones: [
           {
             amount: 200000,
@@ -2098,6 +2099,7 @@
           currentAmount: 360842,
           accentColor: "var(--brand-blue)",
           progressBarColor: "var(--brand-blue)", // Blue progress bar for TeamWater
+          progressBarPaddingReduction: 0, // No padding reduction needed for single milestone at 100%
         milestones: [
           {
             amount: 360842,
@@ -2278,6 +2280,7 @@
         // Function to switch campaigns
         function switchCampaign(index) {
           currentCampaignIndex = index;
+          const campaign = campaigns[index];
           
           // Update carousel position
           const translateX = -index * 100;
@@ -2303,13 +2306,17 @@
               const targetProgress = parseFloat(progressBar.dataset.progress);
               const targetAmount = parseInt(raisedAmount.dataset.target);
               const isMobile = window.innerWidth <= 768;
+              const paddingReduction = campaign.progressBarPaddingReduction || 80; // Default to 80 if not specified
               
               // Animate progress bar
               setTimeout(() => {
                 if (isMobile) {
-                  progressBar.style.width = `calc(5px + ${targetProgress}% * (100% - 55px) / 100%)`;
+                  // Mobile calculation - adjust if needed based on campaign
+                  const mobilePaddingReduction = paddingReduction > 0 ? 55 : 0;
+                  progressBar.style.width = `calc(5px + ${targetProgress}% * (100% - ${mobilePaddingReduction}px) / 100%)`;
                 } else {
-                  progressBar.style.width = `calc(20px + ${targetProgress}% * (100% - 80px) / 100%)`;
+                  // Desktop calculation using campaign-specific padding
+                  progressBar.style.width = `calc(20px + ${targetProgress}% * (100% - ${paddingReduction}px) / 100%)`;
                 }
               }, 100);
               
@@ -2326,20 +2333,22 @@
           campaigns.forEach((campaign, slideIndex) => {
             const slide = campaignsCarousel.children[slideIndex];
             const milestones = slide.querySelectorAll('.trophy-marker');
+            const paddingReduction = campaign.progressBarPaddingReduction || 80;
             
             milestones.forEach((marker) => {
               const position = parseFloat(marker.dataset.position);
               if (isMobile) {
                 // Adjust positions for mobile to prevent overlap
                 let adjustedPosition = position;
-                if (position > 70 && position < 100) {
+                if (position > 70 && position < 100 && campaign.milestones.length > 1) {
                   adjustedPosition = Math.min(position, 70);
                 }
-                // Account for 5px left and 50px right padding on mobile
-                marker.style.left = `calc(5px + ${adjustedPosition}% * (100% - 55px) / 100%)`;
+                // Use campaign-specific padding reduction
+                const mobilePaddingReduction = paddingReduction > 0 ? 55 : 0;
+                marker.style.left = `calc(5px + ${adjustedPosition}% * (100% - ${mobilePaddingReduction}px) / 100%)`;
               } else {
-                // Desktop positioning with 20px left and 60px right padding
-                marker.style.left = `calc(20px + ${position}% * (100% - 80px) / 100%)`;
+                // Desktop positioning with campaign-specific padding
+                marker.style.left = `calc(20px + ${position}% * (100% - ${paddingReduction}px) / 100%)`;
               }
             });
           });
@@ -2405,7 +2414,8 @@
               // Trigger animation for the first campaign
               setTimeout(() => {
                 const firstSlide = campaignsCarousel?.children[0];
-                if (firstSlide) {
+                const firstCampaign = campaigns[0];
+                if (firstSlide && firstCampaign) {
                   const progressBar = firstSlide.querySelector('.progress-bar-fill');
                   const raisedAmount = firstSlide.querySelector('.raised-amount');
                   
@@ -2413,13 +2423,15 @@
                     const targetProgress = parseFloat(progressBar.dataset.progress);
                     const targetAmount = parseInt(raisedAmount.dataset.target);
                     const isMobile = window.innerWidth <= 768;
+                    const paddingReduction = firstCampaign.progressBarPaddingReduction || 80;
                     
                     // Animate progress bar
                     setTimeout(() => {
                       if (isMobile) {
-                        progressBar.style.width = `calc(5px + ${targetProgress}% * (100% - 55px) / 100%)`;
+                        const mobilePaddingReduction = paddingReduction > 0 ? 55 : 0;
+                        progressBar.style.width = `calc(5px + ${targetProgress}% * (100% - ${mobilePaddingReduction}px) / 100%)`;
                       } else {
-                        progressBar.style.width = `calc(20px + ${targetProgress}% * (100% - 80px) / 100%)`;
+                        progressBar.style.width = `calc(20px + ${targetProgress}% * (100% - ${paddingReduction}px) / 100%)`;
                       }
                     }, 100);
                     
