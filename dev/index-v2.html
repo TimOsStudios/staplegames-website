@@ -527,19 +527,6 @@
       display: inline-block;
     }
     
-    /* Level indicator decoration */
-    .section-title::before {
-      content: "LEVEL 1";
-      position: absolute;
-      top: -20px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 12px;
-      background: var(--brand-cyan);
-      padding: 2px 12px;
-      border-radius: 12px;
-      border: 2px solid var(--primary-black); /* Off-Black */
-    }
     
     .section-subtitle {
       font-size: 18px;
@@ -949,7 +936,7 @@
       margin-left: 0;
       transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
       z-index: 2;
-      box-shadow: 0 3px 0 0 rgba(0, 0, 0, 0.2);
+      /* Box shadow set inline based on progress bar color */
     }
     
     /* Trophy checkpoint markers */
@@ -1059,7 +1046,7 @@
         border: 2px solid var(--primary-black);
         border-radius: 10px;
         width: 0;
-        box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.2);
+        /* Box shadow set inline based on progress bar color */
       }
       
       /* Adjust trophy positions for mobile */
@@ -2183,7 +2170,7 @@
           <div class="progress-track-bg"></div>
           
           <!-- Filled progress -->
-          <div class="progress-bar-fill" data-progress="${progressPercentage.toFixed(2)}" style="background: ${config.progressBarColor || 'var(--brand-gold)'};"></div>
+          <div class="progress-bar-fill" data-progress="${progressPercentage.toFixed(2)}" style="background: ${config.progressBarColor || 'var(--brand-gold)'}; box-shadow: 0 3px 0 0 ${config.progressBarColor === 'var(--brand-blue)' ? '#0066CC' : config.progressBarColor === 'var(--brand-red)' ? '#CC0000' : '#D4A600'};"></div>
           
           <!-- Trophy Markers -->
           ${milestonesHTML}
