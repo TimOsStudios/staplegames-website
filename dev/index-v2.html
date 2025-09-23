@@ -2353,22 +2353,14 @@
                 if (position > 70 && position < 100 && campaign.milestones.length > 1) {
                   adjustedPosition = Math.min(position, 70);
                 }
-                // Use campaign-specific padding reduction
-                if (paddingReduction === 0) {
-                  // No padding - position directly at percentage
-                  marker.style.left = `${adjustedPosition}%`;
-                } else {
-                  const mobilePaddingReduction = 55;
-                  marker.style.left = `calc(5px + ${adjustedPosition}% * (100% - ${mobilePaddingReduction}px) / 100%)`;
-                }
+                // Mobile positioning - always use offset calculation for proper alignment
+                // Even when progressBarPaddingReduction is 0, trophies need the offset
+                const mobilePaddingReduction = 55;
+                marker.style.left = `calc(5px + ${adjustedPosition}% * (100% - ${mobilePaddingReduction}px) / 100%)`;
               } else {
-                // Desktop positioning with campaign-specific padding
-                if (paddingReduction === 0) {
-                  // No padding - position directly at percentage
-                  marker.style.left = `${position}%`;
-                } else {
-                  marker.style.left = `calc(20px + ${position}% * (100% - ${paddingReduction}px) / 100%)`;
-                }
+                // Desktop positioning - always use offset calculation for proper alignment
+                // Even when progressBarPaddingReduction is 0, trophies need the offset
+                marker.style.left = `calc(20px + ${position}% * (100% - 80px) / 100%)`;
               }
             });
           });
