@@ -2390,16 +2390,16 @@
                   adjustedPosition = Math.min(position, 70);
                 }
                 // Mobile positioning - Firefox-compatible calculation
-                const mobilePaddingReduction = 55;
-                const scaleFactor = (100 - mobilePaddingReduction) / 100;
-                const scaledPosition = adjustedPosition * scaleFactor;
-                marker.style.left = `calc(5px + ${scaledPosition}%)`;
+                // Original: calc(5px + position% * (100% - 55px) / 100%)
+                // Simplified: calc((5 - position * 0.55)px + position%)
+                const offsetAdjustment = 5 - (adjustedPosition * 0.55);
+                marker.style.left = `calc(${offsetAdjustment}px + ${adjustedPosition}%)`;
               } else {
                 // Desktop positioning - Firefox-compatible calculation
-                const desktopPaddingReduction = 80;
-                const scaleFactor = (100 - desktopPaddingReduction) / 100;
-                const scaledPosition = position * scaleFactor;
-                marker.style.left = `calc(20px + ${scaledPosition}%)`;
+                // Original: calc(20px + position% * (100% - 80px) / 100%)
+                // Simplified: calc((20 - position * 0.8)px + position%)
+                const offsetAdjustment = 20 - (position * 0.8);
+                marker.style.left = `calc(${offsetAdjustment}px + ${position}%)`;
               }
             });
           });
