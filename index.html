@@ -2346,27 +2346,22 @@
               // Animate progress bar
               setTimeout(() => {
                 if (isMobile) {
-                  // Mobile calculation - adjust if needed based on campaign
+                  // Mobile calculation
                   if (paddingReduction === 0) {
                     // No padding reduction - just use percentage directly
                     progressBar.style.width = `${targetProgress}%`;
                   } else {
-                    const mobilePaddingReduction = 55;
-                    // Firefox-compatible calc - avoid nested percentages
-                    const scaleFactor = (100 - mobilePaddingReduction) / 100;
-                    const scaledProgress = targetProgress * scaleFactor;
-                    progressBar.style.width = `calc(5px + ${scaledProgress}%)`;
+                    // Simple calculation for Firefox compatibility
+                    progressBar.style.width = `calc(${targetProgress}% - 25px)`;
                   }
                 } else {
-                  // Desktop calculation using campaign-specific padding
+                  // Desktop calculation
                   if (paddingReduction === 0) {
                     // No padding reduction - just use percentage directly
                     progressBar.style.width = `${targetProgress}%`;
                   } else {
-                    // Firefox-compatible calc - avoid nested percentages
-                    const scaleFactor = (100 - paddingReduction) / 100;
-                    const scaledProgress = targetProgress * scaleFactor;
-                    progressBar.style.width = `calc(20px + ${scaledProgress}%)`;
+                    // Simple calculation for Firefox compatibility
+                    progressBar.style.width = `calc(${targetProgress}% - 20px)`;
                   }
                 }
               }, 100);
@@ -2485,21 +2480,16 @@
                           // No padding reduction - just use percentage directly
                           progressBar.style.width = `${targetProgress}%`;
                         } else {
-                          const mobilePaddingReduction = 55;
-                          // Firefox-compatible calc - avoid nested percentages
-                          const scaleFactor = (100 - mobilePaddingReduction) / 100;
-                          const scaledProgress = targetProgress * scaleFactor;
-                          progressBar.style.width = `calc(5px + ${scaledProgress}%)`;
+                          // Simple calculation for Firefox compatibility
+                          progressBar.style.width = `calc(${targetProgress}% - 25px)`;
                         }
                       } else {
                         if (paddingReduction === 0) {
                           // No padding reduction - just use percentage directly
                           progressBar.style.width = `${targetProgress}%`;
                         } else {
-                          // Firefox-compatible calc - avoid nested percentages
-                          const scaleFactor = (100 - paddingReduction) / 100;
-                          const scaledProgress = targetProgress * scaleFactor;
-                          progressBar.style.width = `calc(20px + ${scaledProgress}%)`;
+                          // Simple calculation for Firefox compatibility
+                          progressBar.style.width = `calc(${targetProgress}% - 20px)`;
                         }
                       }
                     }, 100);
