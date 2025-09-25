@@ -2389,14 +2389,17 @@
                 if (position > 70 && position < 100 && campaign.milestones.length > 1) {
                   adjustedPosition = Math.min(position, 70);
                 }
-                // Mobile positioning - always use offset calculation for proper alignment
-                // Even when progressBarPaddingReduction is 0, trophies need the offset
+                // Mobile positioning - Firefox-compatible calculation
                 const mobilePaddingReduction = 55;
-                marker.style.left = `calc(5px + ${adjustedPosition}% * (100% - ${mobilePaddingReduction}px) / 100%)`;
+                const scaleFactor = (100 - mobilePaddingReduction) / 100;
+                const scaledPosition = adjustedPosition * scaleFactor;
+                marker.style.left = `calc(5px + ${scaledPosition}%)`;
               } else {
-                // Desktop positioning - always use offset calculation for proper alignment
-                // Even when progressBarPaddingReduction is 0, trophies need the offset
-                marker.style.left = `calc(20px + ${position}% * (100% - 80px) / 100%)`;
+                // Desktop positioning - Firefox-compatible calculation
+                const desktopPaddingReduction = 80;
+                const scaleFactor = (100 - desktopPaddingReduction) / 100;
+                const scaledPosition = position * scaleFactor;
+                marker.style.left = `calc(20px + ${scaledPosition}%)`;
               }
             });
           });
