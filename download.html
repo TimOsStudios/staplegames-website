@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KBFQ2R1TS4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-KBFQ2R1TS4');
+  </script>
+
+  <!-- Primary Meta Tags -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Download Staple Games - Simple. Clean. Fun.</title>
+  <meta name="title" content="Download Staple Games - Simple. Clean. Fun.">
+  <meta name="description" content="Download our collection of puzzle, word, and card games. Available on iOS and Android.">
+  <meta name="robots" content="index, follow">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://staplegames.com/download">
+  <meta property="og:title" content="Download Staple Games">
+  <meta property="og:description" content="Download our collection of puzzle, word, and card games. Simple. Clean. Fun.">
+  <meta property="og:image" content="https://staplegames.com/og-image.jpg">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://staplegames.com/download">
+  <meta property="twitter:title" content="Download Staple Games">
+  <meta property="twitter:description" content="Download our collection of puzzle, word, and card games. Simple. Clean. Fun.">
+  <meta property="twitter:image" content="https://staplegames.com/og-image.jpg">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="images/sg-logo.svg">
+  <link rel="apple-touch-icon" href="https://staplegames.com/og-image.jpg">
+  
+  <style>
+    :root {
+      --primary-blue: #007AFF;
+      --primary-purple: #af52de;
+      --primary-green: #0F9D58;
+      --text-primary: #1D1D1F;
+      --text-secondary: #86868B;
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #F5F5F7;
+      --border-color: #E5E5E7;
+      --shadow-light: 0 2px 8px rgba(0,0,0,0.08);
+      --shadow-medium: 0 4px 16px rgba(0,0,0,0.12);
+      --border-radius: 16px;
+      --border-radius-large: 24px;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, 
+        rgba(175, 82, 222, 0.15) 0%, 
+        rgba(0, 122, 255, 0.1) 25%, 
+        rgba(245, 245, 247, 1) 50%, 
+        rgba(15, 157, 88, 0.1) 75%, 
+        rgba(175, 82, 222, 0.15) 100%);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    .redirect-container {
+      text-align: center;
+      max-width: 500px;
+      width: 100%;
+    }
+    
+    .logo {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 24px;
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    h1 {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+    }
+    
+    .tagline {
+      font-size: 20px;
+      font-weight: 500;
+      background: linear-gradient(135deg, var(--primary-purple) 0%, var(--primary-blue) 50%, var(--primary-green) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 16px;
+    }
+    
+    .description {
+      font-size: 17px;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+    
+    .spinner {
+      margin: 20px auto;
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(175, 82, 222, 0.2);
+      border-top-color: var(--primary-purple);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .redirecting-text {
+      font-size: 16px;
+      color: var(--text-secondary);
+      margin-top: 16px;
+    }
+    
+    /* Developer card for desktop */
+    .developer-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: var(--border-radius-large);
+      padding: 48px;
+      box-shadow: var(--shadow-medium);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      max-width: 600px;
+      margin: 0 auto;
+      animation: fadeIn 0.6s ease-out;
+      display: none;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .developer-card-content {
+      text-align: center;
+    }
+    
+    .developer-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+    
+    .developer-logo {
+      width: 100px;
+      height: 100px;
+    }
+    
+    .developer-info h2 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+    
+    .developer-tagline {
+      font-size: 20px;
+      font-weight: 500;
+      background: linear-gradient(135deg, var(--primary-purple) 0%, var(--primary-blue) 50%, var(--primary-green) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .developer-description {
+      font-size: 16px;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+    
+    .games-showcase {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    
+    .game-icon-small {
+      width: 60px;
+      height: 60px;
+      border-radius: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease;
+    }
+    
+    .game-icon-small:hover {
+      transform: scale(1.1);
+    }
+    
+    .store-links {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .store-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 14px 24px;
+      color: white;
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+    
+    .store-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    .store-link.ios {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    .store-link.ios:hover {
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
+    
+    .store-link.android {
+      background: linear-gradient(135deg, #0F9D58 0%, #4285F4 100%);
+    }
+    
+    .store-link.android:hover {
+      box-shadow: 0 6px 20px rgba(15, 157, 88, 0.4);
+    }
+    
+    .store-link svg {
+      width: 20px;
+      height: 20px;
+    }
+    
+    .mobile-redirect {
+      display: block;
+    }
+    
+    .footer-note {
+      margin-top: 32px;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+    
+    .footer-note a {
+      color: var(--primary-purple);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .footer-note a:hover {
+      text-decoration: underline;
+    }
+    
+    @media (max-width: 768px) {
+      .developer-card {
+        padding: 32px 24px;
+      }
+      
+      h1 {
+        font-size: 32px;
+      }
+      
+      .developer-info h2 {
+        font-size: 28px;
+      }
+      
+      .games-showcase {
+        gap: 12px;
+      }
+      
+      .game-icon-small {
+        width: 50px;
+        height: 50px;
+      }
+    }
+  </style>
+  
+  <script>
+    // Function to detect user's operating system
+    function detectOS() {
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      const platform = navigator.platform;
+      
+      // iOS detection
+      if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        return 'ios';
+      }
+      
+      // iOS detection for iPad on iOS 13+
+      if (platform === 'MacIntel' && navigator.maxTouchPoints > 1) {
+        return 'ios';
+      }
+      
+      // Android detection
+      if (/android/i.test(userAgent)) {
+        return 'android';
+      }
+      
+      // Windows Phone detection
+      if (/windows phone/i.test(userAgent)) {
+        return 'windows_phone';
+      }
+      
+      // Desktop detection
+      if (/Mac|Win|Linux/i.test(platform)) {
+        return 'desktop';
+      }
+      
+      return 'unknown';
+    }
+    
+    // Handle redirect based on device
+    window.addEventListener('DOMContentLoaded', function() {
+      const os = detectOS();
+      const iosUrl = 'https://apps.apple.com/developer/staple-games/id1454538415';
+      const androidUrl = 'https://play.google.com/store/apps/developer?id=Staple+Games';
+      
+      console.log('Detected OS:', os);
+      
+      if (os === 'ios') {
+        // Send analytics event
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'redirect', {
+            event_category: 'download_redirect',
+            event_label: 'iOS - Developer Page',
+            transport_type: 'beacon'
+          });
+        }
+        
+        // Show loading state briefly then redirect
+        document.querySelector('.mobile-redirect').style.display = 'block';
+        document.querySelector('.developer-card').style.display = 'none';
+        
+        setTimeout(() => {
+          window.location.replace(iosUrl);
+        }, 800);
+        
+      } else if (os === 'android') {
+        // Send analytics event
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'redirect', {
+            event_category: 'download_redirect',
+            event_label: 'Android - Developer Page',
+            transport_type: 'beacon'
+          });
+        }
+        
+        // Show loading state briefly then redirect
+        document.querySelector('.mobile-redirect').style.display = 'block';
+        document.querySelector('.developer-card').style.display = 'none';
+        
+        setTimeout(() => {
+          window.location.replace(androidUrl);
+        }, 800);
+        
+      } else {
+        // Desktop or unknown - show developer card
+        document.querySelector('.mobile-redirect').style.display = 'none';
+        document.querySelector('.developer-card').style.display = 'block';
+        
+        // Track page view
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'page_view', {
+            event_category: 'download_landing',
+            event_label: 'Desktop - Developer Page',
+            value: 1
+          });
+        }
+      }
+      
+      // Add click tracking to store links
+      document.querySelectorAll('.store-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+          const store = this.classList.contains('ios') ? 'App Store' : 'Google Play';
+          
+          // Send Google Analytics event
+          if (typeof gtag !== 'undefined') {
+            gtag('event', 'click', {
+              event_category: 'download_desktop',
+              event_label: `${store} - Developer Page`,
+              transport_type: 'beacon'
+            });
+          }
+        });
+      });
+    });
+  </script>
+</head>
+<body>
+  <!-- Mobile redirect loading state -->
+  <div class="redirect-container mobile-redirect">
+    <img src="images/sg-logo.svg" alt="Staple Games" class="logo">
+    <h1>Staple Games</h1>
+    <p class="tagline">Simple. Clean. Fun.</p>
+    <div class="spinner"></div>
+    <p class="redirecting-text">Redirecting to your app store...</p>
+  </div>
+  
+  <!-- Desktop developer card -->
+  <div class="developer-card">
+    <div class="developer-card-content">
+      <div class="developer-header">
+        <img src="images/sg-logo.svg" alt="Staple Games" class="developer-logo">
+        <div class="developer-info">
+          <h2>Staple Games</h2>
+          <p class="developer-tagline">Simple. Clean. Fun.</p>
+        </div>
+      </div>
+      
+      <p class="developer-description">
+        Discover our collection of beautifully designed puzzle, word, and card games. From Match Collector to Word Gems, each game is crafted with care for a delightful gaming experience.
+      </p>
+      
+      <!-- Showcase some game icons -->
+      <div class="games-showcase">
+        <img src="images/app-icons/icon-word-gems.jpeg" alt="Word Gems" class="game-icon-small" title="Word Gems">
+        <img src="images/app-icons/icon-pyramid-solitaire.jpeg" alt="Pyramid Solitaire" class="game-icon-small" title="Pyramid Solitaire">
+        <img src="images/app-icons/icon-word-search.jpeg" alt="Word Search" class="game-icon-small" title="Word Search">
+        <img src="images/app-icons/icon-pair-10.jpeg" alt="Pair 10" class="game-icon-small" title="Pair 10">
+        <img src="images/app-icons/icon-spades.jpeg" alt="Spades" class="game-icon-small" title="Spades">
+      </div>
+      
+      <div class="store-links">
+        <a href="https://apps.apple.com/developer/staple-games/id1454538415" class="store-link ios">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+          </svg>
+          View on App Store
+        </a>
+        <a href="https://play.google.com/store/apps/developer?id=Staple+Games" class="store-link android">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M3 20.5v-17c0-.59.34-1.11.84-1.35L13.69 12l-9.85 9.85c-.5-.25-.84-.76-.84-1.35m13.81-5.38L6.05 21.34l8.49-8.49 2.27 2.27m3.35-4.31c.34.27.59.69.59 1.19s-.25.92-.59 1.19l-2.06 1.19-2.48-2.48 2.48-2.48 2.06 1.39M6.05 2.66L16.81 8.88l-2.27 2.27L6.05 2.66z"/>
+          </svg>
+          View on Google Play
+        </a>
+      </div>
+      
+      <div class="footer-note">
+        <p>Visit our homepage at <a href="/">staplegames.com</a></p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
