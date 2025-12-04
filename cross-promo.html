@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>More Games from Staple Games</title>
+  
+  <style>
+    :root {
+      --primary-blue: #007AFF;
+      --primary-purple: #af52de;
+      --primary-green: #0F9D58;
+      --text-primary: #1D1D1F;
+      --text-secondary: #86868B;
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #F5F5F7;
+      --border-color: #E5E5E7;
+      --shadow-light: 0 2px 8px rgba(0,0,0,0.08);
+      --shadow-medium: 0 4px 16px rgba(0,0,0,0.12);
+      --border-radius: 16px;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+      background: linear-gradient(180deg, 
+        rgba(175, 82, 222, 0.08) 0%, 
+        rgba(245, 245, 247, 1) 30%, 
+        rgba(245, 245, 247, 1) 70%,
+        rgba(0, 122, 255, 0.08) 100%);
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding: 20px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      /* Prevent pull-to-refresh in webview */
+      overscroll-behavior: none;
+    }
+    
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 24px;
+      animation: fadeIn 0.4s ease-out;
+    }
+    
+    .header-logo {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 12px;
+    }
+    
+    .header h1 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+    
+    .header p {
+      font-size: 15px;
+      color: var(--text-secondary);
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .apps-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .app-card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: var(--border-radius);
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: var(--shadow-light);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      animation: slideUp 0.4s ease-out backwards;
+    }
+    
+    .app-card:nth-child(1) { animation-delay: 0.05s; }
+    .app-card:nth-child(2) { animation-delay: 0.1s; }
+    .app-card:nth-child(3) { animation-delay: 0.15s; }
+    .app-card:nth-child(4) { animation-delay: 0.2s; }
+    .app-card:nth-child(5) { animation-delay: 0.25s; }
+    
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .app-card:active {
+      transform: scale(0.98);
+      box-shadow: var(--shadow-medium);
+    }
+    
+    .app-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      flex-shrink: 0;
+    }
+    
+    .app-info {
+      flex: 1;
+      min-width: 0;
+    }
+    
+    .app-name {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 2px;
+    }
+    
+    .app-tagline {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+    
+    .app-badge {
+      flex-shrink: 0;
+      background: linear-gradient(135deg, var(--primary-purple) 0%, var(--primary-blue) 100%);
+      color: white;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: 20px;
+    }
+    
+    .no-apps {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-secondary);
+    }
+    
+    .no-apps p {
+      font-size: 16px;
+    }
+    
+    /* Debug info - hidden by default */
+    .debug-info {
+      margin-top: 24px;
+      padding: 12px;
+      background: rgba(0,0,0,0.05);
+      border-radius: 8px;
+      font-size: 12px;
+      font-family: monospace;
+      color: var(--text-secondary);
+      display: none;
+    }
+    
+    .debug-info.visible {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="images/sg-logo.svg" alt="Staple Games" class="header-logo">
+      <h1>More Games You'll Love</h1>
+      <p>From Staple Games</p>
+    </div>
+    
+    <div class="apps-grid" id="appsGrid">
+      <!-- Apps will be injected here by JavaScript -->
+    </div>
+    
+    <div class="no-apps" id="noApps" style="display: none;">
+      <p>No games to display</p>
+    </div>
+    
+    <div class="debug-info" id="debugInfo"></div>
+  </div>
+
+  <script>
+    // =============================================================================
+    // APP DATABASE - Add new apps here
+    // =============================================================================
+    const APPS_DATABASE = {
+      'word-gems': {
+        name: 'Word Gems',
+        tagline: 'Swipe letters to find hidden words',
+        icon: 'images/app-icons/icon-word-gems.jpeg',
+        iosUrl: 'https://apps.apple.com/app/word-gems-puzzle/id1590636083',
+        androidUrl: 'https://play.google.com/store/apps/details?id=com.staplegames.wordgems'
+      },
+      'pyramid-solitaire': {
+        name: 'Pyramid Solitaire',
+        tagline: 'Classic card game with a twist',
+        icon: 'images/app-icons/icon-pyramid-solitaire.jpeg',
+        iosUrl: 'https://apps.apple.com/app/pyramid-solitaire-card-game/id1454538416',
+        androidUrl: 'https://play.google.com/store/apps/details?id=com.staplegames.pyramidsolitaire'
+      },
+      'word-search': {
+        name: 'Word Search',
+        tagline: 'Find words in the puzzle grid',
+        icon: 'images/app-icons/icon-word-search.jpeg',
+        iosUrl: 'https://apps.apple.com/app/word-search-puzzle-game/id1533642039',
+        androidUrl: 'https://play.google.com/store/apps/details?id=com.staplegames.wordsearch'
+      },
+      'pair-10': {
+        name: 'Pair 10',
+        tagline: 'Match numbers that add up to 10',
+        icon: 'images/app-icons/icon-pair-10.jpeg',
+        iosUrl: 'https://apps.apple.com/app/pair-10-number-puzzle/id1601916424',
+        androidUrl: 'https://play.google.com/store/apps/details?id=com.staplegames.pair10'
+      },
+      'spades': {
+        name: 'Spades',
+        tagline: 'Classic trick-taking card game',
+        icon: 'images/app-icons/icon-spades.jpeg',
+        iosUrl: 'https://apps.apple.com/app/spades-card-game/id1609081291',
+        androidUrl: 'https://play.google.com/store/apps/details?id=com.staplegames.spades'
+      }
+    };
+
+    // =============================================================================
+    // URL PARAMETER PARSING
+    // =============================================================================
+    function getUrlParams() {
+      const params = new URLSearchParams(window.location.search);
+      return {
+        // Comma-separated list of app IDs to show (shows all if not specified)
+        apps: params.get('apps') ? params.get('apps').split(',').map(s => s.trim()) : null,
+        // Comma-separated list of app IDs to exclude (e.g., the current app)
+        exclude: params.get('exclude') ? params.get('exclude').split(',').map(s => s.trim()) : [],
+        // Platform: 'ios' or 'android' - determines which store links to use
+        platform: params.get('platform') || 'ios',
+        // Show debug info
+        debug: params.get('debug') === 'true'
+      };
+    }
+
+    // =============================================================================
+    // RENDER APPS
+    // =============================================================================
+    function renderApps() {
+      const params = getUrlParams();
+      const grid = document.getElementById('appsGrid');
+      const noApps = document.getElementById('noApps');
+      const debugInfo = document.getElementById('debugInfo');
+      
+      console.log('bderr: Cross-promo params:', params);
+      
+      // Show debug info if requested
+      if (params.debug) {
+        debugInfo.classList.add('visible');
+        debugInfo.textContent = `params: ${JSON.stringify(params, null, 2)}\navailable apps: ${Object.keys(APPS_DATABASE).join(', ')}`;
+      }
+      
+      // Determine which apps to show
+      let appIds;
+      if (params.apps) {
+        // Show only specified apps
+        appIds = params.apps.filter(id => APPS_DATABASE[id]);
+        console.log('bderr: Showing specified apps:', appIds);
+      } else {
+        // Show all apps
+        appIds = Object.keys(APPS_DATABASE);
+        console.log('bderr: Showing all apps');
+      }
+      
+      // Apply exclusions
+      appIds = appIds.filter(id => !params.exclude.includes(id));
+      console.log('bderr: After exclusions:', appIds);
+      
+      // Handle no apps case
+      if (appIds.length === 0) {
+        console.log('bderr: No apps to display');
+        grid.style.display = 'none';
+        noApps.style.display = 'block';
+        return;
+      }
+      
+      // Render app cards
+      grid.innerHTML = appIds.map(id => {
+        const app = APPS_DATABASE[id];
+        const storeUrl = params.platform === 'android' ? app.androidUrl : app.iosUrl;
+        
+        return `
+          <a href="${storeUrl}" class="app-card" data-app-id="${id}">
+            <img src="${app.icon}" alt="${app.name}" class="app-icon">
+            <div class="app-info">
+              <div class="app-name">${app.name}</div>
+              <div class="app-tagline">${app.tagline}</div>
+            </div>
+            <span class="app-badge">GET</span>
+          </a>
+        `;
+      }).join('');
+      
+      console.log('bderr: Rendered', appIds.length, 'app cards');
+    }
+
+    // =============================================================================
+    // INIT
+    // =============================================================================
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('bderr: Cross-promo page loaded');
+      renderApps();
+    });
+  </script>
+</body>
+</html>
+
