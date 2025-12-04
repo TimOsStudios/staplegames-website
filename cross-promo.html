@@ -240,6 +240,52 @@
     };
 
     // =============================================================================
+    // APPSFLYER ATTRIBUTION CONFIG
+    // =============================================================================
+    const APPSFLYER_CONFIG = {
+      attributionEndpoint: 'https://app.appsflyer.com/'
+    };
+
+    // Extract app ID from store URL for AppsFlyer
+    function extractAppId(url, platform) {
+      if (platform === 'ios') {
+        // Extract iOS app ID (e.g., id1639588528 -> 1639588528)
+        const match = url.match(/\/id(\d+)/);
+        return match ? `id${match[1]}` : null;
+      } else {
+        // Extract Android package name
+        const match = url.match(/id=([^&]+)/);
+        return match ? match[1] : null;
+      }
+    }
+
+    // Send attribution data to AppsFlyer in background
+    async function sendAppsFlyerAttribution(appId, appName, platform, siteId) {
+      const clickId = `crosspromo_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      
+      // Use provided siteId or default
+      const afSiteId = siteId || 'staplegames-crosspromo';
+      
+      // Build attribution URL
+      const attributionUrl = `${APPSFLYER_CONFIG.attributionEndpoint}` +
+        `${encodeURIComponent(appId)}?` +
+        `c=${encodeURIComponent('in_app_cross_promo')}` +
+        `&pid=${encodeURIComponent('sg_crosspromo')}` +
+        `&click_id=${encodeURIComponent(clickId)}` +
+        `&redirect=false` +
+        `&af_siteid=${encodeURIComponent(afSiteId)}` +
+        `&af_ad=${encodeURIComponent(appName)}` +
+        `&af_sub1=${encodeURIComponent(platform)}`;
+      
+      console.log('bderr: AppsFlyer attribution URL:', attributionUrl);
+      
+      // Send attribution request (non-blocking)
+      fetch(attributionUrl, { method: 'GET', mode: 'no-cors' })
+        .then(() => console.log('bderr: AppsFlyer attribution sent for', appName))
+        .catch(err => console.log('bderr: AppsFlyer attribution error:', err));
+    }
+
+    // =============================================================================
     // URL PARAMETER PARSING
     // =============================================================================
     function getUrlParams() {
@@ -251,6 +297,8 @@
         exclude: params.get('exclude') ? params.get('exclude').split(',').map(s => s.trim()) : [],
         // Platform: 'ios' or 'android' - determines which store links to use
         platform: params.get('platform') || 'ios',
+        // Custom site_id for AppsFlyer attribution (overrides default)
+        site_id: params.get('site_id') || null,
         // Show debug info
         debug: params.get('debug') === 'true'
       };
@@ -326,11 +374,46 @@
     }
 
     // =============================================================================
+    // ATTACH CLICK HANDLERS FOR ATTRIBUTION
+    // =============================================================================
+    function attachClickHandlers() {
+      const params = getUrlParams();
+      const appCards = document.querySelectorAll('.app-card');
+      
+      appCards.forEach(card => {
+        card.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          const appId = this.dataset.appId;
+          const app = APPS_DATABASE[appId];
+          const storeUrl = this.href;
+          const afAppId = extractAppId(storeUrl, params.platform);
+          
+          console.log('bderr: App clicked:', appId, 'Store URL:', storeUrl, 'AF App ID:', afAppId);
+          
+          // Send AppsFlyer attribution in background
+          if (afAppId) {
+            sendAppsFlyerAttribution(afAppId, app.name, params.platform, params.site_id);
+          }
+          
+          // Small delay to allow attribution request to fire, then navigate
+          setTimeout(() => {
+            console.log('bderr: Navigating to store:', storeUrl);
+            window.location.href = storeUrl;
+          }, 100);
+        });
+      });
+      
+      console.log('bderr: Attached click handlers to', appCards.length, 'app cards');
+    }
+
+    // =============================================================================
     // INIT
     // =============================================================================
     document.addEventListener('DOMContentLoaded', function() {
       console.log('bderr: Cross-promo page loaded');
       renderApps();
+      attachClickHandlers();
     });
   </script>
 </body>
