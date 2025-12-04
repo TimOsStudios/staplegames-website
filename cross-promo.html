@@ -203,38 +203,38 @@
     // =============================================================================
     const APPS_DATABASE = {
       'word-gems': {
-        name: 'Word Gems',
+        name: 'Word Gems™',
         tagline: 'Swipe letters to find hidden words',
         icon: 'images/app-icons/icon-word-gems.jpeg',
-        iosUrl: 'itms-apps://itunes.apple.com/app/id1590636083',
+        iosUrl: 'itms-apps://itunes.apple.com/app/id1639588528',
         androidUrl: 'https://play.google.com/store/apps/details?id=com.staplegames.wordgems'
       },
       'pyramid-solitaire': {
         name: 'Pyramid Solitaire',
         tagline: 'Classic card game with a twist',
         icon: 'images/app-icons/icon-pyramid-solitaire.jpeg',
-        iosUrl: 'itms-apps://itunes.apple.com/app/id1454538416',
-        androidUrl: 'https://play.google.com/store/apps/details?id=com.staplegames.pyramidsolitaire'
+        iosUrl: 'itms-apps://itunes.apple.com/app/id1507224589',
+        androidUrl: null // iOS only
       },
       'word-search': {
         name: 'Word Search',
         tagline: 'Find words in the puzzle grid',
         icon: 'images/app-icons/icon-word-search.jpeg',
-        iosUrl: 'itms-apps://itunes.apple.com/app/id1533642039',
+        iosUrl: 'itms-apps://itunes.apple.com/app/id1643013597',
         androidUrl: 'https://play.google.com/store/apps/details?id=com.staplegames.wordsearch'
       },
       'pair-10': {
         name: 'Pair 10',
         tagline: 'Match numbers that add up to 10',
         icon: 'images/app-icons/icon-pair-10.jpeg',
-        iosUrl: 'itms-apps://itunes.apple.com/app/id1601916424',
-        androidUrl: 'https://play.google.com/store/apps/details?id=com.staplegames.pair10'
+        iosUrl: 'itms-apps://itunes.apple.com/app/id6739227177',
+        androidUrl: 'https://play.google.com/store/apps/details?id=com.staplegames.numbers'
       },
       'spades': {
         name: 'Spades',
         tagline: 'Classic trick-taking card game',
         icon: 'images/app-icons/icon-spades.jpeg',
-        iosUrl: 'itms-apps://itunes.apple.com/app/id1609081291',
+        iosUrl: 'itms-apps://itunes.apple.com/app/id6447909127',
         androidUrl: 'https://play.google.com/store/apps/details?id=com.staplegames.spades'
       }
     };
@@ -288,6 +288,14 @@
       // Apply exclusions
       appIds = appIds.filter(id => !params.exclude.includes(id));
       console.log('bderr: After exclusions:', appIds);
+      
+      // Filter out apps that don't have a URL for the selected platform
+      appIds = appIds.filter(id => {
+        const app = APPS_DATABASE[id];
+        const url = params.platform === 'android' ? app.androidUrl : app.iosUrl;
+        return url !== null;
+      });
+      console.log('bderr: After platform filter:', appIds);
       
       // Handle no apps case
       if (appIds.length === 0) {
