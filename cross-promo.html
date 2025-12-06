@@ -202,40 +202,187 @@
     // APP DATABASE - Add new apps here
     // =============================================================================
     const APPS_DATABASE = {
-      'word-gems': {
-        name: 'Word Gems™',
-        tagline: 'Swipe letters to find hidden words',
-        icon: 'images/app-icons/icon-word-gems.jpeg',
-        iosUrl: 'https://apps.apple.com/app/id1639588528',
-        androidUrl: 'https://play.google.com/store/apps/details?id=com.staplegames.wordgems'
+      // Featured Games
+      'match-collector': {
+        name: 'Match Collector',
+        tagline: 'A colorful and addictive match-3 puzzle game',
+        icon: 'https://cdn.bdz5.com/CrossPromo/matchcollector_icon.png',
+        iosUrl: 'https://apps.apple.com/app/id6462309005',
+        androidUrl: 'https://play.google.com/store/apps/details?id=com.staplegames.matchcollector'
       },
-      'pyramid-solitaire': {
-        name: 'Pyramid Solitaire',
-        tagline: 'Classic card game with a twist',
-        icon: 'images/app-icons/icon-pyramid-solitaire.jpeg',
-        iosUrl: 'https://apps.apple.com/app/id1507224589',
-        androidUrl: null // iOS only
+      'word-horizons': {
+        name: 'Word Horizons',
+        tagline: 'Expand your vocabulary in this word puzzle adventure',
+        icon: 'https://cdn.bdz5.com/CrossPromo/wordhorizons_icon.png',
+        iosUrl: 'https://apps.apple.com/app/id6444349473',
+        androidUrl: 'https://play.google.com/store/apps/details?id=com.staplegames.wordhorizons'
       },
-      'word-search': {
-        name: 'Word Search',
-        tagline: 'Find words in the puzzle grid',
-        icon: 'images/app-icons/icon-word-search.jpeg',
-        iosUrl: 'https://apps.apple.com/app/id1643013597',
-        androidUrl: 'https://play.google.com/store/apps/details?id=com.staplegames.wordsearch'
+      'dice-merge': {
+        name: 'Dice Merge',
+        tagline: 'The perfect puzzle combination of block and merge',
+        icon: 'https://cdn.bdz5.com/CrossPromo/dice_icon.png',
+        iosUrl: 'https://apps.apple.com/app/id1663958329',
+        androidUrl: 'https://play.google.com/store/apps/details?id=com.staplegames.dice'
+      },
+      // Puzzle Games
+      'tile-collector': {
+        name: 'Tile Collector',
+        tagline: 'Match and collect beautiful tiles',
+        icon: 'https://cdn.bdz5.com/CrossPromo/tilecollector_icon.png',
+        iosUrl: 'https://apps.apple.com/app/id6449299885',
+        androidUrl: 'https://play.google.com/store/apps/details?id=com.staplegames.tilecollector'
+      },
+      'block-puzzle-classic': {
+        name: 'Block Puzzle Classic',
+        tagline: 'Classic block puzzle fun',
+        icon: 'https://cdn.bdz5.com/CrossPromo/blocksClassicSG_icon.png',
+        iosUrl: 'https://apps.apple.com/app/id1572892132',
+        androidUrl: 'https://play.google.com/store/apps/details?id=com.staplegames.blocksClassicSGGP'
+      },
+      'sudoku': {
+        name: 'Sudoku',
+        tagline: 'Classic number puzzle',
+        icon: 'https://cdn.bdz5.com/CrossPromo/sudokuSG_icon.png',
+        iosUrl: 'https://apps.apple.com/app/id1561193287',
+        androidUrl: 'https://play.google.com/store/apps/details?id=com.staplegames.sudokuClassicGP'
+      },
+      'block-sudoku': {
+        name: 'Block Sudoku',
+        tagline: 'Block puzzle meets sudoku',
+        icon: 'https://cdn.bdz5.com/CrossPromo/blocksSudokuSG_icon.png',
+        iosUrl: 'https://apps.apple.com/app/id1566174072',
+        androidUrl: 'https://play.google.com/store/apps/details?id=com.staplegames.blocksSudokuSGGP'
+      },
+      'block-wood': {
+        name: 'Block Wood',
+        tagline: 'Relaxing wooden block puzzle',
+        icon: 'https://cdn.bdz5.com/CrossPromo/blocksWood_icon.png',
+        iosUrl: 'https://apps.apple.com/app/id1630975482',
+        androidUrl: 'https://play.google.com/store/apps/details?id=com.staplegames.blocksWood'
+      },
+      'sagadoku': {
+        name: 'Sagadoku',
+        tagline: 'Sudoku adventure game',
+        icon: 'https://cdn.bdz5.com/CrossPromo/sagadoku_icon.png',
+        iosUrl: 'https://apps.apple.com/app/id1612649783',
+        androidUrl: 'https://play.google.com/store/apps/details?id=com.staplegames.sagadoku'
+      },
+      'block-match': {
+        name: 'Block Match',
+        tagline: 'Match blocks to clear the board',
+        icon: 'https://cdn.bdz5.com/CrossPromo/blockmatch_icon.png',
+        iosUrl: 'https://apps.apple.com/app/id6742160377',
+        androidUrl: 'https://play.google.com/store/apps/details?id=com.staplegames.blockmatch'
+      },
+      'sort-collector': {
+        name: 'Sort Collector',
+        tagline: 'Sort and collect colorful items',
+        icon: 'https://cdn.bdz5.com/CrossPromo/sortcollector_icon.png',
+        iosUrl: 'https://apps.apple.com/app/id6476427887',
+        androidUrl: 'https://play.google.com/store/apps/details?id=com.staplegames.sortcollector'
       },
       'pair-10': {
         name: 'Pair 10',
         tagline: 'Match numbers that add up to 10',
-        icon: 'images/app-icons/icon-pair-10.jpeg',
+        icon: 'https://cdn.bdz5.com/CrossPromo/pair10_icon.png',
         iosUrl: 'https://apps.apple.com/app/id6739227177',
         androidUrl: 'https://play.google.com/store/apps/details?id=com.staplegames.numbers'
+      },
+      // Card Games
+      'spider-solitaire': {
+        name: 'Spider Solitaire',
+        tagline: 'Classic spider solitaire card game',
+        icon: 'https://cdn.bdz5.com/CrossPromo/spiderSolitaire_icon.png',
+        iosUrl: 'https://apps.apple.com/app/id1507224245',
+        androidUrl: 'https://play.google.com/store/apps/details?id=com.staplegames.spiderSolitaireGP'
+      },
+      'freecell-solitaire': {
+        name: 'FreeCell Solitaire',
+        tagline: 'Strategic solitaire card game',
+        icon: 'https://cdn.bdz5.com/CrossPromo/freecellSolitaire_icon.png',
+        iosUrl: 'https://apps.apple.com/app/id1506267119',
+        androidUrl: 'https://play.google.com/store/apps/details?id=com.staplegames.freecellSolitaireGP'
+      },
+      'hearts': {
+        name: 'Hearts',
+        tagline: 'Classic trick-taking card game',
+        icon: 'https://cdn.bdz5.com/CrossPromo/hearts_icon.png',
+        iosUrl: 'https://apps.apple.com/app/id6744656403',
+        androidUrl: 'https://play.google.com/store/apps/details?id=com.staplegames.hearts'
       },
       'spades': {
         name: 'Spades',
         tagline: 'Classic trick-taking card game',
-        icon: 'images/app-icons/icon-spades.jpeg',
+        icon: 'https://cdn.bdz5.com/CrossPromo/spades_icon.png',
         iosUrl: 'https://apps.apple.com/app/id6447909127',
         androidUrl: 'https://play.google.com/store/apps/details?id=com.staplegames.spades'
+      },
+      'pyramid-solitaire': {
+        name: 'Pyramid Solitaire',
+        tagline: 'Classic pyramid card game',
+        icon: 'https://cdn.bdz5.com/CrossPromo/pyramidSolitaire_icon.png',
+        iosUrl: 'https://apps.apple.com/app/id1507224589',
+        androidUrl: null // iOS only
+      },
+      // Word Games
+      'word-gems': {
+        name: 'Word Gems™',
+        tagline: 'Swipe letters to find hidden words',
+        icon: 'https://cdn.bdz5.com/CrossPromo/wordgems_icon.png',
+        iosUrl: 'https://apps.apple.com/app/id1639588528',
+        androidUrl: 'https://play.google.com/store/apps/details?id=com.staplegames.wordgems'
+      },
+      'word-search': {
+        name: 'Word Search',
+        tagline: 'Find words in the puzzle grid',
+        icon: 'https://cdn.bdz5.com/CrossPromo/wordsearch_icon.png',
+        iosUrl: 'https://apps.apple.com/app/id1643013597',
+        androidUrl: 'https://play.google.com/store/apps/details?id=com.staplegames.wordsearch'
+      },
+      // Board Games
+      'dominoes': {
+        name: 'Dominoes',
+        tagline: 'Classic domino tile game',
+        icon: 'https://cdn.bdz5.com/CrossPromo/dominoes_icon.png',
+        iosUrl: 'https://apps.apple.com/app/id6504120934',
+        androidUrl: 'https://play.google.com/store/apps/details?id=com.staplegames.dominoes'
+      },
+      'ludo': {
+        name: 'Ludo',
+        tagline: 'Classic board game fun',
+        icon: 'https://cdn.bdz5.com/CrossPromo/ludo_icon.png',
+        iosUrl: 'https://apps.apple.com/app/id6446255045',
+        androidUrl: 'https://play.google.com/store/apps/details?id=com.staplegames.ludo'
+      },
+      'backgammon': {
+        name: 'Backgammon',
+        tagline: 'Ancient strategy board game',
+        icon: 'https://cdn.bdz5.com/CrossPromo/backgammon_icon.png',
+        iosUrl: 'https://apps.apple.com/app/id6451217307',
+        androidUrl: 'https://play.google.com/store/apps/details?id=com.staplegames.backgammon'
+      },
+      'mahjong-collector': {
+        name: 'Mahjong Collector',
+        tagline: 'Match tiles in this classic game',
+        icon: 'https://cdn.bdz5.com/CrossPromo/mahjongcollector_icon.png',
+        iosUrl: 'https://apps.apple.com/app/id6737984114',
+        androidUrl: 'https://play.google.com/store/apps/details?id=com.staplegames.mahjongcollector'
+      },
+      // Dice Games
+      'yatzy': {
+        name: 'Yatzy',
+        tagline: 'Classic dice rolling game',
+        icon: 'https://cdn.bdz5.com/CrossPromo/yatzy_icon.png',
+        iosUrl: 'https://apps.apple.com/app/id6477965248',
+        androidUrl: 'https://play.google.com/store/apps/details?id=com.staplegames.yatzy'
+      },
+      // Adventure
+      'dyno': {
+        name: 'Dyno',
+        tagline: 'Fun climbing adventure',
+        icon: 'https://cdn.bdz5.com/CrossPromo/dyno_icon.png',
+        iosUrl: 'https://apps.apple.com/app/id6636553804',
+        androidUrl: null // iOS only
       }
     };
 
