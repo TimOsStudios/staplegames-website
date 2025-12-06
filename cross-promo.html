@@ -414,11 +414,14 @@
     }
 
     // Send attribution data to AppsFlyer in background
-    async function sendAppsFlyerAttribution(appId, appName, platform, siteId) {
+    async function sendAppsFlyerAttribution(appId, appName, platform, siteId, appsDisplayed) {
       const clickId = `crosspromo_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
       
       // Use provided siteId or default
       const afSiteId = siteId || 'staplegames-crosspromo';
+      
+      // Use apps parameter or 'all' if showing all apps
+      const afAd = appsDisplayed || 'all';
       
       // Build attribution URL
       const attributionUrl = `${APPSFLYER_CONFIG.attributionEndpoint}` +
@@ -428,8 +431,9 @@
         `&click_id=${encodeURIComponent(clickId)}` +
         `&redirect=false` +
         `&af_siteid=${encodeURIComponent(afSiteId)}` +
-        `&af_ad=${encodeURIComponent(appName)}` +
-        `&af_sub1=${encodeURIComponent(platform)}`;
+        `&af_ad=${encodeURIComponent(afAd)}` +
+        `&af_sub1=${encodeURIComponent(platform)}` +
+        `&af_sub2=${encodeURIComponent(appName)}`;
       
       console.log('bderr: AppsFlyer attribution URL:', attributionUrl);
       
@@ -546,8 +550,10 @@
           console.log('bderr: App clicked:', appId, 'Store URL:', storeUrl, 'AF App ID:', afAppId);
           
           // Send AppsFlyer attribution in background
+          // Pass the apps parameter to show which apps were displayed
+          const appsDisplayed = params.apps ? params.apps.join(',') : null;
           if (afAppId) {
-            sendAppsFlyerAttribution(afAppId, app.name, params.platform, params.site_id);
+            sendAppsFlyerAttribution(afAppId, app.name, params.platform, params.site_id, appsDisplayed);
           }
           
           // Small delay to allow attribution request to fire, then navigate
