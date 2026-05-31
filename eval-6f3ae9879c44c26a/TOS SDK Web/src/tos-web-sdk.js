@@ -43,7 +43,7 @@ const TOSWeb = {
    *   legal?: {
    *     privacyUrl?: string,
    *     termsUrl?: string,
-   *     consentGate?: 'auto' | 'always' | 'never',
+   *     consentGate?: 'auto' | 'always' | 'disabled' | 'never',
    *   },
    * }} opts
    * @returns {Promise<void>}

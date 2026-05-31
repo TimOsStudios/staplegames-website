@@ -52,6 +52,10 @@ export function start() {
 
   // cColdLaunch is sendEventOncePerVC on iOS — fire once per build code.
   TOSAnalytics.sendEventOncePerVC(EVENTS.COLD_LAUNCH);
+  TOSAnalytics.sendEventOncePerSesh(
+    EVENTS.WEB_LAUNCH_ATTRIBUTION,
+    TOSAnalytics.buildLaunchAttributionParams(),
+  );
 
   startNewSessionIfAppropriate();
   _bindVisibility();

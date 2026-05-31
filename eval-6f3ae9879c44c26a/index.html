@@ -71,6 +71,12 @@ html, body {
   --score-h:  10vh;                             /* score text band */
   --button-size: min(14vw, 64px);               /* bottom New Game / Settings icon size */
   --btns-inset: 12px;                           /* left/right gap between New Game / Settings buttons and the board column edges */
+  /* Bottom system inset for the action buttons. Defaults to the CSS
+     env() value; recomputeBoardSize() overrides it at runtime with a
+     measured value so the "New Game"/"Settings" labels never tuck under
+     a see-through Android nav bar (Chrome often reports env() as 0 there).
+     Full-bleed embedded/webview contexts keep the env() value untouched. */
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
   --button-area: calc(var(--button-size) + 28px + max(20px, 5vh)); /* icon + label + bottom margin */
   --tray-reserve: calc((100vw - 16px) / 8 * 2.5 + 22px + var(--button-area));  /* tray + bottom buttons */
   --board-size: min(
@@ -258,7 +264,12 @@ html, body {
 }
 .grid-lines line {
   stroke: var(--line);
-  stroke-width: 2;
+  /* Thickness is locked to an exact device-pixel count in JS
+     (recomputeBoardSize sets --inner-line = N_devicePx / dpr). With
+     non-scaling-stroke the value is read in CSS px of the rendered SVG,
+     so N_devicePx/dpr CSS px paints as exactly N device pixels — crisp
+     and identical-looking on every panel regardless of board size/DPR. */
+  stroke-width: var(--inner-line, 2px);
   vector-effect: non-scaling-stroke;
 }
 
@@ -619,7 +630,7 @@ html, body {
   left: 50%;
   transform: translateX(-50%);
   width: var(--board-size);
-  bottom: calc(max(20px, 5vh) + env(safe-area-inset-bottom, 0));
+  bottom: calc(max(20px, 5vh) + var(--safe-bottom));
   /* Inset the buttons from the board's left/right edges. box-sizing
      border-box keeps the bar's total width pinned to --board-size so
      the column-locking from above still holds. */
@@ -703,7 +714,7 @@ html, body {
 .gameover-new-wrap {
   position: absolute;
   left: calc(50% - var(--board-size) / 2 + var(--btns-inset));
-  bottom: calc(max(20px, 5vh) + env(safe-area-inset-bottom, 0));
+  bottom: calc(max(20px, 5vh) + var(--safe-bottom));
 }
 
 /* ============ Settings sheet ============
@@ -821,6 +832,102 @@ html, body {
   font-size: 22px;
   line-height: 1;
   font-weight: 300;
+}
+.settings-row.dev-row .row-label {
+  color: var(--blue);
+  font-weight: 700;
+}
+
+.dev-scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.62);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s ease, visibility 0s linear 0.2s;
+}
+.dev-scrim.shown {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 0.2s ease, visibility 0s linear 0s;
+}
+.dev-card {
+  width: 100%;
+  max-width: 400px;
+  max-height: calc(100vh - 36px);
+  background: var(--bg);
+  border-radius: 20px;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.38);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transform: scale(0.94);
+  transition: transform 0.22s cubic-bezier(0.2, 0.7, 0.3, 1.1);
+}
+.dev-scrim.shown .dev-card { transform: scale(1); }
+.dev-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px 12px 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+.dev-title {
+  font-family: 'Rubik', sans-serif;
+  font-weight: 700;
+  font-size: 19px;
+  color: var(--text);
+}
+.dev-body {
+  overflow-y: auto;
+  padding: 14px 18px 18px;
+  -webkit-overflow-scrolling: touch;
+}
+.dev-section-title {
+  margin: 12px 0 8px;
+  font-family: 'Rubik', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--brand-sub);
+}
+.dev-section-title:first-child { margin-top: 0; }
+.dev-link {
+  display: block;
+  width: 100%;
+  margin: 8px 0;
+  padding: 11px 12px;
+  border: none;
+  border-radius: 11px;
+  background: var(--blue);
+  color: #fff;
+  text-align: left;
+  font-family: 'Rubik', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  -webkit-appearance: none;
+}
+.dev-link:active { background: var(--blue-active); transform: scale(0.99); }
+.dev-readout {
+  margin: 0;
+  padding: 11px 12px;
+  border-radius: 11px;
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--text);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 /* ---- iOS-style toggle ----
@@ -965,7 +1072,7 @@ html, body {
           <span class="row-label">Sound</span>
           <span class="toggle" id="soundToggle" aria-hidden="true"></span>
         </button>
-        <div class="settings-row">
+        <div class="settings-row" id="rowHighScoreContainer">
           <span class="row-label">High Score</span>
           <span class="row-value" id="rowHighScore">0</span>
         </div>
@@ -979,12 +1086,31 @@ html, body {
         </button>
         <div class="settings-row">
           <span class="row-label">Version</span>
-          <span class="row-value" id="rowVersion">0.1.0</span>
+          <span class="row-value" id="rowVersion">0.1.1</span>
         </div>
         <button class="settings-row link" id="rowGooglePlay">
           <span class="row-label">Get the Full Game on Google Play</span>
           <span class="row-arrow">&rsaquo;</span>
         </button>
+        <button class="settings-row link dev-row hidden" id="rowDevMode">
+          <span class="row-label">Dev Mode</span>
+          <span class="row-arrow">&rsaquo;</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="dev-scrim" id="devModePanel" role="dialog" aria-modal="true" aria-labelledby="devModeTitle">
+    <div class="dev-card">
+      <div class="dev-header">
+        <div class="dev-title" id="devModeTitle">Dev Mode</div>
+        <button class="settings-close" id="btnDevModeClose" aria-label="Close Dev Mode">&times;</button>
+      </div>
+      <div class="dev-body">
+        <div class="dev-section-title">Test Links</div>
+        <div id="devLinkButtons"></div>
+        <div class="dev-section-title">Source / Media Readout</div>
+        <pre class="dev-readout" id="devReadout"></pre>
       </div>
     </div>
   </div>
@@ -1042,25 +1168,12 @@ import { blockPuzzleUniques } from './TOS SDK Web/src/uniques/blockPuzzleUniques
 
 /* ============================================================
    ---- SDK CONFIG ----
-   Single place to toggle the consent banner. See
-   TOS SDK Web/docs/LEGAL_INTEGRATION.md for full details.
-
-   consentGate:
-     'auto'   → DEFAULT. Show consent modal ONLY when we detect
-                the user is likely in the EEA / UK (timezone-based).
-                US, LATAM, APAC, etc. skip the modal — they get
-                analytics on by default with an opt-out in
-                Settings → Legal → Do Not Sell. This matches how
-                most US-only sites comply with CCPA + GDPR.
-     'always' → Show the consent modal to every visitor, worldwide.
-                Use this if you'd rather collect explicit opt-in
-                from everyone (extra-cautious posture).
-     'never'  → Skip the modal everywhere. TESTING ONLY — this
-                bypasses GDPR. Logs a console warning so you don't
-                ship it by accident.
+   Single place to toggle the consent banner. This build has no ads,
+   retargeting, or sale/share privacy controls, so the startup consent
+   dialog is disabled and Privacy/Terms stay available in Settings.
    ============================================================ */
 const SDK_CONFIG = {
-  consentGate: 'auto',
+  consentGate: 'disabled',
 };
 
 const firebaseConfig = {
@@ -1075,7 +1188,7 @@ const firebaseConfig = {
 
 await TOSWeb.init({
   firebaseConfig,
-  build: 'web-0.1.0',
+  build: 'web-0.1.1',
   appName: 'block-puzzle-web',
   uniques: blockPuzzleUniques,
   devMode: new URLSearchParams(location.search).has('test'),
@@ -1123,7 +1236,14 @@ const FLAGS = {
   piecePool:       'easy',  // 'easy' | 'hard'
 };
 
-const VERSION = '0.1.0';
+const VERSION = '0.1.1';
+const GOOGLE_PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.staplegames.blocksClassicSGGP&hl=en_US';
+const ANDROID_DEEP_LINK_URL = 'http://www.staplegames.com/blocks_classic_sg_gp_dl';
+const ANDROID_INTENT_DEEP_LINK_URL = 'intent://www.staplegames.com/blocks_classic_sg_gp_dl#Intent;scheme=http;package=com.staplegames.blocksClassicSGGP;end';
+const ANDROID_MARKET_URL = 'market://details?id=com.staplegames.blocksClassicSGGP';
+const APPSFLYER_BASIC_URL = 'https://app.appsflyer.com/com.staplegames.blocksClassicSGGP?pid=lock';
+const APPSFLYER_WITHOUT_DEEP_LINK_URL = 'https://app.appsflyer.com/com.staplegames.blocksClassicSGGP?pid=lock&c=block_puzzle_web&af_channel=settings&af_adset=web_game&af_ad=settings_google_play_row&af_siteid=block_puzzle_web&af_sub1=settings&af_sub2=web-0.1.1&af_sub3=full_game_google_play&af_web_dp=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.staplegames.blocksClassicSGGP%26hl%3Den_US';
+const GOOGLE_PLAY_CLICKOUT_URL = 'https://app.appsflyer.com/com.staplegames.blocksClassicSGGP?pid=lock&c=block_puzzle_web&af_channel=settings&af_adset=web_game&af_ad=settings_google_play_row&af_siteid=block_puzzle_web&af_sub1=settings&af_sub2=web-0.1.1&af_sub3=full_game_google_play&af_dp=http%3A%2F%2Fwww.staplegames.com%2Fblocks_classic_sg_gp_dl&af_web_dp=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.staplegames.blocksClassicSGGP%26hl%3Den_US';
 
 /* ============================================================
    ---- PLATFORM ----
@@ -1232,6 +1352,7 @@ const state = {
   gameOver: false,
   gameId: 0,                              // bumped on newGame; pending timeouts check this
   debug: false,
+  devModeUnlocked: false,
   muted: false,                           // Sound on/off (persisted under K_MUTED)
 };
 
@@ -1253,6 +1374,7 @@ const K_HIGH = 'bc_high';
 const K_WEEK = 'bc_week';   // { score, dateStart }
 const K_TODAY = 'bc_today'; // { score, dateStart }
 const K_MUTED = 'bc_muted'; // '1' = sound off, '0' or missing = sound on
+const K_DEV_MODE = 'bc_dev_mode'; // '1' after hidden settings unlock
 
 function loadState() {
   try {
@@ -1267,6 +1389,7 @@ function loadState() {
       state.streak = s.streak | 0;
     }
     state.highScore = parseInt(safeStore.get(K_HIGH) || '0', 10) || 0;
+    state.devModeUnlocked = safeStore.get(K_DEV_MODE) === '1';
     state.muted = safeStore.get(K_MUTED) === '1';
     updateDailyWindows();
   } catch (e) { /* ignore */ }
@@ -1352,9 +1475,15 @@ const rowPrivacyEl    = document.getElementById('rowPrivacy');
 const rowTermsEl      = document.getElementById('rowTerms');
 const rowSoundEl      = document.getElementById('rowSound');
 const soundToggleEl   = document.getElementById('soundToggle');
+const rowHighScoreContainerEl = document.getElementById('rowHighScoreContainer');
 const rowHighScoreEl  = document.getElementById('rowHighScore');
 const rowVersionEl    = document.getElementById('rowVersion');
 const rowGooglePlayEl = document.getElementById('rowGooglePlay');
+const rowDevModeEl    = document.getElementById('rowDevMode');
+const devModePanelEl  = document.getElementById('devModePanel');
+const btnDevModeCloseEl = document.getElementById('btnDevModeClose');
+const devLinkButtonsEl = document.getElementById('devLinkButtons');
+const devReadoutEl    = document.getElementById('devReadout');
 
 /* ---------- Build board DOM: 64 cells ---------- */
 const cellEls = [];
@@ -1450,58 +1579,156 @@ function cellSizePx() {
 }
 
 /* ============================================================
-   Pixel-grid snap for the board.
-   The CSS calc() for --board-size / --cell yields fractional CSS
-   pixels on most viewport widths (e.g. 375px -> 43.875px cells).
-   The SVG gridlines sit at integer cell offsets in viewBox coords,
-   so they end up on fractional device pixels and get antialiased,
-   making the inner lines look softer than the crisp outer black
-   border (which is a 4px CSS-padding strip, naturally integer).
+   Board sizing + pixel-grid snap.
 
-   We re-read what the CSS would have picked for the inner area,
-   then snap each cell DOWN to an integer number of device pixels
-   and override --cell / --board-size. Result: every gridline lands
-   on a whole device-pixel boundary => no antialiasing seam, inner
-   lines match the outer border crispness. Board visual size shrinks
-   by at most 8 * (1/DPR) CSS px (typically <0.4 CSS px) so the
-   layout looks identical.
+   TWO jobs, both done here so they stay in sync (runs on boot before
+   first paint, and on resize / orientationchange):
 
-   Called on boot and on resize / orientationchange.
+   1) SIZE THE BOARD TO MAXIMIZE HEIGHT, then cap on width.
+      The CSS --board-size clamp estimates the tray height from
+      (100vw - 16)/8 as a proxy for the cell size. That proxy is only
+      valid on a tall, narrow phone where WIDTH is the limiting
+      dimension. On a wide / near-square panel (e.g. an unfolded
+      Samsung Fold) HEIGHT is the limiter, so the proxy is roughly
+      double the real cell, the tray reserve balloons, and the board
+      comes out far too small with a big empty gap below it.
+
+      We instead solve the cell size directly from the real vertical
+      budget. The column lays out as:
+        header + score + board(8*cell) + tray(2.5*cell) + buttons + gaps
+      Everything except board(8*cell) and tray(2.5*cell) is fixed, so:
+        cell_fromHeight = (vh - fixedReserves) / (8 + 2.5)
+        cell_fromWidth  = (vw - 16 - 2*outer) / 8
+        cell            = min(the two)
+      This reproduces the CSS clamp exactly EXCEPT the tray term now
+      uses the real cell instead of the vw proxy. Result: the grid
+      grows to fill the height and only pads the sides once it would
+      overflow horizontally.
+
+   2) LOCK LINE + FRAME THICKNESS TO EXACT DEVICE PIXELS.
+      --inner-line / --outer-border are set to (N device px / dpr) CSS
+      px so the SVG gridlines (non-scaling-stroke) and the board frame
+      paint at a fixed, crisp device-pixel width on every panel —
+      instead of the old constant 2 CSS px (= ~6 device px on a 3x
+      Fold panel, which read as chunky).
+
+   Cells are floored to whole device pixels so every gridline lands on
+   a device-pixel boundary => no antialiasing seam.
    ============================================================ */
+/* ------------------------------------------------------------
+   Bottom system-inset measurement.
+
+   The action buttons are pinned to the bottom of the viewport. With
+   viewport-fit=cover the page renders edge-to-edge UNDER the Android
+   system nav bar, and the buttons rely on env(safe-area-inset-bottom)
+   to lift clear of it. Mobile Chrome, however, frequently reports that
+   env value as 0 for a see-through nav bar while still drawing content
+   behind it, so the lowest element (the button LABELS) gets covered.
+
+   We derive a reliable inset from the best available signals:
+     - the actual env() value (correct on iOS / compliant Android),
+     - the visual-viewport gap (layout height not currently visible),
+     - a small fallback ONLY for real Android browser tabs that report
+       neither — embedded webviews (UA contains "wv": playables /
+       lock-screen launchers, where the current look is perfect) are
+       excluded so those full-bleed contexts are never changed.
+   ------------------------------------------------------------ */
+let _safeProbe = null;
+function measureEnvBottom() {
+  if (!document.body) return 0;
+  if (!_safeProbe) {
+    _safeProbe = document.createElement('div');
+    _safeProbe.style.cssText =
+      'position:fixed;left:0;bottom:0;width:0;height:0;visibility:hidden;' +
+      'pointer-events:none;padding-bottom:env(safe-area-inset-bottom,0px);';
+    document.body.appendChild(_safeProbe);
+  }
+  const v = parseFloat(getComputedStyle(_safeProbe).paddingBottom);
+  return isFinite(v) ? v : 0;
+}
+
+function measureBottomInset() {
+  const envBottom = measureEnvBottom();
+
+  // Part of the layout viewport that sits below the visible region.
+  // For our non-scrolling, overflow-hidden page this is a stable signal;
+  // values large enough to be a soft keyboard/URL-bar are ignored.
+  let vvGap = 0;
+  const vv = window.visualViewport;
+  if (vv) {
+    const g = Math.round(window.innerHeight - vv.height - vv.offsetTop);
+    if (g > 0 && g <= 80) vvGap = g;
+  }
+
+  // Gated safety net for the exact broken case: an Android browser tab
+  // that drew under a see-through nav bar but reported nothing.
+  let fallback = 0;
+  const ua = navigator.userAgent || '';
+  const isAndroid = /Android/i.test(ua);
+  const isWebView = /;\s?wv[);]/.test(ua) || /\bwv\b/.test(ua);
+  if (isAndroid && !isWebView && envBottom === 0 && vvGap === 0) fallback = 28;
+
+  return Math.max(0, envBottom, vvGap, fallback);
+}
+
+function updateSafeInsets() {
+  const root = document.documentElement;
+  if (!root || !root.style || !root.style.setProperty) return 0;
+  const safeBottom = measureBottomInset();
+  root.style.setProperty('--safe-bottom', safeBottom + 'px');
+  return safeBottom;
+}
+
 function recomputeBoardSize() {
   if (!boardEl) return;
   const root = document.documentElement;
-  if (!root || !root.style) return;
-  // Clear any prior overrides so we measure the CSS calc() result
-  // fresh. Without this, on resize we'd measure our own previously
-  // snapped value and lock in stale dimensions.
-  if (root.style.removeProperty) {
-    root.style.removeProperty('--cell');
-    root.style.removeProperty('--board-size');
-  }
-  // Reading offsetWidth forces a sync reflow so we see the
-  // post-CSS-calc inner width (boardEl == .board fills .board-wrap
-  // minus its padding == innerArea).
-  const innerCap = boardEl.offsetWidth;
-  if (!innerCap || innerCap <= 0) return;
+  if (!root || !root.style || !root.style.setProperty) return;
+
+  // Keep the bottom inset in sync first so the board reserves the right
+  // amount of space below it and the buttons clear the nav bar.
+  const safeBottom = updateSafeInsets();
+
   const dpr = window.devicePixelRatio || 1;
-  // Snap to integer device pixels. cellCss * dpr is now an integer
-  // number of device pixels, so cell boundaries land on whole device
-  // pixels and the 2px strokes paint without subpixel blending.
-  const cellCss = Math.floor((innerCap / 8) * dpr) / dpr;
-  if (cellCss <= 0) return;
-  const outerB = 4; // mirrors --outer-border
-  const boardCss = cellCss * 8 + 2 * outerB;
-  // Separately snap --piece-cell to integer device pixels too. Naive
-  // (cell * 0.5) is fractional when cell * dpr is odd, which would
-  // leave the tray pieces back on subpixel boundaries even though the
-  // board is pixel-perfect. Floor to dpr just like cellCss.
-  const pieceCellCss = Math.floor((cellCss * 0.5) * dpr) / dpr;
-  if (root.style.setProperty) {
-    root.style.setProperty('--cell', cellCss + 'px');
-    root.style.setProperty('--board-size', boardCss + 'px');
-    if (pieceCellCss > 0) root.style.setProperty('--piece-cell', pieceCellCss + 'px');
-  }
+  const snap = v => Math.floor(v * dpr) / dpr;   // -> whole device pixels
+
+  // --- Pixel-locked thickness (device px / dpr == CSS px) ---
+  const INNER_DEVICE_PX = 2;   // interior gridlines
+  const OUTER_DEVICE_PX = 4;   // board frame
+  const innerLineCss   = INNER_DEVICE_PX / dpr;
+  const outerBorderCss = OUTER_DEVICE_PX / dpr;
+
+  // --- Solve cell size (mirrors the CSS layout reserve model) ---
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  if (!vw || !vh) return;
+
+  const headerH    = 60;                          // --header-h
+  const scoreH     = 0.10 * vh;                    // --score-h: 10vh
+  const buttonSize = Math.min(0.14 * vw, 64);      // --button-size: min(14vw, 64px)
+  const bottomOff  = Math.max(20, 0.05 * vh) + safeBottom;  // max(20px,5vh) + system inset
+  const buttonArea = buttonSize + 28 + bottomOff;  // --button-area
+  const fixedGaps  = 22 + 32;                       // tray gap (22) + clamp margin (32)
+  // Vertical budget consumed by everything that is NOT board(8*cell)
+  // or tray(2.5*cell):
+  const fixedV = headerH + scoreH + buttonArea + fixedGaps + 2 * outerBorderCss;
+
+  const cellFromHeight = (vh - fixedV) / (8 + 2.5);
+  const cellFromWidth  = (vw - 16 - 2 * outerBorderCss) / 8;
+  let cell = Math.min(cellFromHeight, cellFromWidth);
+  if (!(cell > 0)) return;
+  cell = snap(cell);
+  if (cell <= 0) return;
+
+  const boardCss = cell * 8 + 2 * outerBorderCss;
+  // Snap --piece-cell to device pixels too; naive (cell*0.5) is
+  // fractional when cell*dpr is odd and would un-snap the tray pieces.
+  const pieceCellCss = snap(cell * 0.5);
+
+  root.style.setProperty('--cell', cell + 'px');
+  root.style.setProperty('--board-size', boardCss + 'px');
+  if (pieceCellCss > 0) root.style.setProperty('--piece-cell', pieceCellCss + 'px');
+  root.style.setProperty('--inner-line', innerLineCss + 'px');
+  root.style.setProperty('--outer-border', outerBorderCss + 'px');
 }
 function gutterPx() {
   const v = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--inner-line'));
@@ -2068,6 +2295,126 @@ function handleClickout() {
   try { location.href = url; } catch (_) {}
 }
 
+/* ---------- Hidden Dev Mode ----------
+   Unlock sequence: tap the Sound setting exactly 10 times, then tap
+   High Score 3 times.
+   The unlocked row persists locally so QA can reopen it without repeating
+   the sequence on every refresh. */
+let devSoundToggleTapCount = 0;
+let devHighScoreTapCount = 0;
+
+function refreshDevModeRow() {
+  if (rowDevModeEl) rowDevModeEl.classList.toggle('hidden', !state.devModeUnlocked);
+}
+
+function recordDevSoundToggleTap() {
+  if (state.devModeUnlocked) return;
+  devSoundToggleTapCount += 1;
+  if (devSoundToggleTapCount > 10) {
+    devSoundToggleTapCount = 0;
+    devHighScoreTapCount = 0;
+  }
+}
+
+function recordDevHighScoreTap() {
+  if (state.devModeUnlocked) return;
+  if (devSoundToggleTapCount !== 10) {
+    devSoundToggleTapCount = 0;
+    devHighScoreTapCount = 0;
+    return;
+  }
+  devHighScoreTapCount += 1;
+  if (devHighScoreTapCount < 3) return;
+  state.devModeUnlocked = true;
+  safeStore.set(K_DEV_MODE, '1');
+  refreshDevModeRow();
+}
+
+function openDevMode() {
+  renderDevModePanel();
+  devModePanelEl.classList.add('shown');
+}
+
+function closeDevMode() {
+  devModePanelEl.classList.remove('shown');
+}
+
+function navigateTo(url) {
+  try { location.href = url; } catch (_) {}
+}
+
+function renderDevModePanel() {
+  const links = [
+    ['Direct Google Play Store', GOOGLE_PLAY_STORE_URL],
+    ['Basic AppsFlyer link (pid only)', APPSFLYER_BASIC_URL],
+    ['AppsFlyer link with deep link + Play fallback', GOOGLE_PLAY_CLICKOUT_URL],
+    ['AppsFlyer link without deep link', APPSFLYER_WITHOUT_DEEP_LINK_URL],
+    ['Android deep link only', ANDROID_DEEP_LINK_URL],
+    ['Android intent deep link', ANDROID_INTENT_DEEP_LINK_URL],
+    ['Android market:// store URI', ANDROID_MARKET_URL],
+  ];
+  devLinkButtonsEl.innerHTML = '';
+  for (const [label, url] of links) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'dev-link';
+    btn.textContent = label;
+    btn.addEventListener('click', () => navigateTo(url));
+    devLinkButtonsEl.appendChild(btn);
+  }
+  devReadoutEl.textContent = buildDevReadout();
+}
+
+function queryFirst(params, keys) {
+  for (const key of keys) {
+    const value = params.get(key);
+    if (value) return value;
+  }
+  return '-';
+}
+
+function parseUrlSafe(url) {
+  try { return new URL(url); } catch (_) { return null; }
+}
+
+function buildDevReadout() {
+  const currentUrl = parseUrlSafe(location.href);
+  const currentParams = currentUrl ? currentUrl.searchParams : new URLSearchParams();
+  const appsFlyerUrl = parseUrlSafe(GOOGLE_PLAY_CLICKOUT_URL);
+  const afParams = appsFlyerUrl ? appsFlyerUrl.searchParams : new URLSearchParams();
+  const refHost = (() => {
+    try { return document.referrer ? new URL(document.referrer).host : 'direct'; }
+    catch (_) { return 'unknown'; }
+  })();
+
+  return [
+    `Current URL: ${location.href}`,
+    `Referrer Host: ${refHost}`,
+    `User Agent: ${(navigator.userAgent || '-').slice(0, 180)}`,
+    '',
+    'Landing URL params:',
+    `source: ${queryFirst(currentParams, ['source', 'utm_source', 'src'])}`,
+    `media/medium: ${queryFirst(currentParams, ['media', 'utm_medium', 'medium'])}`,
+    `campaign: ${queryFirst(currentParams, ['campaign', 'utm_campaign'])}`,
+    `content/creative: ${queryFirst(currentParams, ['content', 'utm_content', 'creative'])}`,
+    `term/keyword: ${queryFirst(currentParams, ['term', 'utm_term', 'keyword'])}`,
+    `click id: ${queryFirst(currentParams, ['click_id', 'clickid', 'gclid', 'gbraid', 'wbraid', 'fbclid', 'ttclid', 'msclkid'])}`,
+    '',
+    'Configured AppsFlyer params:',
+    `pid: ${afParams.get('pid') || '-'}`,
+    `campaign: ${afParams.get('c') || '-'}`,
+    `channel: ${afParams.get('af_channel') || '-'}`,
+    `adset: ${afParams.get('af_adset') || '-'}`,
+    `ad: ${afParams.get('af_ad') || '-'}`,
+    `siteid: ${afParams.get('af_siteid') || '-'}`,
+    `sub1: ${afParams.get('af_sub1') || '-'}`,
+    `sub2: ${afParams.get('af_sub2') || '-'}`,
+    `sub3: ${afParams.get('af_sub3') || '-'}`,
+    `af_dp: ${afParams.get('af_dp') || '-'}`,
+    `af_web_dp: ${afParams.get('af_web_dp') || '-'}`,
+  ].join('\n');
+}
+
 /* ---------- Event wiring ---------- */
 function bindEvents() {
   window.addEventListener('pointerdown', onPointerDown, { passive: true });
@@ -2090,12 +2437,16 @@ function bindEvents() {
 
   // Settings sheet
   btnSettingsCloseEl.addEventListener('click', closeSettings);
+  btnDevModeCloseEl.addEventListener('click', closeDevMode);
 
   // Tap-outside (on the scrim, not the card) closes the sheet. We check
   // the target is the scrim itself so clicks bubbling up from inside the
   // card don't dismiss it.
   settingsEl.addEventListener('click', (e) => {
     if (e.target === settingsEl) closeSettings();
+  });
+  devModePanelEl.addEventListener('click', (e) => {
+    if (e.target === devModePanelEl) closeDevMode();
   });
 
   // External legal docs + Google Play. location.href (rather than
@@ -2111,12 +2462,15 @@ function bindEvents() {
     TOSWeb.legal.termsTapped();
     location.href = 'https://staplegames.com/terms-of-use.html';
   });
-  rowGooglePlayEl.addEventListener('click', () => { location.href = 'https://play.google.com/store/apps/details?id=com.staplegames.blocksClassicSGGP&hl=en_US'; });
+  rowGooglePlayEl.addEventListener('click', () => { location.href = GOOGLE_PLAY_CLICKOUT_URL; });
+  rowHighScoreContainerEl.addEventListener('click', recordDevHighScoreTap);
+  rowDevModeEl.addEventListener('click', openDevMode);
 
   // Sound toggle: flip state.muted, persist, and update the row's
   // pressed-state + the .toggle visual. Also fires cSettingOn/OffSound
   // for the iOS-parity setting-flip funnel.
   rowSoundEl.addEventListener('click', () => {
+    recordDevSoundToggleTap();
     state.muted = !state.muted;
     safeStore.set(K_MUTED, state.muted ? '1' : '0');
     renderSoundToggle();
@@ -2182,6 +2536,13 @@ function bindEvents() {
   // and window resizes.
   window.addEventListener('resize',            () => { recomputeBoardSize(); });
   window.addEventListener('orientationchange', () => { recomputeBoardSize(); });
+  // The system nav / URL bar can appear, hide, or change height without a
+  // window 'resize'; the visual viewport fires here, so re-measure the
+  // bottom inset (and re-fit the board) when it does.
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', () => { recomputeBoardSize(); });
+    window.visualViewport.addEventListener('scroll', () => { recomputeBoardSize(); });
+  }
 }
 
 /* ============================================================
@@ -2216,13 +2577,7 @@ function refreshSettings() {
 }
 function openSettings()  {
   refreshSettings();
-  // Inject the TOS legal extension (Do Not Sell + Data Request + Delete
-  // Data rows) the first time the panel opens. The SDK is idempotent so
-  // re-calling is safe.
-  const body = settingsCardEl && settingsCardEl.querySelector('.settings-body');
-  if (body && TOSWeb.legal && typeof TOSWeb.legal.mountSettingsLegalRows === 'function') {
-    TOSWeb.legal.mountSettingsLegalRows(body);
-  }
+  refreshDevModeRow();
   TOSWeb.settingsViewDidLoad();
   settingsEl.classList.add('shown');
 }
@@ -2399,6 +2754,7 @@ function boot() {
     setInterval(() => {
       const lines = [
         `vw=${innerWidth} vh=${innerHeight} cs=${cellSizePx().toFixed(1)}`,
+        `env=${measureEnvBottom().toFixed(0)} vv=${window.visualViewport ? Math.round(innerHeight - window.visualViewport.height - window.visualViewport.offsetTop) : '-'} safe=${(parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--safe-bottom'))||0).toFixed(0)}`,
         `v=${VERSION} pool=${FLAGS.piecePool}(${PIECE_POOL.length})`,
         `score=${state.score} streak=${state.streak} over=${state.gameOver}`,
         `tray=[${state.tray.map(p => p ? p.cellCount : '-').join(',')}] drag=${drag ? drag.slot : '-'}`,

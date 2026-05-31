@@ -30,7 +30,7 @@ const K = {
   TNC_ACCEPTED:    'consent.tncAccepted',
   TNC_VERSION:     'consent.tncVersion',
   DO_NOT_SELL:     'consent.doNotSell',
-  ACCEPTANCE_MODE: 'consent.acceptanceMode',  // 'modal' | 'auto-no-gate' | 'forced-bypass'
+  ACCEPTANCE_MODE: 'consent.acceptanceMode',  // 'modal' | 'auto-no-gate' | 'disabled' | 'forced-bypass'
 };
 
 /**
@@ -38,7 +38,7 @@ const K = {
  *   privacyUrl?: string,
  *   termsUrl?: string,
  *   appName?: string,
- *   consentGate?: 'auto' | 'always' | 'never',
+ *   consentGate?: 'auto' | 'always' | 'disabled' | 'never',
  * }} opts
  *
  * Consent-gate modes (locked in WEB_SDK_SPEC + LEGAL_INTEGRATION):
@@ -49,6 +49,9 @@ const K = {
  *              consent; opt-out lives in Settings → Legal.
  *   - 'always': show the modal to everyone (use during audits or
  *              when you want explicit opt-in worldwide).
+ *   - 'disabled': never show the modal. Use when the host app's
+ *              privacy posture intentionally does not require an
+ *              upfront consent dialog.
  *   - 'never':  never show the modal anywhere. Use ONLY for
  *              internal testing — bypasses GDPR. Will log a console
  *              warning.
@@ -76,6 +79,7 @@ export function init(opts = {}) {
   // Decide whether to actually show the modal.
   let shouldShow;
   if (mode === 'always')      shouldShow = true;
+  else if (mode === 'disabled') shouldShow = false;
   else if (mode === 'never') {
     shouldShow = false;
     try { console.warn('[TOSLegal] consentGate=never — modal suppressed for testing. Do NOT ship this way.'); } catch (_) {}
@@ -85,7 +89,7 @@ export function init(opts = {}) {
   if (shouldShow) {
     _showConsentModal();
   } else {
-    _autoAccept(mode === 'never' ? 'forced-bypass' : 'auto-no-gate');
+    _autoAccept(mode === 'never' ? 'forced-bypass' : mode === 'disabled' ? 'disabled' : 'auto-no-gate');
   }
 }
 

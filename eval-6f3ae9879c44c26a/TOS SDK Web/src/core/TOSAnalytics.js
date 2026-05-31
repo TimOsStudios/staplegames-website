@@ -259,6 +259,42 @@ function _detectWebPlatform() {
   STATE.webOrientation = (w && w < window.innerHeight) ? 'portrait' : 'landscape';
 }
 
+function _firstQueryValue(params, names) {
+  for (const name of names) {
+    const value = params.get(name);
+    if (value) return String(value).trim().slice(0, 100);
+  }
+  return '';
+}
+
+export function buildLaunchAttributionParams() {
+  let url;
+  try { url = new URL(location.href); } catch (_) { url = null; }
+  const params = url ? url.searchParams : new URLSearchParams();
+
+  const source = _firstQueryValue(params, ['source', 'utm_source', 'src']);
+  const media = _firstQueryValue(params, ['media', 'utm_medium', 'medium']);
+  const campaign = _firstQueryValue(params, ['campaign', 'utm_campaign']);
+  const content = _firstQueryValue(params, ['content', 'utm_content', 'creative']);
+  const term = _firstQueryValue(params, ['term', 'utm_term', 'keyword']);
+  const clickId = _firstQueryValue(params, [
+    'click_id', 'clickid', 'gclid', 'gbraid', 'wbraid', 'fbclid', 'ttclid', 'msclkid',
+  ]);
+
+  const hasAttribution = !!(source || media || campaign || content || term || clickId);
+  const out = {
+    [PARAMS.WEB_ATTRIBUTION_PRESENT]: hasAttribution ? 1 : 0,
+    [PARAMS.WEB_LANDING_PATH]: url ? (url.pathname || '/').slice(0, 100) : 'unknown',
+  };
+  if (source) out[PARAMS.WEB_SOURCE] = source;
+  if (media) out[PARAMS.WEB_MEDIA] = media;
+  if (campaign) out[PARAMS.WEB_CAMPAIGN] = campaign;
+  if (content) out[PARAMS.WEB_CONTENT] = content;
+  if (term) out[PARAMS.WEB_TERM] = term;
+  if (clickId) out[PARAMS.WEB_CLICK_ID] = clickId;
+  return out;
+}
+
 function _detectConsent() {
   STATE.consentTncAccepted = TOSStorage.getBool('consent.tncAccepted', false);
   STATE.consentDoNotSell   = TOSStorage.getBool('consent.doNotSell', false);
@@ -607,6 +643,12 @@ function _enforceParamCap(obj) {
     PARAMS.WEB_RENDER_MS, PARAMS.WEB_LOAD_MS, PARAMS.WEB_LCP_MS,
     PARAMS.WEB_FCP_MS, PARAMS.WEB_PAINT_MS,
     PARAMS.WEB_ORIENTATION, PARAMS.WEB_REFERRER_HOST, PARAMS.WEB_PLATFORM,
+    PARAMS.CURRENT_CELL_PIECES_GENERATED, PARAMS.CURRENT_BLOCKS_REMOVED,
+    PARAMS.CURRENT_MOVES, PARAMS.GAME_TIME, PARAMS.CURRENT_SCORE,
+    PARAMS.WIN_FLAG, PARAMS.PUZZLE_DIFFICULTY, PARAMS.APP_MUSIC_ON,
+    PARAMS.APP_SOUND_ON, PARAMS.DAYS_ACTIVE_WINS_UTC, PARAMS.DAYS_ACTIVE_WINS,
+    PARAMS.SESH_GAMES_STARTED, PARAMS.SESH_GAMES_WON, PARAMS.LT_BEST_SCORE,
+    PARAMS.LT_GAMES_STARTED, PARAMS.LT_GAMES_WON,
   ];
   const out = { ...obj };
   for (const k of dropOrder) {
@@ -645,7 +687,7 @@ function _logDev(...args) {
 export const TOSAnalytics = {
   init, sendEvent, sendEventOnce, sendEventOncePerVC, sendEventOncePerSesh,
   refreshUserProperties, setConsent, snapshot,
-  buildConsentState, buildBaselineParams,
+  buildConsentState, buildBaselineParams, buildLaunchAttributionParams,
   bankActiveSeconds, commitSessionBank,
   setLatestResignActive, getLatestResignActive,
   getPreviousSeshStartDate, setPreviousSeshStartDate, setPreviousSeshEndDate,

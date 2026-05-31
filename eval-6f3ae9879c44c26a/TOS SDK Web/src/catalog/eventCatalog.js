@@ -90,6 +90,7 @@ export const EVENTS = Object.freeze({
   WEB_ORIENTATION_CHANGE:     'cWebOrientationChange',
   WEB_BOOT_ERROR:             'cWebBootError',
   WEB_RUNTIME_ERROR:          'cWebRuntimeError',
+  WEB_LAUNCH_ATTRIBUTION:     'cWebLaunchAttribution',
 
   // ─ Section 2: Gameplay core ⭐ ─────────────────────────────────────
   GAME_STARTED:               'cGameStarted',

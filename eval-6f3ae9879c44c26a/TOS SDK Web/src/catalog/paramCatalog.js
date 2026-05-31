@@ -25,6 +25,16 @@ export const PARAMS = Object.freeze({
   WEB_REFERRER_HOST:         'cWebReferrerHost',
   WEB_ORIENTATION:           'cWebOrientation',
 
+  // Web attribution, parsed from landing URL query params
+  WEB_ATTRIBUTION_PRESENT:   'cWebAttributionPresent',
+  WEB_SOURCE:                'cWebSource',
+  WEB_MEDIA:                 'cWebMedia',
+  WEB_CAMPAIGN:              'cWebCampaign',
+  WEB_CONTENT:               'cWebContent',
+  WEB_TERM:                  'cWebTerm',
+  WEB_CLICK_ID:              'cWebClickId',
+  WEB_LANDING_PATH:          'cWebLandingPath',
+
   // Web lifecycle event-specific
   WEB_PAINT_MS:              'cWebPaintMs',
   WEB_FCP_MS:                'cWebFcpMs',
