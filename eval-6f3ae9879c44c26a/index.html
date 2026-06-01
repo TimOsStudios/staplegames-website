@@ -67,18 +67,21 @@ html, body {
      playable-style header. Heights are fixed in vw/vh units (not derived
      from --cell) so the --board-size clamp doesn't have a circular
      dependency back through the cell math. */
-  --header-h: 60px;
-  --score-h:  10vh;                             /* score text band */
+  --header-h: 0px;
+  --score-h:  8vh;                              /* score text band */
   --button-size: min(14vw, 64px);               /* bottom New Game / Settings icon size */
   --btns-inset: 12px;                           /* left/right gap between New Game / Settings buttons and the board column edges */
+  --tray-gap: 18px;                              /* board bottom → tray top */
+  --tray-button-gap: 42px;                       /* visible tray bottom → button icon top */
+  --button-bottom-offset: max(16px, 2vh);
   /* Bottom system inset for the action buttons. Defaults to the CSS
      env() value; recomputeBoardSize() overrides it at runtime with a
      measured value so the "New Game"/"Settings" labels never tuck under
      a see-through Android nav bar (Chrome often reports env() as 0 there).
      Full-bleed embedded/webview contexts keep the env() value untouched. */
   --safe-bottom: env(safe-area-inset-bottom, 0px);
-  --button-area: calc(var(--button-size) + 28px + max(20px, 5vh)); /* icon + label + bottom margin */
-  --tray-reserve: calc((100vw - 16px) / 8 * 2.5 + 22px + var(--button-area));  /* tray + bottom buttons */
+  --button-area: calc(var(--button-size) + 28px + var(--button-bottom-offset) + var(--safe-bottom)); /* icon + label + bottom margin */
+  --tray-reserve: calc((100vw - 16px) / 8 * 2.05 + var(--tray-gap) + var(--tray-button-gap) + var(--button-area));  /* visible tray + bottom buttons */
   --board-size: min(
     calc(100vw - 16px),
     calc(100vh - var(--header-h) - var(--score-h) - var(--tray-reserve) - 32px)
@@ -127,11 +130,11 @@ html, body {
 .playable-header {
   width: 100%;
   max-width: 540px;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  padding: calc(10px + env(safe-area-inset-top, 0)) 12px 8px;
+  padding: calc(8px + env(safe-area-inset-top, 0)) 12px 2px;
   box-sizing: border-box;
   flex-shrink: 0;
 }
@@ -206,7 +209,7 @@ html, body {
   line-height: 1;
   color: var(--fill);
   letter-spacing: 0.12em;
-  padding: 8px 0 6px;
+  padding: 0 0 4px;
   transition: color 0.35s ease, opacity 0.35s ease;
   pointer-events: none;
   flex-shrink: 0;
@@ -332,7 +335,7 @@ html, body {
   width: var(--board-size);
   max-width: var(--board-size);
   height: var(--piece-size);
-  margin-top: 18px;
+  margin-top: var(--tray-gap);
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -630,7 +633,7 @@ html, body {
   left: 50%;
   transform: translateX(-50%);
   width: var(--board-size);
-  bottom: calc(max(20px, 5vh) + var(--safe-bottom));
+  bottom: calc(var(--button-bottom-offset) + var(--safe-bottom));
   /* Inset the buttons from the board's left/right edges. box-sizing
      border-box keeps the bar's total width pinned to --board-size so
      the column-locking from above still holds. */
@@ -714,7 +717,7 @@ html, body {
 .gameover-new-wrap {
   position: absolute;
   left: calc(50% - var(--board-size) / 2 + var(--btns-inset));
-  bottom: calc(max(20px, 5vh) + var(--safe-bottom));
+  bottom: calc(var(--button-bottom-offset) + var(--safe-bottom));
 }
 
 /* ============ Settings sheet ============
@@ -1086,7 +1089,7 @@ html, body {
         </button>
         <div class="settings-row">
           <span class="row-label">Version</span>
-          <span class="row-value" id="rowVersion">0.1.1</span>
+          <span class="row-value" id="rowVersion">0.1.2</span>
         </div>
         <button class="settings-row link" id="rowGooglePlay">
           <span class="row-label">Get the Full Game on Google Play</span>
@@ -1188,7 +1191,7 @@ const firebaseConfig = {
 
 await TOSWeb.init({
   firebaseConfig,
-  build: 'web-0.1.1',
+  build: 'web-0.1.2',
   appName: 'block-puzzle-web',
   uniques: blockPuzzleUniques,
   devMode: new URLSearchParams(location.search).has('test'),
@@ -1236,14 +1239,14 @@ const FLAGS = {
   piecePool:       'easy',  // 'easy' | 'hard'
 };
 
-const VERSION = '0.1.1';
+const VERSION = '0.1.2';
 const GOOGLE_PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.staplegames.blocksClassicSGGP&hl=en_US';
 const ANDROID_DEEP_LINK_URL = 'http://www.staplegames.com/blocks_classic_sg_gp_dl';
 const ANDROID_INTENT_DEEP_LINK_URL = 'intent://www.staplegames.com/blocks_classic_sg_gp_dl#Intent;scheme=http;package=com.staplegames.blocksClassicSGGP;end';
 const ANDROID_MARKET_URL = 'market://details?id=com.staplegames.blocksClassicSGGP';
 const APPSFLYER_BASIC_URL = 'https://app.appsflyer.com/com.staplegames.blocksClassicSGGP?pid=lock';
-const APPSFLYER_WITHOUT_DEEP_LINK_URL = 'https://app.appsflyer.com/com.staplegames.blocksClassicSGGP?pid=lock&c=block_puzzle_web&af_channel=settings&af_adset=web_game&af_ad=settings_google_play_row&af_siteid=block_puzzle_web&af_sub1=settings&af_sub2=web-0.1.1&af_sub3=full_game_google_play&af_web_dp=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.staplegames.blocksClassicSGGP%26hl%3Den_US';
-const GOOGLE_PLAY_CLICKOUT_URL = 'https://app.appsflyer.com/com.staplegames.blocksClassicSGGP?pid=lock&c=block_puzzle_web&af_channel=settings&af_adset=web_game&af_ad=settings_google_play_row&af_siteid=block_puzzle_web&af_sub1=settings&af_sub2=web-0.1.1&af_sub3=full_game_google_play&af_dp=http%3A%2F%2Fwww.staplegames.com%2Fblocks_classic_sg_gp_dl&af_web_dp=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.staplegames.blocksClassicSGGP%26hl%3Den_US';
+const APPSFLYER_WITHOUT_DEEP_LINK_URL = 'https://app.appsflyer.com/com.staplegames.blocksClassicSGGP?pid=lock&c=block_puzzle_web&af_channel=settings&af_adset=web_game&af_ad=settings_google_play_row&af_siteid=block_puzzle_web&af_sub1=settings&af_sub2=web-0.1.2&af_sub3=full_game_google_play&af_web_dp=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.staplegames.blocksClassicSGGP%26hl%3Den_US';
+const GOOGLE_PLAY_CLICKOUT_URL = 'https://app.appsflyer.com/com.staplegames.blocksClassicSGGP?pid=lock&c=block_puzzle_web&af_channel=settings&af_adset=web_game&af_ad=settings_google_play_row&af_siteid=block_puzzle_web&af_sub1=settings&af_sub2=web-0.1.2&af_sub3=full_game_google_play&af_dp=http%3A%2F%2Fwww.staplegames.com%2Fblocks_classic_sg_gp_dl&af_web_dp=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.staplegames.blocksClassicSGGP%26hl%3Den_US';
 
 /* ============================================================
    ---- PLATFORM ----
@@ -1595,9 +1598,13 @@ function cellSizePx() {
 
       We instead solve the cell size directly from the real vertical
       budget. The column lays out as:
-        header + score + board(8*cell) + tray(2.5*cell) + buttons + gaps
-      Everything except board(8*cell) and tray(2.5*cell) is fixed, so:
-        cell_fromHeight = (vh - fixedReserves) / (8 + 2.5)
+        header + score + board(8*cell) + visible tray + buttons + gaps
+      The rendered tray still uses a 5x5 template for touch/drag behavior,
+      but the visual piece content usually occupies much less height. We
+      reserve the visible tray footprint so shorter viewports do not shrink
+      the board just to protect invisible template rows.
+      Everything except board(8*cell) and visible tray is fixed, so:
+        cell_fromHeight = (vh - fixedReserves) / (8 + visibleTrayCells)
         cell_fromWidth  = (vw - 16 - 2*outer) / 8
         cell            = min(the two)
       This reproduces the CSS clamp exactly EXCEPT the tray term now
@@ -1702,17 +1709,20 @@ function recomputeBoardSize() {
   const vh = window.innerHeight;
   if (!vw || !vh) return;
 
-  const headerH    = 60;                          // --header-h
-  const scoreH     = 0.10 * vh;                    // --score-h: 10vh
+  const headerH    = 0;                           // --header-h
+  const scoreH     = 0.08 * vh;                    // --score-h: 8vh
   const buttonSize = Math.min(0.14 * vw, 64);      // --button-size: min(14vw, 64px)
-  const bottomOff  = Math.max(20, 0.05 * vh) + safeBottom;  // max(20px,5vh) + system inset
+  const bottomOff  = Math.max(16, 0.02 * vh) + safeBottom;  // --button-bottom-offset + system inset
   const buttonArea = buttonSize + 28 + bottomOff;  // --button-area
-  const fixedGaps  = 22 + 32;                       // tray gap (22) + clamp margin (32)
+  const trayGap = 18;
+  const trayButtonGap = 42;
+  const visibleTrayCells = 2.05;
+  const fixedGaps  = trayGap + trayButtonGap;
   // Vertical budget consumed by everything that is NOT board(8*cell)
-  // or tray(2.5*cell):
+  // or the visible tray footprint:
   const fixedV = headerH + scoreH + buttonArea + fixedGaps + 2 * outerBorderCss;
 
-  const cellFromHeight = (vh - fixedV) / (8 + 2.5);
+  const cellFromHeight = (vh - fixedV) / (8 + visibleTrayCells);
   const cellFromWidth  = (vw - 16 - 2 * outerBorderCss) / 8;
   let cell = Math.min(cellFromHeight, cellFromWidth);
   if (!(cell > 0)) return;
