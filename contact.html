@@ -491,16 +491,25 @@
               <option value="Backgammon" data-icon="https://cdn.bdz5.com/staplegames/backgammon_icon.png">Backgammon</option>
               <option value="Block Match" data-icon="https://cdn.bdz5.com/staplegames/blockmatch_icon.png">Block Match</option>
               <option value="Block Puzzle - Classic Style" data-icon="https://cdn.bdz5.com/staplegames/blocksClassicSG_icon.png">Block Puzzle - Classic Style</option>
+              <option value="Block Puzzle - Sort Style" data-icon="https://cdn.bdz5.com/staplegames/blocksSortSG_icon.png">Block Puzzle - Sort Style</option>
               <option value="Block Puzzle - Sudoku Style" data-icon="https://cdn.bdz5.com/staplegames/blocksSudokuSG_icon.png">Block Puzzle - Sudoku Style</option>
               <option value="Block Puzzle - Wood Style" data-icon="https://cdn.bdz5.com/staplegames/blocksWood_icon.png">Block Puzzle - Wood Style</option>
+              <option value="Checkers" data-icon="https://cdn.bdz5.com/staplegames/checkers_icon.png">Checkers</option>
+              <option value="Chess" data-icon="https://cdn.bdz5.com/staplegames/chess_icon.png">Chess</option>
               <option value="Dice Merge" data-icon="https://cdn.bdz5.com/staplegames/dice_icon.png">Dice</option>
               <option value="Dominoes" data-icon="https://cdn.bdz5.com/staplegames/dominoes_icon.png">Dominoes</option>
               <option value="Dyno" data-icon="https://cdn.bdz5.com/staplegames/dyno_icon.png">Dyno</option>
+              <option value="Escape" data-icon="https://cdn.bdz5.com/staplegames/escape_icon.png">Escape</option>
+              <option value="Euchre" data-icon="https://cdn.bdz5.com/staplegames/euchre_icon.png">Euchre</option>
               <option value="FreeCell Solitaire" data-icon="https://cdn.bdz5.com/staplegames/freecellSolitaire_icon.png">FreeCell Solitaire</option>
               <option value="Hearts" data-icon="https://cdn.bdz5.com/staplegames/hearts_icon.png">Hearts</option>
+              <option value="Jigsaw" data-icon="https://cdn.bdz5.com/staplegames/jigsaw_icon.png">Jigsaw</option>
               <option value="Ludo" data-icon="https://cdn.bdz5.com/staplegames/ludo_icon.png">Ludo</option>
               <option value="Mahjong Collector" data-icon="https://cdn.bdz5.com/staplegames/mahjongcollector_icon.png">Mahjong Collector</option>
               <option value="Match Collector" data-icon="https://cdn.bdz5.com/staplegames/matchcollector_icon.png">Match Collector</option>
+              <option value="Minesweeper" data-icon="https://cdn.bdz5.com/staplegames/minesweeper_icon.png">Minesweeper</option>
+              <option value="Pair 10" data-icon="https://cdn.bdz5.com/staplegames/pair10_icon.png">Pair 10</option>
+              <option value="Pyramid Solitaire" data-icon="https://cdn.bdz5.com/staplegames/pyramidSolitaire_icon.png">Pyramid Solitaire</option>
               <option value="Sagadoku" data-icon="https://cdn.bdz5.com/staplegames/sagadoku_icon.png">Sagadoku</option>
               <option value="Solitaire" data-icon="https://cdn.bdz5.com/staplegames/solitaire_icon.png">Solitaire</option>
               <option value="Sort Collector" data-icon="https://cdn.bdz5.com/staplegames/sortcollector_icon.png">Sort Collector</option>
@@ -698,6 +707,9 @@
         optionElement.style.display = 'flex';
         optionElement.style.alignItems = 'center';
         optionElement.style.transition = 'background-color 0.2s';
+        // Slug = url-friendly version of the option value, used by ?app=<slug>
+        // to preselect the app from a deep-link (e.g., from app store support URLs).
+        optionElement.dataset.slug = slugify(option.value);
         
         // Add icon if available
         const iconUrl = option.getAttribute('data-icon');
@@ -796,6 +808,40 @@
       originalSelect.style.display = 'none';
       
       console.log("Custom dropdown initialized successfully");
+
+      // Auto-select app from URL query param (e.g., ?app=match-collector).
+      // Used as the support URL for individual app store listings so the
+      // dropdown is pre-populated for the user.
+      preselectAppFromURL();
+    }
+
+    // Convert an app display name to a URL slug (lowercase, alphanumerics
+    // separated by single hyphens). Used both when tagging dropdown options
+    // and when matching incoming ?app=... URL params.
+    function slugify(str) {
+      return String(str)
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+    }
+
+    // Reads ?app=<slug> from the URL and clicks the matching dropdown option
+    // to preselect it. Silently no-ops if no param or no match.
+    function preselectAppFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      const appParam = params.get('app');
+      if (!appParam) {
+        console.log("No ?app= param in URL, skipping preselect");
+        return;
+      }
+      const slug = slugify(appParam);
+      const target = document.querySelector('.dropdown-option[data-slug="' + slug + '"]');
+      if (target) {
+        target.click();
+        console.log("Preselected app from URL slug:", slug);
+      } else {
+        console.warn("No dropdown option matches URL app slug:", slug);
+      }
     }
     
     // Function to reset the custom dropdown
