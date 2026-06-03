@@ -825,22 +825,50 @@
         .replace(/^-+|-+$/g, '');
     }
 
-    // Reads ?app=<slug> from the URL and clicks the matching dropdown option
-    // to preselect it. Silently no-ops if no param or no match.
+    // Reads ?app=<slug> and ?platform=<ios|android> from the URL and
+    // preselects the matching dropdown option / platform radio. Silently
+    // no-ops on missing params or non-matching values.
     function preselectAppFromURL() {
       const params = new URLSearchParams(window.location.search);
+
+      // App slug -> dropdown option click
       const appParam = params.get('app');
-      if (!appParam) {
-        console.log("No ?app= param in URL, skipping preselect");
-        return;
-      }
-      const slug = slugify(appParam);
-      const target = document.querySelector('.dropdown-option[data-slug="' + slug + '"]');
-      if (target) {
-        target.click();
-        console.log("Preselected app from URL slug:", slug);
+      if (appParam) {
+        const slug = slugify(appParam);
+        const target = document.querySelector('.dropdown-option[data-slug="' + slug + '"]');
+        if (target) {
+          target.click();
+          console.log("Preselected app from URL slug:", slug);
+        } else {
+          console.warn("No dropdown option matches URL app slug:", slug);
+        }
       } else {
-        console.warn("No dropdown option matches URL app slug:", slug);
+        console.log("No ?app= param in URL, skipping app preselect");
+      }
+
+      // Platform -> radio button check. Accepts ios/iOS/IOS and android/Android.
+      const platformParam = params.get('platform');
+      if (platformParam) {
+        const normalized = platformParam.trim().toLowerCase();
+        let value = null;
+        if (normalized === 'ios') {
+          value = 'iOS';
+        } else if (normalized === 'android') {
+          value = 'Android';
+        }
+        if (value) {
+          const radio = document.querySelector('input[name="platform"][value="' + value + '"]');
+          if (radio) {
+            radio.checked = true;
+            console.log("Preselected platform from URL:", value);
+          } else {
+            console.warn("Platform radio not found for value:", value);
+          }
+        } else {
+          console.warn("Unrecognized ?platform= value:", platformParam);
+        }
+      } else {
+        console.log("No ?platform= param in URL, skipping platform preselect");
       }
     }
     
