@@ -364,7 +364,122 @@
       position: relative;
       z-index: 2;
     }
-    
+
+    /* ===== New Launch / Featured Release Section ===== */
+    .launch-section {
+      padding: var(--spacing-xl) 0;
+      background: linear-gradient(135deg, var(--brand-orange) 0%, var(--brand-gold) 100%); /* fallback while video loads */
+      border-top: var(--border-width) solid var(--primary-black);
+      border-bottom: var(--border-width) solid var(--primary-black);
+      position: relative; /* anchor for the absolutely-positioned background video */
+      overflow: hidden;
+    }
+
+    /* Background video fills the whole section, sitting behind the card */
+    .launch-bg-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    /* Show wide video on desktop, tall video on mobile */
+    .launch-bg-video--mobile { display: none; }
+    @media (max-width: 768px) {
+      .launch-bg-video--desktop { display: none; }
+      .launch-bg-video--mobile { display: block; }
+    }
+
+    /* Keep the container (and card) above the video */
+    .launch-section .container {
+      position: relative;
+      z-index: 1;
+    }
+
+    .launch-card {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-lg);
+      background: var(--white);
+      border: var(--border-width) solid var(--primary-black);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-lg);
+      box-shadow: 0 12px 0 0 var(--primary-black); /* Chunky offset shadow to match site style */
+    }
+
+    .launch-art {
+      flex: 0 0 38%;
+      max-width: 38%;
+    }
+
+    .launch-art img {
+      width: 100%;
+      height: auto;
+      border: var(--border-width) solid var(--primary-black);
+      border-radius: var(--border-radius);
+      display: block;
+    }
+
+    .launch-content {
+      flex: 1;
+      text-align: left;
+    }
+
+    .launch-badge {
+      display: inline-block;
+      background: var(--brand-red);
+      color: var(--white);
+      border: var(--border-width) solid var(--primary-black);
+      border-radius: var(--border-radius-sm);
+      padding: var(--spacing-xs) var(--spacing-md);
+      font-weight: var(--font-weight-bold);
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .launch-title {
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .launch-blurb {
+      font-size: 18px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      margin-bottom: var(--spacing-md);
+    }
+
+    .launch-buttons {
+      display: flex;
+      gap: var(--spacing-md);
+      flex-wrap: wrap;
+    }
+
+    /* Stack art above content on narrow screens */
+    @media (max-width: 768px) {
+      .launch-card {
+        flex-direction: column;
+        text-align: center;
+      }
+      .launch-art,
+      .launch-content {
+        max-width: 100%;
+        flex: 1 1 100%;
+        text-align: center;
+      }
+      .launch-buttons {
+        justify-content: center;
+      }
+    }
+
     /* Score counter style element */
     .score-badge {
       display: inline-block;
@@ -1489,7 +1604,42 @@
       </div>
     </div>
   </section>
-  
+
+  <!-- New Launch Highlight: Kenan & Kel release -->
+  <section class="launch-section" id="new-launch">
+    <!-- Background video (autoplay requires muted + playsinline). Two versions:
+         wide for desktop, tall for mobile; CSS shows only the right one. -->
+    <video class="launch-bg-video launch-bg-video--desktop" autoplay muted loop playsinline preload="auto" poster="https://cdn.bdz5.com/staplegames/kenankel_icon.png">
+      <source src="https://cdn.bdz5.com/staplegames/kenankel_seamless.mp4" type="video/mp4">
+    </video>
+    <video class="launch-bg-video launch-bg-video--mobile" autoplay muted loop playsinline preload="auto" poster="https://cdn.bdz5.com/staplegames/kenankel_icon.png">
+      <source src="https://cdn.bdz5.com/staplegames/kenankel_seamless_vertical.mp4" type="video/mp4">
+    </video>
+    <div class="container">
+      <div class="launch-card">
+        <div class="launch-art">
+          <img src="https://cdn.bdz5.com/staplegames/kenankel_icon.png" alt="Kenan & Kel game icon">
+        </div>
+        <div class="launch-content">
+          <span class="launch-badge">Just Launched</span>
+          <h2 class="launch-title">Orange Pop!</h2>
+          <p class="launch-blurb">
+            Working with Kenan Thompson and Kel Mitchell was an absolute blast. Their energy, comedic timing, and genuine love for games brought something special to every step of development. Seeing it launched on the Today Show was quite surreal.
+          </p>
+          <div class="launch-buttons">
+            <!-- TODO: replace with the real App Store / Google Play links -->
+            <div class="play-button-wrapper">
+              <a href="https://apps.apple.com/app/id6764105479" class="play-button primary">Play on iOS</a>
+            </div>
+            <div class="play-button-wrapper">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.pop" class="play-button primary">Play on Android</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Featured Games -->
   <section class="featured-section" id="featured">
     <div class="container">
@@ -1499,22 +1649,22 @@
       </div>
       
       <div class="games-grid">
-        <!-- Match Collector -->
+        <!-- Dice Merge -->
         <div class="game-tile-wrapper">
           <div class="game-tile">
           <div class="game-tile-icon">
-            <img src="https://cdn.bdz5.com/staplegames/matchcollector_icon.png" alt="Match Collector">
+            <img src="https://cdn.bdz5.com/staplegames/dice_icon.png" alt="Dice Merge">
             <span class="category-badge puzzle">Puzzle</span>
           </div>
           <div class="game-tile-content">
-            <h3 class="game-tile-title">Match Collector</h3>
-            <p class="game-tile-desc">A colorful and addictive match-3 puzzle game</p>
+            <h3 class="game-tile-title">Dice Merge</h3>
+            <p class="game-tile-desc">The perfect puzzle combination of block and merge</p>
             <div class="game-tile-actions">
               <div class="store-button-wrapper">
-                <a href="https://play.google.com/store/apps/details?id=com.staplegames.matchcollector" class="store-button"><span class="mobile-text">Play</span><span class="desktop-text">Google Play</span></a>
+                <a href="https://play.google.com/store/apps/details?id=com.staplegames.dice" class="store-button"><span class="mobile-text">Android</span><span class="desktop-text">Google Play</span></a>
               </div>
               <div class="store-button-wrapper">
-                <a href="https://apps.apple.com/app/match-collector/id6462309005" class="store-button"><span class="mobile-text">iOS</span><span class="desktop-text">App Store</span></a>
+                <a href="https://apps.apple.com/app/dice/id1663958329" class="store-button"><span class="mobile-text">iOS</span><span class="desktop-text">App Store</span></a>
               </div>
             </div>
           </div>
@@ -1543,22 +1693,22 @@
           </div>
         </div>
         
-        <!-- Dice Merge -->
+        <!-- Spades -->
         <div class="game-tile-wrapper">
           <div class="game-tile">
           <div class="game-tile-icon">
-            <img src="https://cdn.bdz5.com/staplegames/dice_icon.png" alt="Dice Merge">
-            <span class="category-badge puzzle">Puzzle</span>
+            <img src="images/app-icons/icon-spades.jpeg" alt="Spades">
+            <span class="category-badge cards">Cards</span>
           </div>
           <div class="game-tile-content">
-            <h3 class="game-tile-title">Dice Merge</h3>
-            <p class="game-tile-desc">The perfect puzzle combination of block and merge</p>
+            <h3 class="game-tile-title">Spades</h3>
+            <p class="game-tile-desc">The classic trick-taking card game, reimagined</p>
             <div class="game-tile-actions">
               <div class="store-button-wrapper">
-                <a href="https://play.google.com/store/apps/details?id=com.staplegames.dice" class="store-button"><span class="mobile-text">Android</span><span class="desktop-text">Google Play</span></a>
+                <a href="https://play.google.com/store/apps/details?id=com.staplegames.spades" class="store-button"><span class="mobile-text">Play</span><span class="desktop-text">Google Play</span></a>
               </div>
               <div class="store-button-wrapper">
-                <a href="https://apps.apple.com/app/dice/id1663958329" class="store-button"><span class="mobile-text">iOS</span><span class="desktop-text">App Store</span></a>
+                <a href="https://apps.apple.com/app/spades-by-staple-games/id6447909127" class="store-button"><span class="mobile-text">iOS</span><span class="desktop-text">App Store</span></a>
               </div>
             </div>
           </div>
@@ -1620,18 +1770,86 @@
       
       <!-- All games grid -->
       <div class="games-grid-compact">
-        <!-- Match Collector -->
-        <div class="game-tile-wrapper">
+        <!-- Orange Pop! (hidden until go-live, see orangePopLive check in campaign script) -->
+        <div class="game-tile-wrapper" id="orange-pop-tile">
           <div class="game-tile">
           <div class="game-tile-icon">
-            <img src="https://cdn.bdz5.com/staplegames/matchcollector_icon.png" alt="Match Collector">
+            <img src="https://cdn.bdz5.com/staplegames/kenankel_icon.png" alt="Orange Pop!">
             <span class="category-badge puzzle">Puzzle</span>
           </div>
           <div class="game-tile-content">
-            <h3 class="game-tile-title">Match Collector</h3>
+            <h3 class="game-tile-title">Orange Pop!</h3>
             <div class="game-tile-actions">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.matchcollector" class="store-button">Android</a>
-              <a href="https://apps.apple.com/app/match-collector/id6462309005" class="store-button">iOS</a>
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.pop" class="store-button">Android</a>
+              <a href="https://apps.apple.com/app/id6764105479" class="store-button">iOS</a>
+            </div>
+          </div>
+          </div>
+        </div>
+        
+        <!-- Sudoku -->
+        <div class="game-tile-wrapper">
+          <div class="game-tile">
+          <div class="game-tile-icon">
+            <img src="https://cdn.bdz5.com/staplegames/sudokuSG_icon.png" alt="Sudoku">
+            <span class="category-badge puzzle">Puzzle</span>
+          </div>
+          <div class="game-tile-content">
+            <h3 class="game-tile-title">Sudoku</h3>
+            <div class="game-tile-actions">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.sudokuClassicGP" class="store-button">Android</a>
+              <a href="https://apps.apple.com/app/sudoku/id1561193287" class="store-button">iOS</a>
+            </div>
+          </div>
+          </div>
+        </div>
+        
+        <!-- Yatzy -->
+        <div class="game-tile-wrapper">
+          <div class="game-tile">
+          <div class="game-tile-icon">
+            <img src="https://cdn.bdz5.com/staplegames/yatzy_icon.png" alt="Yatzy">
+            <span class="category-badge dice">Dice</span>
+          </div>
+          <div class="game-tile-content">
+            <h3 class="game-tile-title">Yatzy</h3>
+            <div class="game-tile-actions">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.yatzy" class="store-button">Android</a>
+              <a href="https://apps.apple.com/app/yatzy/id6477965248" class="store-button">iOS</a>
+            </div>
+          </div>
+          </div>
+        </div>
+        
+        <!-- Jigsaw -->
+        <div class="game-tile-wrapper">
+          <div class="game-tile">
+          <div class="game-tile-icon">
+            <img src="https://cdn.bdz5.com/staplegames/jigsaw_icon.png" alt="Jigsaw">
+            <span class="category-badge puzzle">Puzzle</span>
+          </div>
+          <div class="game-tile-content">
+            <h3 class="game-tile-title">Jigsaw</h3>
+            <div class="game-tile-actions">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.jigsaw" class="store-button">Android</a>
+              <a href="https://apps.apple.com/app/id6755732723" class="store-button">iOS</a>
+            </div>
+          </div>
+          </div>
+        </div>
+        
+        <!-- Pair 10 -->
+        <div class="game-tile-wrapper">
+          <div class="game-tile">
+          <div class="game-tile-icon">
+            <img src="images/app-icons/icon-pair-10.jpeg" alt="Pair 10">
+            <span class="category-badge puzzle">Puzzle</span>
+          </div>
+          <div class="game-tile-content">
+            <h3 class="game-tile-title">Pair 10</h3>
+            <div class="game-tile-actions">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.numbers" class="store-button">Android</a>
+              <a href="https://apps.apple.com/app/pair-10-by-staple-games/id6739227177" class="store-button">iOS</a>
             </div>
           </div>
           </div>
@@ -1671,6 +1889,40 @@
           </div>
         </div>
         
+        <!-- Word Search -->
+        <div class="game-tile-wrapper">
+          <div class="game-tile">
+          <div class="game-tile-icon">
+            <img src="images/app-icons/icon-word-search.jpeg" alt="Word Search">
+            <span class="category-badge word">Word</span>
+          </div>
+          <div class="game-tile-content">
+            <h3 class="game-tile-title">Word Search</h3>
+            <div class="game-tile-actions">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.wordsearch" class="store-button">Android</a>
+              <a href="https://apps.apple.com/app/word-search-by-staple-games/id1643013597" class="store-button">iOS</a>
+            </div>
+          </div>
+          </div>
+        </div>
+        
+        <!-- Match Collector -->
+        <div class="game-tile-wrapper">
+          <div class="game-tile">
+          <div class="game-tile-icon">
+            <img src="https://cdn.bdz5.com/staplegames/matchcollector_icon.png" alt="Match Collector">
+            <span class="category-badge puzzle">Puzzle</span>
+          </div>
+          <div class="game-tile-content">
+            <h3 class="game-tile-title">Match Collector</h3>
+            <div class="game-tile-actions">
+              <a href="https://play.google.com/store/apps/details?id=com.staplegames.matchcollector" class="store-button">Android</a>
+              <a href="https://apps.apple.com/app/match-collector/id6462309005" class="store-button">iOS</a>
+            </div>
+          </div>
+          </div>
+        </div>
+        
         <!-- Block Puzzle Classic -->
         <div class="game-tile-wrapper">
           <div class="game-tile">
@@ -1683,23 +1935,6 @@
             <div class="game-tile-actions">
               <a href="https://play.google.com/store/apps/details?id=com.staplegames.blocksClassicSGGP" class="store-button">Android</a>
               <a href="https://apps.apple.com/app/block-puzzle-classic/id1572892132" class="store-button">iOS</a>
-            </div>
-          </div>
-          </div>
-        </div>
-        
-        <!-- Sudoku -->
-        <div class="game-tile-wrapper">
-          <div class="game-tile">
-          <div class="game-tile-icon">
-            <img src="https://cdn.bdz5.com/staplegames/sudokuSG_icon.png" alt="Sudoku">
-            <span class="category-badge puzzle">Puzzle</span>
-          </div>
-          <div class="game-tile-content">
-            <h3 class="game-tile-title">Sudoku</h3>
-            <div class="game-tile-actions">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.sudokuClassicGP" class="store-button">Android</a>
-              <a href="https://apps.apple.com/app/sudoku/id1561193287" class="store-button">iOS</a>
             </div>
           </div>
           </div>
@@ -1841,23 +2076,6 @@
           </div>
         </div>
         
-        <!-- Yatzy -->
-        <div class="game-tile-wrapper">
-          <div class="game-tile">
-          <div class="game-tile-icon">
-            <img src="https://cdn.bdz5.com/staplegames/yatzy_icon.png" alt="Yatzy">
-            <span class="category-badge dice">Dice</span>
-          </div>
-          <div class="game-tile-content">
-            <h3 class="game-tile-title">Yatzy</h3>
-            <div class="game-tile-actions">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.yatzy" class="store-button">Android</a>
-              <a href="https://apps.apple.com/app/yatzy/id6477965248" class="store-button">iOS</a>
-            </div>
-          </div>
-          </div>
-        </div>
-        
         <!-- Block Puzzle Sudoku -->
         <div class="game-tile-wrapper">
           <div class="game-tile">
@@ -1992,40 +2210,6 @@
           </div>
         </div>
         
-        <!-- Word Search -->
-        <div class="game-tile-wrapper">
-          <div class="game-tile">
-          <div class="game-tile-icon">
-            <img src="images/app-icons/icon-word-search.jpeg" alt="Word Search">
-            <span class="category-badge word">Word</span>
-          </div>
-          <div class="game-tile-content">
-            <h3 class="game-tile-title">Word Search</h3>
-            <div class="game-tile-actions">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.wordsearch" class="store-button">Android</a>
-              <a href="https://apps.apple.com/app/word-search-by-staple-games/id1643013597" class="store-button">iOS</a>
-            </div>
-          </div>
-          </div>
-        </div>
-        
-        <!-- Pair 10 -->
-        <div class="game-tile-wrapper">
-          <div class="game-tile">
-          <div class="game-tile-icon">
-            <img src="images/app-icons/icon-pair-10.jpeg" alt="Pair 10">
-            <span class="category-badge puzzle">Puzzle</span>
-          </div>
-          <div class="game-tile-content">
-            <h3 class="game-tile-title">Pair 10</h3>
-            <div class="game-tile-actions">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.numbers" class="store-button">Android</a>
-              <a href="https://apps.apple.com/app/pair-10-by-staple-games/id6739227177" class="store-button">iOS</a>
-            </div>
-          </div>
-          </div>
-        </div>
-        
         <!-- Spades -->
         <div class="game-tile-wrapper">
           <div class="game-tile">
@@ -2105,23 +2289,6 @@
             <h3 class="game-tile-title">Chess</h3>
             <div class="game-tile-actions">
               <a href="https://apps.apple.com/app/id6756031740" class="store-button">iOS</a>
-            </div>
-          </div>
-          </div>
-        </div>
-
-        <!-- Jigsaw -->
-        <div class="game-tile-wrapper">
-          <div class="game-tile">
-          <div class="game-tile-icon">
-            <img src="https://cdn.bdz5.com/staplegames/jigsaw_icon.png" alt="Jigsaw">
-            <span class="category-badge puzzle">Puzzle</span>
-          </div>
-          <div class="game-tile-content">
-            <h3 class="game-tile-title">Jigsaw</h3>
-            <div class="game-tile-actions">
-              <a href="https://play.google.com/store/apps/details?id=com.staplegames.jigsaw" class="store-button">Android</a>
-              <a href="https://apps.apple.com/app/id6755732723" class="store-button">iOS</a>
             </div>
           </div>
           </div>
@@ -2225,8 +2392,50 @@
     // 3. Milestones can be 0 or more (this example has 3)
     // 4. The progress bar will automatically calculate based on currentAmount/goal
     
+    // Orange Pop launch + donation sections go live June 10, 2026 at 10:00 a.m. ET (EDT = UTC-4)
+    const ORANGE_POP_GO_LIVE = new Date('2026-06-10T10:00:00-04:00');
+    const orangePopLive = Date.now() >= ORANGE_POP_GO_LIVE.getTime();
+    console.log('Orange Pop go-live check:', orangePopLive ? 'LIVE' : 'hidden until ' + ORANGE_POP_GO_LIVE.toString());
+
+    // Hide the Orange Pop "New Launch" section and All Games tile until go-live
+    if (!orangePopLive) {
+      document.getElementById('new-launch').style.display = 'none';
+      document.getElementById('orange-pop-tile').style.display = 'none';
+    }
+
     // Campaigns array with multiple campaign configurations
     const campaigns = [
+      {
+        id: "kenanfoundation",
+        name: "Orange Pop Launch",
+        logo: "https://cdn.bdz5.com/staplegames/kenankel_icon.png",
+        logoAlt: "Orange Pop! for the Kenan Thompson Family Foundation and National College Resources Foundation",
+        headline: "Orange Pop! for the Kenan Thompson Family Foundation & National College Resources Foundation",
+        goal: 100000,
+        currentAmount: 10000, // TODO: update with the live total as downloads come in
+        accentColor: "var(--brand-orange)",
+        progressBarColor: "var(--brand-orange)", // Orange progress bar to match Orange Pop!
+        progressBarPaddingReduction: 0, // Single milestone at 100%, no padding reduction needed
+        milestones: [
+          {
+            amount: 100000,
+            label: "Goal",
+            icon: "https://cdn.bdz5.com/staplegames/kenankel_icon.png",
+            position: 100,
+            completed: false
+          }
+        ],
+        bodyText: "To celebrate the launch of Orange Pop! on the Today Show, we're donating $1 for every download of Orange Pop! to support the Kenan Thompson Family Foundation and the National College Resources Foundation.\n\nWith a goal of $100,000, every install helps support their work empowering young people through education, mentorship, and the arts.\n\nDownload Orange Pop!, play, and give back — it's that simple.",
+        downloadLinks: {
+          ios: "https://apps.apple.com/app/id6764105479",
+          android: "https://play.google.com/store/apps/details?id=com.staplegames.pop"
+        },
+        termsLink: "/terms/orange-pop-terms.html",
+        ctaButton: {
+          text: "Play to Donate Now!",
+          link: "https://orangepop.onelink.me/OGU8/sg_web" // AppsFlyer OneLink (handles store routing + attribution)
+        }
+      },
       {
         id: "stjude",
         name: "St. Jude",
@@ -2261,15 +2470,17 @@
             completed: false
           }
         ],
-        bodyText: "You've raised {amount} for St. Jude by downloading and playing our games. Help us reach $1M by playing Match Collector. We're donating 2 cents for every State or Stay tile collected and 10 cents for every St. Jude tile.\n\nThese St. Jude tiles are extra special – each was inspired by artwork from amazing St. Jude Patients!\n\nYou can follow the campaign or donate directly at <a href='https://stjude.org/50states' style='color: var(--brand-blue); text-decoration: underline;'>stjude.org/50states</a>.",
+        bodyText: "Together, our players raised {amount} for St. Jude by downloading and playing our games. The campaign has come to a close, and we couldn't be more excited about the good it was able to produce for the kids of St. Jude.\n\nThe St. Jude tiles were extra special – each was inspired by artwork from amazing St. Jude Patients!",
         downloadLinks: {
           ios: "https://apps.apple.com/app/match-collector/id6462309005",
           android: "https://play.google.com/store/apps/details?id=com.staplegames.matchcollector"
         },
         termsLink: "/terms/50-stays-terms.html",
+        hideDownloadAndTerms: true, // Campaign concluded: hide download links + terms
         ctaButton: {
-          text: "Play to Donate Now!",
-          link: "https://staplegames.com/match"
+          text: "Campaign Complete ✓",
+          link: "#",
+          disabled: true
         }
       },
       {
@@ -2298,6 +2509,7 @@
           android: "https://play.google.com/store/apps/details?id=com.staplegames.matchcollector"
         },
         termsLink: "/teamwater/creators.html",
+        hideDownloadAndTerms: true, // Campaign concluded: hide download links + terms
         ctaButton: {
           text: "Campaign Complete ✓",
           link: "#",
@@ -2322,12 +2534,14 @@
           android: "https://play.google.com/store/apps/developer?id=Staple+Games"
         },
         termsLink: "/terms/copper-key-terms.html",
+        hideDownloadAndTerms: true, // Campaign concluded: hide download links + terms
         ctaButton: {
-          text: "Play to Donate Now!",
-          link: "https://staplegames.com/download"
+          text: "Campaign Complete ✓",
+          link: "#",
+          disabled: true
         }
       }
-    ];
+    ].filter(campaign => campaign.id !== "kenanfoundation" || orangePopLive); // Hide Orange Pop donation campaign until go-live
     
     let currentCampaignIndex = 0;
     
@@ -2390,6 +2604,7 @@
         </div>
         
         <!-- Download Links and Terms -->
+        ${config.hideDownloadAndTerms ? '<div style="height: 60px;"></div>' /* spacer so absolutely-positioned CTA doesn\'t overlap body text */ : `
         <div style="margin-top: 24px; padding-top: 24px; border-top: 2px solid rgba(0,0,0,0.1);">
           <p style="font-weight: 600; margin-bottom: 12px; text-align: center;">
             Download to donate on 
@@ -2399,7 +2614,7 @@
           <p style="font-size: 16px; margin-bottom: 40px; text-align: center;">
             <a href="${config.termsLink}" style="color: var(--brand-gray); text-decoration: underline; font-weight: 400;">See full terms & details here</a>
           </p>
-        </div>
+        </div>`}
         
         <!-- CTA Button -->
         <div class="promo-badge-wrapper">
@@ -2596,6 +2811,11 @@
           const filterText = this.textContent.toLowerCase();
           
           gameCards.forEach(card => {
+            // Keep the Orange Pop tile hidden until go-live, regardless of filter
+            if (card.id === 'orange-pop-tile' && !orangePopLive) {
+              card.style.display = 'none';
+              return;
+            }
             if (filterText === 'all') {
               card.style.display = '';
             } else {
