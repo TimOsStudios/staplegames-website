@@ -602,6 +602,19 @@
       transform: translateY(0);
     }
     
+    /* Smaller play buttons on mobile so they fit side by side */
+    @media (max-width: 768px) {
+      .play-button {
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: 16px;
+      }
+      
+      .play-button-wrapper::before {
+        top: 4px;
+        bottom: -4px;
+      }
+    }
+    
     /* Platform badges */
     .platform-badge {
       display: inline-flex;
