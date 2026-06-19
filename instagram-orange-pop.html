@@ -14,28 +14,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <meta name="robots" content="noindex, nofollow">
-  <title>Follow Staple Games on Instagram</title>
+  <title>Big news from Staple Games — Follow on Instagram</title>
 
   <style>
     :root {
-      --primary-blue: #007AFF;
-      --primary-purple: #af52de;
-      --text-primary: #1D1D1F;
+      /* Match the homepage brand palette used by the Orange Pop! launch section */
+      --brand-red:    #FF3B30;
+      --brand-orange: #FF9500;
+      --brand-gold:   #FFCC00;
+
+      --text-primary:   #1D1D1F;
       --text-secondary: #86868B;
-      --bg-primary: #FFFFFF;
+      --text-on-orange: #2A1500;
+
       --bg-secondary: #F5F5F7;
-      --border-color: #E5E5E7;
-      --shadow-light: 0 2px 8px rgba(0,0,0,0.08);
-      --shadow-medium: 0 4px 16px rgba(0,0,0,0.12);
+      --shadow-light:  0 2px 8px rgba(0,0,0,0.08);
+      --shadow-medium: 0 8px 24px rgba(255, 149, 0, 0.30);
       --border-radius: 16px;
       --border-radius-large: 24px;
 
-      /* Instagram brand gradient stops */
-      --ig-yellow: #FEDA77;
+      /* Instagram brand gradient stops, used only for the CTA button */
       --ig-orange: #F58529;
       --ig-pink:   #DD2A7B;
       --ig-purple: #8134AF;
-      --ig-blue:   #515BD4;
     }
 
     * {
@@ -46,11 +47,11 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
-      background: linear-gradient(180deg,
-        rgba(221, 42, 123, 0.10) 0%,
-        rgba(245, 245, 247, 1) 30%,
-        rgba(245, 245, 247, 1) 70%,
-        rgba(129, 52, 175, 0.10) 100%);
+      /* Soft orange/gold wash that echoes the launch-section gradient on the homepage. */
+      background:
+        radial-gradient(ellipse at top, rgba(255, 204, 0, 0.25) 0%, rgba(245, 245, 247, 0) 60%),
+        radial-gradient(ellipse at bottom, rgba(255, 149, 0, 0.22) 0%, rgba(245, 245, 247, 0) 60%),
+        var(--bg-secondary);
       color: var(--text-primary);
       min-height: 100vh;
       padding: 20px;
@@ -72,13 +73,26 @@
 
     .header {
       animation: fadeIn 0.4s ease-out;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     .header-logo {
       width: 56px;
       height: 56px;
       margin-bottom: 14px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      background: var(--brand-red);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 6px 12px;
+      border-radius: 999px;
+      margin-bottom: 12px;
     }
 
     .header h1 {
@@ -104,55 +118,72 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .ig-card {
-      background: rgba(255, 255, 255, 0.95);
+    @keyframes pop {
+      0%   { transform: scale(1) rotate(0deg); }
+      25%  { transform: scale(1.04) rotate(-2deg); }
+      50%  { transform: scale(1)    rotate(0deg); }
+      75%  { transform: scale(1.04) rotate(2deg); }
+      100% { transform: scale(1)    rotate(0deg); }
+    }
+
+    .launch-card {
+      background: linear-gradient(135deg, var(--brand-orange) 0%, var(--brand-gold) 100%);
       border-radius: var(--border-radius-large);
       padding: 28px 24px 24px;
-      box-shadow: var(--shadow-light);
-      border: 1px solid rgba(255, 255, 255, 0.8);
+      box-shadow: var(--shadow-medium);
       animation: slideUp 0.4s ease-out 0.05s backwards;
+      position: relative;
+      overflow: hidden;
     }
 
-    .ig-icon-wrap {
-      width: 88px;
-      height: 88px;
+    /* Subtle radial highlight on the card to add depth */
+    .launch-card::before {
+      content: "";
+      position: absolute;
+      top: -40%;
+      left: -20%;
+      width: 140%;
+      height: 140%;
+      background: radial-gradient(ellipse at center, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0) 55%);
+      pointer-events: none;
+    }
+
+    .launch-card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .game-icon {
+      width: 110px;
+      height: 110px;
       margin: 0 auto 18px;
-      border-radius: 22px;
-      background: linear-gradient(135deg,
-        var(--ig-yellow) 0%,
-        var(--ig-orange) 25%,
-        var(--ig-pink) 50%,
-        var(--ig-purple) 75%,
-        var(--ig-blue) 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 8px 24px rgba(221, 42, 123, 0.28);
-      animation: float 3s ease-in-out infinite;
+      border-radius: 26px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.20);
+      display: block;
+      animation: pop 4s ease-in-out infinite;
     }
 
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-6px); }
-    }
-
-    .ig-icon {
-      width: 52px;
-      height: 52px;
-      color: #fff;
-    }
-
-    .ig-card h2 {
-      font-size: 22px;
-      font-weight: 700;
+    .launch-card h2 {
+      font-size: 26px;
+      font-weight: 800;
       letter-spacing: -0.02em;
-      color: var(--text-primary);
-      margin-bottom: 10px;
+      color: var(--text-on-orange);
+      margin-bottom: 6px;
     }
 
-    .ig-card p {
+    .featuring {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-on-orange);
+      opacity: 0.75;
+      margin-bottom: 14px;
+      letter-spacing: 0.01em;
+    }
+
+    .launch-card p.blurb {
       font-size: 15px;
-      color: var(--text-secondary);
+      color: var(--text-on-orange);
+      opacity: 0.85;
       margin-bottom: 22px;
     }
 
@@ -161,16 +192,10 @@
       align-items: center;
       gap: 6px;
       font-size: 14px;
-      font-weight: 600;
-      color: var(--text-secondary);
-      margin-bottom: 18px;
-    }
-
-    .ig-handle span {
-      background: linear-gradient(135deg, var(--ig-pink), var(--ig-purple));
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
+      font-weight: 700;
+      color: var(--text-on-orange);
+      opacity: 0.9;
+      margin-bottom: 14px;
     }
 
     .follow-btn {
@@ -189,14 +214,14 @@
       font-size: 17px;
       font-weight: 600;
       text-decoration: none;
-      box-shadow: 0 6px 18px rgba(221, 42, 123, 0.35);
+      box-shadow: 0 6px 18px rgba(129, 52, 175, 0.35);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
       -webkit-tap-highlight-color: transparent;
     }
 
     .follow-btn:active {
       transform: scale(0.98);
-      box-shadow: 0 4px 12px rgba(221, 42, 123, 0.3);
+      box-shadow: 0 4px 12px rgba(129, 52, 175, 0.30);
     }
 
     .follow-btn svg {
@@ -205,9 +230,10 @@
     }
 
     .footnote {
-      margin-top: 18px;
+      margin-top: 16px;
       font-size: 12px;
-      color: var(--text-secondary);
+      color: var(--text-on-orange);
+      opacity: 0.7;
     }
 
     /* Debug info - hidden by default */
@@ -234,26 +260,25 @@
   <div class="container">
     <div class="header">
       <img src="images/sg-logo.svg" alt="Staple Games" class="header-logo">
-      <h1>Stay in the loop</h1>
-      <p>Be the first to hear about new releases and updates.</p>
+      <span class="eyebrow">Fresh from Staple Games</span>
+      <h1>Something new is popping</h1>
+      <p>The latest from us is dropping on Instagram first.</p>
     </div>
 
-    <div class="ig-card">
-      <div class="ig-icon-wrap">
-        <!-- Inline Instagram glyph -->
-        <svg class="ig-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect x="2.5" y="2.5" width="19" height="19" rx="5.5" stroke="white" stroke-width="2"/>
-          <circle cx="12" cy="12" r="4.25" stroke="white" stroke-width="2"/>
-          <circle cx="17.5" cy="6.5" r="1.25" fill="white"/>
-        </svg>
-      </div>
+    <div class="launch-card">
+      <img class="game-icon"
+           src="https://cdn.bdz5.com/staplegames/kenankel_icon.png"
+           alt="Orange Pop! game icon">
 
-      <h2>Follow us on Instagram</h2>
-      <p>Get the latest details on our new game releases and sneak peeks from Staple Games.</p>
+      <h2>Orange Pop!</h2>
+      <div class="featuring">with Kenan Thompson &amp; Kel Mitchell</div>
 
-      <div class="ig-handle">
-        <span>@staple_games</span>
-      </div>
+      <p class="blurb">
+        Sneak peeks and what's coming next —
+        follow Staple Games on Instagram so you don't miss a thing.
+      </p>
+
+      <div class="ig-handle">@staple_games</div>
 
       <a id="followBtn" href="https://www.instagram.com/staple_games/" class="follow-btn" target="_blank" rel="noopener noreferrer">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -285,9 +310,9 @@
     function getUrlParams() {
       const params = new URLSearchParams(window.location.search);
       return {
-        // Which app embedded this page (e.g. 'match-collector'). Used for logging.
+        // Which app embedded this page (e.g. 'match-collector'). Used for analytics.
         source: params.get('source') || null,
-        // Platform: 'ios' or 'android' - optional, currently informational only.
+        // Platform: 'ios' or 'android' - optional, used for analytics.
         platform: params.get('platform') || null,
         // Show debug info
         debug: params.get('debug') === 'true'
@@ -301,7 +326,7 @@
       const params = getUrlParams();
       const btn = document.getElementById('followBtn');
 
-      console.log('bderr: Instagram follow page params:', params);
+      console.log('bderr: Instagram Orange Pop page params:', params);
 
       if (params.debug) {
         const debugInfo = document.getElementById('debugInfo');
@@ -314,13 +339,15 @@
 
       btn.addEventListener('click', function(e) {
         e.preventDefault();
-        console.log('bderr: Follow on Instagram clicked. source=', params.source, 'platform=', params.platform);
+        console.log('bderr: Follow on Instagram (Orange Pop) clicked. source=', params.source, 'platform=', params.platform);
 
         // GA4 attribution. transport_type: 'beacon' ensures the request is sent
         // even though we are about to navigate away from the page.
+        // event_category is distinct from the generic instagram_follow page so the
+        // Orange Pop teaser variant can be reported on independently.
         if (typeof gtag !== 'undefined') {
           gtag('event', 'click', {
-            event_category: 'instagram_follow',
+            event_category: 'instagram_follow_orange_pop',
             event_label: `${params.source || 'unknown'} - ${params.platform || 'unknown'}`,
             transport_type: 'beacon',
             value: 1
@@ -334,7 +361,6 @@
         };
         document.addEventListener('visibilitychange', onVisibility);
 
-        // Kick off the deep link attempt
         const start = Date.now();
         window.location.href = APP_URL;
 
@@ -353,7 +379,7 @@
     // INIT
     // =============================================================================
     document.addEventListener('DOMContentLoaded', function() {
-      console.log('bderr: Instagram follow page loaded');
+      console.log('bderr: Instagram Orange Pop follow page loaded');
       setupFollowButton();
     });
   </script>
