@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KBFQ2R1TS4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KBFQ2R1TS4');
+</script>
+  <meta charset="UTF-8">
+  <title>Terms of Use — Lock Screen - Staple Games</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="https://cdn.bdz5.com/staplegames/matchcollector_icon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #3f51b5;
+      --primary-dark: #303f9f;
+      --primary-light: #7986cb;
+      --secondary-color: #ff9800;
+      --accent-color: #e91e63;
+      --text-color: #212121;
+      --light-text: #f5f5f5;
+      --bg-color: #f5f5f5;
+      --card-bg: #ffffff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Open Sans', 'Segoe UI', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    h1, h2, h3, .nav-link {
+      font-family: 'Montserrat', 'Segoe UI', sans-serif;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+      color: var(--light-text);
+      padding: 2.5rem 0;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Animated background elements */
+    header::before, header::after {
+      content: '';
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      z-index: 0;
+    }
+
+    header::before {
+      top: -100px;
+      right: -100px;
+      animation: float 15s ease-in-out infinite;
+    }
+
+    header::after {
+      bottom: -150px;
+      left: -50px;
+      width: 250px;
+      height: 250px;
+      animation: float 18s ease-in-out infinite reverse;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(5deg); }
+      100% { transform: translateY(0) rotate(0deg); }
+    }
+
+    .logo {
+      max-width: 80px;
+      margin-bottom: 0.5rem;
+      border-radius: 16px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin: 0.5rem 0;
+      color: var(--light-text);
+      position: relative;
+      z-index: 1;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: var(--light-text);
+      opacity: 0.85;
+      position: relative;
+      z-index: 1;
+      margin-top: 0.25rem;
+    }
+
+    /* Navigation styles */
+    .nav-container {
+      position: sticky;
+      top: 0;
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: var(--primary-color);
+    }
+
+    .nav-logo img {
+      height: 40px;
+      margin-right: 10px;
+      border-radius: 8px;
+    }
+
+    .nav-logo h2 {
+      font-size: 1.4rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-link {
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: 500;
+      position: relative;
+      padding: 0.5rem 0;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--primary-color);
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .nav-link.active::after {
+      width: 100%;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--primary-color);
+      cursor: pointer;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .terms-content {
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      padding: 2rem;
+      margin: 2rem 0;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: var(--primary-color);
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+    }
+
+    h2:first-of-type {
+      margin-top: 0.5rem;
+    }
+
+    p {
+      margin-bottom: 1rem;
+    }
+
+    ul {
+      margin: 0 0 1rem 1.25rem;
+      padding-left: 1rem;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+
+    strong {
+      color: var(--primary-dark);
+      font-weight: 600;
+    }
+
+    a {
+      color: var(--primary-color);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    a:hover {
+      color: var(--secondary-color);
+    }
+
+    .summary-box {
+      background-color: #f0f2fb;
+      border-left: 4px solid var(--primary-color);
+      padding: 1rem 1.25rem;
+      border-radius: 4px;
+      margin-bottom: 1.5rem;
+    }
+
+    .summary-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    footer {
+      background-color: var(--primary-color);
+      color: var(--light-text);
+      text-align: center;
+      padding: 2rem 0;
+      margin-top: 3rem;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin: 1rem 0;
+    }
+
+    .footer-links a {
+      color: var(--light-text);
+      text-decoration: none;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: white;
+        flex-direction: column;
+        padding: 1rem 0;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        text-align: center;
+        gap: 0;
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .nav-link {
+        padding: 1rem 0;
+        display: block;
+      }
+
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      header {
+        padding: 1.5rem 0;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      .terms-content {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <img src="https://cdn.bdz5.com/staplegames/matchcollector_icon.png" alt="Staple Games logo" class="logo">
+      <h1>Terms of Use</h1>
+      <div class="subtitle">Lock Screen — Block Puzzle &amp; Calculator</div>
+    </div>
+  </header>
+
+  <div class="nav-container">
+    <div class="container">
+      <nav class="navbar">
+        <a href="/" class="nav-logo">
+          <img src="https://cdn.bdz5.com/staplegames/matchcollector_icon.png" alt="Staple Games">
+          <h2>Staple Games</h2>
+        </a>
+        <button class="mobile-menu-btn">☰</button>
+        <ul class="nav-links">
+          <li><a href="/" class="nav-link">Home</a></li>
+          <li><a href="/#games" class="nav-link">Games</a></li>
+          <li><a href="contact.html" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="terms-content">
+      <p><strong>Effective: June 29, 2026</strong></p>
+
+      <div class="summary-box">
+        <p><strong>Summary.</strong> These terms govern your use of two games — <strong>Block Puzzle</strong> and <strong>Calculator</strong> — that Staple Games distributes through lock screen experiences. The games are free and provided as-is. By using them, you agree to these terms.</p>
+      </div>
+
+      <h2>Who we are</h2>
+      <p><strong>Staple Games, LLC</strong><br>
+      13750 San Pedro Ave, Suite 810<br>
+      San Antonio, TX 78232<br>
+      Contact: <strong><a href="mailto:support@staplegames.com">support@staplegames.com</a></strong></p>
+
+      <h2>Your license</h2>
+      <p>We grant you a free, personal, revocable, non-transferable, non-exclusive license to use the games on the lock screen for your own non-commercial enjoyment. You must be at least 13 years old to use the games.</p>
+
+      <h2>What you can't do</h2>
+      <ul>
+        <li>Copy, modify, decompile, reverse-engineer, or redistribute the games.</li>
+        <li>Use the games for any commercial purpose.</li>
+        <li>Use any automated tool, bot, or script to interact with the games.</li>
+        <li>Use the games in any way that violates applicable law.</li>
+        <li>Remove or alter any copyright, trademark, or other notices in the games.</li>
+      </ul>
+
+      <h2>No warranties</h2>
+      <p>The games are provided <strong>"as is" and "as available."</strong> We do not warrant that the games will be uninterrupted, error-free, or fit for any particular purpose. <strong>The Calculator is provided for general convenience and is not warranted for accuracy</strong> — do not rely on it for tax, financial, medical, engineering, or other decisions where accuracy matters. To the maximum extent permitted by law, we disclaim all warranties, express or implied, including merchantability, fitness for a particular purpose, and non-infringement.</p>
+
+      <h2>Limitation of liability</h2>
+      <p>To the maximum extent permitted by law, Staple Games and its affiliates, officers, employees, and agents are not liable for any indirect, incidental, special, consequential, or punitive damages — including without limitation loss of profits, data, use, goodwill, or other intangible losses — arising from or related to your use of (or inability to use) the games, any third-party content, or any unauthorized access to or alteration of your transmissions or content, whether based on warranty, contract, tort (including negligence), or any other legal theory, and even if we have been advised of the possibility of such damages.</p>
+      <p>Some jurisdictions do not allow the exclusion of certain warranties or the exclusion or limitation of liability for consequential or incidental damages, so the limitations above may not apply to you.</p>
+
+      <h2>Intellectual property</h2>
+      <p>The games, including all code, art, sound, and design, are owned by Staple Games and protected by US and international intellectual property laws. Nothing in these terms transfers ownership to you.</p>
+
+      <h2>Privacy</h2>
+      <p>Our handling of data collected through the games is described in our <a href="privacy-lock.html">Privacy Policy</a>.</p>
+
+      <h2>Termination</h2>
+      <p>We may suspend, modify, or discontinue the games at any time, with or without notice. You may stop using the games at any time. The sections of these terms that should reasonably survive termination (warranties, liability, intellectual property, governing law) will survive.</p>
+
+      <h2>Governing law and disputes</h2>
+      <p>These terms are governed by the laws of the State of Texas, without regard to conflict-of-laws principles. Any dispute arising from or relating to the games or these terms will be resolved by binding individual arbitration administered by JAMS under its Streamlined Arbitration Rules, seated in Bexar County, Texas, with the arbitrator's award enforceable in any court of competent jurisdiction. <strong>You and Staple Games waive any right to participate in a class, collective, or representative action.</strong> If arbitration is unavailable for a particular dispute, the state and federal courts located in Bexar County, Texas have exclusive jurisdiction.</p>
+      <p>If any provision of these terms is held unenforceable, the remaining provisions will continue in effect.</p>
+
+      <h2>Changes</h2>
+      <p>We may update these terms. The effective date at the top reflects the current version. Material changes will be summarized at the top of the page for at least 30 days after publication. Continued use of the games after a change means you accept the updated terms.</p>
+
+      <h2>Contact</h2>
+      <p>Questions about these terms: <strong><a href="mailto:support@staplegames.com">support@staplegames.com</a></strong>.</p>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>© 2026 Staple Games. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="/">Home</a>
+        <a href="contact.html">Contact Us</a>
+        <a href="terms-lock.html">Terms</a>
+        <a href="privacy-lock.html">Privacy</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+      const navLinks = document.querySelector('.nav-links');
+
+      mobileMenuBtn.addEventListener('click', function() {
+        navLinks.classList.toggle('active');
+      });
+
+      // Close menu when clicking a link
+      const navLinksItems = document.querySelectorAll('.nav-link');
+      navLinksItems.forEach(link => {
+        link.addEventListener('click', function() {
+          navLinks.classList.remove('active');
+        });
+      });
+
+      // Smooth scroll to sections
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            e.preventDefault();
+            window.scrollTo({
+              top: target.offsetTop - 80,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,2358 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="color-scheme" content="dark" />
+  <!-- Keep this page out of search engines; intended for private evaluation only -->
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
+  <title>Calculator</title>
+  <style>
+    /* ================================================================= *
+     *  Calculator — Material Design 3 dark theme.                        *
+     *  Self-contained: all visuals are CSS shapes, color tokens and SVG  *
+     *  (no image assets).                                                *
+     * ================================================================= */
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    /* Device / viewport custom properties. The layout script keeps these
+       in sync with the real window dimensions and the system safe-area. */
+    :root {
+      --app-h: 100vh;
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+
+      /* ---- Material 3 color roles (baseline dark on true black) ---- */
+      --md-bg:                  #000000;   /* OLED / lock-screen field   */
+      --md-on-surface:          #ECEAF2;   /* display text               */
+      --md-on-surface-variant:  #CAC4D0;   /* info icon, secondary text  */
+
+      /* number keys (0–9, .) — neutral surface containers */
+      --md-num-container:       #2A2A2E;
+      --md-num-container-press: #36363C;
+      --md-on-num:              #ECEAF2;
+
+      /* function keys (C/AC, +/-) — quietest tier */
+      --md-fn-container:        #1C1B20;
+      --md-fn-container-press:  #2A2830;
+      --md-on-fn:              #D0BCFF;     /* accent-tinted glyph        */
+
+      /* operator keys (÷ × − +) — accent family (secondary container) */
+      --md-op-container:        #4A4458;
+      --md-op-container-press:  #574F66;
+      --md-on-op:               #E8DEF8;
+
+      /* armed operator — morphs to PRIMARY (the accent "glow") */
+      --md-op-active-container: #D0BCFF;
+      --md-on-op-active:        #381E72;
+
+      /* equals — dominant CTA (primary filled) */
+      --md-eq-container:        #D0BCFF;
+      --md-eq-container-press:  #DECEFF;
+      --md-on-eq:               #381E72;
+
+      /* dialog */
+      --md-surface-container-high: #2B2930;
+      --md-scrim: rgba(0, 0, 0, 0.6);
+
+      /* shape */
+      --shape-key:        50%;
+      --shape-pill:       999px;
+
+      /* motion — spatial spring (slight overshoot) + effect (no overshoot) */
+      --ease-spatial: cubic-bezier(0.2, 0.9, 0.25, 1.25);
+      --ease-effect:  cubic-bezier(0.2, 0, 0, 1);
+      --dur-press:    110ms;
+      --dur-release:  280ms;
+      --dur-ripple:   480ms;
+
+      --font: Roboto, "Google Sans", system-ui, -apple-system, "Segoe UI",
+              "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+    @supports (height: 100dvh) {
+      :root { --app-h: 100dvh; }
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: var(--md-bg);
+      color: var(--md-on-surface);
+      font-family: var(--font);
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+      touch-action: manipulation;
+      overscroll-behavior: none;
+    }
+
+    .app {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: var(--app-h);
+      background: var(--md-bg);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ===== Top: display ===== flat, no panel (M3 Expressive removes the
+       display container). The number floats on the black field. */
+    .display {
+      flex: 1 1 auto;
+      min-height: 12vh;
+      width: 100%;
+      background: transparent;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
+      padding: 0 6% 4% 6%;
+      container-type: size;
+      container-name: display;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ===== Info button (top-left) ===== Material outlined "info" icon. */
+    .info-btn {
+      position: absolute;
+      left: clamp(10px, 4%, 24px);
+      /* JS (positionInfoButton) sets `top` to the vertical center of the
+         result label; this is the pre-JS fallback. */
+      top: 50%;
+      transform: translateY(-50%);
+      width:  clamp(40px, 11vmin, 48px);
+      height: clamp(40px, 11vmin, 48px);
+      padding: 0;
+      margin: 0;
+      border: 0;
+      border-radius: 50%;
+      background: transparent;
+      color: var(--md-on-surface-variant);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      transition: background-color var(--dur-press) var(--ease-effect);
+      z-index: 2;
+    }
+    .info-btn:hover  { background-color: rgba(202, 196, 208, 0.08); }
+    .info-btn:active { background-color: rgba(202, 196, 208, 0.12); }
+    .info-btn:focus  { outline: none; }
+    .info-btn:focus-visible {
+      outline: 2px solid var(--md-on-surface-variant);
+      outline-offset: 2px;
+    }
+    .info-btn svg {
+      width: 58%;
+      height: 58%;
+      display: block;
+    }
+
+    /* ===== About overlay (M3 dialog) ===== */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: var(--md-scrim);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      z-index: 100;
+      opacity: 0;
+      transition: opacity 180ms var(--ease-effect);
+    }
+    .overlay.is-open {
+      display: flex;
+      opacity: 1;
+    }
+
+    .about-card {
+      width: min(92vw, 340px);
+      background: var(--md-surface-container-high);
+      border-radius: 28px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
+      color: var(--md-on-surface);
+      font-family: var(--font);
+      padding: 26px 24px 22px;
+      transform: translateY(12px) scale(0.96);
+      opacity: 0;
+      transition: transform var(--dur-release) var(--ease-spatial),
+                  opacity 180ms var(--ease-effect);
+      pointer-events: auto;
+    }
+    .overlay.is-open .about-card {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+
+    .about-header {
+      text-align: center;
+      margin: 0 0 24px;
+    }
+    .about-title {
+      margin: 0;
+      font-family: var(--font);
+      font-weight: 500;
+      font-size: 24px;
+      letter-spacing: 0;
+      color: var(--md-on-surface);
+      line-height: 1.2;
+    }
+    .about-version {
+      margin: 6px 0 0;
+      font-weight: 400;
+      font-size: 14px;
+      letter-spacing: 0.01em;
+      color: var(--md-on-surface-variant);
+    }
+
+    .about-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .about-actions .divider { display: none; }
+
+    /* Filled-tonal Material buttons (secondary container). */
+    .about-btn {
+      appearance: none;
+      -webkit-appearance: none;
+      position: relative;
+      display: block;
+      width: 100%;
+      padding: 14px 20px;
+      border: 0;
+      border-radius: var(--shape-pill);
+      overflow: hidden;
+      font-family: var(--font);
+      font-weight: 500;
+      font-size: 15px;
+      letter-spacing: 0.01em;
+      text-align: center;
+      text-decoration: none;
+      color: var(--md-on-op);
+      background: var(--md-op-container);
+      cursor: pointer;
+      transition: filter var(--dur-press) var(--ease-effect),
+                  transform var(--dur-release) var(--ease-spatial);
+      -webkit-tap-highlight-color: transparent;
+    }
+    .about-btn:hover  { filter: brightness(1.08); }
+    .about-btn:focus  { outline: none; }
+    .about-btn:focus-visible {
+      outline: 2px solid var(--md-on-surface-variant);
+      outline-offset: 2px;
+    }
+    .about-btn:active { transform: scale(0.97); filter: brightness(0.94); }
+    /* "Close" reads as the primary affirmative action. */
+    #about-close {
+      color: var(--md-on-eq);
+      background: var(--md-eq-container);
+    }
+
+    /* ===== Test panels (Flashlight / Theme) =====
+       Reuse the dialog scrim + card, but left-align content and allow the
+       card to scroll because the diagnostic output can grow tall on a small
+       lock-screen viewport. */
+    .about-card.is-panel {
+      text-align: left;
+      width: min(94vw, 400px);
+      max-height: min(86vh, 88dvh);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+      padding: 22px 20px 18px;
+    }
+    .panel-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 16px;
+    }
+    .panel-title {
+      margin: 0;
+      font-family: var(--font);
+      font-weight: 500;
+      font-size: 20px;
+      color: var(--md-on-surface);
+      line-height: 1.2;
+      flex: 1 1 auto;
+    }
+    .panel-section-label {
+      margin: 18px 0 8px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--md-on-surface-variant);
+    }
+    .panel-section-label:first-of-type { margin-top: 4px; }
+
+    /* Compact tonal buttons used inside the panels. */
+    .panel-btn {
+      appearance: none;
+      -webkit-appearance: none;
+      position: relative;
+      display: block;
+      width: 100%;
+      margin: 0 0 8px;
+      padding: 12px 16px;
+      border: 0;
+      border-radius: 14px;
+      font-family: var(--font);
+      font-weight: 500;
+      font-size: 14px;
+      letter-spacing: 0.01em;
+      text-align: left;
+      color: var(--md-on-op);
+      background: var(--md-op-container);
+      cursor: pointer;
+      transition: filter var(--dur-press) var(--ease-effect),
+                  transform var(--dur-release) var(--ease-spatial);
+      -webkit-tap-highlight-color: transparent;
+    }
+    .panel-btn:hover  { filter: brightness(1.08); }
+    .panel-btn:active { transform: scale(0.98); filter: brightness(0.94); }
+    .panel-btn:focus  { outline: none; }
+    .panel-btn:focus-visible {
+      outline: 2px solid var(--md-on-surface-variant);
+      outline-offset: 2px;
+    }
+    .panel-btn small {
+      display: block;
+      margin-top: 3px;
+      font-weight: 400;
+      font-size: 11.5px;
+      opacity: 0.78;
+      letter-spacing: 0;
+    }
+    .panel-btn.is-primary { color: var(--md-on-eq); background: var(--md-eq-container); }
+    .panel-btn.is-stop {
+      color: #FFDAD6;
+      background: #93000A;
+    }
+
+    /* Diagnostic log / report output. */
+    .panel-log {
+      margin: 4px 0 0;
+      padding: 12px;
+      border-radius: 12px;
+      background: var(--md-fn-container);
+      color: var(--md-on-surface);
+      font-family: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+      font-size: 11.5px;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 168px;
+      overflow-y: auto;
+      -webkit-user-select: text;
+      user-select: text;
+    }
+    .panel-log .ok   { color: #7FE0A8; }
+    .panel-log .err  { color: #FFB4AB; }
+    .panel-log .warn { color: #FFD8A8; }
+    .panel-log .dim  { color: var(--md-on-surface-variant); }
+
+    /* Key/value report rows. */
+    .kv-list {
+      margin: 4px 0 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 7px 12px;
+      font-size: 12.5px;
+    }
+    .kv-list dt {
+      color: var(--md-on-surface-variant);
+      overflow-wrap: anywhere;
+    }
+    .kv-list dd {
+      margin: 0;
+      text-align: right;
+      color: var(--md-on-surface);
+      font-weight: 500;
+      overflow-wrap: anywhere;
+      -webkit-user-select: text;
+      user-select: text;
+    }
+    .kv-swatch {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      margin-left: 6px;
+      vertical-align: -1px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+
+    /* Live theme-color swatch picker. */
+    .swatch-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 4px 0 6px;
+    }
+    .swatch {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+      padding: 0;
+      transition: transform var(--dur-press) var(--ease-effect);
+      -webkit-tap-highlight-color: transparent;
+    }
+    .swatch:active { transform: scale(0.9); }
+    .swatch.is-active { border-color: var(--md-on-surface); }
+
+    .display-text {
+      color: var(--md-on-surface);
+      font-family: var(--font);
+      font-weight: 400;
+      font-size: 72cqh;
+      line-height: 1;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: clip;
+      max-width: 100%;
+      /* As a flex item the default min-width:auto would refuse to shrink and
+         overflow the container (clipping the right-most digit on Chromium).
+         min-width:0 lets it clamp to the content box; autoFitDisplay() then
+         shrinks the font so nothing is ever clipped. */
+      min-width: 0;
+      text-align: right;
+      direction: ltr;
+    }
+
+    /* ===== Bottom: keypad ===== */
+    .keypad-frame {
+      flex: 0 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      width: 100%;
+    }
+
+    .bottom-spacer {
+      flex: 0 0 auto;
+      height: clamp(34px, 11vh, 95px);
+      height: max(var(--safe-bottom), clamp(34px, 11vh, 95px));
+      width: 100%;
+    }
+
+    /*
+     * Sizing strategy: a single square button size — the largest that fits
+     * both axes — with a uniform gap, laid out as 4 columns x 5 rows. The
+     * layout script overrides --btn/--gap with device-pixel-snapped values.
+     */
+    .keypad {
+      --gap: clamp(6px, 2.1vmin, 18px);
+      --pad: var(--gap);
+
+      --max-h: calc(var(--app-h) - 25vh);
+      --max-h-dvh: calc(var(--app-h) - 25vh);
+
+      --btn-from-w: calc((100vw - 5 * var(--gap)) / 4);
+      --btn-from-h: calc((var(--max-h) - 6 * var(--gap)) / 5);
+      --btn: min(var(--btn-from-w), var(--btn-from-h));
+
+      width:  calc(4 * var(--btn) + 5 * var(--gap));
+      height: calc(5 * var(--btn) + 6 * var(--gap));
+
+      display: grid;
+      grid-template-columns: repeat(4, var(--btn));
+      grid-template-rows:    repeat(5, var(--btn));
+      gap: var(--gap);
+      padding: var(--gap);
+      box-sizing: border-box;
+
+      container-type: size;
+      container-name: keypad;
+    }
+    @supports (height: 100dvh) {
+      .keypad { --btn-from-h: calc((var(--max-h-dvh) - 6 * var(--gap)) / 5); }
+    }
+
+    /* ----- Buttons (Material keys) ----- */
+    .btn {
+      appearance: none;
+      -webkit-appearance: none;
+      position: relative;
+      border: 0;
+      margin: 0;
+      padding: 0;
+      cursor: pointer;
+      font-family: var(--font);
+      font-weight: 400;
+      font-size: 15cqw;
+      line-height: 1;
+      letter-spacing: 0;
+      background-color: var(--md-num-container);
+      color: var(--md-on-num);
+      border-radius: var(--shape-key);
+      overflow: hidden;
+      outline: none;
+      /* spring scale on press; effect spring for color. Shape stays put. */
+      transition:
+        transform   var(--dur-release) var(--ease-spatial),
+        background-color var(--dur-press) var(--ease-effect),
+        color var(--dur-press) var(--ease-effect);
+      will-change: transform;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .btn:focus { outline: none; }
+    .btn:focus-visible {
+      outline: 3px solid var(--md-on-surface-variant);
+      outline-offset: -4px;
+    }
+
+    /* Pressed: a gentle spring "squish" — scale only, the shape is kept
+       (circles stay circular, pills stay pills). */
+    .btn.is-pressed {
+      transform: scale(0.92);
+      transition:
+        transform var(--dur-press) var(--ease-effect),
+        background-color var(--dur-press) var(--ease-effect);
+    }
+
+    /* ----- Skins (color tiers) ----- */
+    .btn.skin-num  { background-color: var(--md-num-container); color: var(--md-on-num); }
+    .btn.skin-num.is-pressed { background-color: var(--md-num-container-press); }
+
+    .btn.skin-fn   { background-color: var(--md-fn-container);  color: var(--md-on-fn); }
+    .btn.skin-fn.is-pressed  { background-color: var(--md-fn-container-press); }
+
+    .btn.skin-op   { background-color: var(--md-op-container);  color: var(--md-on-op); }
+    .btn.skin-op.is-pressed  { background-color: var(--md-op-container-press); }
+
+    /* Armed operator → primary "glow". The pill morph stays subtle. */
+    .btn.skin-op.is-active {
+      background-color: var(--md-op-active-container);
+      color: var(--md-on-op-active);
+    }
+
+    /* Equals — primary filled, vertical stadium pill. */
+    .btn.skin-eq {
+      background-color: var(--md-eq-container);
+      color: var(--md-on-eq);
+      border-radius: var(--shape-pill);
+    }
+    .btn.skin-eq.is-pressed {
+      background-color: var(--md-eq-container-press);
+    }
+
+    /* The wide "0" — horizontal stadium pill, number tier. */
+    .btn.skin-num-pill {
+      background-color: var(--md-num-container);
+      color: var(--md-on-num);
+      border-radius: var(--shape-pill);
+    }
+    .btn.skin-num-pill.is-pressed {
+      background-color: var(--md-num-container-press);
+    }
+
+    /* ----- Ripple (state layer from contact point) ----- */
+    .btn .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: 0.22;
+      transform: scale(0);
+      pointer-events: none;
+      z-index: 0;
+      animation: ripple var(--dur-ripple) var(--ease-effect) forwards;
+    }
+    @keyframes ripple {
+      to { transform: scale(1); opacity: 0; }
+    }
+
+    /* Grid placement (UNCHANGED layout) */
+    .k-c    { grid-column: 1 / 2; grid-row: 1 / 2; }
+    .k-pn   { grid-column: 2 / 3; grid-row: 1 / 2; }
+    .k-div  { grid-column: 3 / 4; grid-row: 1 / 2; }
+    .k-mul  { grid-column: 4 / 5; grid-row: 1 / 2; }
+
+    .k-7    { grid-column: 1 / 2; grid-row: 2 / 3; }
+    .k-8    { grid-column: 2 / 3; grid-row: 2 / 3; }
+    .k-9    { grid-column: 3 / 4; grid-row: 2 / 3; }
+    .k-sub  { grid-column: 4 / 5; grid-row: 2 / 3; }
+
+    .k-4    { grid-column: 1 / 2; grid-row: 3 / 4; }
+    .k-5    { grid-column: 2 / 3; grid-row: 3 / 4; }
+    .k-6    { grid-column: 3 / 4; grid-row: 3 / 4; }
+    .k-add  { grid-column: 4 / 5; grid-row: 3 / 4; }
+
+    .k-1    { grid-column: 1 / 2; grid-row: 4 / 5; }
+    .k-2    { grid-column: 2 / 3; grid-row: 4 / 5; }
+    .k-3    { grid-column: 3 / 4; grid-row: 4 / 5; }
+    .k-eq   { grid-column: 4 / 5; grid-row: 4 / 6; }
+
+    .k-0    { grid-column: 1 / 3; grid-row: 5 / 6; }
+    .k-dec  { grid-column: 3 / 4; grid-row: 5 / 6; }
+
+    /* Text labels (digits, C/AC) sit above the ripple. */
+    .btn .lbl {
+      display: inline-block;
+      line-height: 1;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Operator / equals / ± glyphs are drawn as inline SVG so they are
+       PERFECTLY centered regardless of font baseline metrics (Roboto's
+       math-axis glyphs otherwise sit low and differ across engines). */
+    .btn .glyph {
+      position: relative;
+      z-index: 1;
+      display: block;
+      width: 0.92em;
+      height: 0.92em;
+      pointer-events: none;
+    }
+    .btn .glyph line,
+    .btn .glyph path {
+      stroke: currentColor;
+      stroke-width: 2.1;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+    .btn .glyph circle { fill: currentColor; stroke: none; }
+    /* "+" and "×" are single filled cross shapes (not two overlapping
+       strokes) so their intersection renders as one solid glyph with no
+       anti-aliasing seam on mobile. The path geometry has semicircular
+       arm ends (radius = half the 2.1 stroke width) so the caps and weight
+       match the stroked operators (− ÷ = ±) exactly. */
+    .btn .glyph path.solid {
+      fill: currentColor;
+      stroke: none;
+    }
+    /* The "=" reads a touch heavier as the primary CTA. */
+    .btn.skin-eq .glyph { width: 0.86em; height: 0.86em; }
+
+    @media (max-aspect-ratio: 4 / 8) {
+      .keypad { max-height: 90dvh; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app" id="app">
+    <section class="display" aria-live="polite" aria-atomic="true">
+      <button class="info-btn" id="info-btn" type="button" aria-label="About this calculator" aria-haspopup="dialog">
+        <!-- Material Symbols "info" (outlined). -->
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="currentColor" d="M11 7h2v2h-2V7zm0 4h2v6h-2v-6zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+        </svg>
+      </button>
+      <div class="display-text" id="display">0</div>
+    </section>
+    <section class="keypad-frame">
+      <div class="keypad" id="keypad" role="group" aria-label="Calculator keypad">
+        <button class="btn skin-fn   k-c"   data-action="clear" aria-label="Clear" id="btn-clear"><span class="lbl">C</span></button>
+        <button class="btn skin-op   k-pn"  data-action="posneg" aria-label="Plus minus"><svg class="glyph" viewBox="0 0 24 24" aria-hidden="true"><line x1="12" y1="3" x2="12" y2="13"/><line x1="6.5" y1="8" x2="17.5" y2="8"/><line x1="6" y1="18.5" x2="18" y2="18.5"/></svg></button>
+        <button class="btn skin-op   k-div" data-action="op" data-op="div" aria-label="Divide"><svg class="glyph" viewBox="0 0 24 24" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><circle cx="12" cy="6.6" r="1.5"/><circle cx="12" cy="17.4" r="1.5"/></svg></button>
+        <button class="btn skin-op   k-mul" data-action="op" data-op="mul" aria-label="Multiply"><svg class="glyph" viewBox="0 0 24 24" aria-hidden="true"><path class="solid" transform="rotate(45 12 12)" d="M10.95 6.95 A1.05 1.05 0 0 1 13.05 6.95 L13.05 10.95 L17.05 10.95 A1.05 1.05 0 0 1 17.05 13.05 L13.05 13.05 L13.05 17.05 A1.05 1.05 0 0 1 10.95 17.05 L10.95 13.05 L6.95 13.05 A1.05 1.05 0 0 1 6.95 10.95 L10.95 10.95 Z"/></svg></button>
+
+        <button class="btn skin-num  k-7"   data-action="digit" data-digit="7" aria-label="7"><span class="lbl">7</span></button>
+        <button class="btn skin-num  k-8"   data-action="digit" data-digit="8" aria-label="8"><span class="lbl">8</span></button>
+        <button class="btn skin-num  k-9"   data-action="digit" data-digit="9" aria-label="9"><span class="lbl">9</span></button>
+        <button class="btn skin-op   k-sub" data-action="op" data-op="sub" aria-label="Subtract"><svg class="glyph" viewBox="0 0 24 24" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+
+        <button class="btn skin-num  k-4"   data-action="digit" data-digit="4" aria-label="4"><span class="lbl">4</span></button>
+        <button class="btn skin-num  k-5"   data-action="digit" data-digit="5" aria-label="5"><span class="lbl">5</span></button>
+        <button class="btn skin-num  k-6"   data-action="digit" data-digit="6" aria-label="6"><span class="lbl">6</span></button>
+        <button class="btn skin-op   k-add" data-action="op" data-op="add" aria-label="Add"><svg class="glyph" viewBox="0 0 24 24" aria-hidden="true"><path class="solid" d="M10.95 6.05 A1.05 1.05 0 0 1 13.05 6.05 L13.05 10.95 L17.95 10.95 A1.05 1.05 0 0 1 17.95 13.05 L13.05 13.05 L13.05 17.95 A1.05 1.05 0 0 1 10.95 17.95 L10.95 13.05 L6.05 13.05 A1.05 1.05 0 0 1 6.05 10.95 L10.95 10.95 Z"/></svg></button>
+
+        <button class="btn skin-num  k-1"   data-action="digit" data-digit="1" aria-label="1"><span class="lbl">1</span></button>
+        <button class="btn skin-num  k-2"   data-action="digit" data-digit="2" aria-label="2"><span class="lbl">2</span></button>
+        <button class="btn skin-num  k-3"   data-action="digit" data-digit="3" aria-label="3"><span class="lbl">3</span></button>
+        <button class="btn skin-eq   k-eq" data-action="equals" aria-label="Equals"><svg class="glyph" viewBox="0 0 24 24" aria-hidden="true"><line x1="5" y1="9.5" x2="19" y2="9.5"/><line x1="5" y1="14.5" x2="19" y2="14.5"/></svg></button>
+
+        <button class="btn skin-num-pill k-0" data-action="digit" data-digit="0" aria-label="0"><span class="lbl">0</span></button>
+        <button class="btn skin-num  k-dec" data-action="decimal" aria-label="Decimal point"><span class="lbl">.</span></button>
+      </div>
+    </section>
+    <div class="bottom-spacer" aria-hidden="true"></div>
+  </div>
+
+  <div class="overlay" id="about-overlay" role="dialog" aria-modal="true" aria-labelledby="about-title" hidden>
+    <div class="about-card" id="about-card">
+      <header class="about-header">
+        <h2 class="about-title" id="about-title">Calculator</h2>
+        <p class="about-version">Version 0.1.2</p>
+      </header>
+      <div class="about-actions">
+        <a class="about-btn"
+           href="https://staplegames.com/privacy.html"
+           target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+        <a class="about-btn"
+           href="https://staplegames.com/terms-of-use.html"
+           target="_blank" rel="noopener noreferrer">Terms of Use</a>
+        <div class="divider" aria-hidden="true"></div>
+        <button class="about-btn" id="about-close" type="button">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Flashlight test panel ===== -->
+  <div class="overlay" id="flash-overlay" role="dialog" aria-modal="true" aria-labelledby="flash-title" hidden>
+    <div class="about-card is-panel" id="flash-card">
+      <header class="panel-head">
+        <h2 class="panel-title" id="flash-title">Flashlight Test</h2>
+      </header>
+
+      <p class="panel-section-label">Step 1 — permission</p>
+      <button class="panel-btn" id="fl-perm" type="button">
+        Request camera permission
+        <small>Torch lives on the camera track — the host WebView must grant CAMERA.</small>
+      </button>
+
+      <p class="panel-section-label">Step 2 — turn it on</p>
+      <button class="panel-btn is-primary" id="fl-mediastream" type="button">
+        Method A · MediaStream torch
+        <small>getUserMedia → track.applyConstraints({ torch:true }). Best web method.</small>
+      </button>
+      <button class="panel-btn" id="fl-imagecapture" type="button">
+        Method B · ImageCapture torch
+        <small>ImageCapture.getPhotoCapabilities() + fillLightMode / torch.</small>
+      </button>
+      <button class="panel-btn" id="fl-bridge" type="button">
+        Method C · Native JS bridge
+        <small>Probe injected interfaces (window.Android.*, etc.) for a torch call.</small>
+      </button>
+      <button class="panel-btn" id="fl-screen" type="button">
+        Method D · Screen flash (fallback)
+        <small>No camera: blast the screen white at max brightness.</small>
+      </button>
+
+      <p class="panel-section-label">Control</p>
+      <button class="panel-btn is-stop" id="fl-stop" type="button">Turn flashlight OFF</button>
+
+      <p class="panel-section-label">Log</p>
+      <div class="panel-log" id="fl-log" role="log" aria-live="polite"></div>
+
+      <div style="height:8px"></div>
+      <button class="panel-btn" id="fl-back" type="button" style="text-align:center">Back</button>
+    </div>
+  </div>
+
+  <!-- Full-screen white sheet for the "screen flash" fallback. -->
+  <div id="screen-flash"
+       style="position:fixed;inset:0;z-index:200;background:#fff;display:none;cursor:pointer;"
+       role="button" aria-label="Tap to turn screen flashlight off"></div>
+
+  <!-- ===== Color scheme / theme panel ===== -->
+  <div class="overlay" id="theme-overlay" role="dialog" aria-modal="true" aria-labelledby="theme-title" hidden>
+    <div class="about-card is-panel" id="theme-card">
+      <header class="panel-head">
+        <h2 class="panel-title" id="theme-title">Color Scheme &amp; Theme</h2>
+      </header>
+
+      <p class="panel-section-label">Set toolbar / status-bar color (live)</p>
+      <div class="swatch-row" id="theme-swatches"></div>
+
+      <button class="panel-btn" id="theme-back" type="button" style="text-align:center">Back</button>
+    </div>
+  </div>
+
+  <script>
+    /*
+     *  Calculator engine.
+     *    - Four operators, 10-digit cap, single decimal point
+     *    - Active operator stays highlighted until cleared
+     *    - Pressing "=" repeatedly reapplies the last operation
+     *      (5 + 5 = 10, = 15, = 20, ...)
+     *    - C / AC toggle (clear-entry vs. clear-all)
+     *    - +/- toggles the sign of the displayed number
+     *    - Thousands separators; scientific notation past 999,999,999
+     */
+    (function () {
+      "use strict";
+
+      const MAX_DIGITS = 10;
+
+      /* ---- DOM ---- */
+      const displayEl = document.getElementById("display");
+      const keypadEl  = document.getElementById("keypad");
+      const infoBtnEl = document.getElementById("info-btn");
+
+      const opButtons = {
+        add: document.querySelector('[data-op="add"]'),
+        sub: document.querySelector('[data-op="sub"]'),
+        mul: document.querySelector('[data-op="mul"]'),
+        div: document.querySelector('[data-op="div"]'),
+      };
+      const clearButton = document.querySelector('[data-action="clear"]');
+
+      /* ============================================================
+         Device / viewport sizing.
+
+         CSS vh/dvh and env(safe-area-inset-bottom) are unreliable inside
+         mobile WebViews and lock-screen launchers: `vh` may include or
+         exclude the system bars unpredictably, and the safe-area inset is
+         often reported as 0 even while content is drawn under the nav bar.
+         We therefore solve the layout from the real innerWidth/innerHeight,
+         derive a trustworthy bottom inset from three signals, snap to whole
+         device pixels, and write the result into CSS variables. Runs before
+         first paint and on every resize / orientationchange / visual-
+         viewport change.
+         ============================================================ */
+      const rootEl = document.documentElement;
+
+      // --- Bottom system-inset measurement ---
+      let _safeProbe = null;
+      function measureEnvBottom() {
+        if (!document.body) return 0;
+        if (!_safeProbe) {
+          _safeProbe = document.createElement("div");
+          _safeProbe.style.cssText =
+            "position:fixed;left:0;bottom:0;width:0;height:0;visibility:hidden;" +
+            "pointer-events:none;padding-bottom:env(safe-area-inset-bottom,0px);";
+          document.body.appendChild(_safeProbe);
+        }
+        const v = parseFloat(getComputedStyle(_safeProbe).paddingBottom);
+        return isFinite(v) ? v : 0;
+      }
+
+      function measureBottomInset() {
+        const envBottom = measureEnvBottom();
+
+        // Part of the layout viewport sitting below the visible region. For
+        // a non-scrolling, overflow-hidden page this is a stable signal;
+        // values large enough to be a keyboard / URL bar are ignored.
+        let vvGap = 0;
+        const vv = window.visualViewport;
+        if (vv) {
+          const g = Math.round(window.innerHeight - vv.height - vv.offsetTop);
+          if (g > 0 && g <= 80) vvGap = g;
+        }
+
+        // Gated safety net for the exact broken case: an Android browser tab
+        // that drew under a see-through nav bar but reported nothing.
+        // Embedded webviews (UA contains "wv": lock-screen launchers, where
+        // full-bleed is correct) are excluded so they are never changed.
+        let fallback = 0;
+        const ua = navigator.userAgent || "";
+        const isAndroid = /Android/i.test(ua);
+        const isWebView = /;\s?wv[);]/.test(ua) || /\bwv\b/.test(ua);
+        if (isAndroid && !isWebView && envBottom === 0 && vvGap === 0) fallback = 28;
+
+        return Math.max(0, envBottom, vvGap, fallback);
+      }
+
+      function recomputeLayout() {
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+        if (!vw || !vh) return;
+
+        // True viewport height in px → removes the mobile `vh` inconsistency.
+        rootEl.style.setProperty("--app-h", vh + "px");
+
+        // Trustworthy bottom inset, written for .bottom-spacer to consume.
+        const safeBottom = measureBottomInset();
+        rootEl.style.setProperty("--safe-bottom", safeBottom + "px");
+
+        // Snap sizes to whole device pixels so button skins / edges stay crisp.
+        const dpr = window.devicePixelRatio || 1;
+        const snap = (v) => Math.floor(v * dpr) / dpr;
+
+        // Uniform gap between keys (matches the clamp(4px, 1.6vmin, 14px)).
+        const gap = Math.max(4, Math.min(14, 0.016 * Math.min(vw, vh)));
+
+        // Vertical budget: reserve space for the display and the bottom
+        // safe-area spacer, then give the remainder to the five key rows.
+        const bottomSpacer = Math.max(
+          safeBottom,
+          Math.max(34, Math.min(95, 0.11 * vh))
+        );
+        const displayReserve = 0.14 * vh;
+        const availForKeypad = vh - bottomSpacer - displayReserve;
+
+        // Largest square key that fits both axes: width limits on a tall,
+        // narrow phone; height limits on a short or wide panel.
+        const btnFromW = (vw - 5 * gap) / 4;
+        const btnFromH = (availForKeypad - 6 * gap) / 5;
+        let btn = Math.min(btnFromW, btnFromH);
+        if (!(btn > 0)) return;
+        btn = snap(btn);
+        if (btn <= 0) return;
+
+        keypadEl.style.setProperty("--gap", snap(gap) + "px");
+        keypadEl.style.setProperty("--btn", btn + "px");
+
+        autoFitDisplay();
+      }
+
+      /* ---- State ---- */
+      const state = {
+        rawEntry: "0",       // text the user has typed (string buffer)
+        result: 0,           // accumulator (left side)
+        currentResult: 0,    // last entered operand (right side)
+        currentResult2: 0,   // snapshot for repeat-`=`
+        currentOp: 0,        // 0=none, 1=+ 2=- 3=* 4=/
+        currentOp2: 0,       // snapshot for repeat-`=`
+        equFlag: 0,          // 0=normal, 1=op just pressed, 2=`=` just pressed
+        decimalFlag: 0,
+        clearFlag: 0,        // 0=AC, 1=C
+        displayCount: 0,
+      };
+
+      const OP_MAP = { add: 1, sub: 2, mul: 3, div: 4 };
+      const OP_FN = {
+        1: (a, b) => a + b,
+        2: (a, b) => a - b,
+        3: (a, b) => a * b,
+        4: (a, b) => a / b,
+      };
+
+      /* ---- Number formatting ---- */
+      function trimFloat(val) {
+        // Format with 9 decimals, then trim trailing zeros and a trailing dot.
+        let s = val.toFixed(9);
+        if (s.indexOf(".") !== -1) {
+          s = s.replace(/0+$/, "").replace(/\.$/, "");
+        }
+        return s;
+      }
+
+      function formatForDisplay(val) {
+        if (!isFinite(val)) return "Error";
+        if (Math.abs(val) > 999999999) {
+          // Scientific notation with up to 6 fractional digits.
+          let s = val.toExponential(6);
+          // Convert "1.234567e+12" → "1.234567E12"
+          s = s.replace("e+", "E").replace("e-", "E-");
+          return s;
+        }
+        const trimmed = trimFloat(val);
+        const negative = trimmed.startsWith("-");
+        const body = negative ? trimmed.slice(1) : trimmed;
+        const [intPart, decPart] = body.split(".");
+        const grouped = Number(intPart).toLocaleString("en-US");
+        const out = decPart !== undefined ? grouped + "." + decPart : grouped;
+        return (negative ? "-" : "") + out;
+      }
+
+      function formatEntryForDisplay(entry) {
+        // Format the live-typed entry (which is a string we control) so that
+        // commas appear during input.
+        if (entry === "" || entry === "-") return entry === "" ? "0" : entry;
+        const negative = entry.startsWith("-");
+        const body = negative ? entry.slice(1) : entry;
+        if (body === "") return entry;
+        let intPart = body;
+        let decPart = null;
+        if (body.indexOf(".") !== -1) {
+          const idx = body.indexOf(".");
+          intPart = body.slice(0, idx);
+          decPart = body.slice(idx + 1);
+        }
+        if (intPart === "") intPart = "0";
+        const groupedInt = Number(intPart).toLocaleString("en-US");
+        let formatted = groupedInt;
+        if (decPart !== null) formatted += "." + decPart;
+        if (negative) formatted = "-" + formatted;
+        return formatted;
+      }
+
+      /* ---- Display refresh + auto-fit ---- */
+      function setDisplay(text) {
+        displayEl.textContent = text;
+        autoFitDisplay();
+      }
+
+      function autoFitDisplay() {
+        // Shrink the font if the text would overflow the available width.
+        const parent = displayEl.parentElement;
+        if (!parent) return;
+        displayEl.style.fontSize = "";
+        // Measure the TRUE content width (clientWidth includes the side
+        // padding), then keep a small gutter so the right-most digit — even
+        // with any italic / condensed overhang — never reaches the edge.
+        const pcs = window.getComputedStyle(parent);
+        const padL = parseFloat(pcs.paddingLeft) || 0;
+        const padR = parseFloat(pcs.paddingRight) || 0;
+        const maxWidth = parent.clientWidth - padL - padR - 6;
+        if (!(maxWidth > 0)) return;
+        const styles = window.getComputedStyle(displayEl);
+        let fs = parseFloat(styles.fontSize);
+        if (!fs) return;
+        let safety = 40;
+        while (displayEl.scrollWidth > maxWidth && fs > 18 && safety-- > 0) {
+          fs *= 0.93;
+          displayEl.style.fontSize = fs + "px";
+        }
+        positionInfoButton();
+      }
+
+      // Vertically center the info button on the result label. The label is
+      // bottom-anchored and its height tracks the (auto-fit) font size, so we
+      // align in JS rather than with a static CSS offset.
+      function positionInfoButton() {
+        if (!infoBtnEl) return;
+        const parent = displayEl.parentElement; // .display (offset parent)
+        if (!parent) return;
+        const dRect = displayEl.getBoundingClientRect();
+        const pRect = parent.getBoundingClientRect();
+        const centerY = (dRect.top - pRect.top) + dRect.height / 2;
+        if (centerY > 0) infoBtnEl.style.top = centerY + "px";
+      }
+      // Re-solve the layout (and re-fit the display) whenever the viewport
+      // could have changed — window resize, rotation, or the system nav /
+      // URL bar showing/hiding (which only fires the visual-viewport events).
+      window.addEventListener("resize", recomputeLayout);
+      window.addEventListener("orientationchange", recomputeLayout);
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener("resize", recomputeLayout);
+        window.visualViewport.addEventListener("scroll", recomputeLayout);
+      }
+
+      /* ---- Operator highlight ---- */
+      function resetOperatorHighlights() {
+        for (const k of Object.keys(opButtons)) {
+          opButtons[k].classList.remove("is-active");
+        }
+      }
+      function highlightOp(opKey) {
+        resetOperatorHighlights();
+        if (opKey && opButtons[opKey]) opButtons[opKey].classList.add("is-active");
+      }
+
+      const clearButtonLabel = clearButton.querySelector(".lbl") || clearButton;
+      function setClearLabel(label) {
+        clearButtonLabel.textContent = label;
+      }
+
+      /* ---- Render current state to the display ---- */
+      function refreshDisplay() {
+        // The "rawEntry" is the source of truth while the user types. After a
+        // computation we instead show the formatted accumulator.
+        setDisplay(formatEntryForDisplay(state.rawEntry));
+      }
+
+      /* ---- Engine actions ---- */
+      function pressDigit(d) {
+        if (state.displayCount >= MAX_DIGITS) return;
+
+        setClearLabel("C");
+
+        // Tapping a digit right after `=` starts a fresh computation.
+        if (state.equFlag === 2) {
+          pressClear(); // resets state (clearFlag was set to 1 by `=`, so this is the C path)
+          // After C path, state.clearFlag toggled back to 0 — but we still
+          // want a clean start, so explicitly zero the accumulator too.
+          fullReset(/*keepHighlight*/ false);
+        }
+
+        resetOperatorHighlights();
+
+        if (state.decimalFlag === 1) {
+          // append after the decimal
+          if (state.rawEntry === "0") state.rawEntry = "0";
+          state.rawEntry += d;
+        } else {
+          // Replace placeholder zero / blank-after-equals
+          if (state.rawEntry === "0" || state.equFlag !== 0) {
+            // Prevent "00…" - in raw form the 0 placeholder is a single zero
+            state.rawEntry = "";
+          }
+          state.rawEntry += d;
+        }
+
+        // Enforce MAX_DIGITS on the visible (digit-only) length
+        const digitsOnly = state.rawEntry.replace(/[^0-9]/g, "");
+        if (digitsOnly.length > MAX_DIGITS) {
+          state.rawEntry = state.rawEntry.slice(0, state.rawEntry.length - 1);
+        } else {
+          if (!(state.rawEntry === "0" && d === "0")) state.displayCount++;
+        }
+
+        state.equFlag = 0;
+        state.clearFlag = 1;
+        refreshDisplay();
+      }
+
+      function pressDecimal() {
+        if (state.displayCount >= MAX_DIGITS) return;
+        setClearLabel("C");
+        resetOperatorHighlights();
+        if (state.decimalFlag === 1) return;
+        state.decimalFlag = 1;
+        state.clearFlag = 1;
+
+        if (state.equFlag !== 0 || state.rawEntry === "" || state.rawEntry === "0") {
+          state.rawEntry = "0.";
+        } else {
+          state.rawEntry += ".";
+        }
+        state.equFlag = 0;
+        refreshDisplay();
+      }
+
+      function readEntryAsNumber() {
+        // Convert displayed entry → number.
+        // rawEntry already excludes commas, so just parseFloat.
+        if (state.rawEntry === "" || state.rawEntry === "-") return 0;
+        return parseFloat(state.rawEntry);
+      }
+
+      function pressOp(opKey) {
+        const opCode = OP_MAP[opKey];
+
+        // Snapshot the displayed value into the operand fields.
+        if (state.currentOp !== 0 && state.equFlag !== 2) {
+          state.currentResult = readEntryAsNumber();
+        }
+        if (state.currentOp !== 0 && state.equFlag === 2) {
+          state.result = readEntryAsNumber();
+        }
+
+        // Eager evaluation when chaining ops without `=`.
+        if (state.currentOp !== 0 && state.equFlag !== 1) {
+          state.result = OP_FN[state.currentOp](state.result, state.currentResult);
+          state.rawEntry = formatNumberForRawEntry(state.result);
+          setDisplay(formatForDisplay(state.result));
+          state.equFlag = 1;
+        }
+
+        // Switch to the new pending op.
+        // When this is the first op press, `state.result` is still 0, so we
+        // load it from the displayed entry. When we just performed an eager
+        // eval, `state.result` is correct AND `rawEntry` was updated above —
+        // so reading it back is a no-op.
+        if (state.currentOp !== opCode) {
+          state.currentOp = opCode;
+          state.result = readEntryAsNumber();
+          state.equFlag = 1;
+        }
+
+        // After an op, the next digit starts a fresh entry.
+        state.equFlag = 1;
+        state.decimalFlag = 0;
+        state.displayCount = 0;
+        state.rawEntry = formatNumberForRawEntry(state.result);
+
+        highlightOp(opKey);
+        setDisplay(formatForDisplay(state.result));
+      }
+
+      function pressEquals() {
+        // Capture the right-hand operand if we have a pending op.
+        if (state.currentOp !== 0) {
+          state.currentResult = readEntryAsNumber();
+          state.decimalFlag = 0;
+        }
+
+        // Snapshot the operand on the FIRST `=`, so subsequent `=` presses
+        // can reapply it (the "5 + 5 = 10, = 15, = 20" behaviour).
+        if (state.equFlag !== 2) {
+          state.currentResult2 = state.currentResult;
+          state.currentOp2 = state.currentOp;
+        }
+
+        let computed = state.result;
+
+        if (state.equFlag === 2 && state.currentOp2 !== 0) {
+          // Repeat-equals: reapply previous op with previous operand
+          const op = state.currentOp2;
+          computed = OP_FN[op](state.result, state.currentResult2);
+          state.result = computed;
+          state.currentResult = 0;
+          state.currentOp = 0;
+        } else if (state.currentOp !== 0 && state.equFlag === 0) {
+          // First-equals: actually do the math
+          const op = state.currentOp;
+          computed = OP_FN[op](state.result, state.currentResult);
+          state.result = computed;
+          state.currentResult = 0;
+          state.currentOp = 0;
+        }
+
+        state.equFlag = 2;
+        state.clearFlag = 1;
+
+        const formatted = formatForDisplay(state.result);
+        setDisplay(formatted);
+        // Keep rawEntry coherent so digit-after-equals replaces correctly.
+        state.rawEntry = formatNumberForRawEntry(state.result);
+        state.displayCount = state.rawEntry.replace(/[^0-9]/g, "").length;
+        state.decimalFlag = state.rawEntry.indexOf(".") !== -1 ? 1 : 0;
+
+        resetOperatorHighlights();
+      }
+
+      function pressClear() {
+        if (state.clearFlag === 0) {
+          fullReset(false);
+        } else {
+          // C: clear entry only — preserve result / op, and restore the
+          // active-operator highlight if an op is pending.
+          state.rawEntry = "0";
+          state.displayCount = 0;
+          state.decimalFlag = 0;
+          state.equFlag = 0;
+          if (state.currentOp !== 0) {
+            const opKey = Object.keys(OP_MAP).find(k => OP_MAP[k] === state.currentOp);
+            highlightOp(opKey);
+          }
+          setClearLabel("AC");
+          state.clearFlag = 0;
+          refreshDisplay();
+        }
+      }
+
+      function pressPosNeg() {
+        if (state.currentOp === 0) {
+          state.result = readEntryAsNumber() * -1;
+          state.rawEntry = formatNumberForRawEntry(state.result);
+          setDisplay(formatForDisplay(state.result));
+        } else if (state.equFlag === 0) {
+          state.currentResult = readEntryAsNumber() * -1;
+          state.rawEntry = formatNumberForRawEntry(state.currentResult);
+          setDisplay(formatForDisplay(state.currentResult));
+        } else {
+          state.result = readEntryAsNumber() * -1;
+          state.rawEntry = formatNumberForRawEntry(state.result);
+          setDisplay(formatForDisplay(state.result));
+        }
+      }
+
+      function fullReset(/*keepHighlight*/) {
+        state.rawEntry = "0";
+        state.result = 0;
+        state.currentResult = 0;
+        state.currentResult2 = 0;
+        state.currentOp = 0;
+        state.currentOp2 = 0;
+        state.equFlag = 0;
+        state.decimalFlag = 0;
+        state.clearFlag = 0;
+        state.displayCount = 0;
+        resetOperatorHighlights();
+        setClearLabel("AC");
+        refreshDisplay();
+      }
+
+      function formatNumberForRawEntry(n) {
+        if (!isFinite(n)) return "0";
+        return trimFloat(n);
+      }
+
+      /* ---- Event wiring ---- */
+      function handleAction(btn) {
+        const action = btn.dataset.action;
+        switch (action) {
+          case "digit":
+            pressDigit(btn.dataset.digit);
+            break;
+          case "decimal":
+            pressDecimal();
+            break;
+          case "op":
+            pressOp(btn.dataset.op);
+            break;
+          case "equals":
+            pressEquals();
+            break;
+          case "clear":
+            pressClear();
+            break;
+          case "posneg":
+            pressPosNeg();
+            break;
+        }
+      }
+
+      // Material ripple — a radial state layer that grows from the point of
+      // contact (M3 "pressed" feedback). Uses the button's content color
+      // (currentColor) so it reads as a state layer over any tier.
+      function spawnRipple(btn, ev) {
+        const rect = btn.getBoundingClientRect();
+        if (!rect.width || !rect.height) return;
+        const cx = (typeof ev.clientX === "number") ? ev.clientX : rect.left + rect.width / 2;
+        const cy = (typeof ev.clientY === "number") ? ev.clientY : rect.top + rect.height / 2;
+        const x = cx - rect.left;
+        const y = cy - rect.top;
+        // Cover the whole button from the contact point to the farthest corner.
+        const far = Math.max(
+          Math.hypot(x, y),
+          Math.hypot(rect.width - x, y),
+          Math.hypot(x, rect.height - y),
+          Math.hypot(rect.width - x, rect.height - y)
+        );
+        const size = far * 2;
+        const r = document.createElement("span");
+        r.className = "ripple";
+        r.style.width = r.style.height = size + "px";
+        r.style.left = (x - far) + "px";
+        r.style.top = (y - far) + "px";
+        const done = () => r.remove();
+        r.addEventListener("animationend", done);
+        setTimeout(done, 700);
+        btn.appendChild(r);
+      }
+
+      // Press / release feedback
+      function bindPressVisuals(btn) {
+        const onDown = (ev) => {
+          btn.classList.add("is-pressed");
+          spawnRipple(btn, ev);
+        };
+        const onUp = () => {
+          btn.classList.remove("is-pressed");
+        };
+        btn.addEventListener("pointerdown", onDown);
+        btn.addEventListener("pointerup", onUp);
+        btn.addEventListener("pointercancel", onUp);
+        btn.addEventListener("pointerleave", onUp);
+        btn.addEventListener("touchend", onUp);
+      }
+
+      const buttons = keypadEl.querySelectorAll(".btn");
+      buttons.forEach((btn) => {
+        bindPressVisuals(btn);
+        btn.addEventListener("click", (ev) => {
+          ev.preventDefault();
+          handleAction(btn);
+        });
+      });
+
+      // Keyboard support
+      document.addEventListener("keydown", (ev) => {
+        const ov = document.getElementById("about-overlay");
+        if (ov && ov.classList.contains("is-open")) return;
+        const k = ev.key;
+        let target = null;
+        if (k >= "0" && k <= "9") target = document.querySelector(`[data-digit="${k}"]`);
+        else if (k === ".") target = document.querySelector(`[data-action="decimal"]`);
+        else if (k === "+") target = document.querySelector(`[data-op="add"]`);
+        else if (k === "-") target = document.querySelector(`[data-op="sub"]`);
+        else if (k === "*" || k === "x" || k === "X") target = document.querySelector(`[data-op="mul"]`);
+        else if (k === "/") target = document.querySelector(`[data-op="div"]`);
+        else if (k === "Enter" || k === "=") target = document.querySelector(`[data-action="equals"]`);
+        else if (k === "Escape" || k === "c" || k === "C") target = clearButton;
+        else if (k === "Backspace") {
+          // Soft-delete one digit from the entry buffer
+          ev.preventDefault();
+          if (state.rawEntry.length > 0) {
+            state.rawEntry = state.rawEntry.slice(0, -1);
+            if (state.rawEntry === "" || state.rawEntry === "-") state.rawEntry = "0";
+            if (state.rawEntry.indexOf(".") === -1) state.decimalFlag = 0;
+            state.displayCount = Math.max(0, state.displayCount - 1);
+            refreshDisplay();
+          }
+          return;
+        }
+        if (target) {
+          ev.preventDefault();
+          target.classList.add("is-pressed");
+          spawnRipple(target, {});
+          setTimeout(() => target.classList.remove("is-pressed"), 110);
+          handleAction(target);
+        }
+      });
+
+      // Initial paint — size the layout before the first frame so the
+      // keypad is device-pixel-snapped and the display fits from the start.
+      recomputeLayout();
+      refreshDisplay();
+
+      // ===== About / Info overlay =====
+      const infoBtn      = document.getElementById("info-btn");
+      const overlay      = document.getElementById("about-overlay");
+      const aboutClose   = document.getElementById("about-close");
+      let lastFocusEl    = null;
+
+      function openAbout() {
+        if (!overlay || overlay.classList.contains("is-open")) return;
+        lastFocusEl = document.activeElement;
+        overlay.hidden = false;
+        // Force a reflow so the opacity/transform transition plays.
+        // eslint-disable-next-line no-unused-expressions
+        overlay.offsetWidth;
+        overlay.classList.add("is-open");
+        aboutClose && aboutClose.focus({ preventScroll: true });
+      }
+
+      function closeAbout() {
+        if (!overlay || !overlay.classList.contains("is-open")) return;
+        overlay.classList.remove("is-open");
+        const onEnd = () => {
+          overlay.hidden = true;
+          overlay.removeEventListener("transitionend", onEnd);
+        };
+        overlay.addEventListener("transitionend", onEnd);
+        if (lastFocusEl && typeof lastFocusEl.focus === "function") {
+          lastFocusEl.focus({ preventScroll: true });
+        }
+      }
+
+      if (infoBtn)    infoBtn.addEventListener("click", openAbout);
+      if (aboutClose) aboutClose.addEventListener("click", closeAbout);
+      if (overlay) {
+        overlay.addEventListener("click", (ev) => {
+          if (ev.target === overlay) closeAbout();
+        });
+      }
+      document.addEventListener("keydown", (ev) => {
+        if (ev.key === "Escape" && overlay && overlay.classList.contains("is-open")) {
+          ev.preventDefault();
+          ev.stopPropagation();
+          closeAbout();
+        }
+      }, true);
+    })();
+  </script>
+
+  <script>
+  /* =====================================================================
+   *  Diagnostic test panels — Flashlight + Color scheme / theme.
+   *
+   *  These exist so the app can be validated as an Android lock-screen
+   *  WebView shortcut: tap the icon → a WebView opens this page → we try
+   *  every realistic way to (a) drive the device torch and (b) read back
+   *  the system theming / toolbar color.
+   *
+   *  HOW A WEBVIEW CAN ACTUALLY TURN ON THE ANDROID FLASHLIGHT
+   *  ---------------------------------------------------------
+   *  There is no dedicated "flashlight" web API. The torch is a property
+   *  of a live camera MediaStreamTrack, so every pure-web route needs the
+   *  CAMERA permission and a host WebView that answers
+   *  WebChromeClient.onPermissionRequest(). Routes, best → fallback:
+   *
+   *    A. MediaStream torch  — getUserMedia({video:{facingMode:'environment'}}),
+   *       check track.getCapabilities().torch, then
+   *       track.applyConstraints({ advanced:[{ torch:true }] }).
+   *       This is the only widely-shipping method (Chrome/Android WebView).
+   *
+   *    B. ImageCapture torch — same stream, new ImageCapture(track),
+   *       getPhotoCapabilities(); some builds expose torch / fillLightMode
+   *       only through this path. Toggle still goes via applyConstraints.
+   *
+   *    C. Native JS bridge   — if the host app injects an interface
+   *       (addJavascriptInterface), e.g. window.Android.turnOnFlashlight().
+   *       This is the most reliable IF you control the wrapper app: the
+   *       native side opens CameraManager.setTorchMode(). We probe for the
+   *       common names so you can see what (if anything) the wrapper gave us.
+   *
+   *    D. Screen flash       — no camera at all: paint the viewport pure
+   *       white at max brightness as a "good enough" lock-screen light.
+   *
+   *  KEY TAKEAWAY for the wrapper app: to make A/B work, the native code
+   *  must (1) hold the CAMERA runtime permission and (2) in its
+   *  WebChromeClient grant request.resources on onPermissionRequest. If you
+   *  own the wrapper, route C (setTorchMode) is the most robust and needs
+   *  no camera preview.
+   * ===================================================================== */
+  (function () {
+    "use strict";
+
+    const $ = (id) => document.getElementById(id);
+    const screenView = (s) => { try { window.TOSCalc && window.TOSCalc.screenView && window.TOSCalc.screenView(s); } catch (_) {} };
+
+    /* ---------- shared overlay open/close ---------- */
+    const aboutOverlay = $("about-overlay");
+
+    function openOverlay(ov, focusEl) {
+      if (!ov) return;
+      ov.hidden = false;
+      void ov.offsetWidth;            // reflow → play transition
+      ov.classList.add("is-open");
+      if (focusEl) try { focusEl.focus({ preventScroll: true }); } catch (_) {}
+    }
+    function closeOverlay(ov) {
+      if (!ov || !ov.classList.contains("is-open")) return;
+      ov.classList.remove("is-open");
+      const onEnd = () => { ov.hidden = true; ov.removeEventListener("transitionend", onEnd); };
+      ov.addEventListener("transitionend", onEnd);
+      setTimeout(() => { if (!ov.classList.contains("is-open")) ov.hidden = true; }, 360);
+    }
+    function closeAbout() {
+      if (aboutOverlay) closeOverlay(aboutOverlay);
+    }
+
+    /* ================================================================
+       FLASHLIGHT PANEL
+       ================================================================ */
+    const flOverlay = $("flash-overlay");
+    const flLog     = $("fl-log");
+    const screenSheet = $("screen-flash");
+
+    let torchStream = null;     // active MediaStream (camera)
+    let torchTrack  = null;     // its video track
+    let torchMethod = "";       // which route turned it on
+    let wakeLock    = null;     // screen-flash wake lock
+    let bridgeApi   = null;     // resolved native torch callback {on, off, name}
+
+    function log(msg, cls) {
+      if (!flLog) return;
+      const line = document.createElement("div");
+      if (cls) line.className = cls;
+      const t = new Date().toLocaleTimeString();
+      line.textContent = "[" + t + "] " + msg;
+      flLog.appendChild(line);
+      flLog.scrollTop = flLog.scrollHeight;
+    }
+
+    function secureContextNote() {
+      // getUserMedia requires a secure context (https / localhost / WebView).
+      if (!window.isSecureContext) {
+        log("⚠ Not a secure context (" + location.protocol + "). getUserMedia is "
+          + "blocked unless served over https:// or from a WebView/localhost.", "warn");
+      }
+    }
+
+    async function getRearStream() {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        throw new Error("navigator.mediaDevices.getUserMedia is unavailable here.");
+      }
+      // Prefer the back camera (its LED is the torch). Fall back to any camera.
+      try {
+        return await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: { exact: "environment" } }, audio: false,
+        });
+      } catch (e1) {
+        log("exact rear camera failed (" + e1.name + "); trying ideal…", "dim");
+        return await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: { ideal: "environment" } }, audio: false,
+        });
+      }
+    }
+
+    function stopStream() {
+      if (torchTrack) { try { torchTrack.applyConstraints({ advanced: [{ torch: false }] }); } catch (_) {} }
+      if (torchStream) { torchStream.getTracks().forEach((t) => { try { t.stop(); } catch (_) {} }); }
+      torchStream = null; torchTrack = null;
+    }
+
+    async function requestPermission() {
+      secureContextNote();
+      log("Requesting camera permission…");
+      if (navigator.permissions && navigator.permissions.query) {
+        try {
+          const st = await navigator.permissions.query({ name: "camera" });
+          log("permissions.query('camera') → " + st.state, "dim");
+        } catch (e) {
+          log("permissions.query unsupported: " + e.message, "dim");
+        }
+      }
+      try {
+        const s = await getRearStream();
+        s.getTracks().forEach((t) => t.stop());
+        log("✓ Camera permission GRANTED. Now try Method A.", "ok");
+      } catch (e) {
+        log("✗ Permission/camera failed: " + e.name + " — " + e.message, "err");
+        log("If this is a WebView, the host app must grant CAMERA and handle "
+          + "WebChromeClient.onPermissionRequest().", "warn");
+      }
+    }
+
+    async function torchViaMediaStream() {
+      secureContextNote();
+      log("Method A: opening rear camera…");
+      try {
+        stopStream();
+        torchStream = await getRearStream();
+        torchTrack  = torchStream.getVideoTracks()[0];
+        const caps = (torchTrack.getCapabilities && torchTrack.getCapabilities()) || {};
+        log("track: " + (torchTrack.label || "(no label)"), "dim");
+        log("capabilities.torch = " + JSON.stringify(caps.torch), caps.torch ? "ok" : "warn");
+        if (!("torch" in caps) || !caps.torch) {
+          log("✗ This camera track reports NO torch capability. The device/"
+            + "WebView does not expose torch over MediaStream.", "err");
+          return;
+        }
+        await torchTrack.applyConstraints({ advanced: [{ torch: true }] });
+        torchMethod = "mediastream";
+        log("✓ Torch ON via MediaStream. Use 'Turn OFF' to stop.", "ok");
+      } catch (e) {
+        log("✗ Method A failed: " + e.name + " — " + e.message, "err");
+      }
+    }
+
+    async function torchViaImageCapture() {
+      secureContextNote();
+      log("Method B: ImageCapture…");
+      if (typeof window.ImageCapture === "undefined") {
+        log("✗ ImageCapture API not available in this engine.", "err");
+        return;
+      }
+      try {
+        stopStream();
+        torchStream = await getRearStream();
+        torchTrack  = torchStream.getVideoTracks()[0];
+        const ic = new ImageCapture(torchTrack);
+        let photoCaps = {};
+        try { photoCaps = await ic.getPhotoCapabilities(); } catch (e) { log("getPhotoCapabilities: " + e.message, "dim"); }
+        log("fillLightMode = " + JSON.stringify(photoCaps.fillLightMode || "(none)"), "dim");
+        const trackCaps = (torchTrack.getCapabilities && torchTrack.getCapabilities()) || {};
+        if (trackCaps.torch) {
+          await torchTrack.applyConstraints({ advanced: [{ torch: true }] });
+          torchMethod = "imagecapture";
+          log("✓ Torch ON (ImageCapture path, applyConstraints).", "ok");
+        } else if (photoCaps.fillLightMode && photoCaps.fillLightMode.indexOf("flash") !== -1) {
+          log("No persistent torch; fillLightMode supports 'flash' (momentary, "
+            + "only fires on takePhoto()). Trying a photo flash…", "warn");
+          try { await ic.takePhoto({ fillLightMode: "flash" }); log("✓ Momentary flash fired.", "ok"); }
+          catch (e) { log("takePhoto flash failed: " + e.message, "err"); }
+        } else {
+          log("✗ Neither torch nor flash fill-light is supported here.", "err");
+        }
+      } catch (e) {
+        log("✗ Method B failed: " + e.name + " — " + e.message, "err");
+      }
+    }
+
+    function probeBridges() {
+      log("Method C: probing for native JS bridges…");
+      // Common interface names wrappers inject via addJavascriptInterface,
+      // and the method names they tend to expose for the torch.
+      const objNames = ["Android", "AndroidInterface", "AndroidBridge", "NativeBridge",
+        "Native", "Bridge", "App", "AppBridge", "JSBridge", "JSInterface",
+        "Flashlight", "Torch", "AndroidFlashlight", "FlutterFlashlight",
+        "webkit"];
+      const onNames  = ["turnOnFlashlight", "flashlightOn", "torchOn", "enableTorch",
+        "enableFlashlight", "setTorch", "setTorchMode", "toggleFlashlight",
+        "openFlashlight", "lightOn", "on"];
+      const offNames = ["turnOffFlashlight", "flashlightOff", "torchOff", "disableTorch",
+        "disableFlashlight", "closeFlashlight", "lightOff", "off"];
+
+      const found = [];
+      for (const name of objNames) {
+        let obj;
+        try { obj = window[name]; } catch (_) { continue; }
+        if (!obj) continue;
+        const methods = [];
+        try { for (const k in obj) { if (typeof obj[k] === "function") methods.push(k); } } catch (_) {}
+        found.push(name + (methods.length ? " → {" + methods.slice(0, 12).join(", ") + "}" : " (no enumerable methods)"));
+
+        // iOS-style message handlers, in case this runs in a WKWebView wrapper.
+        if (name === "webkit" && obj.messageHandlers) {
+          try { found.push("webkit.messageHandlers → {" + Object.keys(obj.messageHandlers).join(", ") + "}"); } catch (_) {}
+        }
+
+        const onFn  = onNames.find((m) => typeof obj[m] === "function");
+        const offFn = offNames.find((m) => typeof obj[m] === "function");
+        if (onFn && !bridgeApi) {
+          bridgeApi = {
+            name: name + "." + onFn + "()",
+            on:  () => obj[onFn](),
+            off: () => { if (offFn) obj[offFn](); },
+          };
+        }
+      }
+
+      if (found.length) found.forEach((f) => log("• " + f, "dim"));
+      else log("No common bridge objects found on window.", "dim");
+
+      if (bridgeApi) {
+        log("✓ Found native torch call: " + bridgeApi.name + " — invoking…", "ok");
+        try { bridgeApi.on(); torchMethod = "bridge"; log("✓ Native torch ON requested.", "ok"); }
+        catch (e) { log("✗ Native call threw: " + e.message, "err"); }
+      } else {
+        log("✗ No native flashlight bridge exposed. If you own the wrapper app, "
+          + "inject one (CameraManager.setTorchMode) — that's the most reliable route.", "warn");
+      }
+    }
+
+    async function screenFlashOn() {
+      log("Method D: screen flash (white @ max brightness).");
+      if (screenSheet) screenSheet.style.display = "block";
+      torchMethod = "screen";
+      // Best-effort: keep the screen awake while the flash is up.
+      try {
+        if ("wakeLock" in navigator) {
+          wakeLock = await navigator.wakeLock.request("screen");
+          log("✓ Screen wake-lock acquired.", "ok");
+        }
+      } catch (e) { log("wakeLock not granted: " + e.message, "dim"); }
+      log("✓ Screen flash ON. Tap the white screen (or 'Turn OFF') to stop.", "ok");
+    }
+    function screenFlashOff() {
+      if (screenSheet) screenSheet.style.display = "none";
+      if (wakeLock) { try { wakeLock.release(); } catch (_) {} wakeLock = null; }
+    }
+
+    async function turnOff() {
+      log("Turning flashlight OFF (method: " + (torchMethod || "none") + ")…");
+      stopStream();
+      screenFlashOff();
+      if (bridgeApi && bridgeApi.off) { try { bridgeApi.off(); log("Native off() called.", "dim"); } catch (_) {} }
+      torchMethod = "";
+      log("✓ Off / streams released.", "ok");
+    }
+
+    if (screenSheet) screenSheet.addEventListener("click", () => { screenFlashOff(); log("Screen flash dismissed.", "dim"); });
+
+    function openFlashlight() {
+      closeAbout();
+      if (flLog) flLog.innerHTML = "";
+      log("Ready. Device: " + (navigator.userAgent || "?"), "dim");
+      secureContextNote();
+      openOverlay(flOverlay, $("fl-perm"));
+      screenView("FlashlightTest");
+    }
+    function closeFlashlight() {
+      turnOff();
+      closeOverlay(flOverlay);
+      screenView("Calculator");
+    }
+
+    $("open-flashlight") && $("open-flashlight").addEventListener("click", openFlashlight);
+    $("fl-perm")        && $("fl-perm").addEventListener("click", requestPermission);
+    $("fl-mediastream") && $("fl-mediastream").addEventListener("click", torchViaMediaStream);
+    $("fl-imagecapture")&& $("fl-imagecapture").addEventListener("click", torchViaImageCapture);
+    $("fl-bridge")      && $("fl-bridge").addEventListener("click", probeBridges);
+    $("fl-screen")      && $("fl-screen").addEventListener("click", screenFlashOn);
+    $("fl-stop")        && $("fl-stop").addEventListener("click", turnOff);
+    $("fl-back")        && $("fl-back").addEventListener("click", closeFlashlight);
+    flOverlay && flOverlay.addEventListener("click", (ev) => { if (ev.target === flOverlay) closeFlashlight(); });
+
+    /* ================================================================
+       COLOR SCHEME / THEME PANEL
+       ================================================================ */
+    const themeOverlay = $("theme-overlay");
+    const themeReport  = $("theme-report");
+    const themeMeta    = document.querySelector('meta[name="theme-color"]');
+
+    function mq(q) {
+      try { return window.matchMedia && window.matchMedia(q).matches; } catch (_) { return null; }
+    }
+    function firstMatch(list) {
+      for (const q of list) { if (mq(q)) return q.split(":").pop().replace(")", "").trim(); }
+      return "no-preference";
+    }
+    function readEnvInset(side) {
+      // Probe the actual resolved env(safe-area-inset-*) value in px.
+      const probe = document.createElement("div");
+      probe.style.cssText = "position:fixed;visibility:hidden;pointer-events:none;"
+        + "padding:env(safe-area-inset-" + side + ",0px);";
+      document.body.appendChild(probe);
+      const v = parseFloat(getComputedStyle(probe)["padding" + side[0].toUpperCase() + side.slice(1)]) || 0;
+      probe.remove();
+      return Math.round(v) + "px";
+    }
+    function rgbToHex(rgb) {
+      const m = /rgba?\((\d+),\s*(\d+),\s*(\d+)/.exec(rgb || "");
+      if (!m) return rgb || "";
+      const h = (n) => Number(n).toString(16).padStart(2, "0");
+      return "#" + h(m[1]) + h(m[2]) + h(m[3]);
+    }
+
+    function row(dl, label, value, swatchColor) {
+      const dt = document.createElement("dt");
+      dt.textContent = label;
+      const dd = document.createElement("dd");
+      dd.textContent = (value === null || value === undefined || value === "") ? "—" : String(value);
+      if (swatchColor) {
+        const sw = document.createElement("span");
+        sw.className = "kv-swatch";
+        sw.style.background = swatchColor;
+        dd.appendChild(sw);
+      }
+      dl.appendChild(dt); dl.appendChild(dd);
+    }
+
+    function buildThemeReport() {
+      if (!themeReport) return;
+      themeReport.innerHTML = "";
+      const bodyBg = getComputedStyle(document.body).backgroundColor;
+      const themeColor = themeMeta ? themeMeta.getAttribute("content") : "(none)";
+      const ua = navigator.userAgent || "";
+      const uaData = navigator.userAgentData || null;
+
+      row(themeReport, "prefers-color-scheme", firstMatch(["(prefers-color-scheme: dark)", "(prefers-color-scheme: light)"]));
+      row(themeReport, "meta theme-color", themeColor, themeColor && themeColor[0] === "#" ? themeColor : null);
+      row(themeReport, "CSS color-scheme", (document.querySelector('meta[name="color-scheme"]') || {}).content || getComputedStyle(document.documentElement).colorScheme);
+      row(themeReport, "body background", rgbToHex(bodyBg) + " (" + bodyBg + ")", bodyBg);
+      row(themeReport, "prefers-contrast", firstMatch(["(prefers-contrast: more)", "(prefers-contrast: less)", "(prefers-contrast: custom)"]));
+      row(themeReport, "forced-colors", mq("(forced-colors: active)") ? "active" : "none");
+      row(themeReport, "inverted-colors", mq("(inverted-colors: inverted)") ? "inverted" : "none");
+      row(themeReport, "prefers-reduced-motion", mq("(prefers-reduced-motion: reduce)") ? "reduce" : "no-preference");
+
+      row(themeReport, "safe-area top", readEnvInset("top"));
+      row(themeReport, "safe-area bottom", readEnvInset("bottom"));
+      row(themeReport, "safe-area left", readEnvInset("left"));
+      row(themeReport, "safe-area right", readEnvInset("right"));
+
+      row(themeReport, "screen", screen.width + "×" + screen.height);
+      row(themeReport, "viewport (inner)", window.innerWidth + "×" + window.innerHeight);
+      const sysBottom = Math.max(0, screen.height - window.innerHeight);
+      row(themeReport, "≈ system bars (H)", sysBottom + "px (screen − inner height)");
+      row(themeReport, "devicePixelRatio", window.devicePixelRatio);
+      row(themeReport, "color depth", screen.colorDepth + "-bit");
+
+      if (uaData) {
+        row(themeReport, "UA platform", uaData.platform);
+        row(themeReport, "UA mobile", String(uaData.mobile));
+      }
+      row(themeReport, "user agent", ua);
+
+      // Native bridge for the actual system bar colors, if the wrapper exposes one.
+      let navColor = null;
+      const bridges = ["Android", "AndroidInterface", "NativeBridge", "Theme"];
+      for (const b of bridges) {
+        const o = window[b];
+        if (!o) continue;
+        for (const fn of ["getNavBarColor", "getNavigationBarColor", "getStatusBarColor", "getToolbarColor"]) {
+          if (typeof o[fn] === "function") {
+            try { navColor = b + "." + fn + "() = " + o[fn](); } catch (_) {}
+            if (navColor) break;
+          }
+        }
+        if (navColor) break;
+      }
+      row(themeReport, "native bar color", navColor || "no bridge (web can't read the OS nav bar)", null);
+    }
+
+    /* Live theme-color swatches — the practical way to recolor the Android
+       toolbar / status bar from inside a WebView: change <meta theme-color>
+       and (some hosts also read) the body background. Tap and watch the bar. */
+    const SWATCHES = [
+      { c: "#000000", n: "Black" },
+      { c: "#FFFFFF", n: "White" },
+      { c: "#D0BCFF", n: "Accent" },
+      { c: "#381E72", n: "Deep purple" },
+      { c: "#B3261E", n: "Red" },
+      { c: "#1B6C2F", n: "Green" },
+      { c: "#1F5FBF", n: "Blue" },
+    ];
+    function buildSwatches() {
+      const wrap = $("theme-swatches");
+      if (!wrap) return;
+      wrap.innerHTML = "";
+      const current = themeMeta ? themeMeta.getAttribute("content") : "";
+      SWATCHES.forEach(({ c, n }) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "swatch" + (c.toLowerCase() === (current || "").toLowerCase() ? " is-active" : "");
+        b.style.background = c;
+        b.title = n + " (" + c + ")";
+        b.setAttribute("aria-label", "Set toolbar color " + n);
+        b.addEventListener("click", () => {
+          if (themeMeta) themeMeta.setAttribute("content", c);
+          // Re-tint body too so hosts that mirror the page color follow along.
+          document.documentElement.style.background = c;
+          document.body.style.background = c;
+          wrap.querySelectorAll(".swatch").forEach((el) => el.classList.remove("is-active"));
+          b.classList.add("is-active");
+          buildThemeReport();
+        });
+        wrap.appendChild(b);
+      });
+    }
+
+    function openTheme() {
+      closeAbout();
+      buildThemeReport();
+      buildSwatches();
+      openOverlay(themeOverlay, $("theme-refresh"));
+      screenView("ColorSchemeTheme");
+    }
+    function closeTheme() {
+      closeOverlay(themeOverlay);
+      screenView("Calculator");
+    }
+
+    $("open-theme")    && $("open-theme").addEventListener("click", openTheme);
+    $("theme-refresh") && $("theme-refresh").addEventListener("click", buildThemeReport);
+    $("theme-back")    && $("theme-back").addEventListener("click", closeTheme);
+    themeOverlay && themeOverlay.addEventListener("click", (ev) => { if (ev.target === themeOverlay) closeTheme(); });
+
+    // Esc closes whichever panel is open (capture, before the calculator's).
+    document.addEventListener("keydown", (ev) => {
+      if (ev.key !== "Escape") return;
+      if (flOverlay && flOverlay.classList.contains("is-open")) { ev.preventDefault(); ev.stopPropagation(); closeFlashlight(); }
+      else if (themeOverlay && themeOverlay.classList.contains("is-open")) { ev.preventDefault(); ev.stopPropagation(); closeTheme(); }
+      else if (screenSheet && screenSheet.style.display === "block") { ev.preventDefault(); ev.stopPropagation(); screenFlashOff(); }
+    }, true);
+  })();
+  </script>
+
+  <script type="module">
+  /* =====================================================================
+   *  Lightweight, privacy-friendly usage analytics  (v0.1.2)
+   *
+   *  Collects only anonymous product-usage signals:
+   *    - anonymous install ID + random A/B bucket user-properties
+   *    - session timing driven by the Page Visibility API
+   *    - once-per-install / once-per-session / once-per-build gates
+   *    - baseline params attached to every event
+   *    - localStorage (namespaced) with an in-memory fallback
+   *    - Firebase modular SDK loaded from the gstatic CDN, with a
+   *      pre-init queue so events fired before init() are not dropped
+   *
+   *  No keystrokes, inputs, or calculation results are ever collected —
+   *  only open/return, session, usage-time, retention and screen-view
+   *  (plus light visibility/error) signals.
+   *
+   *  Analytics must NEVER break the calculator: every path is guarded and
+   *  silently no-ops if Firebase is unavailable (e.g. an offline lock
+   *  screen). It is inlined rather than loaded as external modules so the
+   *  deliverable stays a single self-contained HTML file.
+   * ===================================================================== */
+  (() => {
+    "use strict";
+
+    // ---- Build / config ----------------------------------------------
+    const BUILD = "web-0.1.2";          // app version
+    const SDK_VERSION = "web-1.0.0";    // analytics layer version
+    const STORAGE_NS = "tos.";
+    const MIN_MINUTES_BETWEEN_SESSIONS = 30;
+    const MAX_ERRORS_PER_SESH = 5;
+    const FIREBASE_VERSION = "10.13.1";
+    const FB_APP_URL = `https://www.gstatic.com/firebasejs/${FIREBASE_VERSION}/firebase-app.js`;
+    const FB_ANALYTICS_URL = `https://www.gstatic.com/firebasejs/${FIREBASE_VERSION}/firebase-analytics.js`;
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCJkaXX7B8IQQsLOZ4ceP35g4KW1PcxfdI",
+      authDomain: "calculator-tos-web-lock.firebaseapp.com",
+      projectId: "calculator-tos-web-lock",
+      storageBucket: "calculator-tos-web-lock.firebasestorage.app",
+      messagingSenderId: "772551628258",
+      appId: "1:772551628258:web:d1e5de7f66386f4c58d5bb",
+      measurementId: "G-17E3JRWRY0",
+    };
+
+    // Debug switch: add ?debug (or ?test) to the URL to (a) log every
+    // event to the console, (b) tag events with debug_mode so they show
+    // up in Firebase → Analytics → DebugView within seconds, and (c)
+    // surface WHY Firebase failed (e.g. the file:// origin) instead of
+    // silently dropping events.
+    const DEBUG = (() => { try { const q = new URLSearchParams(location.search); return q.has("debug") || q.has("test"); } catch (_) { return false; } })();
+    const log = (...a) => { if (DEBUG) { try { console.log("[calc-analytics]", ...a); } catch (_) {} } };
+    let failReason = "";
+
+    // ---- Milestone tables ----
+    const RETURNED_HOURS = [24, 48, 72, 168, 336, 720];
+    const USAGE_TIERS    = [0, 10, 20, 30, 60, 120, 300, 600, 1800, 3600, 36000];
+    const LT_DAYS_TIERS  = [1, 2, 3, 5, 7, 14, 30, 60, 75, 90, 120, 180, 365, 730];
+    const USAGE_INTERVAL_SEC = 600;     // cUsageInterval10m bucket size
+
+    // ---- Storage (tos.* namespaced, memory fallback) -----------------
+    const mem = new Map();
+    let lsOK = true;
+    const S = {
+      get(k) {
+        k = STORAGE_NS + k;
+        if (lsOK) { try { const v = localStorage.getItem(k); if (v !== null) return v; } catch (_) { lsOK = false; } }
+        return mem.has(k) ? mem.get(k) : null;
+      },
+      set(k, v) {
+        k = STORAGE_NS + k; v = String(v);
+        if (lsOK) { try { localStorage.setItem(k, v); return; } catch (_) { lsOK = false; } }
+        mem.set(k, v);
+      },
+      getInt(k, d = 0)   { const v = this.get(k); if (v === null) return d; const n = parseInt(v, 10);   return Number.isFinite(n) ? n : d; },
+      getFloat(k, d = 0) { const v = this.get(k); if (v === null) return d; const n = parseFloat(v);      return Number.isFinite(n) ? n : d; },
+    };
+
+    // ---- Calendar helpers (local + UTC day math) ---------------------
+    const localDayKey = (d = new Date()) =>
+      `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+    const utcDayKey = (d = new Date()) => d.toISOString().slice(0, 10);
+    const parseISO  = (s) => { if (!s) return null; const d = new Date(s); return isNaN(d.getTime()) ? null : d; };
+    const round2    = (n) => Math.round(n * 100) / 100;
+    function localDaysBetween(from, to) {
+      if (!from || !to) return 0;
+      const a = new Date(from.getFullYear(), from.getMonth(), from.getDate());
+      const b = new Date(to.getFullYear(), to.getMonth(), to.getDate());
+      const ms = b - a; return ms <= 0 ? 0 : Math.round(ms / 86400000);
+    }
+    function isExactlyYesterday(prev, today) {
+      const [py, pm, pd] = prev.split("-").map(Number);
+      const [ty, tm, td] = today.split("-").map(Number);
+      return (Date.UTC(ty, tm - 1, td) - Date.UTC(py, pm - 1, pd)) === 86400000;
+    }
+
+    // ---- State -------------------------------------------------------
+    const state = {
+      tosId: null, group: 0, groupAB: 0, group100: 0,
+      installDate: null, firstInstallVC: "", lastLaunchVC: "",
+      isFirstLaunch: false, isAppUpdated: false,
+      cLTSeshCount: 0, lifetimeSecBank: 0, seshSecBank: 0,
+      cDaysActive: 0, cDaysActiveUTC: 0, lastActiveLocalDay: "", lastActiveUtcDay: "",
+      previousSeshStart: null, latestResign: null,
+      coldLaunchSesh: 1,
+      webPlatform: "web-desktop", consentCountry: "US",
+    };
+
+    const newTosId = () => {
+      try { if (crypto && crypto.randomUUID) return crypto.randomUUID(); } catch (_) {}
+      return "tos-" + Math.random().toString(36).slice(2, 10) + "-" + Date.now().toString(36);
+    };
+    const randInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+    const secSinceInstall = () => state.installDate ? (Date.now() - state.installDate.getTime()) / 1000 : 0;
+    const daysSinceInstall = () => state.installDate ? localDaysBetween(state.installDate, new Date()) : 0;
+    const daysSincePrevSesh = () => state.previousSeshStart ? localDaysBetween(state.previousSeshStart, new Date()) : 0;
+    const cLTSeshTime = () => round2(state.lifetimeSecBank + state.seshSecBank);
+    const cCurrentSeshTime = () => round2(state.seshSecBank);
+
+    function hydrate() {
+      state.tosId    = S.get("tosId") || newTosId();
+      state.group    = S.getInt("tosGroup")    || randInt(1, 10);
+      state.groupAB  = S.getInt("tosGroupAB")  || randInt(1, 2);
+      state.group100 = S.getInt("tosGroup100") || randInt(1, 100);
+      S.set("tosId", state.tosId); S.set("tosGroup", state.group);
+      S.set("tosGroupAB", state.groupAB); S.set("tosGroup100", state.group100);
+
+      state.cLTSeshCount     = S.getInt("cLTSeshCount", 0);
+      state.lifetimeSecBank  = S.getFloat("lifetimeSecondsActiveBank", 0);
+      state.cDaysActive      = S.getInt("cDaysActive", 0);
+      state.cDaysActiveUTC   = S.getInt("cDaysActiveUTC", 0);
+      state.lastActiveLocalDay = S.get("lastActiveLocalDay") || "";
+      state.lastActiveUtcDay   = S.get("lastActiveUtcDay") || "";
+      state.previousSeshStart  = parseISO(S.get("previousSeshStartDate"));
+      state.latestResign       = parseISO(S.get("latestResignActiveDate"));
+
+      const storedInstall = S.get("installDate");
+      if (!storedInstall) {
+        state.isFirstLaunch = true;
+        state.installDate = new Date();
+        state.firstInstallVC = BUILD; state.lastLaunchVC = BUILD;
+        S.set("installDate", state.installDate.toISOString());
+        S.set("firstInstallVC", BUILD); S.set("lastLaunchVC", BUILD);
+      } else {
+        state.installDate = parseISO(storedInstall) || new Date();
+        state.firstInstallVC = S.get("firstInstallVC") || BUILD;
+        state.lastLaunchVC = S.get("lastLaunchVC") || BUILD;
+        if (state.lastLaunchVC !== BUILD) { state.isAppUpdated = true; S.set("lastLaunchVC", BUILD); }
+      }
+
+      const ua = (navigator.userAgent || "").toLowerCase();
+      let plat = "web-desktop";
+      if (/android.*wv|version\/[\d.]+.*chrome\/[\d.]+ mobile/.test(ua)) plat = "webview-android";
+      else if (/ipad|iphone.*applewebkit(?!.*safari)/.test(ua)) plat = "webview-ios";
+      else if (/mobile|android|iphone|ipad|ipod/.test(ua)) plat = "web-mobile";
+      state.webPlatform = plat;
+      try { const m = (navigator.language || "en-US").match(/-([A-Z]{2})$/i); if (m) state.consentCountry = m[1].toUpperCase(); } catch (_) {}
+    }
+
+    // ---- Firebase wrapper + pre-init queue ---------------------------
+    let fb = null, ready = false, failed = false, queue = [];
+
+    function buildUserProps() {
+      return {
+        TOS_ID: state.tosId,
+        TOS_SDK_VERSION: SDK_VERSION,
+        TOS_GROUP: String(state.group),
+        TOS_GROUP_AB: String(state.groupAB),
+        TOS_GROUP_100: String(state.group100),
+        VC: BUILD,
+        INSTALL_VC: state.firstInstallVC,
+        WEB_PLATFORM: state.webPlatform,
+        WEB_VIEWPORT_BUCKET: (() => { const w = window.innerWidth || 0; return w < 600 ? "phone" : (w < 1024 ? "tablet" : "desktop"); })(),
+        WEB_LANG: (navigator.language || "en").slice(0, 2),
+        DAYS_SINCE_INSTALL: String(daysSinceInstall()),
+        CONSENT_COUNTRY: state.consentCountry,
+      };
+    }
+
+    function baselineParams() {
+      return {
+        cDaysSinceInstall: daysSinceInstall(),
+        cDaysSincePreviousSesh: daysSincePrevSesh(),
+        cDaysActive: state.cDaysActive,
+        cDaysActiveUTC: state.cDaysActiveUTC,
+        cLTSeshTime: cLTSeshTime(),
+        cLTSeshCount: state.cLTSeshCount,
+        cCurrentSeshTime: cCurrentSeshTime(),
+        cColdLaunchSesh: state.coldLaunchSesh,
+        VC: BUILD,
+        cWebPlatform: state.webPlatform,
+      };
+    }
+
+    function cleanse(obj) {
+      const out = {};
+      for (const [k, v] of Object.entries(obj)) {
+        if (v === null || v === undefined) continue;
+        if (typeof v === "number" && !Number.isFinite(v)) continue;
+        out[k] = (typeof v === "string") ? v.slice(0, 100) : v;
+      }
+      return out;
+    }
+
+    function dispatch(name, params) {
+      if (!fb) { log("dropped (Firebase unavailable):", name); return; }
+      const merged = cleanse({ ...baselineParams(), ...(params || {}) });
+      if (DEBUG) merged.debug_mode = true;   // → GA4 DebugView
+      log("→", name, merged);
+      try { fb.logEvent(name, merged); } catch (e) { log("logEvent threw:", e); }
+    }
+    function sendEvent(name, params) {
+      const ev = { name, params: params || {} };
+      if (!ready) { queue.push(ev); return; }
+      dispatch(ev.name, ev.params);
+    }
+    function sendOnce(name, params)       { const k = "onetime." + name; if (S.get(k) === "1") return;            sendEvent(name, params); S.set(k, "1"); }
+    function sendOncePerVC(name, params)  { const k = "fov." + name;     if (S.get(k) === BUILD) return;          sendEvent(name, params); S.set(k, BUILD); }
+    function sendOncePerSesh(name, params){ const k = "sesh." + name;    if (S.getInt(k, -1) === state.cLTSeshCount) return; sendEvent(name, params); S.set(k, String(state.cLTSeshCount)); }
+    function drainQueue() { if (!ready) return; const q = queue; queue = []; for (const ev of q) dispatch(ev.name, ev.params); }
+
+    const screenView = (screen) =>
+      sendEvent("screen_view", { firebase_screen: screen, firebase_screen_class: screen + "View" });
+
+    // ---- Session bank + daily-active ---------------------------------
+    function commitSessionBank() {
+      state.lifetimeSecBank += state.seshSecBank;
+      S.set("lifetimeSecondsActiveBank", String(state.lifetimeSecBank));
+      state.seshSecBank = 0;
+    }
+    function recordDailyActive() {
+      const t = localDayKey(), tu = utcDayKey();
+      if (state.lastActiveLocalDay !== t) { state.cDaysActive++; state.lastActiveLocalDay = t; S.set("cDaysActive", String(state.cDaysActive)); S.set("lastActiveLocalDay", t); }
+      if (state.lastActiveUtcDay !== tu)  { state.cDaysActiveUTC++; state.lastActiveUtcDay = tu; S.set("cDaysActiveUTC", String(state.cDaysActiveUTC)); S.set("lastActiveUtcDay", tu); }
+    }
+
+    function attributionParams() {
+      let url; try { url = new URL(location.href); } catch (_) { url = null; }
+      const p = url ? url.searchParams : new URLSearchParams();
+      const first = (names) => { for (const n of names) { const v = p.get(n); if (v) return String(v).trim().slice(0, 100); } return ""; };
+      const source = first(["source", "utm_source", "src"]);
+      const media = first(["media", "utm_medium", "medium"]);
+      const campaign = first(["campaign", "utm_campaign"]);
+      const out = {
+        cWebAttributionPresent: (source || media || campaign) ? 1 : 0,
+        cWebLandingPath: url ? (url.pathname || "/").slice(0, 100) : "unknown",
+      };
+      if (source) out.cWebSource = source;
+      if (media) out.cWebMedia = media;
+      if (campaign) out.cWebCampaign = campaign;
+      return out;
+    }
+
+    // ---- Session boundary + open funnels -----------------------------
+    let usageTiersFired = new Set(), usageBucketLastFired = 0, lastActiveMs = 0;
+
+    function startSessionIfAppropriate() {
+      const now = new Date();
+      if (state.latestResign && (now.getTime() - state.latestResign.getTime()) < MIN_MINUTES_BETWEEN_SESSIONS * 60000) {
+        return; // resumed within the window → same session
+      }
+
+      commitSessionBank();
+      state.cLTSeshCount += 1; S.set("cLTSeshCount", String(state.cLTSeshCount));
+      recordDailyActive();
+      usageTiersFired.clear(); usageBucketLastFired = 0;
+
+      fireDailyOpens();
+      for (const n of LT_DAYS_TIERS) { if (state.cDaysActiveUTC === n) sendOnce("cLTDaysActive" + n); }
+      if (state.previousSeshStart) {
+        const hrs = (now - state.previousSeshStart) / 3600000;
+        for (const t of RETURNED_HOURS) { if (hrs > t) sendOnce("cReturned" + t); }
+      }
+      state.previousSeshStart = now; S.set("previousSeshStartDate", now.toISOString());
+      if (state.cLTSeshCount > 1) fireOpenWindows();
+
+      sendEvent("cSessionStart");
+      if (!usageTiersFired.has(0)) { sendEvent("cUsage0Seconds"); usageTiersFired.add(0); }
+      sendOncePerVC("cFOVUsage0Seconds");
+    }
+
+    function fireDailyOpens() {
+      const t = localDayKey(), tu = utcDayKey();
+      const ll = S.get("lastSeshLocalDay") || "", lu = S.get("lastSeshUtcDay") || "";
+      if (ll !== t)  { sendEvent("cDailyOpen");    if (ll && isExactlyYesterday(ll, t))  sendEvent("cDailyOpenTodayAndYest");    S.set("lastSeshLocalDay", t); }
+      if (lu !== tu) { sendEvent("cDailyOpenUTC"); if (lu && isExactlyYesterday(lu, tu)) sendEvent("cDailyOpenTodayAndYestUTC"); S.set("lastSeshUtcDay", tu); }
+    }
+
+    function fireOpenWindows() {
+      const sec = secSinceInstall(), H = 3600;
+      if (sec < 24 * H) sendOnce("cOpenWithin24");
+      if (sec >= 24 * H) sendOnce("cOpenAfter24");
+      if (sec >= 24 * H && sec < 48 * H)  sendOnce("cOpenBetween24And48");
+      if (sec >= 24 * H && sec < 168 * H) sendOnce("cOpenBetween24And168");
+      if (sec >= 144 * H && sec < 168 * H) sendOnce("cOpenBetween144And168");
+      if (sec >= 168 * H) {
+        sendOnce("cOpenAfter168");
+        const f = S.getInt("open2ndAfter168Hits", 0);
+        if (f === 1) { sendOnce("cOpen2ndAfter168"); S.set("open2ndAfter168Hits", "2"); }
+        else if (f === 0) { S.set("open2ndAfter168Hits", "1"); }
+      }
+    }
+
+    // ---- Visibility / banker / usage milestones ----------------------
+    let hiddenFired = false, visibleFired = false, everHidden = false;
+
+    function onResign() {
+      everHidden = true;
+      tick();
+      const now = new Date();
+      state.latestResign = now; S.set("latestResignActiveDate", now.toISOString());
+      commitSessionBank();
+    }
+    function onBecome() {
+      // The browser fires `pageshow` on the initial cold load too. The
+      // boot session is already opened by startLifecycle(), so ignore any
+      // "became active" until we've actually been backgrounded once —
+      // otherwise a cold load would count two sessions.
+      if (!everHidden) return;
+      lastActiveMs = Date.now();
+      startSessionIfAppropriate();
+      state.coldLaunchSesh = 0;
+    }
+    function tick() {
+      if (document.visibilityState !== "visible") return;
+      const now = Date.now();
+      const d = (now - lastActiveMs) / 1000;
+      lastActiveMs = now;
+      if (d <= 0 || d > 60) return;   // ignore wall-clock jumps (sleep, etc.)
+      state.seshSecBank += d;
+      checkUsageMilestones();
+    }
+    function checkUsageMilestones() {
+      const s = cCurrentSeshTime();
+      for (const tier of USAGE_TIERS) {
+        if (tier === 0 || usageTiersFired.has(tier)) continue;
+        if (s >= tier) { sendEvent("cUsage" + tier + "Seconds"); usageTiersFired.add(tier); }
+      }
+      const bucket = Math.floor(s / USAGE_INTERVAL_SEC);
+      if (bucket > usageBucketLastFired) { usageBucketLastFired = bucket; sendEvent("cUsageInterval10m", { cBucketIndex: bucket }); }
+    }
+
+    function bindVisibility() {
+      document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "hidden") {
+          onResign();
+          if (!hiddenFired) { hiddenFired = true; sendOncePerSesh("cWebVisibilityHidden"); }
+        } else if (document.visibilityState === "visible") {
+          onBecome();
+          if (hiddenFired && !visibleFired) { visibleFired = true; sendOncePerSesh("cWebVisibilityVisible"); }
+        }
+      });
+      window.addEventListener("pagehide", onResign);
+      window.addEventListener("pageshow", onBecome);
+    }
+
+    // ---- Light error capture (capped) --------------------------------
+    let errCount = 0;
+    function track(msg, where) {
+      if (errCount >= MAX_ERRORS_PER_SESH) return;
+      errCount++;
+      sendEvent("cWebError", { cMessage: String(msg || "").slice(0, 100), cWhere: String(where || "").slice(0, 100) });
+    }
+    function bindErrors() {
+      addEventListener("error", (e) => track(e.message, (e.filename || "") + ":" + (e.lineno || "")));
+      addEventListener("unhandledrejection", (e) => {
+        let m = "unhandledrejection";
+        try { m = String((e.reason && e.reason.message) || e.reason || m); } catch (_) {}
+        track(m, "promise");
+      });
+    }
+
+    // ---- Screen views (Calculator <-> About) -------------------------
+    function bindScreens() {
+      const info = document.getElementById("info-btn");
+      const close = document.getElementById("about-close");
+      const overlay = document.getElementById("about-overlay");
+      const back = () => screenView("Calculator");
+      if (info) info.addEventListener("click", () => screenView("About"));
+      if (close) close.addEventListener("click", back);
+      if (overlay) overlay.addEventListener("click", (ev) => { if (ev.target === overlay) back(); });
+      document.addEventListener("keydown", (ev) => {
+        if (ev.key === "Escape" && overlay && overlay.classList.contains("is-open")) back();
+      });
+    }
+
+    // ---- Lifecycle start + Firebase init -----------------------------
+    function startLifecycle() {
+      lastActiveMs = Date.now();
+      if (state.isFirstLaunch) sendOnce("cFirstOpen");
+      if (state.isAppUpdated)  sendOncePerVC("cAppUpdated");
+      sendOncePerVC("cColdLaunch");
+      sendOncePerSesh("cWebLaunchAttribution", attributionParams());
+      startSessionIfAppropriate();
+      bindVisibility();
+      setInterval(tick, 1000);
+      screenView("Calculator");
+    }
+
+    async function initFirebase() {
+      if (location.protocol === "file:") {
+        log("Loaded from file:// — Firebase Analytics is unreliable here. Serve over http:// (e.g. `python3 -m http.server`) so events send.");
+      }
+      try {
+        const [appMod, anaMod] = await Promise.all([import(FB_APP_URL), import(FB_ANALYTICS_URL)]);
+        if (!(await anaMod.isSupported())) {
+          failed = true;
+          failReason = "isSupported()=false (cookies/storage blocked — common on the file:// origin; serve over http://)";
+          log("Firebase Analytics not supported:", failReason);
+          return;
+        }
+        const app = appMod.initializeApp(firebaseConfig);
+        const analytics = anaMod.getAnalytics(app);
+        fb = {
+          logEvent: (n, p) => anaMod.logEvent(analytics, n, p),
+          setUserId: (id) => anaMod.setUserId(analytics, id),
+          setUserProperties: (o) => anaMod.setUserProperties(analytics, o),
+        };
+        fb.setUserId(state.tosId);
+        fb.setUserProperties(buildUserProps());
+        ready = true;
+        log("Firebase ready. TOS_ID:", state.tosId, "— draining", queue.length, "queued event(s).");
+        drainQueue();
+      } catch (e) {
+        failed = true;
+        failReason = (e && e.message) || String(e);
+        log("Firebase init failed (often the file:// origin, no network, or an ad/tracker blocker):", failReason);
+      }
+    }
+
+    // ---- Diagnostics hook --------------------------------------------
+    window.TOSCalc = {
+      screenView,
+      track: (name, params) => sendEvent(name, params),
+      isReady: () => ready,
+      isFailed: () => failed,
+      /** One-shot diagnostics snapshot for the console. */
+      diagnostics: () => ({
+        ready, failed, failReason,
+        protocol: location.protocol,
+        origin: location.origin,
+        debug: DEBUG,
+        queued: queue.length,
+        tosId: state.tosId,
+        platform: state.webPlatform,
+        measurementId: firebaseConfig.measurementId,
+      }),
+      get state() {
+        return {
+          tosId: state.tosId,
+          cLTSeshCount: state.cLTSeshCount,
+          cDaysActive: state.cDaysActive,
+          cCurrentSeshTime: cCurrentSeshTime(),
+          cLTSeshTime: cLTSeshTime(),
+        };
+      },
+    };
+
+    // ---- Boot --------------------------------------------------------
+    hydrate();
+    bindErrors();
+    bindScreens();
+    startLifecycle();   // queues open/session/screen events
+    initFirebase();     // async; drains the queue once Firebase resolves
+  })();
+  </script>
+</body>
+</html>
