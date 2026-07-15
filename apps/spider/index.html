@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Spider Solitaire — Staple Games</title>
+  <meta name="description" content="Classic Spider solitaire—one, two, or four suits. Get Spider Solitaire on iOS and Android.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.staplegames.com/apps/spider/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Spider Solitaire by Staple Games">
+  <meta property="og:description" content="Classic Spider solitaire—one, two, or four suits.">
+  <meta property="og:image" content="https://cdn.bdz5.com/CrossPromo/spider_icon.png">
+  <meta property="og:url" content="https://www.staplegames.com/apps/spider/">
+  <meta property="og:site_name" content="Staple Games">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Spider Solitaire by Staple Games">
+  <meta name="twitter:description" content="Classic Spider solitaire—one, two, or four suits.">
+  <meta name="twitter:image" content="https://cdn.bdz5.com/CrossPromo/spider_icon.png">
+
+  <!-- Native store smart-banner hints -->
+  <meta name="apple-itunes-app" content="app-id=1507224245">
+  <meta name="google-play-app" content="app-id=com.staplegames.spiderSolitaireGP">
+
+  <!-- Icons -->
+  <link rel="icon" href="https://cdn.bdz5.com/CrossPromo/spider_icon.png" type="image/png">
+  <link rel="apple-touch-icon" href="https://cdn.bdz5.com/CrossPromo/spider_icon.png">
+  <meta name="theme-color" content="#af52de">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KBFQ2R1TS4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-KBFQ2R1TS4');
+  </script>
+
+  <!-- OpenAI Pixel (oaiq) -->
+  <script>!function(w,d,s,u){if(w.oaiq)return;var q=function(){q.q.push(arguments)};q.q=[];w.oaiq=q;var j=d.createElement(s);j.async=1;j.src=u;var f=d.getElementsByTagName(s)[0];f.parentNode.insertBefore(j,f)}(window,document,"script","https://bzrcdn.openai.com/sdk/oaiq.min.js");oaiq("init",{pixelId:"1RwQMCCeUACs6skEARXSDv",debug:true});oaiq("measure","page_viewed");</script>
+
+  <style>
+    :root {
+      --accent: #af52de;
+      --accent-dark: #8b3fb8;
+      --text: #1a1a1a;
+      --muted: #6b6b6b;
+      --bg-start: #f6f3fa;
+      --bg-end: #eee9f3;
+      --card: #ffffff;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", system-ui, sans-serif;
+      background: linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 100%);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    .card {
+      background: var(--card);
+      border-radius: 24px;
+      padding: 40px 28px 28px;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+    }
+    .icon {
+      width: 128px;
+      height: 128px;
+      border-radius: 28px;
+      margin: 0 auto 24px;
+      display: block;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      background: #f0f0f0;
+    }
+    h1 {
+      font-size: 30px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+    .tagline {
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.4;
+      margin-bottom: 32px;
+    }
+    .cta {
+      display: block;
+      background: var(--accent);
+      color: white;
+      padding: 18px 24px;
+      border-radius: 16px;
+      font-size: 18px;
+      font-weight: 700;
+      text-decoration: none;
+      margin-bottom: 12px;
+      transition: transform 0.1s ease, background 0.2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .cta:hover { background: var(--accent-dark); }
+    .cta:active { transform: scale(0.98); }
+    .secondary {
+      display: inline-block;
+      color: var(--muted);
+      font-size: 15px;
+      text-decoration: none;
+      padding: 12px;
+      border-radius: 8px;
+    }
+    .secondary:hover { color: var(--accent); }
+    .secondary[hidden] { display: none; }
+    .brand {
+      margin-top: 24px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .brand a { color: var(--muted); text-decoration: none; }
+    .brand a:hover { color: var(--accent); }
+    @media (max-width: 380px) {
+      .card { padding: 32px 20px 24px; }
+      .icon { width: 104px; height: 104px; }
+      h1 { font-size: 26px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <img class="icon" src="https://cdn.bdz5.com/CrossPromo/spider_icon.png" alt="Spider Solitaire" width="128" height="128">
+    <h1>Spider Solitaire</h1>
+    <p class="tagline">Classic Spider solitaire—one, two, or four suits.</p>
+    <a class="cta" id="primary-cta" href="https://apps.apple.com/app/id1507224245" data-store="ios">Get it on the App Store</a>
+    <a class="secondary" id="secondary-cta" href="https://play.google.com/store/apps/details?id=com.staplegames.spiderSolitaireGP" data-store="android">Or get it on Google Play</a>
+    <div class="brand"><a href="https://www.staplegames.com/">staplegames.com</a></div>
+  </main>
+
+  <script>
+    (function() {
+      var IOS_URL = "https://apps.apple.com/app/id1507224245";
+      var ANDROID_URL = "https://play.google.com/store/apps/details?id=com.staplegames.spiderSolitaireGP";
+      var ua = navigator.userAgent || "";
+      var isAndroid = /Android/i.test(ua);
+      var isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+      var primary = document.getElementById("primary-cta");
+      var secondary = document.getElementById("secondary-cta");
+
+      function set(target, url, store, label) {
+        target.href = url;
+        target.dataset.store = store;
+        target.textContent = label;
+      }
+
+      if (isAndroid) {
+        set(primary, ANDROID_URL, "android", "Get it on Google Play");
+        set(secondary, IOS_URL, "ios", "Or get it on the App Store");
+      } else if (isIOS) {
+        // Defaults already point at iOS / Android in that order
+      } else {
+        // Desktop / unknown — keep iOS primary with Android secondary
+      }
+    })();
+  </script>
+</body>
+</html>
