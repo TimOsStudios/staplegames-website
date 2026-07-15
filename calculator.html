@@ -1330,11 +1330,34 @@
       const buttons = keypadEl.querySelectorAll(".btn");
       buttons.forEach((btn) => {
         bindPressVisuals(btn);
-        btn.addEventListener("click", (ev) => {
+        // Fire on press (pointer down), not on release.
+        btn.addEventListener("pointerdown", (ev) => {
+          if (ev.button !== 0) return; // primary button / touch only
           ev.preventDefault();
           handleAction(btn);
         });
+        // Keyboard activation (Space/Enter on a focused button) arrives as a
+        // synthetic `click` with detail === 0 — keep that path working since
+        // no pointerdown fires for it.
+        btn.addEventListener("click", (ev) => {
+          ev.preventDefault();
+          if (ev.detail === 0) handleAction(btn);
+        });
       });
+
+      // Block pinch-to-zoom on iOS Safari, which ignores `user-scalable=no`
+      // in the viewport meta (accessibility override, iOS 10+). `gesturestart`
+      // is a Safari-proprietary event; Android browsers never fire it, so
+      // this is a no-op everywhere else.
+      document.addEventListener("gesturestart", (ev) => {
+        ev.preventDefault();
+      });
+      // Belt-and-suspenders: Safari also exposes a live `scale` on touchmove
+      // events; cancel any move that is part of a pinch. Other browsers leave
+      // `scale` undefined, so the guard never triggers there.
+      document.addEventListener("touchmove", (ev) => {
+        if (ev.scale !== undefined && ev.scale !== 1) ev.preventDefault();
+      }, { passive: false });
 
       // Keyboard support
       document.addEventListener("keydown", (ev) => {
