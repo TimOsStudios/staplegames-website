@@ -492,11 +492,34 @@
       var isIOS = /iPhone|iPad|iPod/i.test(ua) ||
         (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 
+      // AppsFlyer OneLink for click-through install attribution.
+      // On mobile, primary CTAs route through OneLink (which registers the
+      // click with AppsFlyer, then redirects to the correct store). Inbound
+      // UTM / fbclid params are forwarded so installs can be joined back to
+      // the Facebook campaign in the postbacks tables.
+      var ONELINK_URL = null;
+      if (isAndroid || isIOS) {
+        try {
+          var inbound = new URLSearchParams(location.search);
+          var qp = new URLSearchParams();
+          qp.set("af_xp", "custom");
+          qp.set("pid", "website");
+          qp.set("af_channel", "facebook");
+          qp.set("c", inbound.get("utm_campaign") || "sus_fb_awareness");
+          if (inbound.get("utm_content")) qp.set("af_ad", inbound.get("utm_content"));
+          if (inbound.get("utm_medium")) qp.set("af_adset", inbound.get("utm_medium"));
+          if (inbound.get("fbclid")) qp.set("af_sub1", inbound.get("fbclid"));
+          ONELINK_URL = "https://sus-game.onelink.me/5LSL?" + qp.toString();
+        } catch (e) { /* very old browser — fall back to direct store links */ }
+      }
+
+      function primaryUrl(directUrl) { return ONELINK_URL || directUrl; }
+
       // Point every primary CTA at the visitor's store. Default is iOS.
       if (isAndroid) {
         ["cta-hero", "cta-final", "cta-sticky"].forEach(function (id) {
           var el = document.getElementById(id);
-          el.href = ANDROID_URL;
+          el.href = primaryUrl(ANDROID_URL);
           el.dataset.store = "android";
         });
         var heroSub = document.getElementById("cta-hero-sub");
@@ -507,7 +530,15 @@
         alt.href = IOS_URL;
         alt.dataset.store = "ios";
         alt.textContent = "Also on the App Store";
+      } else if (isIOS && ONELINK_URL) {
+        ["cta-hero", "cta-final", "cta-sticky"].forEach(function (id) {
+          document.getElementById(id).href = ONELINK_URL;
+        });
       }
+      // NOTE: the secondary "Also on ..." link stays a DIRECT store link on
+      // purpose — OneLink routes by device, so sending an Android visitor's
+      // "Also on the App Store" tap through OneLink would bounce them right
+      // back to Google Play.
 
       // Track store clicks.
       document.querySelectorAll("a[data-store]").forEach(function (el) {
