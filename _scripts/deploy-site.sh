@@ -79,6 +79,7 @@ COMMON_EXCLUDES=(
   --exclude ".DS_Store"
   --exclude "**/.DS_Store"
   --exclude ".playwright-mcp/*"
+  --exclude ".agent_logs/*"
   --exclude "CNAME"
   --exclude "README.md"
   --exclude "**/README.md"
