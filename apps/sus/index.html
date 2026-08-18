@@ -492,34 +492,55 @@
       var isIOS = /iPhone|iPad|iPod/i.test(ua) ||
         (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 
-      // AppsFlyer OneLink for click-through install attribution.
-      // On mobile, primary CTAs route through OneLink (which registers the
-      // click with AppsFlyer, then redirects to the correct store). Inbound
-      // UTM / fbclid params are forwarded so installs can be joined back to
-      // the Facebook campaign in the postbacks tables.
-      var ONELINK_URL = null;
+      // ── AppsFlyer attribution (no redirect hop) ──────────────────────────
+      // Users navigate DIRECTLY to the store; attribution happens two ways:
+      //   Android — the attribution payload rides the Google Play install
+      //             `referrer=` param (deterministic; same mechanism the
+      //             OneLink redirect would use, minus the extra hop).
+      //   iOS     — the OneLink click is fired in the background with
+      //             keepalive on CTA tap, so AppsFlyer gets the same
+      //             click signal (IP/UA/timestamp) it needs for
+      //             probabilistic matching.
+      // Inbound UTM / fbclid params are forwarded in both paths so installs
+      // can be joined back to the Facebook campaign in the postbacks tables.
+      var AF_CLICK_URL = null;
+      var androidStoreUrl = ANDROID_URL;
       if (isAndroid || isIOS) {
         try {
           var inbound = new URLSearchParams(location.search);
-          var qp = new URLSearchParams();
-          qp.set("af_xp", "custom");
-          qp.set("pid", "website");
-          qp.set("af_channel", "facebook");
-          qp.set("c", inbound.get("utm_campaign") || "sus_fb_awareness");
-          if (inbound.get("utm_content")) qp.set("af_ad", inbound.get("utm_content"));
-          if (inbound.get("utm_medium")) qp.set("af_adset", inbound.get("utm_medium"));
-          if (inbound.get("fbclid")) qp.set("af_sub1", inbound.get("fbclid"));
-          ONELINK_URL = "https://sus-game.onelink.me/5LSL?" + qp.toString();
-        } catch (e) { /* very old browser — fall back to direct store links */ }
+          var af = new URLSearchParams();
+          af.set("pid", "website");
+          af.set("af_channel", "facebook");
+          af.set("c", inbound.get("utm_campaign") || "sus_fb_awareness");
+          if (inbound.get("utm_content")) af.set("af_ad", inbound.get("utm_content"));
+          if (inbound.get("utm_medium")) af.set("af_adset", inbound.get("utm_medium"));
+          if (inbound.get("fbclid")) af.set("af_sub1", inbound.get("fbclid"));
+
+          // Background click recorder (OneLink registers the click, response ignored).
+          AF_CLICK_URL = "https://sus-game.onelink.me/5LSL?af_xp=custom&" + af.toString();
+
+          // Deterministic Play Store install referrer for Android.
+          androidStoreUrl = ANDROID_URL + "&referrer=" + encodeURIComponent(af.toString());
+        } catch (e) { /* very old browser — plain store links, no attribution */ }
       }
 
-      function primaryUrl(directUrl) { return ONELINK_URL || directUrl; }
+      var afClickFired = false;
+      function fireAfClick() {
+        if (!AF_CLICK_URL || afClickFired) return;
+        afClickFired = true;
+        try {
+          // keepalive lets the request complete even as the page navigates away.
+          fetch(AF_CLICK_URL, { mode: "no-cors", keepalive: true, credentials: "omit" });
+        } catch (e) {
+          (new Image()).src = AF_CLICK_URL; // ancient-browser fallback
+        }
+      }
 
       // Point every primary CTA at the visitor's store. Default is iOS.
       if (isAndroid) {
         ["cta-hero", "cta-final", "cta-sticky"].forEach(function (id) {
           var el = document.getElementById(id);
-          el.href = primaryUrl(ANDROID_URL);
+          el.href = androidStoreUrl;
           el.dataset.store = "android";
         });
         var heroSub = document.getElementById("cta-hero-sub");
@@ -530,19 +551,14 @@
         alt.href = IOS_URL;
         alt.dataset.store = "ios";
         alt.textContent = "Also on the App Store";
-      } else if (isIOS && ONELINK_URL) {
-        ["cta-hero", "cta-final", "cta-sticky"].forEach(function (id) {
-          document.getElementById(id).href = ONELINK_URL;
-        });
       }
-      // NOTE: the secondary "Also on ..." link stays a DIRECT store link on
-      // purpose — OneLink routes by device, so sending an Android visitor's
-      // "Also on the App Store" tap through OneLink would bounce them right
-      // back to Google Play.
 
-      // Track store clicks.
+      // Track store clicks + fire the AppsFlyer click recorder in the background.
+      // The link itself always goes straight to the store — no redirect hop.
+
       document.querySelectorAll("a[data-store]").forEach(function (el) {
         el.addEventListener("click", function () {
+          fireAfClick();
           if (typeof gtag === "function") {
             gtag("event", "store_click", {
               store: el.dataset.store,
@@ -550,6 +566,9 @@
             });
           }
         });
+        // Head start: begin the attribution request on touch, before the
+        // browser starts tearing the page down for navigation.
+        el.addEventListener("touchstart", fireAfClick, { passive: true });
       });
 
       // Sticky bar appears once the hero CTA scrolls out of view.
