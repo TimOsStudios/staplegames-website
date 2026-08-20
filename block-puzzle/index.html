@@ -52,8 +52,8 @@ html, body {
   --bg:        #FFFFFF;
   --line:      #000000;
   --cell-bg:   #FFFFFF;
-  --fill:      #007AFF;
-  --fill-soft: rgba(0, 122, 255, 0.55);
+  --fill:      #45116E;
+  --fill-soft: rgba(69, 17, 110, 0.55);
   --popup:     #FF9500;
   --dead:      #6B7D93;      /* desaturated blue-grey to match iOS game-over mid-transition */
   --text:      #000000;
@@ -107,8 +107,8 @@ html, body {
   /* Header palette — matches Dice Merge playable header */
   --brand-text: #111111;
   --brand-sub:  #6B7280;
-  --blue:        #007AFF;
-  --blue-active: #0062CC;
+  --blue:        #45116E;
+  --blue-active: #370E58;
 }
 
 .root {
@@ -187,7 +187,7 @@ html, body {
   padding: 10px 20px;
   height: 40px;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.35);
+  box-shadow: 0 4px 12px rgba(69, 17, 110, 0.35);
   transition: transform 0.12s ease, background 0.15s ease;
   white-space: nowrap;
   flex-shrink: 0;
@@ -195,8 +195,8 @@ html, body {
 }
 .cta-pill:active { transform: scale(0.96); background: var(--blue-active); }
 @keyframes ctaPulse {
-  0%, 100% { transform: scale(1);    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.35); }
-  50%      { transform: scale(1.04); box-shadow: 0 6px 18px rgba(0, 122, 255, 0.5); }
+  0%, 100% { transform: scale(1);    box-shadow: 0 4px 12px rgba(69, 17, 110, 0.35); }
+  50%      { transform: scale(1.04); box-shadow: 0 6px 18px rgba(69, 17, 110, 0.5); }
 }
 
 /* ============ Score header ============ */
@@ -560,7 +560,7 @@ html, body {
   width: 100%;
   max-width: 320px;
   cursor: pointer;
-  box-shadow: 0 6px 18px rgba(0, 122, 255, 0.45);
+  box-shadow: 0 6px 18px rgba(69, 17, 110, 0.45);
   transition: transform 0.12s ease, background 0.15s ease;
   animation: ctaPulse 2.4s ease-in-out infinite;
 }
@@ -2466,11 +2466,11 @@ function bindEvents() {
   // we can measure the consent-funnel.
   rowPrivacyEl.addEventListener('click', () => {
     TOSWeb.legal.privacyTapped();
-    location.href = 'https://staplegames.com/privacy.html';
+    location.href = 'https://www.staplegames.com/privacy-lock';
   });
   rowTermsEl.addEventListener('click', () => {
     TOSWeb.legal.termsTapped();
-    location.href = 'https://staplegames.com/terms-of-use.html';
+    location.href = 'https://www.staplegames.com/terms-lock';
   });
   rowGooglePlayEl.addEventListener('click', () => { location.href = GOOGLE_PLAY_CLICKOUT_URL; });
   rowHighScoreContainerEl.addEventListener('click', recordDevHighScoreTap);
