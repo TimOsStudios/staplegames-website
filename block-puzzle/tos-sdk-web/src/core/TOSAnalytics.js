@@ -39,6 +39,7 @@ let _devMode = false;
 let _build = '0.0.0';
 let _appName = 'unknown';
 let _uniques = null;        // game adapter
+let _acq = {};              // acquisition labels from init opts (creative, source, …)
 
 const STATE = {
   tosId: null,
@@ -137,6 +138,7 @@ export async function init(opts) {
   _build = String(opts.build || '0.0.0');
   _appName = String(opts.appName || 'unknown');
   _uniques = opts.uniques || null;
+  _acq = (opts.acquisition && typeof opts.acquisition === 'object') ? opts.acquisition : {};
 
   _hydrate();
   _detectInstallState();
@@ -354,6 +356,11 @@ function _buildUserProperties() {
   if (!STATE.consentDoNotSell) {
     props[USER_PROPS.WEB_REFERRER_HOST] = STATE.webReferrerHost;
   }
+  // Acquisition labels (lock-screen / campaign links). Sticky user
+  // props so retention can be segmented by creative in GA4.
+  if (_acq.creativeFirst) props[USER_PROPS.WEB_CREATIVE_FIRST] = String(_acq.creativeFirst).slice(0, 36);
+  if (_acq.creative)      props[USER_PROPS.WEB_CREATIVE_LAST]  = String(_acq.creative).slice(0, 36);
+  if (_acq.source)        props[USER_PROPS.WEB_ACQ_SOURCE]     = String(_acq.source).slice(0, 36);
   // LT_GAMES_WON and HAS_WON_GAME come from the uniques adapter
   if (_uniques && typeof _uniques.getLTGamesWon === 'function') {
     props[USER_PROPS.LT_GAMES_WON] = String(_uniques.getLTGamesWon());

@@ -100,6 +100,12 @@ export const USER_PROPS = Object.freeze({
   WEB_LANG:                  'WEB_LANG',
   WEB_CONNECTION:            'WEB_CONNECTION',
 
+  // Web acquisition — campaign labels from the landing URL
+  // (?creative=..., ?utm_source=...). Never identifiers.
+  WEB_CREATIVE_FIRST:        'WEB_CREATIVE_FIRST',
+  WEB_CREATIVE_LAST:         'WEB_CREATIVE_LAST',
+  WEB_ACQ_SOURCE:            'WEB_ACQ_SOURCE',
+
   // Consent
   CONSENT_COOKIES:           'CONSENT_COOKIES',
   CONSENT_DO_NOT_SELL:       'CONSENT_DO_NOT_SELL',

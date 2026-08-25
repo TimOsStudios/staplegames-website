@@ -1195,6 +1195,7 @@ await TOSWeb.init({
   appName: 'block-puzzle-web',
   uniques: blockPuzzleUniques,
   devMode: new URLSearchParams(location.search).has('test'),
+  acquisition: window.__bpAcq || {},
   legal: {
     consentGate: SDK_CONFIG.consentGate,
   },
@@ -1378,6 +1379,27 @@ const K_WEEK = 'bc_week';   // { score, dateStart }
 const K_TODAY = 'bc_today'; // { score, dateStart }
 const K_MUTED = 'bc_muted'; // '1' = sound off, '0' or missing = sound on
 const K_DEV_MODE = 'bc_dev_mode'; // '1' after hidden settings unlock
+const K_CREATIVE_FIRST = 'bc_creative_first'; // first-touch lock-screen creative
+
+/* ---------- Acquisition params ----------
+   Lock-screen links arrive as ?creative=game001 / ?creative=block001.
+   First-touch is persisted so return visits (which arrive with no
+   params) keep their original attribution. Campaign labels only —
+   never identifiers. Exposed on window for the deferred SDK module
+   (TOSWeb.init) and merged into AppsFlyer clickouts. */
+const acqParams = new URLSearchParams(location.search);
+const acqCreativeNow = (acqParams.get('creative') || acqParams.get('utm_content') || '').slice(0, 40);
+let acqCreativeFirst = safeStore.get(K_CREATIVE_FIRST) || '';
+if (!acqCreativeFirst && acqCreativeNow) {
+  acqCreativeFirst = acqCreativeNow;
+  safeStore.set(K_CREATIVE_FIRST, acqCreativeNow);
+}
+window.__bpAcq = {
+  creative: acqCreativeNow || null,        // this visit
+  creativeFirst: acqCreativeFirst || null, // first-touch (persisted)
+  source: (acqParams.get('utm_source') || '').slice(0, 40) || null,
+  clickId: (acqParams.get('click_id') || '').slice(0, 64) || null,
+};
 
 function loadState() {
   try {
@@ -2299,10 +2321,25 @@ function vibrate(ms) {
    (works on Android WebView without needing a host bridge). With the URL
    null, this is a no-op — the click is silent. Avoid window.open: many
    WebView hosts silently drop it. */
+/* Merge landing attribution into an AppsFlyer clickout so install
+   attribution carries the lock-screen creative. af_sub4/af_sub5 are
+   the unused slots (sub1–sub3 hold placement/version labels).
+   First-touch creative wins so a later install still credits the
+   icon that originally acquired the player. */
+function withAcquisition(url) {
+  const u = parseUrlSafe(url);
+  if (!u || u.hostname !== 'app.appsflyer.com') return url;
+  const acq = window.__bpAcq || {};
+  const creative = acq.creativeFirst || acq.creative;
+  if (creative)   u.searchParams.set('af_sub4', creative);
+  if (acq.source) u.searchParams.set('af_sub5', acq.source);
+  return u.toString();
+}
+
 function handleClickout() {
   const url = FLAGS.playFreeURL;
   if (!url) return;
-  try { location.href = url; } catch (_) {}
+  try { location.href = withAcquisition(url); } catch (_) {}
 }
 
 /* ---------- Hidden Dev Mode ----------
@@ -2472,7 +2509,7 @@ function bindEvents() {
     TOSWeb.legal.termsTapped();
     location.href = 'https://www.staplegames.com/terms-lock';
   });
-  rowGooglePlayEl.addEventListener('click', () => { location.href = GOOGLE_PLAY_CLICKOUT_URL; });
+  rowGooglePlayEl.addEventListener('click', () => { location.href = withAcquisition(GOOGLE_PLAY_CLICKOUT_URL); });
   rowHighScoreContainerEl.addEventListener('click', recordDevHighScoreTap);
   rowDevModeEl.addEventListener('click', openDevMode);
 
