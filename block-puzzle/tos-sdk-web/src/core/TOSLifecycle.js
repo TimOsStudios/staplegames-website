@@ -52,9 +52,12 @@ export function start() {
 
   // cColdLaunch is sendEventOncePerVC on iOS — fire once per build code.
   TOSAnalytics.sendEventOncePerVC(EVENTS.COLD_LAUNCH);
+  // skipUniques: game state is all zeros at session boot, and omitting
+  // it keeps all 8 attribution params under the 25-param cap.
   TOSAnalytics.sendEventOncePerSesh(
     EVENTS.WEB_LAUNCH_ATTRIBUTION,
     TOSAnalytics.buildLaunchAttributionParams(),
+    { skipUniques: true },
   );
 
   startNewSessionIfAppropriate();

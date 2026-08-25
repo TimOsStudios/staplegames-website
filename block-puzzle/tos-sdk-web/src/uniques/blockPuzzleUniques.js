@@ -78,6 +78,12 @@ export function hydrate(store) {
 
 // ── Adapter contract ─────────────────────────────────────────────────
 
+/* Merged into every event. Lifetime/session aggregates only — slim
+   enough that ordinary events stay well under the 25-param cap.
+   Current-game state moved to currentGameParams(), attached only to
+   game-lifecycle events where it's meaningful.
+   cDaysActiveWins (local-day) retired from events — UTC-only, matching
+   the cDaysActive trim in buildBaselineParams. State still tracks both. */
 export function uniqueAnalyticsEventParams() {
   return {
     [PARAMS.LT_GAMES_WON]:           STATE.cLTGamesWon,
@@ -85,8 +91,16 @@ export function uniqueAnalyticsEventParams() {
     [PARAMS.LT_BEST_SCORE]:          STATE.cLTBestScore,
     [PARAMS.SESH_GAMES_WON]:         STATE.cSeshGamesWon,
     [PARAMS.SESH_GAMES_STARTED]:     STATE.cSeshGamesStarted,
-    [PARAMS.DAYS_ACTIVE_WINS]:       STATE.cDaysActiveWins,
     [PARAMS.DAYS_ACTIVE_WINS_UTC]:   STATE.cDaysActiveWinsUTC,
+    [PARAMS.APP_MUSIC_ON]:           STATE.cAppMusicOn,
+    [PARAMS.APP_SOUND_ON]:           STATE.cAppSoundOn,
+  };
+}
+
+/* Full current-game snapshot — attached to end-of-game events
+   (gameWon, gameOverShown) and game start. */
+function currentGameParams() {
+  return {
     [PARAMS.PUZZLE_DIFFICULTY]:      STATE.cPuzzleDifficulty,
     [PARAMS.CURRENT_SCORE]:          STATE.cCurrentScore,
     [PARAMS.GAME_TIME]:              STATE.cGameTime,
@@ -94,8 +108,16 @@ export function uniqueAnalyticsEventParams() {
     [PARAMS.CURRENT_MOVES]:          STATE.cCurrentMoves,
     [PARAMS.CURRENT_BLOCKS_REMOVED]: STATE.cCurrentBlocksRemoved,
     [PARAMS.CURRENT_CELL_PIECES_GENERATED]: STATE.cCurrentCellPiecesGenerated,
-    [PARAMS.APP_MUSIC_ON]:           STATE.cAppMusicOn,
-    [PARAMS.APP_SOUND_ON]:           STATE.cAppSoundOn,
+  };
+}
+
+/* Trimmed snapshot for the once-per-session "first" mini-events —
+   keeps them at the cap without dropping their own payload. */
+function midGameParams() {
+  return {
+    [PARAMS.PUZZLE_DIFFICULTY]:      STATE.cPuzzleDifficulty,
+    [PARAMS.CURRENT_SCORE]:          STATE.cCurrentScore,
+    [PARAMS.CURRENT_MOVES]:          STATE.cCurrentMoves,
   };
 }
 
@@ -124,7 +146,9 @@ export function newGameStarted({ puzzleDifficulty = 1, soundOn = true, musicOn =
   STATE.cSeshGamesStarted += 1;
   TOSStorage.set(K.LT_GAMES_STARTED, String(STATE.cLTGamesStarted));
 
-  TOSAnalytics.sendEvent(EVENTS.GAME_STARTED);
+  TOSAnalytics.sendEvent(EVENTS.GAME_STARTED, {
+    [PARAMS.PUZZLE_DIFFICULTY]: STATE.cPuzzleDifficulty,
+  });
   TOSLifecycle.fanOutGameStarted(STATE.cLTGamesStarted, TOSAnalytics.secSinceInstall());
 }
 
@@ -142,7 +166,7 @@ export function piecePlaced(opts = {}) {
   if (typeof opts.cellsPlaced === 'number') {
     STATE.cCurrentCellPiecesGenerated += opts.cellsPlaced;
   }
-  TOSAnalytics.sendEventOncePerSesh(EVENTS.PIECE_PLACED_FIRST, opts);
+  TOSAnalytics.sendEventOncePerSesh(EVENTS.PIECE_PLACED_FIRST, { ...midGameParams(), ...opts });
 }
 
 export function linesCleared(opts = {}) {
@@ -150,12 +174,14 @@ export function linesCleared(opts = {}) {
     STATE.cCurrentBlocksRemoved += opts.count;
   }
   TOSAnalytics.sendEventOncePerSesh(EVENTS.LINES_CLEARED_FIRST, {
+    ...midGameParams(),
     [PARAMS.LINES_CLEARED_COUNT]: opts.count | 0,
   });
 }
 
 export function combo(opts = {}) {
   TOSAnalytics.sendEventOncePerSesh(EVENTS.COMBO_FIRST, {
+    ...midGameParams(),
     [PARAMS.COMBO_SIZE]: opts.size | 0,
   });
 }
@@ -165,7 +191,7 @@ export function gameOverShown(opts = {}) {
   else if (STATE.gameStartMs) STATE.cGameTime = Math.floor((Date.now() - STATE.gameStartMs) / 1000);
   if (opts.score !== undefined) STATE.cCurrentScore = opts.score | 0;
   if (opts.moves !== undefined) STATE.cCurrentMoves = opts.moves | 0;
-  TOSAnalytics.sendEvent(EVENTS.GAME_OVER_SHOWN);
+  TOSAnalytics.sendEvent(EVENTS.GAME_OVER_SHOWN, currentGameParams());
 }
 
 export function gameWon({ score, moves, gameTimeSec, blocksRemoved } = {}) {
@@ -194,7 +220,7 @@ export function gameWon({ score, moves, gameTimeSec, blocksRemoved } = {}) {
     TOSStorage.set(K.LAST_WIN_UTC_DAY, todayUTC);
   }
 
-  TOSAnalytics.sendEvent(EVENTS.GAME_WON);
+  TOSAnalytics.sendEvent(EVENTS.GAME_WON, currentGameParams());
   TOSLifecycle.fanOutGameWon(STATE.cLTGamesWon, TOSAnalytics.secSinceInstall());
   TOSAnalytics.markHasWonGame();
   TOSAnalytics.refreshUserProperties();

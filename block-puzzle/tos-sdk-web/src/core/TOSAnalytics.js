@@ -401,7 +401,8 @@ export function buildBaselineParams() {
   return {
     [PARAMS.DAYS_SINCE_INSTALL]:       daysSinceInstall(),
     [PARAMS.DAYS_SINCE_PREVIOUS_SESH]: daysSincePreviousSesh(),
-    [PARAMS.DAYS_ACTIVE]:              STATE.cDaysActive,
+    // Local-day cDaysActive retired from events (UTC-only) to stay
+    // under the 25-param cap. State/storage still track both.
     [PARAMS.DAYS_ACTIVE_UTC]:          STATE.cDaysActiveUTC,
     [PARAMS.LT_SESH_TIME]:             cLTSeshTime(),
     [PARAMS.LT_SESH_COUNT]:            STATE.cLTSeshCount,
@@ -572,13 +573,19 @@ const PRE_CONSENT_ALLOWED = new Set([
  * Fire an event. Merges baseline + uniques + extra params.
  * If Firebase isn't ready yet OR TnC hasn't been accepted (and this
  * event isn't on the pre-consent allowlist), the event queues.
+ * opts.skipUniques omits the game-adapter merge — for events where
+ * game state is meaningless (e.g. launch attribution at session boot).
  */
-export function sendEvent(name, extraParams) {
+export function sendEvent(name, extraParams, opts) {
   if (_devMode && !isKnownEvent(name)) {
     console.warn('[TOSAnalytics] unknown event name:', name,
       ' — add it to eventCatalog.js');
   }
-  const ev = { name, params: extraParams || {} };
+  const ev = {
+    name,
+    params: extraParams || {},
+    skipUniques: !!(opts && opts.skipUniques),
+  };
   if (!_ready) { _queue.push(ev); return; }
   if (!STATE.consentTncAccepted && !PRE_CONSENT_ALLOWED.has(name)) {
     _queue.push(ev); return;
@@ -587,38 +594,38 @@ export function sendEvent(name, extraParams) {
 }
 
 /** Fire once per install. Subsequent calls are no-ops. */
-export function sendEventOnce(name, extraParams) {
+export function sendEventOnce(name, extraParams, opts) {
   const k = K.ONETIME + name;
   if (TOSStorage.get(k) === '1') return;
-  sendEvent(name, extraParams);
+  sendEvent(name, extraParams, opts);
   TOSStorage.set(k, '1');
 }
 
 /** Fire once per current build (VC). Subsequent same-build calls no-op. */
-export function sendEventOncePerVC(name, extraParams) {
+export function sendEventOncePerVC(name, extraParams, opts) {
   const k = K.ONCE_PER_VC + name;
   if (TOSStorage.get(k) === _build) return;
-  sendEvent(name, extraParams);
+  sendEvent(name, extraParams, opts);
   TOSStorage.set(k, _build);
 }
 
 /** Fire once per session (gated by cLTSeshCount). */
-export function sendEventOncePerSesh(name, extraParams) {
+export function sendEventOncePerSesh(name, extraParams, opts) {
   const k = K.ONCE_PER_SESH + name;
   if (TOSStorage.getInt(k, -1) === STATE.cLTSeshCount) return;
-  sendEvent(name, extraParams);
+  sendEvent(name, extraParams, opts);
   TOSStorage.set(k, String(STATE.cLTSeshCount));
 }
 
-function _dispatch({ name, params }) {
+function _dispatch({ name, params, skipUniques }) {
   let merged = { ...buildBaselineParams() };
-  if (_uniques && typeof _uniques.uniqueAnalyticsEventParams === 'function') {
+  if (!skipUniques && _uniques && typeof _uniques.uniqueAnalyticsEventParams === 'function') {
     try { Object.assign(merged, _uniques.uniqueAnalyticsEventParams()); }
     catch (e) { _logDev('uniques.uniqueAnalyticsEventParams threw', e); }
   }
   Object.assign(merged, params);
   merged = _cleanseParams(merged);
-  merged = _enforceParamCap(merged);
+  merged = _enforceParamCap(merged, name);
 
   if (_devMode) {
     try { console.log('[TOSAnalytics] →', name, merged); } catch (_) {}
@@ -640,11 +647,14 @@ function _cleanseParams(obj) {
   return out;
 }
 
-function _enforceParamCap(obj) {
+function _enforceParamCap(obj, eventName) {
   const keys = Object.keys(obj);
   if (keys.length <= MAX_EVENT_PARAMS) return obj;
   // Priority drop order: web diagnostics first (they're nice-to-have),
-  // then uniques, then baseline.
+  // then web env (cWebPlatform/cWebReferrerHost are redundant with the
+  // WEB_PLATFORM/WEB_REFERRER_HOST user props), then uniques, then
+  // baseline. Drops are logged in dev mode — watch the console with
+  // ?test to catch silent truncation.
   const dropOrder = [
     PARAMS.WEB_INP_MS, PARAMS.WEB_CLS_SCORE, PARAMS.WEB_INTERACTIVE_MS,
     PARAMS.WEB_RENDER_MS, PARAMS.WEB_LOAD_MS, PARAMS.WEB_LCP_MS,
@@ -658,15 +668,21 @@ function _enforceParamCap(obj) {
     PARAMS.LT_GAMES_STARTED, PARAMS.LT_GAMES_WON,
   ];
   const out = { ...obj };
+  const dropped = [];
   for (const k of dropOrder) {
     if (Object.keys(out).length <= MAX_EVENT_PARAMS) break;
-    delete out[k];
+    if (k in out) { delete out[k]; dropped.push(k); }
   }
   if (Object.keys(out).length > MAX_EVENT_PARAMS) {
     const keep = Object.keys(out).slice(0, MAX_EVENT_PARAMS);
     const trimmed = {};
     for (const k of keep) trimmed[k] = out[k];
+    dropped.push(...Object.keys(out).slice(MAX_EVENT_PARAMS));
+    _logDev(`param cap on ${eventName || '?'}: dropped ${dropped.join(', ')}`);
     return trimmed;
+  }
+  if (dropped.length) {
+    _logDev(`param cap on ${eventName || '?'}: dropped ${dropped.join(', ')}`);
   }
   return out;
 }
