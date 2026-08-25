@@ -1,3 +1,13 @@
 # macOS Finder metadata
 .DS_Store
 /.agent_logs
+
+# Internal tooling & docs — never publish to the public repo.
+# (deploy-site.sh excludes these from the CDN as well; this keeps the
+# GitHub/Pages channel in sync with that list.)
+/_scripts/
+/_plans/
+
+# Local dev cruft
+/.playwright-mcp/
+/dev/
