@@ -77,13 +77,13 @@ export const PARAMS = Object.freeze({
 export const USER_PROPS = Object.freeze({
   TOS_ID:                    'TOS_ID',
   TOS_SDK_VERSION:           'TOS_SDK_VERSION',
+  // Combined random cohort axes, pipe-delimited. Matches the iOS SDK's
+  // AppsFlyer format (TOSAnalytics.m TOSUserPropertyParamsForAppsFlyer):
+  //   tosGroup|tosGroupSub|tosGroupSubSub|tosGroupSub3|tosGroupSub4|tosGroupAB
+  // with the web-only tosGroup100 appended as a 7th segment.
+  // Coalesced from 7 separate props to stay under Firebase's 25
+  // user-property limit.
   TOS_GROUP:                 'TOS_GROUP',
-  TOS_GROUP_SUB:             'TOS_GROUP_SUB',
-  TOS_GROUP_SUB_SUB:         'TOS_GROUP_SUB_SUB',
-  TOS_GROUP_SUB3:            'TOS_GROUP_SUB3',
-  TOS_GROUP_SUB4:            'TOS_GROUP_SUB4',
-  TOS_GROUP_AB:              'TOS_GROUP_AB',
-  TOS_GROUP_100:             'TOS_GROUP_100',
   TOS_TEST_TAG:              'TOS_TEST_TAG',
   INSTALL_VC:                'INSTALL_VC',
   VC:                        'VC',

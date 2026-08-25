@@ -329,13 +329,13 @@ function _buildUserProperties() {
   const props = {
     [USER_PROPS.TOS_ID]:           STATE.tosId,
     [USER_PROPS.TOS_SDK_VERSION]:  TOS_WEB_SDK_VERSION,
-    [USER_PROPS.TOS_GROUP]:        String(STATE.tosGroup),
-    [USER_PROPS.TOS_GROUP_SUB]:    String(STATE.tosGroupSub),
-    [USER_PROPS.TOS_GROUP_SUB_SUB]: String(STATE.tosGroupSubSub),
-    [USER_PROPS.TOS_GROUP_SUB3]:   String(STATE.tosGroupSub3),
-    [USER_PROPS.TOS_GROUP_SUB4]:   String(STATE.tosGroupSub4),
-    [USER_PROPS.TOS_GROUP_AB]:     String(STATE.tosGroupAB),
-    [USER_PROPS.TOS_GROUP_100]:    String(STATE.tosGroup100),
+    // Pipe-delimited cohort axes, iOS-SDK format + tosGroup100 appended:
+    // tosGroup|tosGroupSub|tosGroupSubSub|tosGroupSub3|tosGroupSub4|tosGroupAB|tosGroup100
+    [USER_PROPS.TOS_GROUP]: [
+      STATE.tosGroup, STATE.tosGroupSub, STATE.tosGroupSubSub,
+      STATE.tosGroupSub3, STATE.tosGroupSub4, STATE.tosGroupAB,
+      STATE.tosGroup100,
+    ].join('|'),
     [USER_PROPS.TOS_TEST_TAG]:     'none',
     [USER_PROPS.INSTALL_VC]:       STATE.firstInstallVC,
     [USER_PROPS.VC]:               _build,
