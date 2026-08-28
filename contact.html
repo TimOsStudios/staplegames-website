@@ -496,7 +496,7 @@
               <option value="Block Puzzle - Wood Style" data-icon="https://cdn.bdz5.com/staplegames/blocksWood_icon.png">Block Puzzle - Wood Style</option>
               <option value="Checkers" data-icon="https://cdn.bdz5.com/staplegames/checkers_icon.png">Checkers</option>
               <option value="Chess" data-icon="https://cdn.bdz5.com/staplegames/chess_icon.png">Chess</option>
-              <option value="Dice Merge" data-icon="https://cdn.bdz5.com/staplegames/dice_icon.png">Dice</option>
+              <option value="Dice Merge" data-icon="https://cdn.bdz5.com/staplegames/dice_icon.png">Dice Merge</option>
               <option value="Dominoes" data-icon="https://cdn.bdz5.com/staplegames/dominoes_icon.png">Dominoes</option>
               <option value="Dyno" data-icon="https://cdn.bdz5.com/staplegames/dyno_icon.png">Dyno</option>
               <option value="Escape" data-icon="https://cdn.bdz5.com/staplegames/escape_icon.png">Escape</option>
@@ -603,13 +603,18 @@
         const message = document.getElementById('message').value;
         
         console.log("Form submitted with:", email, app, platform, message);
-        
+
+        // Translate the store-facing title into the internal data name so
+        // downstream systems (BigQuery → support inbox) see the name our
+        // data uses, not the App Store / Play Store listing title.
+        const dataApp = dataAppName(app, platform);
+
         // Format the message with app and platform info
-        const formattedMessage = `App: ${app}\nPlatform: ${platform}\n\n${message}`;
-        
+        const formattedMessage = `App: ${dataApp}\nPlatform: ${platform}\n\n${message}`;
+
         // Build the URL with query parameters
         const baseUrl = 'https://www.bdz11.com/contact';
-        const url = `${baseUrl}?email=${encodeURIComponent(email)}&app=${encodeURIComponent(app)}&platform=${encodeURIComponent(platform)}&message=${encodeURIComponent(formattedMessage)}&source=staplegames-website`;
+        const url = `${baseUrl}?email=${encodeURIComponent(email)}&app=${encodeURIComponent(dataApp)}&platform=${encodeURIComponent(platform)}&message=${encodeURIComponent(formattedMessage)}&source=staplegames-website`;
         
         // Send GET request
         fetch(url)
@@ -816,6 +821,38 @@
       // Used as the support URL for individual app store listings so the
       // dropdown is pre-populated for the user.
       preselectAppFromURL();
+    }
+
+    // Store-listing title → internal data name, as used by our BigQuery
+    // support pipeline and workspace configs (/app_workspaces/*/workspace/
+    // {ios,android}/config/config.json). Titles not listed here already
+    // match their data name and pass through unchanged. Sagadoku has
+    // DIFFERENT data names per platform, hence the per-platform value.
+    // Display text and ?app= deep-link slugs keep using the store
+    // title — this map only affects what we submit.
+    const APP_DATA_NAMES = {
+      'Block Puzzle - Classic Style': 'Blocks Classic SG',
+      'Block Puzzle - Sort Style':    'Blocks Sort SG',
+      'Block Puzzle - Sudoku Style':  'Blocks Sudoku SG',
+      'Block Puzzle - Wood Style':    'Blocks Wood',
+      'FreeCell Solitaire':           'FreeCell',
+      'Linked':                       'Pair Collector',
+      'Orange Pop!':                  'KenanKel',
+      'Pair 10':                      'Numbers',
+      'Pyramid Solitaire':            'Pyramid',
+      'Sagadoku':                     { iOS: 'Sagadoku', Android: 'Sagadoku SG' },
+      'Spider Solitaire':             'Spider',
+      'Sudoku':                       'Sudoku SG',
+      'Sus':                          'Imposter'
+    };
+
+    // Resolve the internal data name for a selected app + platform.
+    // Falls back to the store title when no mapping exists.
+    function dataAppName(app, platform) {
+      const entry = APP_DATA_NAMES[app];
+      if (!entry) return app;
+      if (typeof entry === 'string') return entry;
+      return entry[platform] || app;
     }
 
     // Convert an app display name to a URL slug (lowercase, alphanumerics
