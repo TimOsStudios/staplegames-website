@@ -11,3 +11,8 @@
 # Local dev cruft
 /.playwright-mcp/
 /dev/
+
+CLAUDE.md
+
+# Agent logs
+.agent_logs/
