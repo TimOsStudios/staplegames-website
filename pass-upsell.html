@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="light">
+<title>Staple Games Premium</title>
+<!--
+  Portfolio Pass upsell — multi-page education flow shown INSIDE portfolio apps
+  via the TOSRemoteCampaigns `webview` action. First target: Sudoku (iOS).
+
+  Query parameters (all optional; set them in the campaign JSON URL so the flow
+  is remotely tunable without touching this file):
+
+    app=sudoku            source app slug (theming, icon, copy) — see APPS table
+    flow=popup|removeads  entry point (copy + analytics context + page set).
+                          default: removeads
+    end=cpp|offer         final CTA. default: popup->cpp, removeads->offer
+    stats=1|0             include the ad-reality stats page. default: 1 for
+                          flow=popup (4 pages), 0 for flow=removeads (3 pages —
+                          hero, collection, offer; a Remove-Ads tapper already
+                          knows ads are bad)
+    ppid=<uuid>           App Store Custom Product Page id for the CPP ending
+    code=<OFFERCODE>      App Store offer code for the offer ending
+    hubid=<appStoreId>    Staple Games hub App Store id (default 6806008248)
+    price=<text>          price line on the offer page
+                          (default "$9.99/month or $79.99/year · cancel anytime")
+    view=activate         render ONLY the post-purchase "install Staple Games"
+                          activation page (used by the app after an offer-code
+                          redemption returns with no Portfolio Pass in keychain)
+
+  Native contract (TOS SDK >= 3.5.0 webview bridge — see
+  Staple-Games_iOS/workspace/ios/reports/PLAN_PASS_UPSELL_FUNNEL.md):
+    - CTA links are real <a> anchors (LinkActivated) so the SDK's App Store
+      interception fires its AF click ping; the SDK must open the ORIGINAL url
+      (query string intact — ppid / offer code must survive).
+    - tos://close           dismisses the webview sheet (no-op on older SDKs;
+                            the native floating ✕ remains the fallback).
+    - tos://event?name=X&…  forwards an analytics event (no-op on older SDKs).
+      Fired via a hidden iframe so the page itself never navigates.
+
+  Copy rules (locked upstream): no totality claims ("all our games"), industry
+  stats only from the verified source register, no "free forever" promises.
+-->
+<style>
+  :root{
+    /* puzzle family — mirrors the hub's Puzzle Studio theme */
+    --pz-bg:#F5F7FA; --pz-panel:#FFFFFF; --pz-ink:#2B3440; --pz-slate:#64748B;
+    --pz-blue:#3452EF; --pz-blue-deep:#2338B8; --pz-line:#DFE5EC; --pz-cell:#EDF1F6;
+    /* card family — the felt world */
+    --felt:#23814B; --felt-dark:#175E36; --felt-deep:#0E4425; --paper:#FCFBF7;
+    /* resolved theme (JS swaps these for card-family apps) */
+    --accent:var(--pz-blue); --accent-deep:var(--pz-blue-deep);
+    --accent-soft:rgba(52,82,239,.09); --ink:var(--pz-ink); --slate:var(--pz-slate);
+    --bg:var(--pz-bg); --panel:var(--pz-panel); --line:var(--pz-line);
+  }
+  *{box-sizing:border-box; -webkit-font-smoothing:antialiased; -webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;}
+  body{margin:0; background:var(--bg); color:var(--ink); overflow:hidden;
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+
+  /* Desktop preview: keep it phone-shaped and centered */
+  @media (min-width:520px){
+    body{display:flex; align-items:center; justify-content:center; background:#E7EAEE;}
+    #frame{width:400px; height:min(820px,94vh); border-radius:34px; overflow:hidden;
+      box-shadow:0 24px 60px rgba(30,40,60,.25); background:var(--bg);}
+  }
+  #frame{position:relative; width:100%; height:100%; display:flex; flex-direction:column;}
+
+  /* ---------- paged horizontal scroller ---------- */
+  #pager{flex:1; display:flex; overflow-x:auto; overflow-y:hidden;
+    scroll-snap-type:x mandatory; scrollbar-width:none; -webkit-overflow-scrolling:touch;}
+  #pager::-webkit-scrollbar{display:none;}
+  .page{flex:0 0 100%; width:100%; scroll-snap-align:start; scroll-snap-stop:always;
+    display:flex; flex-direction:column; align-items:center; text-align:center;
+    padding:calc(24px + env(safe-area-inset-top)) 26px 10px; overflow-y:auto;}
+  .page h1{font-size:27px; line-height:1.18; letter-spacing:-.4px; margin:18px 0 0; font-weight:800;}
+  .page .lede{font-size:14.5px; line-height:1.5; color:var(--slate); margin:10px 6px 0; max-width:330px;}
+  .grow{flex:1; min-height:14px;}
+
+  /* ---------- footer: dots + buttons ---------- */
+  #footer{flex:0 0 auto; padding:6px 26px calc(20px + env(safe-area-inset-bottom)); background:var(--bg);}
+  #dots{display:flex; gap:6px; justify-content:center; margin-bottom:14px;}
+  #dots span{width:7px; height:7px; border-radius:4px; background:#C9D2DE; transition:all .25s;}
+  #dots span.on{width:20px; background:var(--accent);}
+  .btn{display:block; width:100%; border:none; cursor:pointer; text-align:center; text-decoration:none;
+    font-family:inherit; font-size:16.5px; font-weight:800; color:#fff; padding:16px 0; border-radius:999px;
+    background:var(--accent); box-shadow:0 8px 20px var(--accent-soft);}
+  .btn:active{transform:scale(.985);}
+  #btnSecondary{display:none; width:100%; border:none; background:none; cursor:pointer; font-family:inherit;
+    font-size:13.5px; font-weight:700; color:var(--slate); padding:12px 0 0; text-align:center;}
+
+  /* ---------- page 1 · hero (sudoku-style grid) ---------- */
+  .hero-grid{display:grid; grid-template-columns:repeat(3,72px); grid-template-rows:repeat(3,72px);
+    gap:7px; margin-top:26px;}
+  .hero-grid .cell{border-radius:15px; background:var(--panel); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    font-size:23px; font-weight:900; color:#BAC4D0;}
+  .hero-grid .cell.icon{padding:0; border:none; background:none;}
+  .hero-grid .cell.icon img{width:64px; height:64px; border-radius:15px; box-shadow:0 4px 10px rgba(20,30,50,.14);}
+  .hero-grid .cell.src{position:relative; border:2.5px solid var(--accent); background:var(--accent-soft);
+    box-shadow:0 6px 16px var(--accent-soft);}
+  .hero-grid .cell.src img{width:56px; height:56px; border-radius:13px;}
+  .hero-grid .cell.ad{background:#FFF3F1; border:1px dashed #F0B4AC; color:#E2574A;
+    font-size:9px; font-weight:900; letter-spacing:1px; text-transform:uppercase;
+    flex-direction:column; gap:2px;}
+  .hero-grid .cell.ad s{font-size:8.5px; color:#EE9B92; letter-spacing:.4px;}
+  .from-pill{margin-top:20px; font-size:10.5px; font-weight:800; letter-spacing:1.4px; text-transform:uppercase;
+    color:var(--accent); background:var(--accent-soft); border-radius:999px; padding:6px 14px;}
+
+  /* ---------- page 2 · collection (marquee) ---------- */
+  .marquee{width:100%; overflow:hidden; margin-top:24px; -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);
+    mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);}
+  .marquee .track{display:flex; gap:14px; width:max-content; animation:slide 26s linear infinite;}
+  @keyframes slide{from{transform:translateX(0);} to{transform:translateX(-50%);}}
+  .mq-item{display:flex; flex-direction:column; align-items:center; gap:5px; width:64px;}
+  .mq-item img{width:56px; height:56px; border-radius:13px; box-shadow:0 4px 9px rgba(20,30,50,.14);}
+  .mq-item span{font-size:9.5px; font-weight:700; color:var(--slate); white-space:nowrap;}
+  .bullets{list-style:none; margin:24px 0 0; padding:18px 20px; width:100%; max-width:340px;
+    background:var(--panel); border:1px solid var(--line); border-radius:18px;
+    display:flex; flex-direction:column; gap:14px; text-align:left;}
+  .bullets li{display:flex; gap:12px; align-items:flex-start; font-size:13.5px; line-height:1.4; font-weight:600;}
+  .bullets .ck{flex:0 0 26px; height:26px; border-radius:9px; background:var(--accent-soft); color:var(--accent);
+    display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:900;}
+
+  /* ---------- page 3 · ad reality (stats) ---------- */
+  .stats{width:100%; max-width:340px; margin-top:26px; background:var(--panel); border:1px solid var(--line);
+    border-radius:18px; padding:6px 22px; text-align:left;}
+  .stat{padding:17px 0;}
+  .stat + .stat{border-top:1px solid var(--line);}
+  .stat .v{font-size:36px; font-weight:800; letter-spacing:-.8px; color:var(--accent); line-height:1.05;}
+  .stat .l{font-size:13px; color:var(--slate); margin-top:3px;}
+  .cite{font-size:10.5px; color:#9AA5B4; margin-top:12px;}
+
+  /* ---------- page 4 · offer / cpp ---------- */
+  .badge{margin-top:22px; font-size:10px; font-weight:900; letter-spacing:1.8px; text-transform:uppercase;
+    color:#fff; background:var(--accent); border-radius:999px; padding:6px 14px;}
+  .duo{display:flex; align-items:center; gap:14px; margin-top:22px;}
+  .duo img{width:74px; height:74px; border-radius:17px; box-shadow:0 6px 16px rgba(20,30,50,.18);}
+  .duo .arrow{font-size:20px; color:#B7C0CC; font-weight:800;}
+  .duo img.sg{border:1px solid var(--line); background:#fff;}
+  .price-line{font-size:14px; font-weight:700; margin-top:12px;}
+  .footnote{font-size:10.5px; line-height:1.45; color:#9AA5B4; margin:14px 8px 0; max-width:320px;}
+
+  /* ---------- activate view ---------- */
+  .act-step{display:flex; gap:13px; align-items:flex-start; text-align:left; width:100%; max-width:330px; margin-top:16px;}
+  .act-step .n{flex:0 0 26px; height:26px; border-radius:50%; background:var(--accent); color:#fff;
+    font-size:13px; font-weight:800; display:flex; align-items:center; justify-content:center;}
+  .act-step .t{font-size:13.5px; line-height:1.45; font-weight:600;}
+  .act-step .t span{display:block; font-weight:500; color:var(--slate); font-size:12px; margin-top:2px;}
+  .ok-pill{margin-top:24px; font-size:11px; font-weight:800; letter-spacing:1.2px; text-transform:uppercase;
+    color:#1E7B45; background:#E4F4E9; border-radius:999px; padding:7px 15px;}
+</style>
+</head>
+<body>
+<div id="frame">
+  <div id="pager"></div>
+  <div id="footer">
+    <div id="dots"></div>
+    <a class="btn" id="btnPrimary" href="#">Continue</a>
+    <button id="btnSecondary">Not now</button>
+  </div>
+</div>
+
+<iframe id="bridge" style="display:none" title="native bridge"></iframe>
+
+<script>
+(function(){
+  var CDN = 'https://cdn.bdz5.com/CrossPromo/';
+
+  // Source-app registry: theming + display copy. Family drives the accent
+  // (mirrors the hub's Card Room / Puzzle Studio split).
+  var APPS = {
+    sudoku:        {name:'Sudoku',        icon:'sudokuSG_icon.png',       family:'puzzle'},
+    solitaire:     {name:'Solitaire',     icon:'solitaire_icon.png',      family:'card'},
+    spider:        {name:'Spider',        icon:'spider_icon.png',         family:'card'},
+    freecell:      {name:'FreeCell',      icon:'freecell_icon.png',       family:'card'},
+    pyramid:       {name:'Pyramid',       icon:'pyramid_icon.png',        family:'card'},
+    blocksclassic: {name:'Blocks',        icon:'blocksClassicSG_icon.png',family:'puzzle'},
+    blockssudoku:  {name:'Blocks Sudoku', icon:'blocksSudokuSG_icon.png', family:'puzzle'},
+    pair10:        {name:'Pair 10',       icon:'pair10_icon.png',         family:'puzzle'},
+    wordsearch:    {name:'Word Search',   icon:'wordsearch_icon.png',     family:'puzzle'},
+    yatzy:         {name:'Yatzy',         icon:'yatzy_icon.png',          family:'card'}
+  };
+
+  // Marquee catalog (family-first ordering resolved below).
+  var PUZZLES = ['sudoku','blockssudoku','blocksclassic','pair10','wordsearch'];
+  var CARDS   = ['solitaire','spider','freecell','pyramid','yatzy'];
+
+  // Staple Games hub app icon (lives in this repo; served from staplegames.com)
+  var SG_ICON = 'images/app-icons/icon-staple-games.png';
+
+  var q = new URLSearchParams(location.search);
+  var appId  = (q.get('app') || 'sudoku').toLowerCase();
+  var app    = APPS[appId] || APPS.sudoku;
+  var flow   = (q.get('flow') || 'removeads').toLowerCase();
+  var ending = (q.get('end') || (flow === 'popup' ? 'cpp' : 'offer')).toLowerCase();
+  var hubId  = q.get('hubid') || '6806008248';
+  var ppid   = q.get('ppid') || '';
+  var code   = q.get('code') || '';
+  var price  = q.get('price') || '$9.99/month or $79.99/year · cancel anytime';
+  var view   = (q.get('view') || '').toLowerCase();
+  // Stats page: default only on the pop-up flow (a Remove-Ads tapper is
+  // already sold on the problem); RC can override via &stats=1|0.
+  var showStats = q.get('stats') != null ? q.get('stats') === '1' : (flow === 'popup');
+
+  // Card-family apps get the felt-green accent.
+  if (app.family === 'card') {
+    var r = document.documentElement.style;
+    r.setProperty('--accent', 'var(--felt)');
+    r.setProperty('--accent-deep', 'var(--felt-dark)');
+    r.setProperty('--accent-soft', 'rgba(35,129,75,.10)');
+  }
+
+  var cppUrl = 'https://apps.apple.com/app/id' + hubId + (ppid ? '?ppid=' + encodeURIComponent(ppid) : '');
+  // Offer ending needs a code; without one, degrade to the product page.
+  var offerUrl = code
+    ? 'https://apps.apple.com/redeem?ctx=offercodes&id=' + hubId + '&code=' + encodeURIComponent(code)
+    : cppUrl;
+  var ctaUrl = ending === 'offer' ? offerUrl : cppUrl;
+
+  function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+  function icon(id){ return CDN + APPS[id].icon; }
+
+  // -------- native bridge (no-op on SDK < 3.5.0) --------
+  var bridge = document.getElementById('bridge');
+  function nativeEvent(name, params){
+    var qs = 'name=' + encodeURIComponent(name);
+    for (var k in (params || {})) qs += '&' + encodeURIComponent(k) + '=' + encodeURIComponent(params[k]);
+    bridge.src = 'tos://event?' + qs;
+  }
+  function nativeClose(){ bridge.src = 'tos://close'; }
+
+  // -------- build pages --------
+  var heroGrid = (function(){
+    var others = (app.family === 'puzzle' ? PUZZLES : CARDS).filter(function(id){ return id !== appId; });
+    function iconCell(id, src){
+      return '<div class="cell icon' + (src ? ' src' : '') + '"><img src="' + icon(id) + '" alt=""></div>';
+    }
+    var ad = '<div class="cell ad"><s>video ad</s>AD</div>';
+    return '<div class="hero-grid">'
+      + '<div class="cell">7</div>' + iconCell(others[0]) + ad
+      + iconCell(others[1]) + iconCell(appId, true) + iconCell(others[2])
+      + ad + '<div class="cell">4</div><div class="cell">9</div>'
+      + '</div>';
+  })();
+
+  var heroCopy = flow === 'popup'
+    ? {h:'Tired of the ads?',
+       lede:'There’s a home for the ' + esc(app.name) + ' you love with none at all — and it brings the whole collection with it.'}
+    : {h:'Ready to lose the ads?',
+       lede:'Good call. Here’s how to play ' + esc(app.name) + ' with zero interruptions — plus a lot more.'};
+
+  var marquee = (function(){
+    var order = (app.family === 'puzzle' ? PUZZLES.concat(CARDS) : CARDS.concat(PUZZLES));
+    var items = order.map(function(id){
+      return '<div class="mq-item"><img src="' + icon(id) + '" alt=""><span>' + esc(APPS[id].name) + '</span></div>';
+    }).join('');
+    return '<div class="marquee"><div class="track">' + items + items + '</div></div>';
+  })();
+
+  var offerIsRedeem = ending === 'offer' && !!code;
+  var offerPage = {
+    id:'offer',
+    html:
+      '<span class="badge">' + (ending === 'offer' ? esc(app.name).toUpperCase() + ' PLAYER OFFER'
+                                                   : 'FOR ' + esc(app.name).toUpperCase() + ' PLAYERS') + '</span>' +
+      '<div class="duo"><img src="' + icon(appId) + '" alt=""><span class="arrow">→</span><img class="sg" src="' + SG_ICON + '" alt="Staple Games"></div>' +
+      (ending === 'offer'
+        ? '<h1>Go ad-free today</h1>' +
+          '<p class="lede">Staple Games Premium removes ads here and unlocks the whole collection — billed securely through your App Store account.</p>' +
+          '<div class="price-line">' + esc(price) + '</div>'
+        : '<h1>Meet Staple Games</h1>' +
+          '<p class="lede">One app with the whole collection inside — and the subscription that turns off ads here in ' + esc(app.name) + ' too.</p>') +
+      '<div class="grow"></div>' +
+      '<p class="footnote">Staple Games Premium — by the makers of ' + esc(app.name) + '. Auto-renews; manage anytime in your App Store settings.' +
+      (offerIsRedeem ? ' After subscribing, add the free Staple Games app and open it once to activate ad-free here.' : '') + '</p>',
+    button: ending === 'offer' ? 'Get Ad-Free' : 'View on the App Store',
+    href: ctaUrl,
+    secondary:'Not now'
+  };
+
+  var pages = [
+    { id:'hero',
+      html: heroGrid +
+        '<span class="from-pill">' + esc(app.name) + ' · Staple Games</span>' +
+        '<h1>' + heroCopy.h + '</h1><p class="lede">' + heroCopy.lede + '</p><div class="grow"></div>',
+      button:'Tell me more' },
+    { id:'collection',
+      html:
+        '<h1 style="margin-top:26px">A whole collection.<br>One subscription.</h1>' + marquee +
+        '<ul class="bullets">' +
+          '<li><span class="ck">✓</span>' + esc(app.name) + ' and the whole Staple Games collection, ad-free</li>' +
+          '<li><span class="ck">✓</span>A fresh daily challenge in every game</li>' +
+          '<li><span class="ck">✓</span>New games keep joining the collection</li>' +
+        '</ul><div class="grow"></div>',
+      button:'Continue' },
+    { id:'stats',
+      html:
+        '<h1 style="margin-top:26px">The real cost of “free”</h1>' +
+        '<div class="stats">' +
+          '<div class="stat"><div class="v">94%</div><div class="l">of free mobile games show ads</div></div>' +
+          '<div class="stat"><div class="v">every 3 min</div><div class="l">ads can interrupt a typical free game</div></div>' +
+          '<div class="stat"><div class="v">7 in 10</div><div class="l">gamers say mobile ad loads are too much</div></div>' +
+        '</div>' +
+        '<div class="cite">Industry surveys and ad-network data</div><div class="grow"></div>',
+      button:'There’s a better way' },
+    offerPage
+  ];
+  if (!showStats) pages = pages.filter(function(p){ return p.id !== 'stats'; });
+
+  // Post-purchase activation view: single page, no dots.
+  if (view === 'activate') {
+    pages = [{
+      id:'activate',
+      html:
+        '<span class="ok-pill">✓ Subscription active</span>' +
+        '<div class="duo" style="margin-top:18px"><img class="sg" src="' + SG_ICON + '" alt="Staple Games"><span class="arrow">→</span><img src="' + icon(appId) + '" alt=""></div>' +
+        '<h1>One last step</h1>' +
+        '<p class="lede">Add the free Staple Games app and open it once — that activates ad-free here in ' + esc(app.name) + ' and on your other devices.</p>' +
+        '<div class="act-step"><span class="n">1</span><div class="t">Get Staple Games<span>Free on the App Store — your subscription lives there.</span></div></div>' +
+        '<div class="act-step"><span class="n">2</span><div class="t">Open it once<span>It links your subscription to this device automatically.</span></div></div>' +
+        '<div class="act-step"><span class="n">3</span><div class="t">Come back and play<span>' + esc(app.name) + ' goes ad-free on its own.</span></div></div>' +
+        '<div class="grow"></div>',
+      button:'Get Staple Games',
+      href: cppUrl,
+      secondary:'Later'
+    }];
+  }
+
+  // -------- render + paging --------
+  var pager = document.getElementById('pager');
+  var dots = document.getElementById('dots');
+  var btnPrimary = document.getElementById('btnPrimary');
+  var btnSecondary = document.getElementById('btnSecondary');
+
+  pager.innerHTML = pages.map(function(p){ return '<div class="page" data-id="' + p.id + '">' + p.html + '</div>'; }).join('');
+  dots.innerHTML = pages.length > 1 ? pages.map(function(){ return '<span></span>'; }).join('') : '';
+
+  var current = -1;
+  function setPage(i){
+    if (i === current) return;
+    current = i;
+    var p = pages[i];
+    Array.prototype.forEach.call(dots.children, function(d, j){ d.className = j === i ? 'on' : ''; });
+    btnPrimary.textContent = p.button;
+    if (p.href) {
+      btnPrimary.href = p.href;
+      btnPrimary.onclick = function(){ nativeEvent('cRC_PageCTA', {page:p.id, app:appId, flow:flow, end:ending}); };
+    } else {
+      btnPrimary.href = '#';
+      btnPrimary.onclick = function(e){
+        e.preventDefault();
+        pager.scrollTo({left: pager.clientWidth * (i + 1), behavior:'smooth'});
+      };
+    }
+    btnSecondary.style.display = p.secondary ? 'block' : 'none';
+    if (p.secondary) btnSecondary.textContent = p.secondary;
+    nativeEvent('cRC_PageView', {page:p.id, index:String(i), app:appId, flow:flow, end:ending});
+  }
+
+  btnSecondary.onclick = function(){
+    nativeEvent('cRC_PageDismiss', {page:pages[current].id, app:appId, flow:flow, end:ending});
+    nativeClose();
+  };
+
+  var scrollT;
+  pager.addEventListener('scroll', function(){
+    clearTimeout(scrollT);
+    scrollT = setTimeout(function(){
+      setPage(Math.round(pager.scrollLeft / pager.clientWidth));
+    }, 60);
+  });
+
+  setPage(0);
+})();
+</script>
+</body>
+</html>
