@@ -97,6 +97,7 @@
   .hero-grid .cell{border-radius:15px; background:var(--panel); border:1px solid var(--line);
     display:flex; align-items:center; justify-content:center;
     font-size:23px; font-weight:900; color:#BAC4D0;}
+  .hero-grid .cell.given{background:var(--pz-cell); color:#7E8CA0;}
   .hero-grid .cell.icon{padding:0; border:none; background:none;}
   .hero-grid .cell.icon img{width:64px; height:64px; border-radius:15px; box-shadow:0 4px 10px rgba(20,30,50,.14);}
   .hero-grid .cell.src{position:relative; border:2.5px solid var(--accent); background:var(--accent-soft);
@@ -238,11 +239,19 @@
     function iconCell(id, src){
       return '<div class="cell icon' + (src ? ' src' : '') + '"><img src="' + icon(id) + '" alt=""></div>';
     }
+    // "Given" digit cell — styled as a FILLED sudoku given (tinted cell,
+    // solid ink), never a bare white box that reads as empty.
+    function given(d){ return '<div class="cell given">' + d + '</div>'; }
+    // Sibling icon at position i, degrading to a given digit if the family
+    // list ever runs short.
+    function sib(i, fallbackDigit, src){
+      return APPS[others[i]] ? iconCell(others[i], src) : given(fallbackDigit);
+    }
     var ad = '<div class="cell ad"><s>video ad</s>AD</div>';
     return '<div class="hero-grid">'
-      + '<div class="cell">7</div>' + iconCell(others[0]) + ad
-      + iconCell(others[1]) + iconCell(appId, true) + iconCell(others[2])
-      + ad + '<div class="cell">4</div><div class="cell">9</div>'
+      + given('7') + sib(0) + ad
+      + sib(1) + iconCell(appId, true) + sib(2)
+      + ad + sib(3, '4') + given('9')
       + '</div>';
   })();
 
