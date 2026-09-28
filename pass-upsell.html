@@ -104,9 +104,13 @@
     box-shadow:0 6px 16px var(--accent-soft);}
   .hero-grid .cell.src img{width:56px; height:56px; border-radius:13px;}
   .hero-grid .cell.ad{background:#FFF3F1; border:1px dashed #F0B4AC; color:#E2574A;
-    font-size:9px; font-weight:900; letter-spacing:1px; text-transform:uppercase;
-    flex-direction:column; gap:2px;}
-  .hero-grid .cell.ad s{font-size:8.5px; color:#EE9B92; letter-spacing:.4px;}
+    font-size:9px; font-weight:900; letter-spacing:1.5px; text-transform:uppercase;
+    flex-direction:column; gap:5px;}
+  .hero-grid .cell.ad .play{width:24px; height:24px; border-radius:50%; background:rgba(226,87,74,.14);
+    display:flex; align-items:center; justify-content:center;}
+  .hero-grid .cell.ad .play::before{content:''; width:0; height:0; margin-left:2px;
+    border-style:solid; border-width:5px 0 5px 8px;
+    border-color:transparent transparent transparent #E2574A;}
   .from-pill{margin-top:20px; font-size:10.5px; font-weight:800; letter-spacing:1.4px; text-transform:uppercase;
     color:var(--accent); background:var(--accent-soft); border-radius:999px; padding:6px 14px;}
 
@@ -247,7 +251,7 @@
     function sib(i, fallbackDigit, src){
       return APPS[others[i]] ? iconCell(others[i], src) : given(fallbackDigit);
     }
-    var ad = '<div class="cell ad"><s>video ad</s>AD</div>';
+    var ad = '<div class="cell ad"><span class="play"></span>AD</div>';
     return '<div class="hero-grid">'
       + given('7') + sib(0) + ad
       + sib(1) + iconCell(appId, true) + sib(2)
