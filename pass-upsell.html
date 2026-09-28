@@ -103,14 +103,11 @@
   .hero-grid .cell.src{position:relative; border:2.5px solid var(--accent); background:var(--accent-soft);
     box-shadow:0 6px 16px var(--accent-soft);}
   .hero-grid .cell.src img{width:56px; height:56px; border-radius:13px;}
-  .hero-grid .cell.ad{background:#FFF3F1; border:1px dashed #F0B4AC; color:#E2574A;
-    font-size:9px; font-weight:900; letter-spacing:1.5px; text-transform:uppercase;
-    flex-direction:column; gap:5px;}
-  .hero-grid .cell.ad .play{width:24px; height:24px; border-radius:50%; background:rgba(226,87,74,.14);
-    display:flex; align-items:center; justify-content:center;}
-  .hero-grid .cell.ad .play::before{content:''; width:0; height:0; margin-left:2px;
-    border-style:solid; border-width:5px 0 5px 8px;
-    border-color:transparent transparent transparent #E2574A;}
+  .hero-grid .cell.ad{position:relative;}
+  .hero-grid .cell.ad .word{font-size:16px; font-weight:900; letter-spacing:1.2px; color:#B7C0CC;}
+  .hero-grid .cell.ad .no{position:absolute; width:42px; height:42px; border:3px solid #E2574A; border-radius:50%;}
+  .hero-grid .cell.ad .no::before{content:''; position:absolute; top:50%; left:1px; right:1px; height:3px;
+    margin-top:-1.5px; background:#E2574A; transform:rotate(-45deg);}
   .from-pill{margin-top:20px; font-size:10.5px; font-weight:800; letter-spacing:1.4px; text-transform:uppercase;
     color:var(--accent); background:var(--accent-soft); border-radius:999px; padding:6px 14px;}
 
@@ -251,7 +248,7 @@
     function sib(i, fallbackDigit, src){
       return APPS[others[i]] ? iconCell(others[i], src) : given(fallbackDigit);
     }
-    var ad = '<div class="cell ad"><span class="play"></span>AD</div>';
+    var ad = '<div class="cell ad"><span class="word">AD</span><span class="no"></span></div>';
     return '<div class="hero-grid">'
       + given('7') + sib(0) + ad
       + sib(1) + iconCell(appId, true) + sib(2)
